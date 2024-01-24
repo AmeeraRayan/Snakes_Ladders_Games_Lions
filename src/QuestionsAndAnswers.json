@@ -22,7 +22,6 @@
       "correct_ans": "2",
       "difficulty": "2"
     },
-     "questions": [
     {
       "question": "Software engineering is an engineering discipline that is concerned with:",
       "answers": [
@@ -32,7 +31,7 @@
         "4. all aspects of software production from the early stages of system specification through to maintaining "
       ],
       "correct_ans": "4",
-      "difficulty": "1",
+      "difficulty": "1"
     },
     {
       "question": "Why did the software fail in 2005?",
@@ -43,7 +42,7 @@
         "4. Answers 2 and 3 are correct"
       ],
       "correct_ans": "4",
-      "difficulty": "2",
+      "difficulty": "2"
     },
     {
       "question": "What is a prototype?",
@@ -54,7 +53,7 @@
         "4. all answers is uncorrect"
       ],
       "correct_ans": "1",
-      "difficulty": "1",
+      "difficulty": "1"
     },
     {
       "question": "Which is a key principle of Agile software development?",
@@ -164,7 +163,7 @@
         "4. All the answers are correct"
       ],
       "correct_ans": "4",
-      "difficulty": "3",
+      "difficulty": "3"
     },
     {
       "question": "What does a staff development program describe",
@@ -175,7 +174,7 @@
         "4. How will the skills of the project team members be developed"
       ],
       "correct_ans": "4",
-      "difficulty": "1",
+      "difficulty": "1"
     },
     {
       "question": "Sequence Diagram:",
@@ -197,7 +196,7 @@
         "4. An approach to software development in which the main products of the development process is models"
       ],
       "correct_ans": "4",
-      "difficulty": "3",
+      "difficulty": "3"
     },
     {
       "question": "which diagram is a UML diagram?",
@@ -208,7 +207,7 @@
         "4. all answers is uncorrect"
       ],
       "correct_ans": "3",
-      "difficulty": "1",
+      "difficulty": "1"
     },
     {
       "question": "What is the primary purpose of defining requirements in software development?",
@@ -318,7 +317,7 @@
         "4. Because it completely eliminates the need for requirements"
       ],
       "correct_ans": "3",
-      "difficulty": "2"
-    }
-  ]
+      "difficulty": "2"
+   }
+]
 }
