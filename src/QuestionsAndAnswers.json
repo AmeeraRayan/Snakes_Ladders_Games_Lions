@@ -1,0 +1,159 @@
+{
+  "questions": [
+    {
+      "question": "Software engineering is an engineering discipline that is concerned with:",
+      "answers": [
+        "1. Early stages of the system",
+        "2. the problems of the system after its use",
+        "3. User interface design of the system",
+        "4. all aspects of software production from the early stages of system specification through to maintaining "
+      ],
+      "correct_ans": "4",
+      "level": "0"
+    },
+    {
+      "question": "What differences has the web made to software engineering?",
+      "answers": [
+        "1. Computer science focuses on the software hardware and software engineering on design",
+        "2. Computer science focuses on theory, software engineering deals with the development and delivery of software",
+        "3. There is no difference",
+        "4. Answers 1 and 2 are correct"
+      ],
+      "correct_ans": "2",
+      "level": "2"
+    },
+    {
+      "question": "What is a prototype?",
+      "answers": [
+        "1. Initial display of user interface",
+        "2. Testing process",
+        "3. Name of the last stage in production",
+        "4. all answers is uncorrect"
+      ],
+      "correct_ans": "1",
+      "level": "3"
+    },
+    {
+      "question": "What is the cost of software engineering?",
+      "answers": [
+        "1. The cost of development is 60% of the cost and 40% of the cost of tests",
+        "2. The entire cost is a development cost",
+        "3. Development cost and test cost is the same",
+        "4. Development cost is 90% of the cost and the remaining 10% is a testing cost"
+      ],
+      "correct_ans": "1",
+      "level": "4"
+    },
+    {
+      "question": "Which of these are the activities of the software process",
+      "answers": [
+        "1. Development",
+        "2. Verification",
+        "3. evolution",
+        "4. All the answers are correct"
+      ],
+      "correct_ans": "4",
+      "level": "5"
+    },
+    {
+      "question": "What does a staff development program describe",
+      "answers": [
+        "1. How to divide the work between the employees",
+        "2. Deciding which of the team will work on the project and who will not",
+        "3. How to increase the number of employees in the team",
+        "4. How will the skills of the project team members be developed"
+      ],
+      "correct_ans": "4",
+      "level": "6"
+    },
+    {
+      "question": "Sequence Diagram:",
+      "answers": [
+        "1. Shows the sequence of all operations in the system",
+        "2. Shows the sequence of interactions between the actors and the objects within a system",
+        "3. Shows the sequence of interactions only of the players",
+        "4. Show the sequence of interactions only of the objects"
+      ],
+      "correct_ans": "2",
+      "level": "7"
+    },
+    {
+      "question": ": Model Driven Engineering is (MDE)",
+      "answers": [
+        "1. is the engineering of all the UML diagrams",
+        "2. from this type of Engineering they started to know what models are",
+        "3. Is the same as computer science engineering",
+        "4. An approach to software development in which the main products of the development process is models"
+      ],
+      "correct_ans": "4",
+      "level": "8"
+    },
+    {
+      "question": "which diagram is a UML diagram?",
+      "answers": [
+        "1. ERD : Entity Relationship Diagram",
+        "2. DFD: Data Flow Diagram",
+        "3. use case",
+        "4. all answers is uncorrect"
+      ],
+      "correct_ans": "3",
+      "level": "9"
+    },
+    {
+      "question": "there is :",
+      "answers": [
+        "1 Stages of testing",
+        "3 Stages of testing",
+        "5 Stages of testing",
+        "2 Stages of testing"
+      ],
+      "correct_ans": "2",
+      "level": "10"
+    },
+    {
+      "question": "Development Testing is  :",
+      "answers": [
+        "where the system is tested during development to discover bugs and defects",
+        "where a separate testing team test a complete version of the system before it is released to users",
+        "where users or potential users of a system test the system in their own environment",
+        "4. Answers 1 and 2 are correct"
+      ],
+      "correct_ans": "1",
+      "level": "11"
+    },
+    {
+      "question": "an Evolution is : ",
+      "answers": [
+        "The software may still be used but no further changes are made to it",
+        "It is to produce the same system but more innovative",
+        "a part of junit test",
+        "it\u0027s a software system’s life cycle where it is in operational use and is evolving"
+      ],
+      "correct_ans": "4",
+      "level": "12"
+    },
+    {
+      "question": "Which of the answers is considered to a legacy system component?",
+      "answers": [
+        "system hardware",
+        "support software",
+        "application data",
+        "4. All the answers is correct"
+      ],
+      "correct_ans": "4",
+      "level": "13"
+    },
+    {
+      "question": "what is a Maintenance?",
+      "answers": [
+        "to make efficient of the Development testing to make the system more effective",
+        "it is that with the finish of project we need to to make sure that all the system data is complate and correct ",
+        " it\u0027s to ensure the continuous and efficient operation of the system ",
+        "4. all answers is uncorrect"
+      ],
+      "correct_ans": "3",
+      "level": "14"
+    }
+  
+  ]
+}
