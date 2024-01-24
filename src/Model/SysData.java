@@ -1,6 +1,10 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -23,6 +27,15 @@ import java.io.Writer;
 public class SysData {
 	private static SysData instance = null;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
+	private Map<String, String> adminCredentials;
+
+    public SysData() {
+        adminCredentials = new HashMap<>();
+        adminCredentials.put("1", "1");
+        adminCredentials.put("212934134", "mariajava1");
+        adminCredentials.put("211864053", "ameeraphysics");
+        adminCredentials.put("211926902", "yosra24");
+    }
 
 	
 	//  Singleton Instance
@@ -51,7 +64,6 @@ public class SysData {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		@SuppressWarnings("deprecation")
 		JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
 
@@ -176,6 +188,44 @@ public class SysData {
 		
 	}
 	
+	public void editQuestion(int questionId, Questions updatedQuestion) {
+	    // Get the list of questions
+	    List<Questions> questions = getQuestions();
+	        for (Questions question : questions) {
+	            if (question.getid() == questionId) {
+	                // Update the question with new values
+	                question.setQuestionText(updatedQuestion.getQuestionText());
+	                question.setOptions(updatedQuestion.getOptions());
+	                question.setCorrectOption(updatedQuestion.getCorrectOption());
+	                question.setDiffculty(updatedQuestion.getDiffculty());
+
+	                break;
+	            }
+	        }
+
+	        // Save the updated questions to the JSON file
+	        saveQuestionsToJson();
+	    }
+
+	  private void saveQuestionsToJson() {
+	        Gson gson = new Gson();
+	        String json = gson.toJson(getQuestions());
+
+	        try (Writer writer = new FileWriter("src/QuestionsAndAnswers.json")) {
+	            writer.write(json);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	public boolean validateAdminCredentials(String email, String password) {
+        String storedPassword = adminCredentials.get(email);
+        return storedPassword != null && storedPassword.equals(password);
+    }
+
+    public void addAdmin(String email, String password) {
+        adminCredentials.put(email, password);
+    }
 	
 
 }

@@ -6,10 +6,10 @@ public class Questions {
 	    private String[] options;
 	    private int correctOption;
 		private Integer id;
-		private Integer diffcultyLevel;  // level 3 hard
+		private int diffcultyLevel;  // level 3 hard
 
         
-	    public Questions(String questionText, String[] options, int correctOption, int id , int diffcultyLevel) {
+	    public Questions(String questionText, String[] options, int correctOption, int diffcultyLevel , int id ) {
 	        this.questionText = questionText;
 	        this.options = options;
 	        this.correctOption = correctOption;

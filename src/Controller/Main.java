@@ -13,14 +13,15 @@ public class Main {
 		ArrayList<Questions> QuestionsFromSysData = instance.getQuestions();
 		System.out.println(QuestionsFromSysData.size());
 		
-		String[] answers = {"1" , "2" , "3" , "4"};
-		Questions newOne = new Questions("question", answers, 1, QuestionsFromSysData.size(), 1);
-		System.out.println( newOne.getOptions()[1]);
-	     instance.addNewQuestion(newOne);
-	    System.out.println(QuestionsFromSysData.size());
-		instance.removeQuestionLocaly(1);
-		System.out.println(QuestionsFromSysData.size());
+		//String[] answers = {"1" , "2" , "3" , "4"};
+	//	Question newOne = new Question("question", answers, 1, QuestionsFromSysData.size(), 1);
+	//	System.out.println( newOne.getOptions()[1]);
+	//	instance.addNewQuestion(newOne);
+		//System.out.println(QuestionsFromSysData.size());
+	//	instance.removeQuestionLocaly(1);
+	//	System.out.println(QuestionsFromSysData.size());
 
+		
 
 
 	}
