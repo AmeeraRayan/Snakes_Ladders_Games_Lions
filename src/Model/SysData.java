@@ -103,15 +103,32 @@ public class SysData {
 	}
 	private boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
-	    try (FileWriter file = new FileWriter("questions.json")) {
-	        JsonObject json = new JsonObject();
+	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions question : questions) {
 	            JsonObject questionObject = new JsonObject();
+
+	            // Question text
+	            questionObject.addProperty("question", question.getQuestionText());
+
+	            // Answers array
+	            JsonArray answersArray = new JsonArray();
+	            for (int i = 0; i < question.getOptions().length; i++) {
+	                answersArray.add(new JsonPrimitive(question.getOptions()[i]));
+	            }
+	            questionObject.add("answers", answersArray);
+
+	            // Correct answer index
+	            questionObject.addProperty("correct_ans", question.getCorrectOption());
+
+	            // Difficulty level
+	            questionObject.addProperty("diffculty", question.getDiffculty());
+
 	            questionsArray.add(questionObject);
 	        }
 
+	        JsonObject json = new JsonObject();
 	        json.add("questions", questionsArray);
 
 	        file.write(json.toString());
@@ -122,7 +139,7 @@ public class SysData {
 	        return false;
 	    }
 	}
-	
+
 	public void addNewQuestion(Questions q) { // add question to the arrayList of questions and call function that write the question to Json file 
 
 		if (q != null) {
