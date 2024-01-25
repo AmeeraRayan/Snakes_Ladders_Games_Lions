@@ -1,11 +1,11 @@
 package View;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class MainScreen {
@@ -38,10 +38,11 @@ public class MainScreen {
         JButton btnNewButton = new JButton("Start Game");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	 // Open the DifficultySelectionScreen when "Start Game" is clicked
-                DataReception.createAndShowGUI();
+                // Open the DifficultySelectionScreen when "Start Game" is clicked
                 // Close the current frame if needed
-                frame.dispose();            }
+                frame.dispose();
+                openDifficultySelectionScreen();
+            }
         });
         btnNewButton.setBounds(134, 40, 154, 30);
         frame.getContentPane().add(btnNewButton);
@@ -65,6 +66,20 @@ public class MainScreen {
         frame.getContentPane().add(btnNewButton_2);
     }
 
+    private void openDifficultySelectionScreen() {
+        // Instantiate and display the DataReception screen
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    DataReception difficultySelection = new DataReception();
+                    difficultySelection.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private void showQuestionDialog() {
         boolean isAdmin = true; // Replace this with your admin check logic
 
@@ -74,13 +89,11 @@ public class MainScreen {
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Open the admin login screen
-            	LogIn logIn=new LogIn();
+                LogIn logIn = new LogIn();
                 logIn.showLoginScreen();
             }
         } else {
             JOptionPane.showMessageDialog(null, "You do not have permission to access this feature.");
         }
     }
-
-
 }
