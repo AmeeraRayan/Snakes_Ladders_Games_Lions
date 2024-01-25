@@ -23,6 +23,11 @@ public class Game {
 		this.dice = dice;
 		/*private board = new board();*/
 	}
+	public Game(String diffcultylevel, Queue<Player> players, Dice dice) {
+		this.diffcultylevel = diffcultylevel;
+		this.players = players;
+		this.dice = dice;
+	}
 	public int getGameId() {
 		return GameId;
 	}
