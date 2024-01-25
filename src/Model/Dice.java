@@ -6,6 +6,10 @@ public class Dice {
 	public Dice() {
 	    this.random = new Random();
 	}
+
+    public int rollForTurn() {
+        return random.nextInt(6) + 1; // rolls a number between 1 and 6
+    }
 	public int roll() {
 	    return random.nextInt(11); // Roll a number between 0 and 10
 	}
