@@ -59,7 +59,6 @@ public class DataReception extends JFrame {
         // ImageIcon player2Icon = new ImageIcon("src/images/1playerIcon.png");
         // ImageIcon player3Icon = new ImageIcon("src/images/2playerIcon.png");
         // ImageIcon player4Icon = new ImageIcon("src/images/3playerIcon.png");
-        // Create buttons for player choices
         JButton player2Button = new JButton("2 players");
         player2Button.setBounds(59, 199, 85, 21);
         JButton player3Button = new JButton("3 players");
