@@ -67,7 +67,7 @@ public class MainScreen extends JFrame{
             }
         });
         btnNewButton.setBounds(134, 40, 154, 30);
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(btnNewButton, BorderLayout.EAST);
 
 
         JButton btnNewButton_1 = new JButton("Management Question");
@@ -77,7 +77,7 @@ public class MainScreen extends JFrame{
             }
         });
         btnNewButton_1.setBounds(134, 101, 154, 30);
-        frame.getContentPane().add(btnNewButton_1);
+        frame.getContentPane().add(btnNewButton_1, BorderLayout.WEST);
 
         JButton btnNewButton_2 = new JButton("Game History");
         btnNewButton_2.addActionListener(new ActionListener() {
@@ -85,8 +85,8 @@ public class MainScreen extends JFrame{
                 // Add your logic for "Game History" button
             }
         });
-        btnNewButton_2.setBounds(134, 173, 154, 30);
-        frame.getContentPane().add(btnNewButton_2);
+        btnNewButton_2.setBounds(134, 100, 30, 25); // Reduced width and height
+        frame.getContentPane().add(btnNewButton_2, BorderLayout.SOUTH);
     }
 
 
