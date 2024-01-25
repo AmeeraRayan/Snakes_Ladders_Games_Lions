@@ -6,15 +6,22 @@ public class Questions {
 	    private String[] options;
 	    private int correctOption;
 		private Integer id;
-		private int diffcultyLevel;  // level 3 hard
+		private int diffculty;  // level 3 hard
 
         
-	    public Questions(String questionText, String[] options, int correctOption, int diffcultyLevel , int id ) {
+	    public Questions(String questionText, String[] options, int correctOption, int diffculty , int id ) {
 	        this.questionText = questionText;
 	        this.options = options;
 	        this.correctOption = correctOption;
 	        this.id=id;
-	        this.diffcultyLevel = diffcultyLevel ; 
+	        this.diffculty = diffculty ; 
+	    }
+	    
+	    public Questions(String questionText, String[] options, int correctOption, int diffculty) {
+	        this.questionText = questionText;
+	        this.options = options;
+	        this.correctOption = correctOption;
+	        this.diffculty = diffculty ; 
 	    }
 
 		public String getQuestionText() {
@@ -46,11 +53,11 @@ public class Questions {
 		public int getid() {
 			return id;
 		}
-		public void setDiffculty(int diffcultyLevel) {
-			this.diffcultyLevel= diffcultyLevel;
+		public void setDiffculty(int diffculty) {
+			this.diffculty= diffculty;
 		}
 		public int getDiffculty() {
-			return diffcultyLevel;
+			return diffculty;
 		}
 	 
 	 
