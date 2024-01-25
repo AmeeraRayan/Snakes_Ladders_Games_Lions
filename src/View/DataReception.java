@@ -20,12 +20,11 @@ public class DataReception extends JFrame {
 
     private static final long serialVersionUID = 1L;
     public JPanel contentPane;
-
+    private  JButton btnNewButton;
     /**
      * Create the frame.
      */
     public DataReception() {
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 549, 531);
         contentPane = new JPanel();
@@ -76,21 +75,25 @@ public class DataReception extends JFrame {
         panel.add(player3Button);
         panel.add(player4Button);
         
-        JButton btnNewButton = new JButton("Back");
+         btnNewButton = new JButton("Back");
         btnNewButton.setBounds(10, 264, 85, 21);
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+
         	}
         });
         btnNewButton_1.setBounds(420, 264, 85, 21);
         panel.add(btnNewButton_1);
+  
+
 
         // Add action listeners to buttons
         easyButton.addActionListener(new DifficultyLevel("Easy"));
         mediumButton.addActionListener(new DifficultyLevel("Medium"));
         hardButton.addActionListener(new DifficultyLevel("Hard"));
     }
+
 }
