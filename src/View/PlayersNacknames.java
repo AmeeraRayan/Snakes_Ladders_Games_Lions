@@ -1,94 +1,72 @@
 package View;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PlayersNacknames extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTextField[] textFields;
+    private JButton btnNewButton;
+    private JButton btnNewButton_1;
 
+    public PlayersNacknames(int numberOfPlayers, String difficultyLevel) {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 550, 446);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-	
-	public PlayersNacknames(int numberOfPlayers, String difficultyLevel) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 550, 446);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Players Nacknames");
-		lblNewLabel.setBounds(251, 23, 107, 25);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Player 1");
-		lblNewLabel_1.setBounds(82, 105, 45, 13);
-		contentPane.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Player 2");
-		lblNewLabel_2.setBounds(343, 105, 45, 13);
-		contentPane.add(lblNewLabel_2);
-		
-		textField = new JTextField();
-		textField.setBounds(150, 102, 96, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(405, 102, 96, 19);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("Player 3");
-		lblNewLabel_3.setBounds(95, 186, 45, 13);
-		contentPane.add(lblNewLabel_3);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(150, 183, 96, 19);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel_4 = new JLabel("Player 4");
-		lblNewLabel_4.setBounds(343, 186, 45, 13);
-		contentPane.add(lblNewLabel_4);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(405, 183, 96, 19);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Back");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PlayersNacknames.this.setVisible(false);
- 				new DataReception().setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(79, 246, 121, 53);
-		contentPane.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Next");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PlayersNacknames.this.setVisible(false);
- 				new PlayerTurn(numberOfPlayers, difficultyLevel).setVisible(true);
-			}
-		});
-		btnNewButton_1.setBounds(361, 246, 112, 53);
-		contentPane.add(btnNewButton_1);
-	}
+        JLabel lblNewLabel = new JLabel("Players Nicknames");
+        lblNewLabel.setBounds(251, 23, 150, 25);
+        contentPane.add(lblNewLabel);
+
+        // Dynamically create and initialize an array of JTextFields
+        textFields = new JTextField[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            JLabel label = new JLabel("Player " + (i + 1));
+            label.setBounds(50, 80 + i * 50, 60, 13);
+            contentPane.add(label);
+
+            textFields[i] = new JTextField();
+            textFields[i].setBounds(120, 77 + i * 50, 96, 19);
+            contentPane.add(textFields[i]);
+            textFields[i].setColumns(10);
+        }
+
+        btnNewButton = new JButton("Back");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PlayersNacknames.this.setVisible(false);
+                new DataReception().setVisible(true);
+            }
+        });
+        btnNewButton.setBounds(79, 77 + numberOfPlayers * 50, 121, 53);
+        contentPane.add(btnNewButton);
+
+        btnNewButton_1 = new JButton("Next");
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PlayersNacknames.this.setVisible(false);
+                // Pass the array of player nicknames to the next screen
+                new PlayerTurn(numberOfPlayers, difficultyLevel, getPlayerNicknames()).setVisible(true);
+            }
+        });
+        btnNewButton_1.setBounds(250, 77 + numberOfPlayers * 50, 112, 53);
+        contentPane.add(btnNewButton_1);
+    }
+
+    // Helper method to get player nicknames from text fields
+    private String[] getPlayerNicknames() {
+        String[] playerNicknames = new String[textFields.length];
+        for (int i = 0; i < textFields.length; i++) {
+            playerNicknames[i] = textFields[i].getText();
+        }
+        return playerNicknames;
+    }
 }

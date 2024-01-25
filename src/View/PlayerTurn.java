@@ -12,7 +12,7 @@ import Model.Dice;
 import Model.Player;
 import Model.Game; // Make sure to import your Game class
 
-public class PlayerTurn extends JFrame{
+public class PlayerTurn extends JFrame {
 
     private Dice dice;
     private Map<Player, Integer> playerRolls;
@@ -20,57 +20,59 @@ public class PlayerTurn extends JFrame{
     private int currentPlayerIndex;
     private String difficultyLevel;
     private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+    private JPanel contentPane;
 
-    public PlayerTurn(int numberOfPlayers, String difficultyLevel) {
+    public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers) {
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
         players = new ArrayList<>();
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player("Player " + i));
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.add(new Player(namesOfPlayers[i]));
         }
         currentPlayerIndex = 0;
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 997, 633);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton DiceButton = new JButton("");
-		DiceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));		
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 997, 633);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        DiceButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int rollResult = dice.rollForTurn();
-				String path = "/images/dice "+rollResult+".jpg";
-				DiceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource(path)));
-				 Player currentPlayer = players.get(currentPlayerIndex);
-	                
-	                playerRolls.put(currentPlayer, rollResult);
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-	                JOptionPane.showMessageDialog(contentPane, currentPlayer.getName() + " rolled a " + rollResult);
+        JButton diceButton = new JButton("");
+        diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 
-	                currentPlayerIndex++;
-	                if (currentPlayerIndex >= players.size()) {
-	                	DiceButton.setEnabled(false); // Disable the button after all players have rolled
-	                    displayTurnOrder();
-	                } else {
-	                    JOptionPane.showMessageDialog(contentPane, players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
-	                }
-	            }
-	        });
-        DiceButton.setBackground(SystemColor.controlLtHighlight);
-		DiceButton.setForeground(SystemColor.activeCaptionBorder);
-		DiceButton.setBounds(675, 269, 112, 110);
-		contentPane.add(DiceButton);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus 9.png")));
-		lblNewLabel.setBounds(-253, -164, 1299, 813);
-		contentPane.add(lblNewLabel);
+        diceButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                int rollResult = dice.rollForTurn();
+                String path = "/images/dice " + rollResult + ".jpg";
+                diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource(path)));
+                Player currentPlayer = players.get(currentPlayerIndex);
+
+                playerRolls.put(currentPlayer, rollResult);
+
+                JOptionPane.showMessageDialog(contentPane, currentPlayer.getName() + " rolled a " + rollResult);
+
+                currentPlayerIndex++;
+                if (currentPlayerIndex >= players.size()) {
+                    diceButton.setEnabled(false); // Disable the button after all players have rolled
+                    displayTurnOrder();
+                } else {
+                    JOptionPane.showMessageDialog(contentPane,
+                            players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
+                }
+            }
+        });
+        diceButton.setBackground(SystemColor.controlLtHighlight);
+        diceButton.setForeground(SystemColor.activeCaptionBorder);
+        diceButton.setBounds(675, 269, 112, 110);
+        contentPane.add(diceButton);
+
+        JLabel backgroundLabel = new JLabel("");
+        backgroundLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus 9.png")));
+        backgroundLabel.setBounds(-253, -164, 1299, 813);
+        contentPane.add(backgroundLabel);
 
         contentPane.setVisible(true);
     }
@@ -91,17 +93,5 @@ public class PlayerTurn extends JFrame{
         Queue<Player> sortedPlayers = new ArrayDeque<>(players);
         Game newGame = new Game(difficultyLevel, sortedPlayers, dice);
         // newGame.startGame(); // You'll need to implement this method in your Game class
-    }
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    PlayerTurn window = new PlayerTurn(4, "Easy"); // Example with 4 players and 'Easy' difficulty
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }
