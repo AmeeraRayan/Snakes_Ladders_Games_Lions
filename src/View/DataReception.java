@@ -75,6 +75,12 @@ public class DataReception extends JFrame {
         panel.add(player4Button);
         
          btnNewButton = new JButton("Back");
+         btnNewButton.addActionListener(new ActionListener() {
+             public void actionPerformed(ActionEvent e) {
+            	 DataReception.this.setVisible(false);
+ 				new MainScreen().setVisible(true);
+             }
+         });
         btnNewButton.setBounds(10, 264, 85, 21);
         panel.add(btnNewButton);
         
