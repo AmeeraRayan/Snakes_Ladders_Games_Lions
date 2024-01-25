@@ -20,7 +20,6 @@ public class LogIn {
     private JTextField textField;
     static  SysData sysData = new SysData();
 
-
     public LogIn() {
         initialize();
     }

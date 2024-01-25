@@ -58,7 +58,7 @@ public class QuestionManagment {
 
         JButton btnDelete = new JButton("Delete Question");
         btnDelete.setBounds(270, 270, 120, 30);
-        /*btnDelete.addActionListener(e -> deleteQuestion());*/
+        btnDelete.addActionListener(e -> deleteQuestion());
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
@@ -155,14 +155,19 @@ public class QuestionManagment {
             if (result == JOptionPane.OK_OPTION) {
                 // Update the question object with new values
                 question.setQuestionText(questionField.getText());
+                System.out.println(questionField.getText());
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
                 question.setOptions(answers);
+                System.out.println(answers);
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;
                 question.setCorrectOption(correctAnswerIndex);
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 question.setDiffculty(difficulty);
+                System.out.println(difficulty);
 
                 // Call the SysData method to edit the question in the JSON file
+                System.out.println(question.toString());
+                System.out.println("lllllllllllllllkkojkjnkjn");
                 SysData.getInstance().editQuestion(question.getid(), question);
 
                 // Refresh the table after editing
@@ -181,7 +186,7 @@ public class QuestionManagment {
 
 
     private void deleteQuestion() {
-    	int selectedRow = table.getSelectedRow();
+        int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
             int questionId = sysData.getQuestions().get(selectedRow).getid();
             // Call the SysData method to remove the question
@@ -192,6 +197,8 @@ public class QuestionManagment {
             JOptionPane.showMessageDialog(null, "Please select a question to delete.");
         }
     }
+
+
 
     private void showQuestion() {
         int selectedRow = table.getSelectedRow();
