@@ -38,8 +38,10 @@ public class MainScreen {
         JButton btnNewButton = new JButton("Start Game");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Add your logic for "Start Game" button
-            }
+            	 // Open the DifficultySelectionScreen when "Start Game" is clicked
+                DataReception.createAndShowGUI();
+                // Close the current frame if needed
+                frame.dispose();            }
         });
         btnNewButton.setBounds(134, 40, 154, 30);
         frame.getContentPane().add(btnNewButton);
