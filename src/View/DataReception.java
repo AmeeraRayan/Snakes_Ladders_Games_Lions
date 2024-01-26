@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Model.DifficultyLevel;
 import Model.PlayerButtonListener;
 
 public class DataReception extends JFrame {
