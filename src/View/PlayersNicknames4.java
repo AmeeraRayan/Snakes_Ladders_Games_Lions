@@ -21,7 +21,6 @@ public class PlayersNicknames4 extends JFrame {
     private JTextField textField2;
     private JButton button;
     private JButton Next;
-    private JButton btnNewButton;
 
     public PlayersNicknames4(int numberOfPlayers, String difficultyLevel) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,10 +30,6 @@ public class PlayersNicknames4 extends JFrame {
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
-        btnNewButton = new JButton("New button");
-        btnNewButton.setBounds(727, 197, 85, 74);
-        contentPane.add(btnNewButton);
         
         Next = new JButton("Next");
       
