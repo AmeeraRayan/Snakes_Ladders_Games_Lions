@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.awt.FlowLayout;
 
 public class MainScreen extends JFrame{
 
@@ -67,8 +68,9 @@ public class MainScreen extends JFrame{
 				new DataReception().setVisible(true);
             }
         });
-        btnNewButton.setBounds(134, 40, 154, 30);
-        frame.getContentPane().add(btnNewButton, BorderLayout.EAST);
+        getContentPane().setLayout(null);
+        btnNewButton.setBounds(587, 93, 178, 54);
+        frame.getContentPane().add(btnNewButton);
 
 
         JButton btnNewButton_1 = new JButton("Management Question");
@@ -77,8 +79,8 @@ public class MainScreen extends JFrame{
                 showQuestionDialog();
             }
         });
-        btnNewButton_1.setBounds(134, 101, 154, 30);
-        frame.getContentPane().add(btnNewButton_1, BorderLayout.WEST);
+        btnNewButton_1.setBounds(587, 303, 178, 54);
+        frame.getContentPane().add(btnNewButton_1);
 
         JButton btnNewButton_2 = new JButton("Game History");
         btnNewButton_2.addActionListener(new ActionListener() {
@@ -86,8 +88,13 @@ public class MainScreen extends JFrame{
                 // Add your logic for "Game History" button
             }
         });
-        btnNewButton_2.setBounds(134, 100, 30, 25); // Reduced width and height
-        frame.getContentPane().add(btnNewButton_2, BorderLayout.SOUTH);
+        btnNewButton_2.setBounds(587, 199, 178, 54); // Reduced width and height
+        frame.getContentPane().add(btnNewButton_2);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/Start.png")));
+        lblNewLabel.setBounds(-188, -21, 1184, 481);
+        getContentPane().add(lblNewLabel);
     }
 
 

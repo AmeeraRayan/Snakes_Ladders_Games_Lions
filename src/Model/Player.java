@@ -3,11 +3,13 @@ package Model;
 public class Player {
 	private int playerId;
 	private String name;
-	private String color;
+	private Color color;
 	private int position;
-	public Player(String name) {
+	public Player(String name , Color color) {
 	    this.name = name;
 	    this.position = 1; // Starting position
+	    this.color = color;
+	    
 	}
 	public String getName() {
 	    return name;
@@ -19,10 +21,10 @@ public class Player {
 	public void setPosition(int position) {
 	   this.position = position;
 	}
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 	public int getPlayerId() {

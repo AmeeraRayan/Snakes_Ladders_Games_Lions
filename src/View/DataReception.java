@@ -35,7 +35,7 @@ public class DataReception extends JFrame {
 
     public DataReception() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 549, 531);
+        setBounds(100, 100, 735, 582);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -43,18 +43,12 @@ public class DataReception extends JFrame {
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
-        panel.setBounds(10, 10, 515, 474);
+        panel.setBounds(0, 0, 884, 537);
         contentPane.add(panel);
         panel.setLayout(null);
 
- 
-
-        JLabel lblNewLabel = new JLabel("Snake and Leader");
-        lblNewLabel.setBounds(208, 35, 143, 35);
-        panel.add(lblNewLabel);
-
         easyButton = new JButton("Easy");
-        easyButton.setBounds(59, 104, 85, 21);
+        easyButton.setBounds(98, 164, 96, 34);
         easyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Easy";
@@ -65,7 +59,7 @@ public class DataReception extends JFrame {
         panel.add(easyButton);
 
         mediumButton = new JButton("Medium");
-        mediumButton.setBounds(191, 104, 85, 21);
+        mediumButton.setBounds(303, 164, 101, 34);
         panel.add(mediumButton);
         mediumButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -76,7 +70,7 @@ public class DataReception extends JFrame {
         });
 
         hardButton = new JButton("Hard");
-        hardButton.setBounds(334, 104, 85, 21);
+        hardButton.setBounds(533, 164, 85, 34);
         panel.add(hardButton);
         hardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -90,7 +84,7 @@ public class DataReception extends JFrame {
         // ImageIcon player3Icon = new ImageIcon("src/images/2playerIcon.png");
         // ImageIcon player4Icon = new ImageIcon("src/images/3playerIcon.png");
         player2Button = new JButton("2 players");
-        player2Button.setBounds(59, 199, 85, 21);
+        player2Button.setBounds(109, 309, 85, 21);
         player2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 2;
@@ -99,7 +93,7 @@ public class DataReception extends JFrame {
             }
         });
         player3Button = new JButton("3 players");
-        player3Button.setBounds(191, 199, 85, 21);
+        player3Button.setBounds(307, 309, 85, 21);
         player3Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 3;
@@ -108,7 +102,7 @@ public class DataReception extends JFrame {
             }
         });
         player4Button = new JButton("4 players");
-        player4Button.setBounds(334, 199, 85, 21);
+        player4Button.setBounds(533, 309, 85, 21);
         player4Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 4;
@@ -132,7 +126,7 @@ public class DataReception extends JFrame {
  				new MainScreen().setVisible(true);
              }
          });
-        btnNewButton.setBounds(10, 264, 85, 21);
+        btnNewButton.setBounds(54, 434, 119, 34);
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Next");
@@ -141,16 +135,33 @@ public class DataReception extends JFrame {
 
                 // Set the visibility of the new screen
         		if (difficultySelected && playersSelected) {
-                    // Both difficulty and players are selected, proceed to the next screen
-                    new PlayersNacknames(numberOfPlayers, difficultyLevel).setVisible(true);
-                    DataReception.this.setVisible(false);
+        			if(numberOfPlayers == 2 ) {
+        				 new PlayerNicknames2(numberOfPlayers, difficultyLevel).setVisible(true);
+                         DataReception.this.setVisible(false);
+        			}
+        			if(numberOfPlayers == 3 ) {
+        				 new PlayerNicknames3(numberOfPlayers, difficultyLevel).setVisible(true);
+                         DataReception.this.setVisible(false);
+        			}
+        			if(numberOfPlayers == 4) {
+        				 new PlayersNicknames4(numberOfPlayers, difficultyLevel).setVisible(true);
+                         DataReception.this.setVisible(false);
+        			}
+                  
                 } else {
                     // Display an error message or handle the case where both are not selected
                 }
         	}
         });
-        btnNewButton_1.setBounds(420, 264, 85, 21);
+        btnNewButton_1.setBounds(562, 434, 119, 34);
         panel.add(btnNewButton_1);
+        
+         
+        
+                JLabel lblNewLabel = new JLabel("");
+                lblNewLabel.setBounds(-112, -217, 1312, 980);
+                panel.add(lblNewLabel);
+                lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/options (3).png")));
   
 
     }

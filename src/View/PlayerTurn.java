@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Controller.PreGameController;
+import Model.Color;
 import Model.Dice;
 import Model.Player;
 import Model.Game; // Make sure to import your Game class
@@ -22,15 +23,16 @@ public class PlayerTurn extends JFrame {
     private String difficultyLevel;
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    
 
-    public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers) {
+    public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
     	super("So what is my turn?");
-        this.difficultyLevel = difficultyLevel;
+        this.difficultyLevel = difficultyLevel; 
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            players.add(new Player(namesOfPlayers[i]));
+            players.add(new Player(namesOfPlayers[i],color[i]));
         }
         currentPlayerIndex = 0;
 
