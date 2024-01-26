@@ -27,7 +27,7 @@ public class PlayerTurn extends JFrame {
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
     	super("So what is my turn?");
-        this.difficultyLevel = difficultyLevel; 
+        this.difficultyLevel = difficultyLevel;
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
         players = new ArrayList<>();
@@ -45,6 +45,7 @@ public class PlayerTurn extends JFrame {
         contentPane.setLayout(null);
 
         JButton diceButton = new JButton("");
+        diceButton.setHorizontalAlignment(SwingConstants.LEADING);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 
         diceButton.addActionListener(new ActionListener() {
@@ -72,12 +73,12 @@ public class PlayerTurn extends JFrame {
             }
         });
         diceButton.setBackground(SystemColor.controlLtHighlight);
-        diceButton.setForeground(SystemColor.activeCaptionBorder);
-        diceButton.setBounds(675, 269, 112, 110);
+        diceButton.setForeground(java.awt.Color.WHITE);
+        diceButton.setBounds(724, 259, 118, 102);
         contentPane.add(diceButton);
         
         JButton btnNewButton = new JButton("Back");
-        btnNewButton.setBounds(24, 549, 85, 21);
+        btnNewButton.setBounds(46, 527, 130, 43);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             PlayerTurn.this.setVisible(false);
@@ -85,10 +86,11 @@ public class PlayerTurn extends JFrame {
             }
         });
         contentPane.add(btnNewButton);
-        JLabel backgroundLabel = new JLabel("");
-        backgroundLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus 9.png")));
-        backgroundLabel.setBounds(-253, -164, 1299, 813);
-        contentPane.add(backgroundLabel);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus .png")));
+        lblNewLabel.setBounds(-345, -10, 1340, 620);
+        contentPane.add(lblNewLabel);
         
         contentPane.setVisible(true);
     }

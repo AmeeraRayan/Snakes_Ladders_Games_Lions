@@ -15,12 +15,13 @@ public class PlayersNicknames4 extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField[] textFields;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
+    private JTextField textField1;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField2;
     private JButton button;
     private JButton Next;
+    private JButton btnNewButton;
 
     public PlayersNicknames4(int numberOfPlayers, String difficultyLevel) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,30 +32,34 @@ public class PlayersNicknames4 extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
+        btnNewButton = new JButton("New button");
+        btnNewButton.setBounds(727, 197, 85, 74);
+        contentPane.add(btnNewButton);
+        
         Next = new JButton("Next");
       
         Next.setBounds(712, 518, 135, 52);
         contentPane.add(Next);
         
-        textField_3 = new JTextField();
-        textField_3.setColumns(10);
-        textField_3.setBounds(524, 258, 200, 32);
-        contentPane.add(textField_3);
+        textField2 = new JTextField();
+        textField2.setColumns(10);
+        textField2.setBounds(524, 258, 200, 32);
+        contentPane.add(textField2);
         
-        textField_2 = new JTextField();
-        textField_2.setColumns(10);
-        textField_2.setBounds(524, 403, 200, 32);
-        contentPane.add(textField_2);
+        textField4 = new JTextField();
+        textField4.setColumns(10);
+        textField4.setBounds(524, 403, 200, 32);
+        contentPane.add(textField4);
         
-        textField_1 = new JTextField();
-        textField_1.setColumns(10);
-        textField_1.setBounds(188, 403, 200, 32);
-        contentPane.add(textField_1);
+        textField3 = new JTextField();
+        textField3.setColumns(10);
+        textField3.setBounds(188, 403, 200, 32);
+        contentPane.add(textField3);
         
-        textField = new JTextField();
-        textField.setBounds(188, 258, 200, 32);
-        contentPane.add(textField);
-        textField.setColumns(10);
+        textField1 = new JTextField();
+        textField1.setBounds(188, 258, 200, 32);
+        contentPane.add(textField1);
+        textField1.setColumns(10);
         
         JLabel lblPlayer_2_2_1 = new JLabel("Player 4");
         lblPlayer_2_2_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
@@ -81,17 +86,14 @@ public class PlayersNicknames4 extends JFrame {
         lblNewLabel.setBounds(0, 0, 938, 656);
         contentPane.add(lblNewLabel);
         
-        button = new JButton("New button");
-        button.setBounds(750, 518, 85, 21);
-        contentPane.add(button);
         
         Next.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		String[] Playersname = new String[numberOfPlayers];
-        		Playersname[0]=textField.getText();
-        		Playersname[1]=textField_1.getText();
-        		Playersname[2]=textField_2.getText();
-        		Playersname[3]=textField_3.getText();
+        		Playersname[0]=textField1.getText();
+        		Playersname[1]=textField3.getText();
+        		Playersname[2]=textField4.getText();
+        		Playersname[3]=textField2.getText();
                 Color[] color = new Color[numberOfPlayers];
                 color[0] = Color.GREEN;
                 color[1] = Color.BLUE;
