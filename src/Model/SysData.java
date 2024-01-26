@@ -101,7 +101,7 @@ public class SysData {
 		this.getQuestions();
 	
 	}
-	private boolean saveQuestions(List<Questions> questions) {
+	public boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
 	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
@@ -151,7 +151,7 @@ public class SysData {
 
 	}
 	
-	 private void writeQuestionsToJsonFile() {
+	 public void writeQuestionsToJsonFile() {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions q : getQuestions()) {
