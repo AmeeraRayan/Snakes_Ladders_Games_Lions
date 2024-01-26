@@ -77,7 +77,7 @@ public class SysData {
 			ArrayList<String> answers = gson.fromJson(answersArray, ArrayList.class);
 		
 			Integer correct = ((JsonObject) element).get("correct_ans").getAsInt();
-			Integer difficulty = ((JsonObject) element).get("difficulty").getAsInt();
+			Integer difficulty = ((JsonObject) element).get("diffculty").getAsInt();
              
 			 String[] answerArray = new String[answers.size()];
 		        answers.toArray(answerArray);
