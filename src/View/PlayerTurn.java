@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Controller.PreGameController;
 import Model.Dice;
 import Model.Player;
 import Model.Game; // Make sure to import your Game class
@@ -23,6 +24,7 @@ public class PlayerTurn extends JFrame {
     private JPanel contentPane;
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers) {
+    	super("So what is my turn?");
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
@@ -57,7 +59,10 @@ public class PlayerTurn extends JFrame {
                 currentPlayerIndex++;
                 if (currentPlayerIndex >= players.size()) {
                     diceButton.setEnabled(false); // Disable the button after all players have rolled
-                    displayTurnOrder();
+                    PreGameController controller=new PreGameController(dice, playerRolls, players, difficultyLevel) ;
+                    StringBuilder turnOrderMessage= controller.displayTurnOrder();
+                    JOptionPane.showMessageDialog(contentPane, turnOrderMessage.toString());
+                    controller.startNewGame();
                 } else {
                     JOptionPane.showMessageDialog(contentPane,
                             players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
@@ -68,30 +73,21 @@ public class PlayerTurn extends JFrame {
         diceButton.setForeground(SystemColor.activeCaptionBorder);
         diceButton.setBounds(675, 269, 112, 110);
         contentPane.add(diceButton);
-
+        
+        JButton btnNewButton = new JButton("Back");
+        btnNewButton.setBounds(24, 549, 85, 21);
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            PlayerTurn.this.setVisible(false);
+				new DataReception().setVisible(true);
+            }
+        });
+        contentPane.add(btnNewButton);
         JLabel backgroundLabel = new JLabel("");
         backgroundLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus 9.png")));
         backgroundLabel.setBounds(-253, -164, 1299, 813);
         contentPane.add(backgroundLabel);
-
+        
         contentPane.setVisible(true);
-    }
-
-    private void displayTurnOrder() {
-        players.sort(Comparator.comparing(playerRolls::get).reversed());
-
-        StringBuilder turnOrderMessage = new StringBuilder("Turn order:\n");
-        for (int i = 0; i < players.size(); i++) {
-            turnOrderMessage.append(i + 1).append(". ").append(players.get(i).getName()).append("\n");
-        }
-
-        JOptionPane.showMessageDialog(contentPane, turnOrderMessage.toString());
-        startNewGame();
-    }
-
-    private void startNewGame() {
-        Queue<Player> sortedPlayers = new ArrayDeque<>(players);
-        Game newGame = new Game(difficultyLevel, sortedPlayers, dice);
-        // newGame.startGame(); // You'll need to implement this method in your Game class
     }
 }
