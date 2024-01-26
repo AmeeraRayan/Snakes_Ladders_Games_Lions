@@ -1,7 +1,8 @@
 package Model;
 
 
-	public enum Color {
+	public enum Color 
+	{
         RED,
         GREEN,
         BLUE,

@@ -7,12 +7,15 @@ public class Player {
 	private String name;
 	private Color color;
 	private int position;
+
 	public Player(String name , Color color) {
 	    this.name = name;
 	    this.position = 1; // Starting position
 	    this.color = color;
 	    
 	}
+
+
 	public String getName() {
 	    return name;
 	}

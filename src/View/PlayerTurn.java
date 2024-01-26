@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.EventQueue;
+
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import Model.Color;
 import Model.Dice;
 import Model.Player;
 import Model.Game; // Make sure to import your Game class
+import Model.Color;
 
 public class PlayerTurn extends JFrame {
 
