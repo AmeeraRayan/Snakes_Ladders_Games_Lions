@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import Model.Questions;
 import Model.SysData;
@@ -41,7 +43,7 @@ public class MangQuestionControl {
 	
 
 	public ArrayList<Questions> getQuestions() { //return all the questions 
-		return questions;
+		return sysData.getQuestions();
 	}
 
 
@@ -106,8 +108,7 @@ public class MangQuestionControl {
 	            question.setDiffculty(updatedQuestion.getDiffculty());
 
 	            // Write the updated questions to JSON
-	            sysData.saveQuestions(questions);
-	            System.out.println(question);
+	            updateQuestionToJson(questions);
 	            if (sysData.saveQuestions(questions)) {
 	                System.out.println("Question Updated: " + question.toString());
 	            } else {
@@ -120,6 +121,53 @@ public class MangQuestionControl {
 
 	    System.out.println("Question with ID " + questionId + " not found.");
 	}
+	
+	private void updateQuestionToJson(List<Questions> questions) {
+	    try (Reader reader = new FileReader("QuestionsAndAnswers.json")) {
+	        JsonParser parser = new JsonParser();
+	        JsonObject existingJson = parser.parse(reader).getAsJsonObject();
+
+
+	        // Update only the "questions" part of the existing JSON
+	        existingJson.remove("questions");
+
+	        JsonArray questionsJsonArray = new JsonArray();
+
+	        for (Questions question : questions) {
+	            JsonObject questionJsonObject = new JsonObject();
+	            questionJsonObject.addProperty("question", question.getQuestionText());
+
+	            JsonArray answersArray = new JsonArray();
+	            for (String answer : question.getOptions()) {
+	                answersArray.add(answer);
+	            }
+	            questionJsonObject.add("answers", answersArray);
+
+	            Integer correct = question.getCorrectOption() + 1;
+	            Integer difficulty = question.getDiffculty();
+
+	            questionJsonObject.addProperty("correct_ans", correct.toString());
+	            questionJsonObject.addProperty("difficulty", difficulty.toString() );
+
+
+	            questionsJsonArray.add(questionJsonObject);
+	        }
+
+	        existingJson.add("questions", questionsJsonArray);
+
+	        // Write the updated JSON back to the file with proper indentation
+	        try (Writer writer = new FileWriter("QuestionsAndAnswers.json")) {
+	            JsonWriter jsonWriter = new JsonWriter(writer);
+	            jsonWriter.setIndent(" "); // Set the desired indentation
+	            new Gson().toJson(existingJson, jsonWriter);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
 	    
 	public boolean validateAdminCredentials(String email, String password) {
