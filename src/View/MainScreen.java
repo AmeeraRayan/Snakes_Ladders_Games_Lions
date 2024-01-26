@@ -42,19 +42,6 @@ public class MainScreen extends JFrame{
 
     private MainScreen frame ;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainScreen window = new MainScreen();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public MainScreen() {
     	frame=this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
