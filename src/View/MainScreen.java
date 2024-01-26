@@ -69,7 +69,7 @@ public class MainScreen extends JFrame{
             }
         });
         getContentPane().setLayout(null);
-        btnNewButton.setBounds(587, 93, 178, 54);
+        btnNewButton.setBounds(587, 113, 178, 54);
         frame.getContentPane().add(btnNewButton);
 
 
@@ -88,7 +88,7 @@ public class MainScreen extends JFrame{
                 // Add your logic for "Game History" button
             }
         });
-        btnNewButton_2.setBounds(587, 199, 178, 54); // Reduced width and height
+        btnNewButton_2.setBounds(587, 211, 178, 54); // Reduced width and height
         frame.getContentPane().add(btnNewButton_2);
         
         JLabel lblNewLabel = new JLabel("");
