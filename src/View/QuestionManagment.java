@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import Controller.MangQuestionControl;
 import Model.Questions;
 import Model.SysData;
 
@@ -21,6 +22,7 @@ public class QuestionManagment {
     private JTable table;
     private DefaultTableModel tableModel;
     static  SysData sysData = new SysData();
+    static MangQuestionControl mangQuestionControl=new MangQuestionControl();
 
     public QuestionManagment() {
         initialize();
@@ -108,7 +110,7 @@ public class QuestionManagment {
             Questions newQuestion = new Questions(questionText, answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
 
             // Add the new question to sysData
-            sysData.addNewQuestion(newQuestion);
+            mangQuestionControl.addNewQuestion(newQuestion);
 
             // Update the table
             tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
@@ -158,17 +160,13 @@ public class QuestionManagment {
                 System.out.println(questionField.getText());
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
                 question.setOptions(answers);
-                System.out.println(answers);
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;
                 question.setCorrectOption(correctAnswerIndex);
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 question.setDiffculty(difficulty);
-                System.out.println(difficulty);
 
                 // Call the SysData method to edit the question in the JSON file
-                System.out.println(question.toString());
-                System.out.println("lllllllllllllllkkojkjnkjn");
-                SysData.getInstance().editQuestion(question.getid(), question);
+                mangQuestionControl.editQuestion(question.getid(), question);
 
                 // Refresh the table after editing
                 refreshTable();
@@ -190,7 +188,7 @@ public class QuestionManagment {
         if (selectedRow != -1) {
             int questionId = sysData.getQuestions().get(selectedRow).getid();
             // Call the SysData method to remove the question
-            sysData.removeQuestionLocaly(questionId);
+            mangQuestionControl.removeQuestionLocaly(questionId);
             // Update the table
             tableModel.removeRow(selectedRow);
         } else {

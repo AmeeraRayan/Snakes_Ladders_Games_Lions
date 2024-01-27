@@ -43,6 +43,7 @@ public class MangQuestionControl {
 	
 
 	public ArrayList<Questions> getQuestions() { //return all the questions 
+		sysData.LoadQuestions();
 		return sysData.getQuestions();
 	}
 
@@ -96,7 +97,7 @@ public class MangQuestionControl {
 	public void editQuestion(int questionId, Questions updatedQuestion) {
 	    // Get the list of questions
 	    List<Questions> questions = getQuestions();
-
+	    System.out.println(questions.isEmpty());
 	    for (Questions question : questions) {
 	        if (question.getid() == questionId) {
 	            System.out.println("Original Question: " + question.toString());
