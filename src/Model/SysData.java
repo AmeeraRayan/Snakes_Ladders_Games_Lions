@@ -27,10 +27,7 @@ public class SysData {
 
     public SysData() {
         adminCredentials = new HashMap<>();
-        adminCredentials.put("1", "1");
-        adminCredentials.put("212934134", "mariajava1");
-        adminCredentials.put("211864053", "ameeraphysics");
-        adminCredentials.put("211926902", "yosra24");
+        adminCredentials.put("admin1", "123");
     }
 
 	
