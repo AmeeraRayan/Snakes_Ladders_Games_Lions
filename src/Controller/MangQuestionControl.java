@@ -28,7 +28,6 @@ import Model.SysData;
 public class MangQuestionControl {
 	private static MangQuestionControl instance = null;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
-	private Map<String, String> adminCredentials;
 	public static SysData sysData= new SysData();
 
 
@@ -46,8 +45,6 @@ public class MangQuestionControl {
 		sysData.LoadQuestions();
 		return sysData.getQuestions();
 	}
-
-
 
 	public void addNewQuestion(Questions q) { // add question to the arrayList of questions and call function that write the question to Json file 
 
@@ -170,7 +167,7 @@ public class MangQuestionControl {
 	}
 	    
 	public boolean validateAdminCredentials(String userName, String password) {
-        String storedPassword = adminCredentials.get(userName);
+        String storedPassword = sysData.getAdmins().get(userName);
         return storedPassword != null && storedPassword.equals(password);
     }
 

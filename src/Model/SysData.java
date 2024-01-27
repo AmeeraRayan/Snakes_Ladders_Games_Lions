@@ -43,7 +43,10 @@ public class SysData {
 	public ArrayList<Questions> getQuestions() { //return all the questions 
 		return questions;
 	}
-
+	
+	public Map<String, String> getAdmins() { //return all the questions 
+		return adminCredentials;
+	}
 
 	public void LoadQuestions() { // get all the question from json file 
 
