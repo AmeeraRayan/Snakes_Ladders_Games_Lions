@@ -51,8 +51,9 @@ public class MangQuestionControl {
 		if (q != null) {
 			int size = sysData.getQuestions().size();
 			q.setId(size);
+			sysData.LoadQuestions();
 			sysData.getQuestions().add(q);
-			sysData.saveQuestions(questions);
+			sysData.writeQuestionsToJsonFile();
 		}
 
 	}

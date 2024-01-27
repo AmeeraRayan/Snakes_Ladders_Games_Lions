@@ -106,7 +106,7 @@ public class SysData {
 	    try (FileWriter file = new FileWriter("QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
-	        for (Questions question : questions) {
+	        for (Questions question : this.getQuestions()) {
 	            JsonObject questionObject = new JsonObject();
 
 	            // Question text
@@ -141,7 +141,6 @@ public class SysData {
 	}
 	
 	public void writeQuestionsToJsonFile() {
-		System.out.println("kkkk");
 	    JsonArray questionsArray = new JsonArray();
 	    System.out.println(this.getQuestions().isEmpty());
 	    for (Questions q : this.getQuestions()) {
