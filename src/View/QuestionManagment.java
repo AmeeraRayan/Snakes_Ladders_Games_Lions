@@ -44,7 +44,7 @@ public class QuestionManagment extends JFrame   {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 600, 400);
+        frame.setBounds(100, 100, 724, 464);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
@@ -55,37 +55,53 @@ public class QuestionManagment extends JFrame   {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 10, 560, 250);
+        scrollPane.setBounds(10, 63, 669, 267);
         frame.getContentPane().add(scrollPane);
         
         searchField = new JTextField();
         searchField.setColumns(20);
-        searchField.setBounds(10, 310, 200, 25);
+        searchField.setBounds(348, 27, 200, 25);
         frame.getContentPane().add(searchField);
         
         JButton btnAdd = new JButton("Add Question");
-        btnAdd.setBounds(10, 270, 120, 30);
+        btnAdd.setBounds(10, 354, 120, 30);
         btnAdd.addActionListener(e -> showAddQuestionPopup());
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
-        btnEdit.setBounds(140, 270, 120, 30);
+        btnEdit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        btnEdit.setBounds(175, 354, 120, 30);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
 
         JButton btnDelete = new JButton("Delete Question");
-        btnDelete.setBounds(270, 270, 120, 30);
+        btnDelete.setBounds(346, 354, 120, 30);
         btnDelete.addActionListener(e -> deleteQuestion());
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
-        btnShow.setBounds(400, 270, 120, 30);
+        btnShow.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        btnShow.setBounds(518, 354, 120, 30);
         btnShow.addActionListener(e -> showQuestion());
         frame.getContentPane().add(btnShow);
 
         // Create a button for performing the search
         JButton searchButton = new JButton("Search");
-        searchButton.setBounds(220, 310, 80, 25);
+        searchButton.setBounds(558, 27, 80, 25);
         searchButton.addActionListener(new ActionListener() {
           
 			@Override
