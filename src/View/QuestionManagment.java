@@ -58,7 +58,7 @@ public class QuestionManagment extends JFrame   {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 63, 669, 267);
+        scrollPane.setBounds(0, 62, 669, 267);
         frame.getContentPane().add(scrollPane);
         
         searchField = new JTextField();
@@ -142,7 +142,7 @@ public class QuestionManagment extends JFrame   {
             }
 
             try {
-                int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1; // Convert to 0-based index
+                int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
 
@@ -201,10 +201,11 @@ public class QuestionManagment extends JFrame   {
         JTextField answer2Field = new JTextField(question.getOptions()[1]);
         JTextField answer3Field = new JTextField(question.getOptions()[2]);
         JTextField answer4Field = new JTextField(question.getOptions()[3]);
-        JTextField correctAnswerField = new JTextField(String.valueOf(question.getCorrectOption() + 1));  // Convert to 1-based index
+        JTextField correctAnswerField = new JTextField(String.valueOf(question.getCorrectOption() )); 
         JTextField difficultyField = new JTextField(String.valueOf(question.getDiffculty()));
 
-        Object[] fields = {
+        while (true) {
+            Object[] fields = {
                 "Question:", questionField,
                 "Answer 1:", answer1Field,
                 "Answer 2:", answer2Field,
@@ -212,17 +213,37 @@ public class QuestionManagment extends JFrame   {
                 "Answer 4:", answer4Field,
                 "Correct Answer (1-4):", correctAnswerField,
                 "Difficulty:", difficultyField
-        };
+            };
 
             int result = JOptionPane.showConfirmDialog(null, fields, "Edit Question", JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
+            if (result != JOptionPane.OK_OPTION) {
+                break; // Exit if user cancels or closes the dialog
+            }
+
+            try {
+                int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
+                int difficulty = Integer.parseInt(difficultyField.getText());
+                String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
+
+                if (!isValidDifficulty(difficulty)) {
+                    JOptionPane.showMessageDialog(null, "Invalid difficulty. Please enter a value between 1 and 3.");
+                    difficultyField.setText(""); // Clear only the difficulty field
+                    continue;
+                }
+                if (!isValidCorrectAnswer(correctAnswerIndex)) {
+                    JOptionPane.showMessageDialog(null, "Invalid correct answer. Please enter a value between 1 and 4.");
+                    correctAnswerField.setText(""); // Clear only the correct answer field
+                    continue;
+                }
+                if (!isValidAnswersFormat(answers)) {
+                    JOptionPane.showMessageDialog(null, "Invalid answers format. Please provide a non-empty string for each answer.");
+                    continue;
+                }
+
                 // Update the question object with new values
                 question.setQuestionText(questionField.getText());
-                String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
                 question.setOptions(answers);
-                int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;
                 question.setCorrectOption(correctAnswerIndex);
-                int difficulty = Integer.parseInt(difficultyField.getText());
                 question.setDiffculty(difficulty);
 
                 // Call the SysData method to edit the question in the JSON file
@@ -230,10 +251,17 @@ public class QuestionManagment extends JFrame   {
 
                 // Refresh the table after editing
                 refreshTable();
-                JOptionPane.showMessageDialog(null, "Question updated!");
+                JOptionPane.showMessageDialog(null, "Question updated successfully!");
 
+                break;
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid number format for Correct Answer and/or Difficulty.");
+                correctAnswerField.setText(""); // Clear the correct answer field
+                difficultyField.setText(""); // Clear the difficulty field
             }
         }
+    }
 
 
     private void refreshTable() {
@@ -296,7 +324,7 @@ public class QuestionManagment extends JFrame   {
 	}
 	
 	private boolean isValidCorrectAnswer(int correctAnswer) {
-	    return correctAnswer >= 0 && correctAnswer <= 3;
+	    return correctAnswer >= 0 && correctAnswer < 5;
 	}
 	
 	private boolean isValidAnswersFormat(String[] answers) {
