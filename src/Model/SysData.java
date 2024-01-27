@@ -178,16 +178,5 @@ public class SysData {
 	            e.printStackTrace();
 	        }
 	    }
-	
-    
-	public boolean validateAdminCredentials(String email, String password) {
-        String storedPassword = adminCredentials.get(email);
-        return storedPassword != null && storedPassword.equals(password);
-    }
-
-    public void addAdmin(String email, String password) {
-        adminCredentials.put(email, password);
-    }
-	
 
 }

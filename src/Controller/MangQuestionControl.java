@@ -168,11 +168,9 @@ public class MangQuestionControl {
 	        e.printStackTrace();
 	    }
 	}
-
-
 	    
-	public boolean validateAdminCredentials(String email, String password) {
-        String storedPassword = adminCredentials.get(email);
+	public boolean validateAdminCredentials(String userName, String password) {
+        String storedPassword = adminCredentials.get(userName);
         return storedPassword != null && storedPassword.equals(password);
     }
 

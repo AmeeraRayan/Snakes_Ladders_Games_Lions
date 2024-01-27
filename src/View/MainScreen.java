@@ -90,7 +90,7 @@ public class MainScreen extends JFrame{
         boolean isAdmin = true;
 
         if (isAdmin) {
-            int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to proceed as an admin?",
+            int choice = JOptionPane.showConfirmDialog(null, "To enter the Mangment Question you have to be an admin with a LogIn",
                     "Confirmation", JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
