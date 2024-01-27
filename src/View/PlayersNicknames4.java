@@ -30,7 +30,17 @@ public class PlayersNicknames4 extends JFrame {
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+        JButton Back = new JButton("Back");
+		
+ 		Back = new JButton("Back");
+ 		Back.addActionListener(new ActionListener() {
+             public void actionPerformed(ActionEvent e) {
+            	 PlayersNicknames4.this.setVisible(false);
+ 				new DataReception().setVisible(true);
+             }
+         });
+ 		Back.setBounds(120, 518, 135, 52);
+ 		contentPane.add(Back);
         Next = new JButton("Next");
       
         Next.setBounds(712, 518, 135, 52);
