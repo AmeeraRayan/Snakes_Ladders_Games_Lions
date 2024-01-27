@@ -84,7 +84,7 @@ public class DataReception extends JFrame {
         // ImageIcon player3Icon = new ImageIcon("src/images/2playerIcon.png");
         // ImageIcon player4Icon = new ImageIcon("src/images/3playerIcon.png");
         player2Button = new JButton("2 players");
-        player2Button.setBounds(109, 309, 85, 21);
+        player2Button.setBounds(109, 309, 96, 21);
         player2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 2;
@@ -93,7 +93,7 @@ public class DataReception extends JFrame {
             }
         });
         player3Button = new JButton("3 players");
-        player3Button.setBounds(307, 309, 85, 21);
+        player3Button.setBounds(307, 309, 97, 21);
         player3Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 3;
@@ -102,7 +102,7 @@ public class DataReception extends JFrame {
             }
         });
         player4Button = new JButton("4 players");
-        player4Button.setBounds(533, 309, 85, 21);
+        player4Button.setBounds(522, 309, 96, 21);
         player4Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 4;

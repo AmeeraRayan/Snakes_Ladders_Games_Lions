@@ -14,6 +14,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class PlayerNicknames3 extends JFrame {
@@ -78,6 +80,29 @@ public class PlayerNicknames3 extends JFrame {
 		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
 		lblNewLabel_1.setBounds(115, 172, 156, 30);
 		contentPane.add(lblNewLabel_1);
+		textField1.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }
+		    }
+		});
+
+		textField2.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
+		textField3.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
 		
 		Next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

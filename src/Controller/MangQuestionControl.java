@@ -101,7 +101,6 @@ public class MangQuestionControl {
 	    System.out.println(questions.isEmpty());
 	    for (Questions question : questions) {
 	        if (question.getid() == questionId) {
-	            System.out.println("Original Question: " + question.toString());
 
 	            // Update the question with new values
 	            question.setQuestionText(updatedQuestion.getQuestionText());
@@ -109,18 +108,10 @@ public class MangQuestionControl {
 	            question.setCorrectOption(updatedQuestion.getCorrectOption());
 	            question.setDiffculty(updatedQuestion.getDiffculty());
 
-	            // Write the updated questions to JSON
-	            if (updateQuestionToJson(questions)) {
-	                System.out.println("Question Updated: " + question.toString());
-	            } else {
-	                System.out.println("Failed to save updated questions.");
-	            }
-
 	            return;
 	        }
 	    }
 
-	    System.out.println("Question with ID " + questionId + " not found.");
 	}
 	
 	private boolean updateQuestionToJson(List<Questions> questions) {
