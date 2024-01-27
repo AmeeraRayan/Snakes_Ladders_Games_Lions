@@ -99,6 +99,7 @@ public class PlayersNicknames4 extends JFrame {
         		Playersname[1]=textField3.getText();
         		Playersname[2]=textField4.getText();
         		Playersname[3]=textField2.getText();
+        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])&& isValidString(Playersname[3])) {
                 Color[] color = new Color[numberOfPlayers];
                 color[0] = Color.GREEN;
                 color[1] = Color.BLUE;
@@ -108,7 +109,18 @@ public class PlayersNicknames4 extends JFrame {
                 PlayersNicknames4.this.setVisible(false);
 				new PlayerTurn(numberOfPlayers ,difficultyLevel , Playersname , color).setVisible(true);
         		
-        	}
+        	}else {
+        		showMessage("Please enter a valid name in Player 2");
+                return;
+        	}}
         });
+        
         }
+	private boolean isValidString(String str) {
+        return str != null && !str.isEmpty();
+    }
+	 private void showMessage(String message) {
+	        JOptionPane.showMessageDialog(PlayersNicknames4.this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
+	    }
+
 }
