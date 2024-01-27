@@ -76,7 +76,7 @@ public class SysData {
 			ArrayList<String> answers = gson.fromJson(answersArray, ArrayList.class);
 			
 			Integer correct = ((JsonObject) element).get("correct_ans").getAsInt();
-			Integer diffculty = ((JsonObject) element).get("diffculty").getAsInt();
+			Integer diffculty = ((JsonObject) element).get("difficulty").getAsInt();
              
 			 String[] answerArray = new String[answers.size()];
 		        answers.toArray(answerArray);
@@ -122,7 +122,7 @@ public class SysData {
 	            questionObject.addProperty("correct_ans", question.getCorrectOption());
 
 	            // diffculty level
-	            questionObject.addProperty("diffculty", question.getDiffculty());
+	            questionObject.addProperty("difficulty", question.getDiffculty());
 
 	            questionsArray.add(questionObject);
 	        }
@@ -161,7 +161,7 @@ public class SysData {
 	            questionObject.addProperty("correct_ans", String.valueOf(q.getCorrectOption()));
 
 	            // diffculty level
-	            questionObject.addProperty("diffculty", String.valueOf(q.getDiffculty()));
+	            questionObject.addProperty("difficulty", String.valueOf(q.getDiffculty()));
 
 	            questionsArray.add(questionObject);
 	        }
