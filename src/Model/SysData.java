@@ -27,10 +27,7 @@ public class SysData {
 
     public SysData() {
         adminCredentials = new HashMap<>();
-        adminCredentials.put("1", "1");
-        adminCredentials.put("212934134", "mariajava1");
-        adminCredentials.put("211864053", "ameeraphysics");
-        adminCredentials.put("211926902", "yosra24");
+        adminCredentials.put("admin1", "123");
     }
 
 	
@@ -46,7 +43,10 @@ public class SysData {
 	public ArrayList<Questions> getQuestions() { //return all the questions 
 		return questions;
 	}
-
+	
+	public Map<String, String> getAdmins() { //return all the questions 
+		return adminCredentials;
+	}
 
 	public void LoadQuestions() { // get all the question from json file 
 
@@ -56,7 +56,7 @@ public class SysData {
 		Gson gson = new Gson();
 		JsonReader reader = null;
 		try {
-			reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
+			reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -72,14 +72,11 @@ public class SysData {
 			String questionText = ((JsonObject) element).get("question").getAsString();
 
 			JsonArray answersArray = (((JsonObject) element).getAsJsonArray("answers"));
-
 			@SuppressWarnings("unchecked")
 			ArrayList<String> answers = gson.fromJson(answersArray, ArrayList.class);
-		
+			
 			Integer correct = ((JsonObject) element).get("correct_ans").getAsInt();
-			System.out.println(correct);
-			Integer diffculty = ((JsonObject) element).get("diffculty").getAsInt();
-			System.out.println(diffculty);
+			Integer diffculty = ((JsonObject) element).get("difficulty").getAsInt();
              
 			 String[] answerArray = new String[answers.size()];
 		        answers.toArray(answerArray);
@@ -105,7 +102,7 @@ public class SysData {
 	}
 	public boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
-	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
+	    try (FileWriter file = new FileWriter("QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions question : questions) {
@@ -125,7 +122,7 @@ public class SysData {
 	            questionObject.addProperty("correct_ans", question.getCorrectOption());
 
 	            // diffculty level
-	            questionObject.addProperty("diffculty", question.getDiffculty());
+	            questionObject.addProperty("difficulty", question.getDiffculty());
 
 	            questionsArray.add(questionObject);
 	        }
@@ -140,17 +137,6 @@ public class SysData {
 	        e.printStackTrace();
 	        return false;
 	    }
-	}
-
-	public void addNewQuestion(Questions q) { // add question to the arrayList of questions and call function that write the question to Json file 
-
-		if (q != null) {
-			int size = getQuestions().size();
-			q.setId(size);
-			this.getQuestions().add(q);
-			saveQuestions(questions);
-		}
-
 	}
 	
 	 public void writeQuestionsToJsonFile() {
@@ -175,7 +161,7 @@ public class SysData {
 	            questionObject.addProperty("correct_ans", String.valueOf(q.getCorrectOption()));
 
 	            // diffculty level
-	            questionObject.addProperty("diffculty", String.valueOf(q.getDiffculty()));
+	            questionObject.addProperty("difficulty", String.valueOf(q.getDiffculty()));
 
 	            questionsArray.add(questionObject);
 	        }
@@ -184,7 +170,7 @@ public class SysData {
 	        root.add("questions", questionsArray);
 
 	        // Write to file
-	        try (Writer w = new FileWriter("src/QuestionsAndAnswers.json")) {
+	        try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
 	        	Gson gson=new Gson();
 	            gson.toJson(root, w);
 	            System.out.println("Success");
@@ -192,79 +178,5 @@ public class SysData {
 	            e.printStackTrace();
 	        }
 	    }
-	
-	public void removeQuestionLocaly(Integer QuestionId) {
-		int i = -1;
-		int index = 0;
-
-		for (Questions q : this.getQuestions()) {
-
-			if (q.getid() == QuestionId) {
-
-				i = index;
-				break;
-			}
-
-			index++;
-		}
-
-		if (i == -1) {
-			return;
-		}
-		//update the id of all question -  because of the removing. 
-	
-		if (i != -1) {
-			this.questions.remove(i);
-			for (int c = i + 1; c < this.getQuestions().size(); c++) {
-				this.getQuestions().get(c).setId(QuestionId);
-				QuestionId++;
-
-			}
-		}
-		
-		writeQuestionsToJsonFile();
-		
-	}
-	
-	public void editQuestion(int questionId, Questions updatedQuestion) {
-	    // Get the list of questions
-	    List<Questions> questions = getQuestions();
-
-	    for (Questions question : questions) {
-	        if (question.getid() == questionId) {
-	            System.out.println("Original Question: " + question.toString());
-
-	            // Update the question with new values
-	            question.setQuestionText(updatedQuestion.getQuestionText());
-	            question.setOptions(updatedQuestion.getOptions());
-	            question.setCorrectOption(updatedQuestion.getCorrectOption());
-	            question.setDiffculty(updatedQuestion.getDiffculty());
-
-	            // Write the updated questions to JSON
-	            saveQuestions(questions);
-	            System.out.println(question);
-	            if (saveQuestions(questions)) {
-	                System.out.println("Question Updated: " + question.toString());
-	            } else {
-	                System.out.println("Failed to save updated questions.");
-	            }
-
-	            return;
-	        }
-	    }
-
-	    System.out.println("Question with ID " + questionId + " not found.");
-	}
-
-	    
-	public boolean validateAdminCredentials(String email, String password) {
-        String storedPassword = adminCredentials.get(email);
-        return storedPassword != null && storedPassword.equals(password);
-    }
-
-    public void addAdmin(String email, String password) {
-        adminCredentials.put(email, password);
-    }
-	
 
 }

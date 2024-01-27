@@ -1,26 +1,38 @@
 package View;
 
 import java.awt.EventQueue;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.event.AncestorListener;
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.JScrollPane;
+import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import Controller.MangQuestionControl;
 import Model.Questions;
 import Model.SysData;
 
-public class QuestionManagment {
+public class QuestionManagment extends JFrame   {
 
     JFrame frame;
     private JTable table;
     private DefaultTableModel tableModel;
+	private JTextField searchField;
+    private TableRowSorter<DefaultTableModel> sorter;
     static  SysData sysData = new SysData();
+    static MangQuestionControl mangQuestionControl=new MangQuestionControl();
 
     public QuestionManagment() {
         initialize();
@@ -32,7 +44,7 @@ public class QuestionManagment {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 600, 400);
+        frame.setBounds(100, 100, 724, 464);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
@@ -43,28 +55,71 @@ public class QuestionManagment {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 10, 560, 250);
+        scrollPane.setBounds(10, 63, 669, 267);
         frame.getContentPane().add(scrollPane);
         
+        searchField = new JTextField();
+        searchField.setColumns(20);
+        searchField.setBounds(348, 27, 200, 25);
+        frame.getContentPane().add(searchField);
+        
         JButton btnAdd = new JButton("Add Question");
-        btnAdd.setBounds(10, 270, 120, 30);
+        btnAdd.setBounds(10, 354, 120, 30);
         btnAdd.addActionListener(e -> showAddQuestionPopup());
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
-        btnEdit.setBounds(140, 270, 120, 30);
+        btnEdit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        btnEdit.setBounds(175, 354, 120, 30);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
 
         JButton btnDelete = new JButton("Delete Question");
-        btnDelete.setBounds(270, 270, 120, 30);
+        btnDelete.setBounds(346, 354, 120, 30);
         btnDelete.addActionListener(e -> deleteQuestion());
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
-        btnShow.setBounds(400, 270, 120, 30);
+        btnShow.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        btnShow.setBounds(518, 354, 120, 30);
         btnShow.addActionListener(e -> showQuestion());
         frame.getContentPane().add(btnShow);
+
+        // Create a button for performing the search
+        JButton searchButton = new JButton("Search");
+        searchButton.setBounds(558, 27, 80, 25);
+        searchButton.addActionListener(new ActionListener() {
+          
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				performSearch();
+			}
+        });
+        frame.getContentPane().add(searchButton);
+
+        // Set up a sorter for the table
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter((RowSorter<? extends TableModel>) sorter);
+    }
+
+    private void performSearch() {
+        String query = searchField.getText().toLowerCase();
+        ((DefaultRowSorter<DefaultTableModel, Integer>) sorter).setRowFilter(RowFilter.regexFilter(query));    
     }
     
     private void populateTableWithData() {
@@ -108,7 +163,7 @@ public class QuestionManagment {
             Questions newQuestion = new Questions(questionText, answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
 
             // Add the new question to sysData
-            sysData.addNewQuestion(newQuestion);
+            mangQuestionControl.addNewQuestion(newQuestion);
 
             // Update the table
             tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
@@ -158,17 +213,13 @@ public class QuestionManagment {
                 System.out.println(questionField.getText());
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
                 question.setOptions(answers);
-                System.out.println(answers);
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;
                 question.setCorrectOption(correctAnswerIndex);
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 question.setDiffculty(difficulty);
-                System.out.println(difficulty);
 
                 // Call the SysData method to edit the question in the JSON file
-                System.out.println(question.toString());
-                System.out.println("lllllllllllllllkkojkjnkjn");
-                SysData.getInstance().editQuestion(question.getid(), question);
+                mangQuestionControl.editQuestion(question.getid(), question);
 
                 // Refresh the table after editing
                 refreshTable();
@@ -190,7 +241,7 @@ public class QuestionManagment {
         if (selectedRow != -1) {
             int questionId = sysData.getQuestions().get(selectedRow).getid();
             // Call the SysData method to remove the question
-            sysData.removeQuestionLocaly(questionId);
+            mangQuestionControl.removeQuestionLocaly(questionId);
             // Update the table
             tableModel.removeRow(selectedRow);
         } else {
