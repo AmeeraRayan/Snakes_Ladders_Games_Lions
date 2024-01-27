@@ -1,26 +1,36 @@
 package View;
 
 import java.awt.EventQueue;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.event.AncestorListener;
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.JScrollPane;
+import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import Controller.MangQuestionControl;
 import Model.Questions;
 import Model.SysData;
 
-public class QuestionManagment {
+public class QuestionManagment extends JFrame   {
 
     JFrame frame;
     private JTable table;
     private DefaultTableModel tableModel;
+	private JTextField searchField;
+    private TableRowSorter<DefaultTableModel> sorter;
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
 
@@ -47,6 +57,34 @@ public class QuestionManagment {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 10, 560, 250);
         frame.getContentPane().add(scrollPane);
+        
+        searchField = new JTextField();
+        searchField.setColumns(20);
+        searchField.setBounds(10, 310, 200, 25);
+        frame.getContentPane().add(searchField);
+
+        // Create a button for performing the search
+        JButton searchButton = new JButton("Search");
+        searchButton.setBounds(220, 310, 80, 25);
+        searchButton.addActionListener(new ActionListener() {
+          
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				performSearch();
+			}
+        });
+        frame.getContentPane().add(searchButton);
+
+        // Set up a sorter for the table
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter((RowSorter<? extends TableModel>) sorter);
+    }
+
+    private void performSearch() {
+        String query = searchField.getText().toLowerCase();
+        ((DefaultRowSorter<DefaultTableModel, Integer>) sorter).setRowFilter(RowFilter.regexFilter(query));
+    
         
         JButton btnAdd = new JButton("Add Question");
         btnAdd.setBounds(10, 270, 120, 30);
