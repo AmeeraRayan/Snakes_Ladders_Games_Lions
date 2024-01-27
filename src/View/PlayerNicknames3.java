@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import Model.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -107,22 +108,34 @@ public class PlayerNicknames3 extends JFrame {
 		Next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] Playersname = new String[numberOfPlayers];
-        		Playersname[0]=textField1.getText();
-        		Playersname[1]=textField2.getText();
-        		Playersname[2]=textField3.getText();
+        		Playersname[0]=textField1.getText().trim();
+        		Playersname[1]=textField2.getText().trim();
+        		Playersname[2]=textField3.getText().trim();
+        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])) {
         		 Color[] color = new Color[numberOfPlayers];
                  color[0] = Color.GREEN;
                  color[1] = Color.BLUE;
                  color[2] = Color.RED;
                  PlayerNicknames3.this.setVisible(false);
  				new PlayerTurn(numberOfPlayers ,difficultyLevel , Playersname , color).setVisible(true);
+			}else {
+				showMessage("Please enter a valid name in Player 2");
+                return;
 			}
-		});
+				
+			
+		}});
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames3.class.getResource("/images/Nickname3.png")));
 		lblNewLabel.setBounds(-24, 0, 1050, 581);
 		contentPane.add(lblNewLabel);
 	}
+	private boolean isValidString(String str) {
+        return str != null && !str.isEmpty();
+    }
+	 private void showMessage(String message) {
+	        JOptionPane.showMessageDialog(PlayerNicknames3.this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
+	    }
 
 }
