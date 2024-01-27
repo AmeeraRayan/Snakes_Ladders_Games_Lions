@@ -29,6 +29,8 @@ public class SysData {
     public SysData() {
         adminCredentials = new HashMap<>();
         adminCredentials.put("admin1", "123");
+        adminCredentials.put("admin2", "111");
+        adminCredentials.put("admin3", "222");
     }
 
 	
@@ -103,7 +105,7 @@ public class SysData {
 	}
 	public boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
-	    try (FileWriter file = new FileWriter("QuestionsAndAnswers.json")) {
+	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions question : this.getQuestions()) {
@@ -142,7 +144,6 @@ public class SysData {
 	
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();
-	    System.out.println(this.getQuestions().isEmpty());
 	    for (Questions q : this.getQuestions()) {
 	        JsonObject questionObject = new JsonObject();
 
@@ -169,10 +170,9 @@ public class SysData {
 	    root.add("questions", questionsArray);
 
 	    // Write to file
-	    try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
+	    try (Writer w = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	        gson.toJson(root, w);
-	        System.out.println("Success");
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }

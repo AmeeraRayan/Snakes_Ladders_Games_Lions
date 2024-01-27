@@ -14,7 +14,6 @@ public class PlayerButtonListener implements ActionListener {
  @Override
  public void actionPerformed(ActionEvent e) {
      // Handle button click (you can add your logic here)
-     System.out.println("Selected number of players: " + numOfPlayers);
  }
 
 

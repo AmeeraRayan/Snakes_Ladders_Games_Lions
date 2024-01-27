@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class PlayerNicknames2 extends JFrame {
@@ -74,6 +76,23 @@ public class PlayerNicknames2 extends JFrame {
 		textField2.setBounds(374, 363, 173, 36);
 		contentPane.add(textField2);
 		textField2.setColumns(10);
+		textField1.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }
+		    }
+		});
+
+		textField2.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
+
 		Next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] Playersname = new String[numberOfPlayers];

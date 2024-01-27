@@ -15,6 +15,7 @@ import Model.Dice;
 import Model.Player;
 import Model.Game; // Make sure to import your Game class
 import Model.Color;
+import java.awt.Font;
 
 public class PlayerTurn extends JFrame {
 
@@ -28,7 +29,6 @@ public class PlayerTurn extends JFrame {
     
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
-    	super("So what is my turn?");
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
@@ -76,7 +76,7 @@ public class PlayerTurn extends JFrame {
         });
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);
-        diceButton.setBounds(724, 259, 118, 102);
+        diceButton.setBounds(700, 250, 120, 100);
         contentPane.add(diceButton);
         
         JButton btnNewButton = new JButton("Back");
@@ -88,6 +88,20 @@ public class PlayerTurn extends JFrame {
             }
         });
         contentPane.add(btnNewButton);
+        JLabel lblWhatIsMy = new JLabel("So what is my turn?");
+        lblWhatIsMy.setHorizontalAlignment(SwingConstants.CENTER);
+        lblWhatIsMy.setFont(new Font("Monotype Corsiva", Font.ITALIC, 32));
+        lblWhatIsMy.setForeground(new java.awt.Color(255, 255, 255));
+        lblWhatIsMy.setBounds(200, 29, 400, 40);
+        contentPane.add(lblWhatIsMy);
+        
+        JLabel lblNewLabel_1 = new JLabel("Roll me!!");
+        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_1.setForeground(new java.awt.Color(51, 0, 0));
+        lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.BOLD | Font.ITALIC, 20));
+        lblNewLabel_1.setBounds(720, 210, 100, 30);
+        contentPane.add(lblNewLabel_1);
+        
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus .png")));

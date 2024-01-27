@@ -6,7 +6,7 @@ public class Questions {
 	    private String[] options;
 	    private int correctOption;
 		private Integer id;
-		private int diffculty;  // level 3 hard
+		private int diffculty; 
 
         
 	    public Questions(String questionText, String[] options, int correctOption, int diffculty , int id ) {

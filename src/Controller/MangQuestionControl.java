@@ -98,33 +98,24 @@ public class MangQuestionControl {
 	public void editQuestion(int questionId, Questions updatedQuestion) {
 	    // Get the list of questions
 	    List<Questions> questions = this.getQuestions();
-	    System.out.println(questions.isEmpty());
 	    for (Questions question : questions) {
 	        if (question.getid() == questionId) {
-	            System.out.println("Original Question: " + question.toString());
 
 	            // Update the question with new values
 	            question.setQuestionText(updatedQuestion.getQuestionText());
 	            question.setOptions(updatedQuestion.getOptions());
 	            question.setCorrectOption(updatedQuestion.getCorrectOption());
 	            question.setDiffculty(updatedQuestion.getDiffculty());
-
-	            // Write the updated questions to JSON
-	            if (updateQuestionToJson(questions)) {
-	                System.out.println("Question Updated: " + question.toString());
-	            } else {
-	                System.out.println("Failed to save updated questions.");
-	            }
+	            updateQuestionToJson(questions);
 
 	            return;
 	        }
 	    }
 
-	    System.out.println("Question with ID " + questionId + " not found.");
 	}
 	
 	private boolean updateQuestionToJson(List<Questions> questions) {
-	    try (Reader reader = new FileReader("QuestionsAndAnswers.json")) {
+	    try (Reader reader = new FileReader("src/QuestionsAndAnswers.json")) {
 	        JsonParser parser = new JsonParser();
 	        JsonObject existingJson = parser.parse(reader).getAsJsonObject();
 
@@ -156,7 +147,7 @@ public class MangQuestionControl {
 	        existingJson.add("questions", questionsJsonArray);
 
 	        // Write the updated JSON back to the file with proper indentation
-	        try (Writer writer = new FileWriter("QuestionsAndAnswers.json")) {
+	        try (Writer writer = new FileWriter("src/QuestionsAndAnswers.json")) {
 	            JsonWriter jsonWriter = new JsonWriter(writer);
 	            jsonWriter.setIndent(" "); // Set the desired indentation
 	            new Gson().toJson(existingJson, jsonWriter);
