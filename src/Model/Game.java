@@ -14,6 +14,7 @@ public class Game {
 	private String diffcultylevel;
     private Queue<Player> players;
     private Dice dice;
+    /*private board ;*/
     
 	public Game(int gameId, String diffcultylevel, Queue<Player> players, Dice dice) {
 		super();
@@ -21,7 +22,7 @@ public class Game {
 		this.diffcultylevel = diffcultylevel;
 		this.players = players;
 		this.dice = dice;
-		/*private board = new board();*/
+		/*board = new board();*/
 	}
 	public Game(String diffcultylevel, Queue<Player> players, Dice dice) {
 		this.diffcultylevel = diffcultylevel;
