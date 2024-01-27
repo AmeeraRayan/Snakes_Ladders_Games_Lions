@@ -41,6 +41,21 @@ public class PlayerNicknames2 extends JFrame {
 		
 		Next.setBounds(680, 493, 183, 47);
 		contentPane.add(Next);
+		JButton Back = new JButton("Back");
+		
+		Back = new JButton("Back");
+		Back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+           	 PlayerNicknames2.this.setVisible(false);
+				new DataReception().setVisible(true);
+            }
+        });
+		Back.setBounds(100, 493, 183, 47);
+		contentPane.add(Back);
+		
+		Next.setBounds(680, 493, 183, 47);
+		contentPane.add(Next);
+		
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Player 2");
 		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
