@@ -49,46 +49,54 @@ public class MangQuestionControl {
 	public void addNewQuestion(Questions q) { // add question to the arrayList of questions and call function that write the question to Json file 
 
 		if (q != null) {
-			int size = getQuestions().size();
+			int size = sysData.getQuestions().size();
 			q.setId(size);
-			this.getQuestions().add(q);
+			sysData.getQuestions().add(q);
 			sysData.saveQuestions(questions);
 		}
 
 	}
 	
 	
-	public void removeQuestionLocaly(Integer questionId) {
-	    int i = -1;
-	    int index = 0;
+	public void removeQuestionLocaly(Integer QuestionId) {
+		int i = -1;
+		int index = 0;
+		sysData.LoadQuestions();
+		
+		for (Questions q : sysData.getQuestions()) {
 
-	    for (Questions q : sysData.getQuestions()) {
-	        if (q.getid() == questionId) {
-	            i = index;
-	            break;
-	        }
-	        index++;
-	    }
+			if (q.getid() == QuestionId) {
 
-	    if (i == -1) {
-	        return; // Question not found
-	    }
+				i = index;
+				break;
+			}
 
-	    // Remove the question
-	    sysData.getQuestions().remove(i);
-	    // Update the IDs of remaining questions
-	    for (int c = i; c < sysData.getQuestions().size(); c++) {
-	        sysData.getQuestions().get(c).setId(questionId);
-	        questionId++;
-	    }
+			index++;
+		}
 
-	    sysData.writeQuestionsToJsonFile();
+		if (i == -1) {
+			return;
+		}
+		//update the id of all question -  because of the removing. 
+	
+		if (i != -1) {
+			sysData.getQuestions().remove(i);
+			for (int c = i + 1; c < sysData.getQuestions().size(); c++) {
+				sysData.getQuestions().get(c).setId(QuestionId);
+				QuestionId++;
+
+			}
+		}
+		
+		sysData.writeQuestionsToJsonFile();
+		
 	}
+	
 
 	
 	public void editQuestion(int questionId, Questions updatedQuestion) {
 	    // Get the list of questions
-	    List<Questions> questions = getQuestions();
+	    List<Questions> questions = this.getQuestions();
 	    System.out.println(questions.isEmpty());
 	    for (Questions question : questions) {
 	        if (question.getid() == questionId) {
@@ -101,8 +109,7 @@ public class MangQuestionControl {
 	            question.setDiffculty(updatedQuestion.getDiffculty());
 
 	            // Write the updated questions to JSON
-	            updateQuestionToJson(questions);
-	            if (sysData.saveQuestions(questions)) {
+	            if (updateQuestionToJson(questions)) {
 	                System.out.println("Question Updated: " + question.toString());
 	            } else {
 	                System.out.println("Failed to save updated questions.");
@@ -115,11 +122,10 @@ public class MangQuestionControl {
 	    System.out.println("Question with ID " + questionId + " not found.");
 	}
 	
-	private void updateQuestionToJson(List<Questions> questions) {
+	private boolean updateQuestionToJson(List<Questions> questions) {
 	    try (Reader reader = new FileReader("QuestionsAndAnswers.json")) {
 	        JsonParser parser = new JsonParser();
 	        JsonObject existingJson = parser.parse(reader).getAsJsonObject();
-
 
 	        // Update only the "questions" part of the existing JSON
 	        existingJson.remove("questions");
@@ -159,6 +165,7 @@ public class MangQuestionControl {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		return false;
 	}
 	    
 	public boolean validateAdminCredentials(String userName, String password) {

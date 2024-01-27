@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -139,44 +140,43 @@ public class SysData {
 	    }
 	}
 	
-	 public void writeQuestionsToJsonFile() {
-	        JsonArray questionsArray = new JsonArray();
+	public void writeQuestionsToJsonFile() {
+		System.out.println("kkkk");
+	    JsonArray questionsArray = new JsonArray();
+	    System.out.println(this.getQuestions().isEmpty());
+	    for (Questions q : this.getQuestions()) {
+	        JsonObject questionObject = new JsonObject();
 
-	        for (Questions q : getQuestions()) {
-	            JsonObject questionObject = new JsonObject();
+	        // Question text
+	        questionObject.addProperty("question", q.getQuestionText());
 
-	            // Question text
-	            questionObject.addProperty("question", q.getQuestionText());
-
-	            // Answers array
-	            JsonArray answersArray = new JsonArray();
-	            for (int i = 0; i < q.getOptions().length; i++) {
-	                JsonObject answerObject = new JsonObject();
-	                answerObject.addProperty(String.valueOf(i + 1), q.getOptions().length);
-	                answersArray.add(answerObject);
-	            }
-	            questionObject.add("answers", answersArray);
-
-	            // Correct answer index
-	            questionObject.addProperty("correct_ans", String.valueOf(q.getCorrectOption()));
-
-	            // diffculty level
-	            questionObject.addProperty("difficulty", String.valueOf(q.getDiffculty()));
-
-	            questionsArray.add(questionObject);
+	        // Answers array
+	        JsonArray answersArray = new JsonArray();
+	        for (int i = 0; i < q.getOptions().length; i++) {
+	            answersArray.add(q.getOptions()[i]);
 	        }
+	        questionObject.add("answers", answersArray);
 
-	        JsonObject root = new JsonObject();
-	        root.add("questions", questionsArray);
+	        // Correct answer index
+	        questionObject.addProperty("correct_ans", String.valueOf(q.getCorrectOption()));
 
-	        // Write to file
-	        try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
-	        	Gson gson=new Gson();
-	            gson.toJson(root, w);
-	            System.out.println("Success");
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+	        // Difficulty level
+	        questionObject.addProperty("difficulty", String.valueOf(q.getDiffculty()));
+
+	        questionsArray.add(questionObject);
 	    }
+
+	    JsonObject root = new JsonObject();
+	    root.add("questions", questionsArray);
+
+	    // Write to file
+	    try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
+	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	        gson.toJson(root, w);
+	        System.out.println("Success");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 }
