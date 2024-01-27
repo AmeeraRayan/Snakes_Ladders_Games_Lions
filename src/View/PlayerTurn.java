@@ -131,12 +131,12 @@ public class PlayerTurn extends JFrame {
         lblWhatIsMy.setBounds(200, 29, 400, 40);
         contentPane.add(lblWhatIsMy);
         
-        JLabel lblNewLabel_1 = new JLabel("Roll me!!");
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_1.setForeground(new java.awt.Color(51, 0, 0));
-        lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.BOLD | Font.ITALIC, 20));
-        lblNewLabel_1.setBounds(720, 210, 100, 30);
-        contentPane.add(lblNewLabel_1);
+        JLabel lblNewLabel_11 = new JLabel("Roll me!!");
+        lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_11.setForeground(new java.awt.Color(51, 0, 0));
+        lblNewLabel_11.setFont(new Font("Tw Cen MT Condensed", Font.BOLD | Font.ITALIC, 20));
+        lblNewLabel_11.setBounds(720, 210, 100, 30);
+        contentPane.add(lblNewLabel_11);
         
         
         JLabel lblNewLabel = new JLabel("");
