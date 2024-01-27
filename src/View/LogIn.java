@@ -15,15 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JPasswordField;
 
 public class LogIn extends JFrame implements ActionListener{
 
     private JFrame frame;
     private JTextField txtuser;
-    private JTextField textField;
 	private JButton btnNewButton;
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
+    private JPasswordField passwordField;
 
     public LogIn() {
         initialize();
@@ -54,15 +55,14 @@ public class LogIn extends JFrame implements ActionListener{
         lblNewLabel_1.setBounds(197, 124, 63, 19);
         frame.getContentPane().add(lblNewLabel_1);
 
-        textField = new JTextField();
-        textField.setBounds(283, 123, 79, 20);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
-
         JLabel lblNewLabel_2 = new JLabel("Login for Admin");
         lblNewLabel_2.setForeground(Color.BLACK);
         lblNewLabel_2.setBounds(217, 28, 200, 21);
         frame.getContentPane().add(lblNewLabel_2);
+        
+        passwordField = new JPasswordField();
+        passwordField.setBounds(283, 123, 79, 20);
+        frame.getContentPane().add(passwordField);
     }
     
     @Override
@@ -71,16 +71,24 @@ public class LogIn extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		try {		
         String entereduserName = txtuser.getText();
-        String enteredPassword = textField.getText();
+        String enteredPassword = passwordField.getText();
         if(entereduserName.equals("") || enteredPassword.equals("")) {
 			throw new NullPointerException("return value is null!");
 		}
         if (mangQuestionControl.validateAdminCredentials(entereduserName, enteredPassword)) {
             JOptionPane.showMessageDialog(null, "Login successful! Redirecting to admin page...");
             frame.setVisible(false);
-            // Show the QuestionManagement screen
-            QuestionManagment questionManagement = new QuestionManagment();
-            questionManagement.frame.setVisible(true);
+         // Create an instance of QuestionManagment and display its frame
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        QuestionManagment questionManagement = new QuestionManagment();
+                        questionManagement.frame.setVisible(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } else {
             JOptionPane.showMessageDialog(null, "Invalid email or password. Please try again.");
         }
@@ -94,6 +102,4 @@ public class LogIn extends JFrame implements ActionListener{
     public void showLoginScreen() {
         frame.setVisible(true);
     }
-
-	
 }

@@ -69,14 +69,6 @@ public class QuestionManagment extends JFrame   {
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
-        btnEdit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-        });
         btnEdit.setBounds(175, 354, 120, 30);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
@@ -87,14 +79,6 @@ public class QuestionManagment extends JFrame   {
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
-        btnShow.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-        });
         btnShow.setBounds(518, 354, 120, 30);
         btnShow.addActionListener(e -> showQuestion());
         frame.getContentPane().add(btnShow);
@@ -156,7 +140,7 @@ public class QuestionManagment extends JFrame   {
             // Extract user input
             String questionText = questionField.getText();
             String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
-            int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;  // Convert to 0-based index
+            int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText())-1;  // Convert to 0-based index
             int difficulty = Integer.parseInt(difficultyField.getText());
 
             // Create a new question object

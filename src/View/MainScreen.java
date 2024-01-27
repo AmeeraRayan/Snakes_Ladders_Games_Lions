@@ -97,6 +97,7 @@ public class MainScreen extends JFrame{
                 // Open the admin login screen
                 LogIn logIn = new LogIn();
                 logIn.showLoginScreen();
+                this.setVisible(false);
             }
         } else {
             JOptionPane.showMessageDialog(null, "You do not have permission to access this feature.");
