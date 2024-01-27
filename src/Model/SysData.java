@@ -59,7 +59,7 @@ public class SysData {
 		Gson gson = new Gson();
 		JsonReader reader = null;
 		try {
-			reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
+			reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

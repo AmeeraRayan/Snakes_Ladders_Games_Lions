@@ -67,7 +67,7 @@
       "difficulty": "1"
     },
     {
-      "question": "In software engineering, what is \u0027refactoring\u0027 primarily used for?",
+      "question": "In software engineering, what is refactoring  primarily used for?",
       "answers": [
         "1. Adding new features",
         "2. Improving the existing code without changing its functionality",
@@ -78,10 +78,10 @@
       "difficulty": "2"
     },
     {
-      "question": "What does \u0027scalability\u0027 refer to in software engineering?",
+      "question": "What does scalability  refer to in software engineering?",
       "answers": [
         "1. The ability to add new team members",
-        "2. The software\u0027s ability to handle increasing amounts of data",
+        "2. The software s ability to handle increasing amounts of data",
         "3. The size of the software",
         "4. The cost of the software"
       ],
@@ -89,18 +89,18 @@
       "difficulty": "2"
     },
     {
-      "question": "In a software development team, what is the role of a \u0027Scrum Master\u0027?",
+      "question": "In a software development team, what is the role of a Scrum Master ?",
       "answers": [
         "1. To write the most code",
         "2. To manage the project budget",
         "3. To facilitate Agile practices and remove impediments",
-        "4. To design the software\u0027s user interface"
+        "4. To design the software s user interface"
       ],
       "correct_ans": "3",
       "difficulty": "2"
     },
     {
-      "question": "What is \u0027continuous integration\u0027 in software development?",
+      "question": "What is continuous integration  in software development?",
       "answers": [
         "1. Keeping code integrated with customer needs",
         "2. Regularly merging code changes into a shared repository",
@@ -111,7 +111,7 @@
       "difficulty": "2"
     },
     {
-      "question": "Which of the following best describes \u0027pair programming\u0027?",
+      "question": "Which of the following best describes pair programming ?",
       "answers": [
         "1. Two programmers working on different parts of the same project",
         "2. Two programmers working together at one workstation",
@@ -122,7 +122,7 @@
       "difficulty": "1"
     },
     {
-      "question": "What is the main purpose of a \u0027code review\u0027?",
+      "question": "What is the main purpose of a code review ?",
       "answers": [
         "1. To evaluate the coding skills of the programmer",
         "2. To find and fix bugs and improve code quality",
@@ -133,7 +133,7 @@
       "difficulty": "1"
     },
     {
-      "question": "What is \u0027technical debt\u0027?",
+      "question": "What is technical debt ?",
       "answers": [
         "1. The cost of additional resources needed for a project",
         "2. The money paid to software developers",
@@ -224,7 +224,7 @@
       "question": "What are non-functional requirements in a software project?",
       "answers": [
         "1. Requirements that are not essential",
-        "2. Requirements related to the system\u0027s overall properties like security and performance",
+        "2. Requirements related to the system s overall properties like security and performance",
         "3. Requirements that are related to specific functionalities",
         "4. Requirements that change during the project lifecycle"
       ],
@@ -246,7 +246,7 @@
       "question": "Why are requirements in a software project often considered incomplete or inconsistent?",
       "answers": [
         "1. Because they are not important for the project",
-        "2. Because it\u0027s impossible to gather all user needs accurately",
+        "2. Because it s impossible to gather all user needs accurately",
         "3. Because they are always changing",
         "4. Because developers do not understand them correctly"
       ],
@@ -258,8 +258,8 @@
       "answers": [
         "1. To provide a final version of the software",
         "2. To understand user needs and test functionalities",
-        "3. To define the software\u0027s database structure",
-        "4. To decide on the software\u0027s coding standards"
+        "3. To define the software s database structure",
+        "4. To decide on the software s coding standards"
       ],
       "correct_ans": "2",
       "difficulty": "2"
@@ -287,11 +287,11 @@
       "difficulty": "1"
     },
     {
-      "question": "How are \u0027user requirements\u0027 and \u0027system requirements\u0027 different?",
+      "question": "How are user requirements  and system requirements  different?",
       "answers": [
         "1. User requirements are about the software interface, while system requirements are about the underlying architecture",
         "2. User requirements are defined by developers, while system requirements are defined by users",
-        "3. User requirements are general needs from the customer\u0027s perspective, while system requirements are detailed technical specifications",
+        "3. User requirements are general needs from the customer s perspective, while system requirements are detailed technical specifications",
         "4. There is no difference; they are the same"
       ],
       "correct_ans": "3",
@@ -303,7 +303,7 @@
         "1. Stakeholders not understanding their own needs",
         "2. Lack of technical tools for analysis",
         "3. Too many requirements to analyze",
-        "4. Developers\u0027 reluctance to follow requirements"
+        "4. Developers  reluctance to follow requirements"
       ],
       "correct_ans": "1",
       "difficulty": "2"
@@ -317,28 +317,6 @@
         "4. Because it completely eliminates the need for requirements"
       ],
       "correct_ans": "3",
-      "difficulty": "2"
-    },
-    {
-      "question": "a",
-      "answers": [
-        "1",
-        "1",
-        "1",
-        "1"
-      ],
-      "correct_ans": "0",
-      "difficulty": "1"
-    },
-    {
-      "question": "b",
-      "answers": [
-        "q",
-        "qq",
-        "q",
-        "q"
-      ],
-      "correct_ans": "2",
       "difficulty": "2"
     }
   ]
