@@ -56,7 +56,7 @@ public class SysData {
 		Gson gson = new Gson();
 		JsonReader reader = null;
 		try {
-			reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
+			reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +77,9 @@ public class SysData {
 			ArrayList<String> answers = gson.fromJson(answersArray, ArrayList.class);
 		
 			Integer correct = ((JsonObject) element).get("correct_ans").getAsInt();
+			System.out.println(correct);
 			Integer diffculty = ((JsonObject) element).get("diffculty").getAsInt();
+			System.out.println(diffculty);
              
 			 String[] answerArray = new String[answers.size()];
 		        answers.toArray(answerArray);
@@ -103,7 +105,7 @@ public class SysData {
 	}
 	public boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
-	    try (FileWriter file = new FileWriter("QuestionsAndAnswers.json")) {
+	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions question : questions) {
@@ -182,7 +184,7 @@ public class SysData {
 	        root.add("questions", questionsArray);
 
 	        // Write to file
-	        try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
+	        try (Writer w = new FileWriter("src/QuestionsAndAnswers.json")) {
 	        	Gson gson=new Gson();
 	            gson.toJson(root, w);
 	            System.out.println("Success");
