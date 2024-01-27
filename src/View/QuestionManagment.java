@@ -3,6 +3,7 @@ package View;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -33,6 +34,8 @@ public class QuestionManagment extends JFrame   {
     private TableRowSorter<DefaultTableModel> sorter;
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
+    boolean validInput = false;
+
 
     public QuestionManagment() {
         initialize();
@@ -137,20 +140,42 @@ public class QuestionManagment extends JFrame   {
 
         int result = JOptionPane.showConfirmDialog(null, fields, "Add New Question", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            // Extract user input
-            String questionText = questionField.getText();
-            String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
-            int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText())-1;  // Convert to 0-based index
-            int difficulty = Integer.parseInt(difficultyField.getText());
+        	try {
+                // Extract user input
+                String questionText = questionField.getText();
+                String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
+                int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText()) - 1;  // Convert to 0-based index
+                int difficulty = Integer.parseInt(difficultyField.getText());
 
-            // Create a new question object
-            Questions newQuestion = new Questions(questionText, answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
+                // Validate difficulty, correct answer, and answers format
+                if (isValidDifficulty(difficulty) && isValidCorrectAnswer(correctAnswerIndex) && isValidAnswersFormat(answers)) {
+                    // Create a new question object
+                    Questions newQuestion = new Questions(questionText, answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
 
-            // Add the new question to sysData
-            mangQuestionControl.addNewQuestion(newQuestion);
+                    // Add the new question to sysData
+                    mangQuestionControl.addNewQuestion(newQuestion);
 
-            // Update the table
-            tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
+                    // Update the table
+                    tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
+                    validInput = true; // Set flag to exit the loop
+                } else {
+                    StringBuilder errorMessage = new StringBuilder("Invalid input:\n");
+                    // Display specific error messages based on validation conditions
+                    if (!isValidDifficulty(difficulty)) {
+                        errorMessage.append("Please enter a difficulty value between 1 and 3.\n");
+                    } else if (!isValidCorrectAnswer(correctAnswerIndex)) {
+                        errorMessage.append("Please enter a correct answer value between 1 and 4.\n");
+                    } else if (!isValidAnswersFormat(answers)) {
+                        errorMessage.append("Please provide a non-empty string for each answer.\n");
+                    }
+                    JOptionPane.showMessageDialog(null, errorMessage.toString());
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid number format. Please enter valid numbers for Correct Answer and Difficulty.");
+            }
+        } else {
+            // Cancelled or closed the dialog
+            validInput = true; // Exit the loop without adding a question
         }
     }
     
@@ -264,4 +289,17 @@ public class QuestionManagment extends JFrame   {
             JOptionPane.showMessageDialog(null, "Please select a question to show.");
         }
     }
+
+	private boolean isValidDifficulty(int difficulty) {
+	    return difficulty >= 1 && difficulty <= 3;
+	}
+	
+	private boolean isValidCorrectAnswer(int correctAnswer) {
+	    return correctAnswer >= 0 && correctAnswer <= 3;
+	}
+	
+	private boolean isValidAnswersFormat(String[] answers) {
+	    // Add more specific validation logic if needed
+	    return answers.length == 4 && !Arrays.stream(answers).anyMatch(String::isEmpty);
+	}
 }

@@ -58,38 +58,33 @@ public class MangQuestionControl {
 	}
 	
 	
-	public void removeQuestionLocaly(Integer QuestionId) {
-		int i = -1;
-		int index = 0;
+	public void removeQuestionLocaly(Integer questionId) {
+	    int i = -1;
+	    int index = 0;
 
-		for (Questions q : this.getQuestions()) {
+	    for (Questions q : sysData.getQuestions()) {
+	        if (q.getid() == questionId) {
+	            i = index;
+	            break;
+	        }
+	        index++;
+	    }
 
-			if (q.getid() == QuestionId) {
+	    if (i == -1) {
+	        return; // Question not found
+	    }
 
-				i = index;
-				break;
-			}
+	    // Remove the question
+	    sysData.getQuestions().remove(i);
+	    // Update the IDs of remaining questions
+	    for (int c = i; c < sysData.getQuestions().size(); c++) {
+	        sysData.getQuestions().get(c).setId(questionId);
+	        questionId++;
+	    }
 
-			index++;
-		}
-
-		if (i == -1) {
-			return;
-		}
-		//update the id of all question -  because of the removing. 
-	
-		if (i != -1) {
-			this.questions.remove(i);
-			for (int c = i + 1; c < this.getQuestions().size(); c++) {
-				this.getQuestions().get(c).setId(QuestionId);
-				QuestionId++;
-
-			}
-		}
-		
-		sysData.writeQuestionsToJsonFile();
-		
+	    sysData.writeQuestionsToJsonFile();
 	}
+
 	
 	public void editQuestion(int questionId, Questions updatedQuestion) {
 	    // Get the list of questions
