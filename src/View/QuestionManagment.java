@@ -62,6 +62,26 @@ public class QuestionManagment extends JFrame   {
         searchField.setColumns(20);
         searchField.setBounds(10, 310, 200, 25);
         frame.getContentPane().add(searchField);
+        
+        JButton btnAdd = new JButton("Add Question");
+        btnAdd.setBounds(10, 270, 120, 30);
+        btnAdd.addActionListener(e -> showAddQuestionPopup());
+        frame.getContentPane().add(btnAdd);
+        
+        JButton btnEdit = new JButton("Edit Question");
+        btnEdit.setBounds(140, 270, 120, 30);
+        btnEdit.addActionListener(e -> editQuestion());
+        frame.getContentPane().add(btnEdit);
+
+        JButton btnDelete = new JButton("Delete Question");
+        btnDelete.setBounds(270, 270, 120, 30);
+        btnDelete.addActionListener(e -> deleteQuestion());
+        frame.getContentPane().add(btnDelete);
+
+        JButton btnShow = new JButton("Show Question");
+        btnShow.setBounds(400, 270, 120, 30);
+        btnShow.addActionListener(e -> showQuestion());
+        frame.getContentPane().add(btnShow);
 
         // Create a button for performing the search
         JButton searchButton = new JButton("Search");
@@ -83,28 +103,7 @@ public class QuestionManagment extends JFrame   {
 
     private void performSearch() {
         String query = searchField.getText().toLowerCase();
-        ((DefaultRowSorter<DefaultTableModel, Integer>) sorter).setRowFilter(RowFilter.regexFilter(query));
-    
-        
-        JButton btnAdd = new JButton("Add Question");
-        btnAdd.setBounds(10, 270, 120, 30);
-        btnAdd.addActionListener(e -> showAddQuestionPopup());
-        frame.getContentPane().add(btnAdd);
-        
-        JButton btnEdit = new JButton("Edit Question");
-        btnEdit.setBounds(140, 270, 120, 30);
-        btnEdit.addActionListener(e -> editQuestion());
-        frame.getContentPane().add(btnEdit);
-
-        JButton btnDelete = new JButton("Delete Question");
-        btnDelete.setBounds(270, 270, 120, 30);
-        btnDelete.addActionListener(e -> deleteQuestion());
-        frame.getContentPane().add(btnDelete);
-
-        JButton btnShow = new JButton("Show Question");
-        btnShow.setBounds(400, 270, 120, 30);
-        btnShow.addActionListener(e -> showQuestion());
-        frame.getContentPane().add(btnShow);
+        ((DefaultRowSorter<DefaultTableModel, Integer>) sorter).setRowFilter(RowFilter.regexFilter(query));    
     }
     
     private void populateTableWithData() {

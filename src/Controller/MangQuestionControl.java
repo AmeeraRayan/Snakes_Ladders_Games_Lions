@@ -174,9 +174,6 @@ public class MangQuestionControl {
         return storedPassword != null && storedPassword.equals(password);
     }
 
-    public void addAdmin(String email, String password) {
-        adminCredentials.put(email, password);
-    }
 	
 
 }
