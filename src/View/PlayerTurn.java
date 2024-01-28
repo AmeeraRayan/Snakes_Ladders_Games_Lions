@@ -16,14 +16,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
-
 import Controller.PreGameController;
 import Model.Color;
 import Model.Dice;
 import Model.Player;
-import Model.Color;
 import java.awt.Font;
-import java.awt.Font; // Make sure to import your Game class
 
 public class PlayerTurn extends JFrame {
 
@@ -34,6 +31,7 @@ public class PlayerTurn extends JFrame {
     private String difficultyLevel;
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private JLabel rollLabel;
     
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
@@ -76,11 +74,15 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setAlignmentX(0.2f);
         txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
         txtrPlayer.setBackground(new java.awt.Color(0, 255, 0)); // Green
+        rollLabel = new JLabel(players.get(currentPlayerIndex).getName()+" Roll the dice!");
+        rollLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        rollLabel.setBounds(350, 300, 400, 30);
+        contentPane.add(rollLabel);
+        displayRollLabel();
 
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	
-             
+            	rollLabel.setText("");
                 int rollResult = dice.rollForTurn();
                 String path = "/images/dice " + rollResult + ".jpg";
                 diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource(path)));
@@ -91,10 +93,7 @@ public class PlayerTurn extends JFrame {
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
-
-             
-                	
-                
+                                
                // JOptionPane.showMessageDialog(contentPane, currentPlayer.getName() + " rolled a " + rollResult);
                 currentPlayerIndex++;
               
@@ -102,16 +101,14 @@ public class PlayerTurn extends JFrame {
                     diceButton.setEnabled(false); // Disable the button after all players have rolled
                     PreGameController controller=new PreGameController(dice, playerRolls, players, difficultyLevel) ;
                     StringBuilder turnOrderMessage= controller.displayTurnOrder();
-                    
                     currentPlayerIndex = 0 ;
                     controller.startNewGame();
                     
                 } else {
-//                    JOptionPane.showMessageDialog(contentPane,
-//                            players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
-                           txtrPlayer.setText( "\n    Turn : "+players.get(currentPlayerIndex).getName());
+                    rollLabel.setText(players.get(currentPlayerIndex).getName()+" Roll the dice!");  
+                        txtrPlayer.setText( "\n    Turn : "+players.get(currentPlayerIndex).getName());
                            setPlayerBackgroundColor(color[currentPlayerIndex] , txtrPlayer);
-                         //  JOptionPane.showMessageDialog(contentPane,currentPlayerIndex );
+                           displayRollLabel();
                 }
             }
         });
@@ -148,18 +145,7 @@ public class PlayerTurn extends JFrame {
         contentPane.setVisible(true);
     }
         
-        private static void displayTimedMessage(JLabel label, String message, int duration) {
-            label.setText(message); // Set the initial message
-
-            // Create a Timer that will update the label after the specified duration
-            Timer timer = new Timer(duration, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Disable the label (or perform any other action)
-                    label.setEnabled(false);
-                }
-            });
-    }
+   
         private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {//display the names of the player and what he got by rolling
             StyledDocument doc = textPane.getStyledDocument();
             
@@ -178,7 +164,6 @@ public class PlayerTurn extends JFrame {
             }
         }
         private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {//change the jtext background - by the player color
-        	    System.out.println(color.toString());
                 switch (color.toString()) {
                 case "BLUE":
                     txtrPlayer.setBackground(new java.awt.Color(204, 255, 255)); // Blue
@@ -197,4 +182,10 @@ public class PlayerTurn extends JFrame {
                     txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
                     break;
                 } }
+        private void displayRollLabel() {
+            rollLabel.setVisible(true);
+        }
+        private void undisplayRollLabel() {
+            rollLabel.setVisible(false);
+        }
 }
