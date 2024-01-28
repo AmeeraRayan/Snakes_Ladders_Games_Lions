@@ -92,15 +92,14 @@ public class PlayerTurn extends JFrame {
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
-                                
-               // JOptionPane.showMessageDialog(contentPane, currentPlayer.getName() + " rolled a " + rollResult);
-                currentPlayerIndex++;
+                                                currentPlayerIndex++;
               
                 if (currentPlayerIndex >= players.size()) {
                     diceButton.setEnabled(false); // Disable the button after all players have rolled
                     PreGameController controller=new PreGameController(dice, playerRolls, players, difficultyLevel) ;
                     StringBuilder turnOrderMessage= controller.displayTurnOrder();
                     currentPlayerIndex = 0 ;
+                    ResultPage(players.size(),controller.players);
                     controller.startNewGame();
                     
                 } else {
@@ -154,7 +153,7 @@ public class PlayerTurn extends JFrame {
                 int rollResult = entry.getValue();
 
                 String message = player.getName() + " --- " + rollResult + "\n";
-                AttributeSet attributeSet = null;  // You can set specific styling here if needed
+                AttributeSet attributeSet = null; 
 
                 try {
                     doc.insertString(doc.getLength(), message, attributeSet);
@@ -185,7 +184,20 @@ public class PlayerTurn extends JFrame {
         private void displayRollLabel() {
             rollLabel.setVisible(true);
         }
-        private void undisplayRollLabel() {
-            rollLabel.setVisible(false);
+    
+        
+        private void ResultPage(int numPlayer,List<Player> playersSortedByOrder) {
+        	if(numPlayer == 2) {
+        		new BounusResults2(playersSortedByOrder).setVisible(true);
+                PlayerTurn.this.setVisible(false);
+        	}
+        	if(numPlayer == 3){
+        		new BounusResults3(playersSortedByOrder).setVisible(true);
+                PlayerTurn.this.setVisible(false);
+        	}
+        	if(numPlayer == 4) {
+        		new BounusResults4(playersSortedByOrder).setVisible(true);
+                PlayerTurn.this.setVisible(false);
+        	}
         }
 }

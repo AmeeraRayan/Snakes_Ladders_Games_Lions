@@ -15,7 +15,7 @@ import Model.Player;
 public class PreGameController {
 	  private Dice dice;
 	    private Map<Player, Integer> playerRolls;
-	    private List<Player> players;
+	    public List<Player> players;
 	    private String difficultyLevel;
 	 public PreGameController(Dice dice, Map<Player, Integer> playerRolls, List<Player> players,
 				String difficultyLevel) {
