@@ -58,7 +58,7 @@ public class PlayerTurn extends JFrame {
         JTextPane txtpnHi = new JTextPane();
         txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
-        txtpnHi.setBackground(new java.awt.Color(153, 255, 153));
+        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
         
         txtpnHi.setBounds(42, 203, 201, 198);
         contentPane.add(txtpnHi);
@@ -73,7 +73,7 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setTabSize(20);
         txtrPlayer.setAlignmentX(0.2f);
         txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
-        txtrPlayer.setBackground(new java.awt.Color(0, 255, 0)); // Green
+        txtrPlayer.setBackground(new java.awt.Color(120, 180, 20)); // Green
         rollLabel = new JLabel(players.get(currentPlayerIndex).getName()+" Roll the dice!");
         rollLabel.setFont(new Font("Arial", Font.BOLD, 20));
         rollLabel.setBounds(350, 300, 400, 30);
@@ -166,7 +166,7 @@ public class PlayerTurn extends JFrame {
         private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {//change the jtext background - by the player color
                 switch (color.toString()) {
                 case "BLUE":
-                    txtrPlayer.setBackground(new java.awt.Color(204, 255, 255)); // Blue
+                    txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
                     break;
                 case "GREEN": 
                     txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
