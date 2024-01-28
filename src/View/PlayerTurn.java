@@ -81,38 +81,63 @@ public class PlayerTurn extends JFrame {
 
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	rollLabel.setText("");
+                // Perform the dice roll for the current player
+                rollLabel.setText("");
                 int rollResult = dice.rollForTurn();
                 String path = "/images/dice " + rollResult + ".jpg";
                 diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource(path)));
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
+
                 JLabel message = new JLabel();
                 contentPane.add(message);
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
-                                                currentPlayerIndex++;
-              
+                currentPlayerIndex++;
+
+                // Check if all players have rolled
                 if (currentPlayerIndex >= players.size()) {
-                    diceButton.setEnabled(false); // Disable the button after all players have rolled
-                    PreGameController controller=new PreGameController(dice, playerRolls, players, difficultyLevel) ;
-                    StringBuilder turnOrderMessage= controller.displayTurnOrder();
-                    currentPlayerIndex = 0 ;
-                    ResultPage(players.size(),controller.players);
-                    controller.startNewGame();
-                    
+                    // Initialize the controller and check for ties
+                    PreGameController controller = new PreGameController(dice, playerRolls, players, difficultyLevel);
+                    if (controller.checkForTies()) {
+                        // Get the list of tied players and re-roll for them
+                        List<Player> tiedPlayers = controller.getTiedPlayers();
+                        controller.reRollForTiedPlayers(tiedPlayers);
+
+                        // Reset currentPlayerIndex and update UI for re-rolls
+                        currentPlayerIndex = 0;
+                        Player firstTiedPlayer = tiedPlayers.get(currentPlayerIndex);
+                        txtrPlayer.setText("\n    Turn : " + firstTiedPlayer.getName());
+                        setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
+
+
+                        // Clear or update roll results display area
+                        txtpnHi.setText("Tie detected! Players re-rolling:\n");
+
+                        // Enable the dice button for re-rolls
+                        diceButton.setEnabled(true);
+
+                        // Update roll label for the first tied player
+                        rollLabel.setText(firstTiedPlayer.getName() + " Roll the dice!");
+                        displayRollLabel();
+                    } else {
+                        // Handle the continuation of the game in case of no ties
+                        StringBuilder turnOrderMessage = controller.displayTurnOrder();
+                        currentPlayerIndex = 0;
+                        ResultPage(players.size(), controller.players);
+                        controller.startNewGame();
+                    }
                 } else {
-                    rollLabel.setText(players.get(currentPlayerIndex).getName()+" Roll the dice!");  
-                        txtrPlayer.setText( "\n    Turn : "+players.get(currentPlayerIndex).getName());
-                           setPlayerBackgroundColor(color[currentPlayerIndex] , txtrPlayer);
-                           displayRollLabel();
+                    // Set up the game for the next player's turn
+                    rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
+                    txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
+                    setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
+                    displayRollLabel();
                 }
             }
         });
-        
-       
-        
+
       
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);

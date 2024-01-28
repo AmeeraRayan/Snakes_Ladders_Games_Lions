@@ -1,10 +1,14 @@
 package Controller;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +31,46 @@ public class PreGameController {
 		}
 	 
 
+	public Dice getDice() {
+		return dice;
+	}
+
+
+	public void setDice(Dice dice) {
+		this.dice = dice;
+	}
+
+
+	public Map<Player, Integer> getPlayerRolls() {
+		return playerRolls;
+	}
+
+
+	public void setPlayerRolls(Map<Player, Integer> playerRolls) {
+		this.playerRolls = playerRolls;
+	}
+
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
+
+	public String getDifficultyLevel() {
+		return difficultyLevel;
+	}
+
+
+	public void setDifficultyLevel(String difficultyLevel) {
+		this.difficultyLevel = difficultyLevel;
+	}
+
+
 	public StringBuilder displayTurnOrder() {
 	        players.sort(Comparator.comparing(playerRolls::get).reversed());
 
@@ -41,6 +85,35 @@ public class PreGameController {
 	        Queue<Player> sortedPlayers = new ArrayDeque<>(players);
 	      /*  Game newGame = new Game(difficultyLevel, sortedPlayers, dice);*/
 	        // newGame.startGame(); // You'll need to implement this method in your Game class
+	    }
+	 // Method to check for ties in player rolls
+	    public boolean checkForTies() {
+	        Set<Integer> uniqueRolls = new HashSet<>(playerRolls.values());
+	        return uniqueRolls.size() < playerRolls.size(); // If there are fewer unique rolls than players, there's a tie
+	    }
+
+	    // Method to get the list of players who have tied
+	    public List<Player> getTiedPlayers() {
+	        Map<Integer, List<Player>> rollToPlayers = new HashMap<>();
+	        for (Map.Entry<Player, Integer> entry : playerRolls.entrySet()) {
+	            rollToPlayers.computeIfAbsent(entry.getValue(), k -> new ArrayList<>()).add(entry.getKey());
+	        }
+
+	        List<Player> tiedPlayers = new ArrayList<>();
+	        for (List<Player> playerList : rollToPlayers.values()) {
+	            if (playerList.size() > 1) {
+	                tiedPlayers.addAll(playerList);
+	            }
+	        }
+	        return tiedPlayers;
+	    }
+
+	    // Method to handle re-rolls for tied players
+	    public void reRollForTiedPlayers(List<Player> tiedPlayers) {
+	        for (Player player : tiedPlayers) {
+	            int newRoll = dice.rollForTurn();
+	            playerRolls.put(player, newRoll);
+	        }
 	    }
 
 }
