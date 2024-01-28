@@ -143,6 +143,10 @@ public class PlayerTurn extends JFrame {
         lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus .png")));
         lblNewLabel.setBounds(-345, -10, 1340, 620);
         contentPane.add(lblNewLabel);
+        
+        JLabel lblNewLabel_2 = new JLabel("New label");
+        lblNewLabel_2.setBounds(131, 127, 45, 13);
+        contentPane.add(lblNewLabel_2);
         contentPane.setVisible(true);
     }
         
@@ -158,5 +162,4 @@ public class PlayerTurn extends JFrame {
                 }
             });
     }
-  
 }
