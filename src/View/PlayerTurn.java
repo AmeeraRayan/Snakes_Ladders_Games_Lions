@@ -169,7 +169,7 @@ public class PlayerTurn extends JFrame {
                     txtrPlayer.setBackground(new java.awt.Color(204, 255, 255)); // Blue
                     break;
                 case "GREEN": 
-                    txtrPlayer.setBackground(new java.awt.Color(0, 204, 102)); // Green
+                    txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
                     break;
                 case "RED":
                     txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
