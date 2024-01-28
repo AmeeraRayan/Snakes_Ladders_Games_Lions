@@ -72,7 +72,7 @@ public class QuestionManagment extends JFrame   {
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
-        btnEdit.setBounds(197, 354, 137, 30);
+        btnEdit.setBounds(172, 354, 137, 30);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
 

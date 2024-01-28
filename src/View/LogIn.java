@@ -32,36 +32,36 @@ public class LogIn extends JFrame implements ActionListener{
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 570, 380);
+        frame.setBounds(100, 100, 805, 405);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         txtuser = new JTextField();
-        txtuser.setBounds(283, 71, 79, 19);
+        txtuser.setBounds(366, 71, 79, 19);
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
 
         btnNewButton = new JButton("Submit");
         btnNewButton.addActionListener(this);
      
-        btnNewButton.setBounds(238, 194, 89, 23);
+        btnNewButton.setBounds(340, 196, 89, 23);
         frame.getContentPane().add(btnNewButton);
 
         JLabel lblNewLabel = new JLabel("ID");
-        lblNewLabel.setBounds(217, 73, 29, 17);
+        lblNewLabel.setBounds(298, 73, 29, 17);
         frame.getContentPane().add(lblNewLabel);
 
         JLabel lblNewLabel_1 = new JLabel("Password");
-        lblNewLabel_1.setBounds(197, 124, 63, 19);
+        lblNewLabel_1.setBounds(264, 124, 63, 19);
         frame.getContentPane().add(lblNewLabel_1);
 
         JLabel lblNewLabel_2 = new JLabel("Login for Admin");
         lblNewLabel_2.setForeground(Color.BLACK);
-        lblNewLabel_2.setBounds(217, 28, 200, 21);
+        lblNewLabel_2.setBounds(324, 25, 200, 21);
         frame.getContentPane().add(lblNewLabel_2);
         
         passwordField = new JPasswordField();
-        passwordField.setBounds(283, 123, 79, 20);
+        passwordField.setBounds(366, 123, 79, 20);
         frame.getContentPane().add(passwordField);
     }
     
