@@ -98,9 +98,9 @@ public class PlayersNicknames4 extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		String[] Playersname = new String[numberOfPlayers];
         		Playersname[0]=textField1.getText().trim();
-        		Playersname[1]=textField3.getText().trim();
-        		Playersname[2]=textField4.getText().trim();
-        		Playersname[3]=textField2.getText().trim();
+        		Playersname[1]=textField2.getText().trim();
+        		Playersname[2]=textField3.getText().trim();
+        		Playersname[3]=textField4.getText().trim();
         		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])&& isValidString(Playersname[3])) {
                 Color[] color = new Color[numberOfPlayers];
                 color[0] = Color.GREEN;

@@ -1,8 +1,10 @@
 package View;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import java.awt.SystemColor;
+import java.awt.TextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
@@ -10,6 +12,10 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
 
 import Controller.PreGameController;
 import Model.Color;
@@ -51,22 +57,26 @@ public class PlayerTurn extends JFrame {
         JButton diceButton = new JButton("");
         diceButton.setHorizontalAlignment(SwingConstants.LEADING);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-        
-        JLabel lblNewLabel_1 = new JLabel("Message");
-        lblNewLabel_1.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 40));
-        lblNewLabel_1.setBounds(327, 190, 344, 77);
-        contentPane.add(lblNewLabel_1);
-        
         JTextPane txtpnHi = new JTextPane();
+        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 20));
+        txtpnHi.setForeground(new java.awt.Color(255, 255, 240));
+        txtpnHi.setBackground(new java.awt.Color(153, 204, 153));
         
-        txtpnHi.setBounds(46, 190, 205, 237);
+        txtpnHi.setBounds(42, 203, 201, 198);
         contentPane.add(txtpnHi);
         JTextArea txtrPlayer = new JTextArea();
-        txtrPlayer.setBounds(46, 25, 249, 67);
+        txtrPlayer.setForeground(new java.awt.Color(255, 255, 255));
+        
+        txtrPlayer.setBackground(new java.awt.Color(245, 255, 250));
+        txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
         txtrPlayer.setText(players.get(currentPlayerIndex).getName());
-        txtrPlayer.setFont(new Font("Monospaced", Font.BOLD, 40));
+        txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
         txtrPlayer.setTabSize(20);
+        txtrPlayer.setAlignmentX(0.2f);
+        txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
+        txtrPlayer.setBackground(new java.awt.Color(0, 255, 0)); // Green
+
         JOptionPane.showMessageDialog(contentPane,currentPlayerIndex);
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -80,9 +90,12 @@ public class PlayerTurn extends JFrame {
                 JLabel message = new JLabel();
                 displayTimedMessage(message,players.get(currentPlayerIndex).getName(), 3000);
                 contentPane.add(message);
+                txtpnHi.setText("");
+                displayRollsInTextPane(txtpnHi, playerRolls);
+                txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
 
              
-                	txtpnHi.setText(namesOfPlayers.toString());
+                	
                 
                // JOptionPane.showMessageDialog(contentPane, currentPlayer.getName() + " rolled a " + rollResult);
                 currentPlayerIndex++;
@@ -99,6 +112,7 @@ public class PlayerTurn extends JFrame {
 //                    JOptionPane.showMessageDialog(contentPane,
 //                            players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
                            txtrPlayer.setText(players.get(currentPlayerIndex).getName());
+                           setPlayerBackgroundColor(color[currentPlayerIndex] , txtrPlayer);
                          //  JOptionPane.showMessageDialog(contentPane,currentPlayerIndex );
                 }
             }
@@ -109,11 +123,12 @@ public class PlayerTurn extends JFrame {
       
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);
-        diceButton.setBounds(700, 250, 120, 100);
+        diceButton.setBounds(761, 292, 120, 100);
         contentPane.add(diceButton);
         
         JButton btnNewButton = new JButton("Back");
-        btnNewButton.setBounds(46, 527, 130, 43);
+        btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+        btnNewButton.setBounds(42, 519, 120, 36);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             PlayerTurn.this.setVisible(false);
@@ -122,24 +137,11 @@ public class PlayerTurn extends JFrame {
         });
         
         contentPane.add(btnNewButton);
-        JLabel lblWhatIsMy = new JLabel("So what is my turn?");
-        lblWhatIsMy.setHorizontalAlignment(SwingConstants.CENTER);
-        lblWhatIsMy.setFont(new Font("Monotype Corsiva", Font.ITALIC, 32));
-        lblWhatIsMy.setForeground(new java.awt.Color(255, 255, 255));
-        lblWhatIsMy.setBounds(200, 29, 400, 40);
-        contentPane.add(lblWhatIsMy);
-        
-        JLabel lblNewLabel_11 = new JLabel("Roll me!!");
-        lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_11.setForeground(new java.awt.Color(51, 0, 0));
-        lblNewLabel_11.setFont(new Font("Tw Cen MT Condensed", Font.BOLD | Font.ITALIC, 20));
-        lblNewLabel_11.setBounds(720, 210, 100, 30);
-        contentPane.add(lblNewLabel_11);
         
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/Bounus .png")));
-        lblNewLabel.setBounds(-345, -10, 1340, 620);
+        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BounusGame.png")));
+        lblNewLabel.setBounds(-277, -11, 1340, 709);
         contentPane.add(lblNewLabel);
         
         JLabel lblNewLabel_2 = new JLabel("New label");
@@ -160,4 +162,41 @@ public class PlayerTurn extends JFrame {
                 }
             });
     }
+        private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
+            StyledDocument doc = textPane.getStyledDocument();
+            
+            for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
+                Player player = entry.getKey();
+                int rollResult = entry.getValue();
+
+                String message = player.getName() + " --- " + rollResult + "\n";
+                AttributeSet attributeSet = null;  // You can set specific styling here if needed
+
+                try {
+                    doc.insertString(doc.getLength(), message, attributeSet);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {
+        	    System.out.println(color.toString());
+                switch (color.toString()) {
+                case "BLUE":
+                    txtrPlayer.setBackground(new java.awt.Color(51, 153, 255)); // Blue
+                    break;
+                case "GREEN": 
+                    txtrPlayer.setBackground(new java.awt.Color(102, 255, 102)); // Green
+                    break;
+                case "RED":
+                    txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+                    break;
+                case "YELLOW":
+                    txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+                    break;
+                default:
+                    // Default color for other players
+                    txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
+                    break;
+                } }
 }

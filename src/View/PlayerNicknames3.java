@@ -131,10 +131,10 @@ public class PlayerNicknames3 extends JFrame {
 		lblNewLabel.setBounds(-24, 0, 1050, 581);
 		contentPane.add(lblNewLabel);
 	}
-	private boolean isValidString(String str) {
+	private boolean isValidString(String str) {// the checks if the name is valid - not null or empty value
         return str != null && !str.isEmpty();
     }
-	 private void showMessage(String message) {
+	 private void showMessage(String message) {//show message if the name is unvalid
 	        JOptionPane.showMessageDialog(PlayerNicknames3.this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
 	    }
 
