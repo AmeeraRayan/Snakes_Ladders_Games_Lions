@@ -8,6 +8,8 @@ import Model.Player;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Font;
 
 public class PlayersNicknames4 extends JFrame {
@@ -96,9 +98,9 @@ public class PlayersNicknames4 extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		String[] Playersname = new String[numberOfPlayers];
         		Playersname[0]=textField1.getText().trim();
-        		Playersname[1]=textField3.getText().trim();
-        		Playersname[2]=textField4.getText().trim();
-        		Playersname[3]=textField2.getText().trim();
+        		Playersname[1]=textField2.getText().trim();
+        		Playersname[2]=textField3.getText().trim();
+        		Playersname[3]=textField4.getText().trim();
         		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])&& isValidString(Playersname[3])) {
                 Color[] color = new Color[numberOfPlayers];
                 color[0] = Color.GREEN;
@@ -114,6 +116,37 @@ public class PlayersNicknames4 extends JFrame {
                 return;
         	}}
         });
+        textField1.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }
+		    }
+		});
+
+		textField2.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
+		textField3.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
+		textField4.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		    	if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+		            e.consume();  // ignore the event if it's not a letter or a control character
+		        }}
+		});
+		
         
         }
 	private boolean isValidString(String str) { // the checks if the name is valid - not null or empty value

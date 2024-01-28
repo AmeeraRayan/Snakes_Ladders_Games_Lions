@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Model.Dice;
-import Model.Game;
 import Model.Player;
 
 public class PreGameController {
@@ -40,7 +39,7 @@ public class PreGameController {
 
 	    public void startNewGame() {
 	        Queue<Player> sortedPlayers = new ArrayDeque<>(players);
-	        Game newGame = new Game(difficultyLevel, sortedPlayers, dice);
+	      /*  Game newGame = new Game(difficultyLevel, sortedPlayers, dice);*/
 	        // newGame.startGame(); // You'll need to implement this method in your Game class
 	    }
 
