@@ -77,7 +77,6 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
         txtrPlayer.setBackground(new java.awt.Color(0, 255, 0)); // Green
 
-        JOptionPane.showMessageDialog(contentPane,currentPlayerIndex);
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	
@@ -88,7 +87,6 @@ public class PlayerTurn extends JFrame {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
                 JLabel message = new JLabel();
-                displayTimedMessage(message,players.get(currentPlayerIndex).getName(), 3000);
                 contentPane.add(message);
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
@@ -162,7 +160,7 @@ public class PlayerTurn extends JFrame {
                 }
             });
     }
-        private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
+        private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {//display the names of the player and what he got by rolling
             StyledDocument doc = textPane.getStyledDocument();
             
             for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
@@ -179,7 +177,7 @@ public class PlayerTurn extends JFrame {
                 }
             }
         }
-        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {
+        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {//change the jtext background - by the player color
         	    System.out.println(color.toString());
                 switch (color.toString()) {
                 case "BLUE":
