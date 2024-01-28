@@ -95,10 +95,11 @@ public class PlayersNicknames4 extends JFrame {
         Next.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		String[] Playersname = new String[numberOfPlayers];
-        		Playersname[0]=textField1.getText();
-        		Playersname[1]=textField3.getText();
-        		Playersname[2]=textField4.getText();
-        		Playersname[3]=textField2.getText();
+        		Playersname[0]=textField1.getText().trim();
+        		Playersname[1]=textField3.getText().trim();
+        		Playersname[2]=textField4.getText().trim();
+        		Playersname[3]=textField2.getText().trim();
+        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])&& isValidString(Playersname[3])) {
                 Color[] color = new Color[numberOfPlayers];
                 color[0] = Color.GREEN;
                 color[1] = Color.BLUE;
@@ -108,7 +109,18 @@ public class PlayersNicknames4 extends JFrame {
                 PlayersNicknames4.this.setVisible(false);
 				new PlayerTurn(numberOfPlayers ,difficultyLevel , Playersname , color).setVisible(true);
         		
-        	}
+        	}else {
+        		showMessage("Please enter a valid name in Player 2");
+                return;
+        	}}
         });
+        
         }
+	private boolean isValidString(String str) { // the checks if the name is valid - not null or empty value
+        return str != null && !str.isEmpty();
+    }
+	 private void showMessage(String message) { //show message if the name is unvalid
+	        JOptionPane.showMessageDialog(PlayersNicknames4.this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
+	    }
+
 }
