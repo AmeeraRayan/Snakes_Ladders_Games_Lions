@@ -167,7 +167,7 @@ public class PlayerTurn extends JFrame {
                 Player player = entry.getKey();
                 int rollResult = entry.getValue();
 
-                String message = "\n"+player.getName() + " --- " + rollResult + "\n";
+                String message = player.getName() + " --- " + rollResult + "\n";
                 AttributeSet attributeSet = null;  // You can set specific styling here if needed
 
                 try {
