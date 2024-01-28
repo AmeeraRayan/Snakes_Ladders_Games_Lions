@@ -58,19 +58,19 @@ public class PlayerTurn extends JFrame {
         diceButton.setHorizontalAlignment(SwingConstants.LEADING);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
         JTextPane txtpnHi = new JTextPane();
-        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 20));
-        txtpnHi.setForeground(new java.awt.Color(255, 255, 240));
-        txtpnHi.setBackground(new java.awt.Color(153, 204, 153));
+        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+        txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
+        txtpnHi.setBackground(new java.awt.Color(153, 255, 153));
         
         txtpnHi.setBounds(42, 203, 201, 198);
         contentPane.add(txtpnHi);
         JTextArea txtrPlayer = new JTextArea();
-        txtrPlayer.setForeground(new java.awt.Color(255, 255, 255));
+        txtrPlayer.setForeground(new java.awt.Color(0, 0, 0));
         
-        txtrPlayer.setBackground(new java.awt.Color(245, 255, 250));
+        txtrPlayer.setBackground(new java.awt.Color(102, 255, 153));
         txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
-        txtrPlayer.setText(players.get(currentPlayerIndex).getName());
+        txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
         txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
         txtrPlayer.setTabSize(20);
         txtrPlayer.setAlignmentX(0.2f);
@@ -109,7 +109,7 @@ public class PlayerTurn extends JFrame {
                 } else {
 //                    JOptionPane.showMessageDialog(contentPane,
 //                            players.get(currentPlayerIndex).getName() + "'s turn to roll the dice");
-                           txtrPlayer.setText(players.get(currentPlayerIndex).getName());
+                           txtrPlayer.setText( "\n    Turn : "+players.get(currentPlayerIndex).getName());
                            setPlayerBackgroundColor(color[currentPlayerIndex] , txtrPlayer);
                          //  JOptionPane.showMessageDialog(contentPane,currentPlayerIndex );
                 }
@@ -167,7 +167,7 @@ public class PlayerTurn extends JFrame {
                 Player player = entry.getKey();
                 int rollResult = entry.getValue();
 
-                String message = player.getName() + " --- " + rollResult + "\n";
+                String message = "\n"+player.getName() + " --- " + rollResult + "\n";
                 AttributeSet attributeSet = null;  // You can set specific styling here if needed
 
                 try {
@@ -181,10 +181,10 @@ public class PlayerTurn extends JFrame {
         	    System.out.println(color.toString());
                 switch (color.toString()) {
                 case "BLUE":
-                    txtrPlayer.setBackground(new java.awt.Color(51, 153, 255)); // Blue
+                    txtrPlayer.setBackground(new java.awt.Color(204, 255, 255)); // Blue
                     break;
                 case "GREEN": 
-                    txtrPlayer.setBackground(new java.awt.Color(102, 255, 102)); // Green
+                    txtrPlayer.setBackground(new java.awt.Color(0, 204, 102)); // Green
                     break;
                 case "RED":
                     txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
