@@ -108,10 +108,6 @@ public class DataReception extends JFrame {
             }
         });
 
-        // Add action listeners to player buttons
-        player2Button.addActionListener(new PlayerButtonListener(2));
-        player3Button.addActionListener(new PlayerButtonListener(3));
-        player4Button.addActionListener(new PlayerButtonListener(4));
         panel.add(player2Button);
         panel.add(player3Button);
         panel.add(player4Button);
