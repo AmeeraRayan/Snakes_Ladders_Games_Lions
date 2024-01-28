@@ -64,8 +64,7 @@ public class PlayerTurn extends JFrame {
         contentPane.add(txtpnHi);
         JTextArea txtrPlayer = new JTextArea();
         txtrPlayer.setForeground(new java.awt.Color(0, 0, 0));
-        
-        txtrPlayer.setBackground(new java.awt.Color(102, 255, 153));
+        txtrPlayer.setBackground(new java.awt.Color(0, 100, 0));
         txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
         txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
@@ -135,6 +134,7 @@ public class PlayerTurn extends JFrame {
         
         
         JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setBackground(new java.awt.Color(0, 100, 0));
         lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BounusGame.png")));
         lblNewLabel.setBounds(-277, -11, 1340, 709);
         contentPane.add(lblNewLabel);
