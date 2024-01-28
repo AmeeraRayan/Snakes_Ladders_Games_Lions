@@ -183,6 +183,7 @@ public class QuestionManagment extends JFrame   {
 
         if (selectedRow != -1) {
             // Get the selected question
+        	sysData.LoadQuestions();
             Questions selectedQuestion = SysData.getInstance().getQuestions().get(selectedRow);
 
             // Display a dialog for editing
