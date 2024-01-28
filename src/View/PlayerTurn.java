@@ -13,8 +13,6 @@ import Controller.PreGameController;
 import Model.Color;
 import Model.Dice;
 import Model.Player;
-import Model.Game; // Make sure to import your Game class
-import Model.Color;
 import java.awt.Font;
 
 public class PlayerTurn extends JFrame {

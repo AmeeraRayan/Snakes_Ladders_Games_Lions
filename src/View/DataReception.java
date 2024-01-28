@@ -80,9 +80,6 @@ public class DataReception extends JFrame {
             }
         });
 
-        // ImageIcon player2Icon = new ImageIcon("src/images/1playerIcon.png");
-        // ImageIcon player3Icon = new ImageIcon("src/images/2playerIcon.png");
-        // ImageIcon player4Icon = new ImageIcon("src/images/3playerIcon.png");
         player2Button = new JButton("2 players");
         player2Button.setBounds(109, 309, 96, 21);
         player2Button.addActionListener(new ActionListener() {
