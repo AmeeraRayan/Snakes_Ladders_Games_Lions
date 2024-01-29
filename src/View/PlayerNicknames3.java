@@ -111,7 +111,7 @@ public class PlayerNicknames3 extends JFrame {
         		Playersname[0]=textField1.getText().trim();
         		Playersname[1]=textField2.getText().trim();
         		Playersname[2]=textField3.getText().trim();
-        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])) {
+        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) && isValidString(Playersname[2])&& !(Playersname[0].equals(Playersname[1]))&&!(Playersname[0].equals(Playersname[2]))&&!(Playersname[2].equals(Playersname[1])))  {
         		 Color[] color = new Color[numberOfPlayers];
                  color[0] = Color.GREEN;
                  color[1] = Color.BLUE;

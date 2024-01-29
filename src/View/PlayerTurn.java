@@ -32,7 +32,7 @@ public class PlayerTurn extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel rollLabel;
-//aaa
+
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
@@ -78,7 +78,9 @@ public class PlayerTurn extends JFrame {
         contentPane.add(rollLabel);
         displayRollLabel();
 
+     // Inside your PlayerTurn constructor or initialization method
         diceButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent arg0) {
                 // Perform the dice roll for the current player
                 rollLabel.setText("");
@@ -88,8 +90,7 @@ public class PlayerTurn extends JFrame {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
 
-                JLabel message = new JLabel();
-                contentPane.add(message);
+                // Update the text pane with roll results
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
@@ -97,47 +98,22 @@ public class PlayerTurn extends JFrame {
 
                 // Check if all players have rolled
                 if (currentPlayerIndex >= players.size()) {
-                    // Initialize the controller and check for ties
                     PreGameController controller = new PreGameController(dice, playerRolls, players, difficultyLevel);
-                    if (controller.checkForTies()) {
-                        // Get the list of tied players and re-roll for them
-                        List<Player> tiedPlayers = controller.getTiedPlayers();
-                        controller.reRollForTiedPlayers(tiedPlayers);
 
-                        // Reset currentPlayerIndex and update UI for re-rolls
-                        currentPlayerIndex = 0;
-                        Player firstTiedPlayer = tiedPlayers.get(currentPlayerIndex);
-                        txtrPlayer.setText("\n    Turn : " + firstTiedPlayer.getName());
-                        setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
+                    // Sort all players based on dice roll results, and in case of a tie, by nicknames
+                    controller.sortPlayers();
 
-
-                        // Clear or update roll results display area
-                        txtpnHi.setText("Tie detected! Players re-rolling:\n");
-
-                        // Enable the dice button for re-rolls
-                        diceButton.setEnabled(true);
-
-                        // Update roll label for the first tied player
-                        rollLabel.setText(firstTiedPlayer.getName() + " Roll the dice!");
-                        displayRollLabel();
-                    } else {
-                        // Handle the continuation of the game in case of no ties
-                        StringBuilder turnOrderMessage = controller.displayTurnOrder();
-                        currentPlayerIndex = 0;
-                        ResultPage(players.size(), controller.players);
-                        controller.startNewGame();
-                    }
+                    currentPlayerIndex = 0;
+                    ResultPage(players.size(), players);
+                    // Add any logic here for continuing the game after sorting
                 } else {
-                    // Set up the game for the next player's turn
-                    rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
+                	rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
                     txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
                     setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
                     displayRollLabel();
                 }
             }
         });
-
-      
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);
         diceButton.setBounds(761, 292, 120, 100);
@@ -210,25 +186,26 @@ public class PlayerTurn extends JFrame {
         }
     
         
-        private void ResultPage(int numPlayer,List<Player> playersSortedByOrder) {
-            Timer timer = new Timer(5000, new ActionListener() { // wait 5 secod before navigate to a result page 
-            	 public void actionPerformed(ActionEvent e) {
-        	if(numPlayer == 2) {
-        		new BounusResults2(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}
-        	if(numPlayer == 3){
-        		new BounusResults3(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}
-        	if(numPlayer == 4) {
-        		new BounusResults4(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}        }
-        });
+        private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
+            Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
+                public void actionPerformed(ActionEvent e) {
+                    if (numPlayer == 2) {
+                        new BounusResults2(playersSortedByOrder).setVisible(true);
+                    } else if (numPlayer == 3) {
+                        new BounusResults3(playersSortedByOrder).setVisible(true);
+                    } else if (numPlayer == 4) {
+                        new BounusResults4(playersSortedByOrder).setVisible(true);
+                    } else {
+                        // Handle other cases or show an error message
+                    }
 
-        timer.setRepeats(false); // 
-        timer.start();
+                    PlayerTurn.this.setVisible(false); // Moved outside to ensure it executes in all cases
+                }
+            });
+
+            timer.setRepeats(false);
+            timer.start();///BJDGAS
         }
+
      
 }

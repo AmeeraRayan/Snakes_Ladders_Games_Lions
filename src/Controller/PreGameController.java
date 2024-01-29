@@ -21,6 +21,7 @@ public class PreGameController {
 	    private Map<Player, Integer> playerRolls;
 	    public List<Player> players;
 	    private String difficultyLevel;
+	    
 	 public PreGameController(Dice dice, Map<Player, Integer> playerRolls, List<Player> players,
 				String difficultyLevel) {
 			super();
@@ -84,7 +85,7 @@ public class PreGameController {
 	    public void startNewGame() {
 	        Queue<Player> sortedPlayers = new ArrayDeque<>(players);
 	      /*  Game newGame = new Game(difficultyLevel, sortedPlayers, dice);*/
-	        // newGame.startGame(); // You'll need to implement this method in your Game class
+	        // newGame.startGame(); 
 	    }
 	 // Method to check for ties in player rolls
 	    public boolean checkForTies() {
@@ -107,13 +108,9 @@ public class PreGameController {
 	        }
 	        return tiedPlayers;
 	    }
-
-	    // Method to handle re-rolls for tied players
-	    public void reRollForTiedPlayers(List<Player> tiedPlayers) {
-	        for (Player player : tiedPlayers) {
-	            int newRoll = dice.rollForTurn();
-	            playerRolls.put(player, newRoll);
-	        }
+	    public void sortPlayers() {
+	        players.sort(Comparator.comparing((Player p) -> playerRolls.get(p)).reversed()
+	                               .thenComparing(Player::getName));
 	    }
-
+	  
 }
