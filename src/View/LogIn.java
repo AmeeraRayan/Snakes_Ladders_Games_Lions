@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -16,6 +19,8 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JPasswordField;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class LogIn extends JFrame implements ActionListener{
 
@@ -32,37 +37,37 @@ public class LogIn extends JFrame implements ActionListener{
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 805, 405);
+        frame.setBounds(100, 100, 902, 564);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         txtuser = new JTextField();
-        txtuser.setBounds(366, 71, 79, 19);
+        txtuser.setBackground(new Color(255, 255, 255));
+        txtuser.setBounds(234, 203, 142, 23);
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
 
-        btnNewButton = new JButton("Submit");
+        btnNewButton = new JButton("");
+        btnNewButton.setSelectedIcon(null);
+        btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/images/5374040.png")));
+        btnNewButton.setFont(new Font("David", Font.BOLD, 20));
+        btnNewButton.setBackground(new Color(250, 255, 127));
         btnNewButton.addActionListener(this);
-     
-        btnNewButton.setBounds(340, 196, 89, 23);
+        btnNewButton.setBounds(671, 394, 181, 49);
         frame.getContentPane().add(btnNewButton);
-
-        JLabel lblNewLabel = new JLabel("ID");
-        lblNewLabel.setBounds(298, 73, 29, 17);
-        frame.getContentPane().add(lblNewLabel);
-
-        JLabel lblNewLabel_1 = new JLabel("Password");
-        lblNewLabel_1.setBounds(264, 124, 63, 19);
-        frame.getContentPane().add(lblNewLabel_1);
-
-        JLabel lblNewLabel_2 = new JLabel("Login for Admin");
-        lblNewLabel_2.setForeground(Color.BLACK);
-        lblNewLabel_2.setBounds(324, 25, 200, 21);
-        frame.getContentPane().add(lblNewLabel_2);
         
         passwordField = new JPasswordField();
-        passwordField.setBounds(366, 123, 79, 20);
+        passwordField.setBackground(new Color(255, 255, 255));
+        passwordField.setBounds(234, 283, 142, 23);
         frame.getContentPane().add(passwordField);
+        
+        JLabel lblNewLabel_3 = new JLabel(" ");
+        lblNewLabel_3.setBackground(new Color(255, 140, 0));
+        lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/images/Screenshot 2024-01-29 140544.png")));
+        lblNewLabel_3.setBounds(0, 0, 888, 527);
+        frame.getContentPane().add(lblNewLabel_3);
+        
     }
     
     @Override

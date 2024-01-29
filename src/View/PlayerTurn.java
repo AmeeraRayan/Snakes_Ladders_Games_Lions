@@ -32,8 +32,7 @@ public class PlayerTurn extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel rollLabel;
-    
-
+//aaa
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
@@ -212,6 +211,8 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer,List<Player> playersSortedByOrder) {
+            Timer timer = new Timer(5000, new ActionListener() { // wait 5 secod before navigate to a result page 
+            	 public void actionPerformed(ActionEvent e) {
         	if(numPlayer == 2) {
         		new BounusResults2(playersSortedByOrder).setVisible(true);
                 PlayerTurn.this.setVisible(false);
@@ -223,6 +224,11 @@ public class PlayerTurn extends JFrame {
         	if(numPlayer == 4) {
         		new BounusResults4(playersSortedByOrder).setVisible(true);
                 PlayerTurn.this.setVisible(false);
-        	}
+        	}        }
+        });
+
+        timer.setRepeats(false); // 
+        timer.start();
         }
+     
 }
