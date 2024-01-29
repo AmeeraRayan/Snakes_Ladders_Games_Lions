@@ -108,52 +108,9 @@ public class PreGameController {
 	        }
 	        return tiedPlayers;
 	    }
-
-	    // Method to handle re-rolls for tied players
-	   
-	    public boolean checkForTie(Map<Player, Integer> rolls) {
-	        Set<Integer> uniqueRolls = new HashSet<>(rolls.values());
-	        return uniqueRolls.size() == 1; // If there's only one unique roll, it's a tie
+	    public void sortPlayers() {
+	        players.sort(Comparator.comparing((Player p) -> playerRolls.get(p)).reversed()
+	                               .thenComparing(Player::getName));
 	    }
-
-	    public List<Player> findTiedPlayers(Map<Player, Integer> rolls) {
-	        List<Player> tiedPlayers = new ArrayList<>();
-	        int tieValue = rolls.values().iterator().next(); // Get the value of the first roll
-
-	        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
-	            if (entry.getValue() == tieValue) {
-	                tiedPlayers.add(entry.getKey());
-	            }
-	        }
-
-
-	        return tiedPlayers;
-	    }
-	   
-	    public void reRollForTiedPlayers(List<Player> tiedPlayers) {
-	        // Sort tied players alphabetically before re-rolling
-	        tiedPlayers.sort(Comparator.comparing(Player::getName));
-
-	        for (Player player : tiedPlayers) {
-	            int newRoll = dice.rollForTurn();
-	            playerRolls.put(player, newRoll);
-	        }
-	    }
-
-	    public void processEndOfRollPhase() {
-	        if (checkForTies()) {
-	            List<Player> tiedPlayers = getTiedPlayers();
-	            reRollForTiedPlayers(tiedPlayers);
-
-	            if (checkForTies()) {
-	                // The tie persists, use alphabetical order
-	                String messageText = "Tie persists after re-roll. Players will be ordered alphabetically.";
-	                JOptionPane.showMessageDialog(null, messageText, "Tie Detected", JOptionPane.INFORMATION_MESSAGE);
-	            }
-	        }
-	        // Continue with the next phase of the game
-	        startNewGame();
-	    }
-
-
+	  
 }
