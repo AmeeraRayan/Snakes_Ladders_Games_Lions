@@ -29,7 +29,7 @@ public class BounusResults3 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Player Turn's :");
+		JLabel lblNewLabel_1 = new JLabel("Player's Turn: ");
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 36));
 		lblNewLabel_1.setBounds(101, 31, 354, 52);

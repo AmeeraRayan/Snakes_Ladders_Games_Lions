@@ -66,7 +66,7 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setBackground(new java.awt.Color(0, 100, 0));
         txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
-        txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
+        txtrPlayer.setText("\r\n    Turn : <dynamic>");
         txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
         txtrPlayer.setTabSize(20);
         txtrPlayer.setAlignmentX(0.2f);
