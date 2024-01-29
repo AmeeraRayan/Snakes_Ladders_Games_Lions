@@ -47,7 +47,7 @@ public class LogIn extends JFrame implements ActionListener{
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
 
-        btnNewButton = new JButton("");
+        btnNewButton = new JButton("Sumbit");
         btnNewButton.setSelectedIcon(null);
         btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/images/5374040.png")));
         btnNewButton.setFont(new Font("David", Font.BOLD, 20));
