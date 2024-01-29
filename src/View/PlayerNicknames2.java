@@ -99,14 +99,14 @@ public class PlayerNicknames2 extends JFrame {
 				String[] Playersname = new String[numberOfPlayers];
         		Playersname[0]=textField1.getText().trim();;
         		Playersname[1]=textField2.getText().trim();;
-        		if(isValidString(Playersname[0]) && isValidString(Playersname[1]) ){
+        		if(isValidString(Playersname[0]) && isValidString(Playersname[1])&& !(Playersname[0].equals(Playersname[1]))){
         			 Color[] color = new Color[numberOfPlayers];
                      color[0] = Color.GREEN;
                      color[1] = Color.BLUE;
                      PlayerNicknames2.this.setVisible(false);
      				new PlayerTurn(numberOfPlayers ,difficultyLevel , Playersname , color).setVisible(true);
         		}else {
-        			showMessage("Please enter a valid name in Player 2");
+        			showMessage("Please enter a valid name or an unique nicknames ");
                     return;
         		}
         		
