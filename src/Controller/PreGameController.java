@@ -21,6 +21,7 @@ public class PreGameController {
 	    private Map<Player, Integer> playerRolls;
 	    public List<Player> players;
 	    private String difficultyLevel;
+	    
 	 public PreGameController(Dice dice, Map<Player, Integer> playerRolls, List<Player> players,
 				String difficultyLevel) {
 			super();
@@ -84,7 +85,7 @@ public class PreGameController {
 	    public void startNewGame() {
 	        Queue<Player> sortedPlayers = new ArrayDeque<>(players);
 	      /*  Game newGame = new Game(difficultyLevel, sortedPlayers, dice);*/
-	        // newGame.startGame(); // You'll need to implement this method in your Game class
+	        // newGame.startGame(); 
 	    }
 	 // Method to check for ties in player rolls
 	    public boolean checkForTies() {
@@ -114,6 +115,44 @@ public class PreGameController {
 	            int newRoll = dice.rollForTurn();
 	            playerRolls.put(player, newRoll);
 	        }
+	    }
+	    public boolean checkForTie(Map<Player, Integer> rolls) {
+	        Set<Integer> uniqueRolls = new HashSet<>(rolls.values());
+	        return uniqueRolls.size() == 1; // If there's only one unique roll, it's a tie
+	    }
+
+	    public List<Player> findTiedPlayers(Map<Player, Integer> rolls) {
+	        List<Player> tiedPlayers = new ArrayList<>();
+	        int tieValue = rolls.values().iterator().next(); // Get the value of the first roll
+
+	        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
+	            if (entry.getValue() == tieValue) {
+	                tiedPlayers.add(entry.getKey());
+	            }
+	        }
+
+
+	        return tiedPlayers;
+	    }
+	    public void processEndOfRollPhase() {
+	        if (checkForTies()) {
+	            List<Player> tiedPlayers = getTiedPlayers();
+	            reRollForTiedPlayers(tiedPlayers);
+
+	            if (tiedPlayers.size() == 2) {
+	                // Sort the tied players by name alphabetically
+	                tiedPlayers.sort(Comparator.comparing(Player::getName));
+
+	                // Create and display the custom message for two tied players
+	                String messageText = "Player " + tiedPlayers.get(0).getName() + " and Player " + 
+	                                     tiedPlayers.get(1).getName() + " got tied. " +
+	                                     "As per alphabetical order, Player " + 
+	                                     tiedPlayers.get(0).getName() + " will be first.";
+	                JOptionPane.showMessageDialog(null, messageText, "Tie Detected", JOptionPane.INFORMATION_MESSAGE);
+	            }
+	        }
+	        // Continue with the next phase of the game
+	        startNewGame();
 	    }
 
 }
