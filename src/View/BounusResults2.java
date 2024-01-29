@@ -34,22 +34,22 @@ public class BounusResults2 extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Player Turn's :");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 36));
-		lblNewLabel_1.setBounds(59, 55, 354, 52);
+		lblNewLabel_1.setBounds(138, 60, 354, 52);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel PlayerTurnOne = new JLabel(playersSortedByOrder.get(0).getName());
+		JLabel PlayerTurnOne = new JLabel(" "+playersSortedByOrder.get(0).getName());
 		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
-		PlayerTurnOne.setBounds(202, 163, 243, 58);
+		PlayerTurnOne.setBounds(232, 162, 243, 58);
 		contentPane.add(PlayerTurnOne);
 		
-		JLabel PlayerTurnTwo = new JLabel(playersSortedByOrder.get(1).getName());
+		JLabel PlayerTurnTwo = new JLabel(" "+playersSortedByOrder.get(1).getName());
 		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
-		PlayerTurnTwo.setBounds(202, 301, 243, 58);
+		PlayerTurnTwo.setBounds(232, 306, 243, 58);
 		contentPane.add(PlayerTurnTwo);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
-		lblNewLabel.setBounds(-130, -41, 1043, 669);
+		lblNewLabel.setBounds(-108, -38, 1043, 669);
 		contentPane.add(lblNewLabel);
 	}
 }
