@@ -108,7 +108,11 @@ public class PlayerTurn extends JFrame {
                     ResultPage(players.size(), players);
                     // Add any logic here for continuing the game after sorting
                 } else {
-                    //... [Logic for the next player's turn]
+                	
+                	rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
+                    txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
+                    setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
+                    displayRollLabel();
                 }
             }
         });
