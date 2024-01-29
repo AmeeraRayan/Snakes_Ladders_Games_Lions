@@ -1,19 +1,14 @@
 package View;
 
 import java.awt.EventQueue;
-
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-
 import Controller.MangQuestionControl;
 import Model.SysData;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
@@ -47,7 +42,7 @@ public class LogIn extends JFrame implements ActionListener{
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
 
-        btnNewButton = new JButton("Sumbit");
+        btnNewButton = new JButton("Submit");
         btnNewButton.setSelectedIcon(null);
         btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/images/5374040.png")));
         btnNewButton.setFont(new Font("David", Font.BOLD, 20));
