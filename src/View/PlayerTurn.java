@@ -103,8 +103,28 @@ public class PlayerTurn extends JFrame {
                     // Sort all players based on dice roll results, and in case of a tie, by nicknames
                     controller.sortPlayers();
 
-                    currentPlayerIndex = 0;
-                    ResultPage(players.size(), players);
+                    if (controller.checkForTies()) {
+                        List<Player> tiedPlayers = controller.getTiedPlayers();
+                        StringBuilder tieMessage = new StringBuilder("There's a tie between: ");
+                        for (Player player : tiedPlayers) {
+                            tieMessage.append(player.getName()).append(", ");
+                        }
+                        tieMessage.setLength(tieMessage.length() - 2); // Remove the last comma and space
+                        tieMessage.append(" So the players ");
+                        for (Player player : tiedPlayers) {
+                            tieMessage.append(player.getName()).append(", ");
+                        }
+                        tieMessage.setLength(tieMessage.length() - 2); // Remove the last comma and space
+                        tieMessage.append(" will be plays according to apha beta of thier nacknames:))) ");
+                        // Display the tie message using PlayerTurn.this as the Component parameter
+                        JOptionPane.showMessageDialog(PlayerTurn.this, tieMessage.toString(), "Tie Detected", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Here, you can implement logic for handling the tie (e.g., allow tied players to roll again)
+                    } 
+                        // Proceed with the game if there's no tie
+                        currentPlayerIndex = 0;
+                        ResultPage(players.size(), players);
+   
                     // Add any logic here for continuing the game after sorting
                 } else {
                 	rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
@@ -187,7 +207,7 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
-            Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
+            Timer timer = new Timer(2000, new ActionListener() { // Corrected to wait 5 seconds
                 public void actionPerformed(ActionEvent e) {
                     if (numPlayer == 2) {
                         new BounusResults2(playersSortedByOrder).setVisible(true);
