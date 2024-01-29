@@ -151,7 +151,6 @@ public class PlayerTurn extends JFrame {
         contentPane.add(lblNewLabel_2);
         contentPane.setVisible(true);
     }
-    
 
     private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
         StyledDocument doc = textPane.getStyledDocument();
@@ -169,73 +168,49 @@ public class PlayerTurn extends JFrame {
                 e.printStackTrace();
             }
         }
-
-        // Check for a tie and display a message
-        if (checkForTie(rolls)) {
-            List<Player> tiedPlayers = findTiedPlayers(rolls);
-
-            if (tiedPlayers.size() == 2) {
-                // Sort the tied players by name alphabetically
-                tiedPlayers.sort(Comparator.comparing(Player::getName));
-             
-            }
-        }
-    
-        
-        private void ResultPage(int numPlayer,List<Player> playersSortedByOrder) {
-            Timer timer = new Timer(5000, new ActionListener() { // wait 5 secod before navigate to a result page 
-            	 public void actionPerformed(ActionEvent e) {
-        	if(numPlayer == 2) {
-        		new BounusResults2(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}
-        	if(numPlayer == 3){
-        		new BounusResults3(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}
-        	if(numPlayer == 4) {
-        		new BounusResults4(playersSortedByOrder).setVisible(true);
-                PlayerTurn.this.setVisible(false);
-        	}        }
-             }}
-
-        timer.setRepeats(false); // 
-        timer.start();
-        }
-     
-
     }
+
+    private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
+        Timer timer = new Timer(5000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (numPlayer == 2) {
+                    new BounusResults2(playersSortedByOrder).setVisible(true);
+                    PlayerTurn.this.setVisible(false);
+                }
+                if (numPlayer == 3) {
+                    new BounusResults3(playersSortedByOrder).setVisible(true);
+                    PlayerTurn.this.setVisible(false);
+                }
+                if (numPlayer == 4) {
+                    new BounusResults4(playersSortedByOrder).setVisible(true);
+                    PlayerTurn.this.setVisible(false);
+                }
+            }
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     private boolean checkForTie(Map<Player, Integer> rolls) {
         Set<Integer> uniqueRolls = new HashSet<>(rolls.values());
-        return uniqueRolls.size() < rolls.size(); // Check if there are fewer unique rolls than players
+        return uniqueRolls.size() < rolls.size(); // True if there's a tie
     }
 
     private List<Player> findTiedPlayers(Map<Player, Integer> rolls) {
-        // Create a map to count the occurrences of each roll value
-        Map<Integer, Integer> rollCounts = new HashMap<>();
-        for (Integer roll : rolls.values()) {
-            rollCounts.put(roll, rollCounts.getOrDefault(roll, 0) + 1);
-        }
-
-        // Find the roll values with more than one occurrence
-        Set<Integer> tieValues = new HashSet<>();
-        for (Map.Entry<Integer, Integer> entry : rollCounts.entrySet()) {
-            if (entry.getValue() > 1) {
-                tieValues.add(entry.getKey());
-            }
-        }
-
-        // Find players with those roll values
-        List<Player> tiedPlayers = new ArrayList<>();
+        Map<Integer, List<Player>> rollToPlayers = new HashMap<>();
         for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
-            if (tieValues.contains(entry.getValue())) {
-                tiedPlayers.add(entry.getKey());
-            }
+            rollToPlayers.computeIfAbsent(entry.getValue(), k -> new ArrayList<>()).add(entry.getKey());
         }
 
+        List<Player> tiedPlayers = new ArrayList<>();
+        for (List<Player> playerList : rollToPlayers.values()) {
+            if (playerList.size() > 1) { // If more than one player has the same roll
+                tiedPlayers.addAll(playerList);
+            }
+        }
         return tiedPlayers;
     }
-
 
     private void setPlayerBackgroundColor(Color color, JTextArea txtrPlayer) {
         switch (color.toString()) {
@@ -262,7 +237,6 @@ public class PlayerTurn extends JFrame {
         rollLabel.setVisible(true);
     }
 
-  
     private StringBuilder displayTurnOrder() {
         // Handle displaying turn order
         // Implement your logic here
