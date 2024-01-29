@@ -1,19 +1,14 @@
 package View;
 
 import java.awt.EventQueue;
-
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-
 import Controller.MangQuestionControl;
 import Model.SysData;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
