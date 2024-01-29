@@ -24,6 +24,9 @@ import javax.swing.table.TableRowSorter;
 import Controller.MangQuestionControl;
 import Model.Questions;
 import Model.SysData;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class QuestionManagment extends JFrame   {
 
@@ -47,7 +50,7 @@ public class QuestionManagment extends JFrame   {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 724, 464);
+        frame.setBounds(100, 100, 804, 701);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
@@ -58,37 +61,42 @@ public class QuestionManagment extends JFrame   {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(0, 62, 669, 267);
+        scrollPane.setBounds(62, 249, 671, 292);
         frame.getContentPane().add(scrollPane);
         
         searchField = new JTextField();
         searchField.setColumns(20);
-        searchField.setBounds(348, 27, 200, 25);
+        searchField.setBounds(62, 131, 506, 38);
         frame.getContentPane().add(searchField);
         
         JButton btnAdd = new JButton("Add Question");
-        btnAdd.setBounds(10, 354, 126, 30);
+        btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnAdd.setBounds(62, 187, 147, 30);
         btnAdd.addActionListener(e -> showAddQuestionPopup());
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
-        btnEdit.setBounds(172, 354, 137, 30);
+        btnEdit.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnEdit.setBounds(230, 187, 155, 30);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
 
         JButton btnDelete = new JButton("Delete Question");
-        btnDelete.setBounds(358, 354, 137, 30);
+        btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnDelete.setBounds(411, 187, 157, 30);
         btnDelete.addActionListener(e -> deleteQuestion());
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
-        btnShow.setBounds(518, 354, 137, 30);
+        btnShow.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnShow.setBounds(578, 187, 155, 30);
         btnShow.addActionListener(e -> showQuestion());
         frame.getContentPane().add(btnShow);
 
         // Create a button for performing the search
         JButton searchButton = new JButton("Search");
-        searchButton.setBounds(558, 27, 80, 25);
+        searchButton.setFont(new Font("Tahoma", Font.BOLD, 15));
+        searchButton.setBounds(578, 131, 155, 38);
         searchButton.addActionListener(new ActionListener() {
           
 			@Override
@@ -102,6 +110,11 @@ public class QuestionManagment extends JFrame   {
         // Set up a sorter for the table
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter((RowSorter<? extends TableModel>) sorter);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/Questions managment1.png")));
+        lblNewLabel.setBounds(-384, 0, 1279, 972);
+        frame.getContentPane().add(lblNewLabel);
     }
 
     private void performSearch() {

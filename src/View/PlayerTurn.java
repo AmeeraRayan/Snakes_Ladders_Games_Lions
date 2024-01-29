@@ -211,6 +211,8 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer,List<Player> playersSortedByOrder) {
+            Timer timer = new Timer(5000, new ActionListener() { // wait 5 secod before navigate to a result page 
+            	 public void actionPerformed(ActionEvent e) {
         	if(numPlayer == 2) {
         		new BounusResults2(playersSortedByOrder).setVisible(true);
                 PlayerTurn.this.setVisible(false);
@@ -222,6 +224,11 @@ public class PlayerTurn extends JFrame {
         	if(numPlayer == 4) {
         		new BounusResults4(playersSortedByOrder).setVisible(true);
                 PlayerTurn.this.setVisible(false);
-        	}
+        	}        }
+        });
+
+        timer.setRepeats(false); // 
+        timer.start();
         }
+     
 }
