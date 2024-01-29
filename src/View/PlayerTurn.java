@@ -1,10 +1,14 @@
+
 package View;
 
 import java.awt.Component;
-import java.awt.Font;
+import java.awt.EventQueue;
+
 import java.awt.SystemColor;
+import java.awt.TextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -13,9 +17,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+import Controller.PreGameController;
 import Model.Color;
 import Model.Dice;
 import Model.Player;
+import java.awt.Font;
 
 public class PlayerTurn extends JFrame {
 
@@ -28,14 +34,13 @@ public class PlayerTurn extends JFrame {
     private JPanel contentPane;
     private JLabel rollLabel;
 
-    public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers, Color[] color) {
+    public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
         this.difficultyLevel = difficultyLevel;
-
         dice = new Dice();
         playerRolls = new LinkedHashMap<>();
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            players.add(new Player(namesOfPlayers[i], color[i]));
+            players.add(new Player(namesOfPlayers[i],color[i]));
         }
         currentPlayerIndex = 0;
 
@@ -46,7 +51,7 @@ public class PlayerTurn extends JFrame {
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
-
+     
         JButton diceButton = new JButton("");
         diceButton.setHorizontalAlignment(SwingConstants.LEADING);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
@@ -54,7 +59,7 @@ public class PlayerTurn extends JFrame {
         txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
         txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
-
+        
         txtpnHi.setBounds(42, 203, 201, 198);
         contentPane.add(txtpnHi);
         JTextArea txtrPlayer = new JTextArea();
@@ -68,7 +73,7 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setAlignmentX(0.2f);
         txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
         txtrPlayer.setBackground(new java.awt.Color(120, 180, 20)); // Green
-        rollLabel = new JLabel(players.get(currentPlayerIndex).getName() + " Roll the dice!");
+        rollLabel = new JLabel(players.get(currentPlayerIndex).getName()+" Roll the dice!");
         rollLabel.setFont(new Font("Arial", Font.BOLD, 20));
         rollLabel.setBounds(350, 300, 400, 30);
         contentPane.add(rollLabel);
@@ -84,7 +89,8 @@ public class PlayerTurn extends JFrame {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
 
-                // Update the text pane with roll results
+                JLabel message = new JLabel();
+                contentPane.add(message);
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
@@ -92,29 +98,38 @@ public class PlayerTurn extends JFrame {
 
                 // Check if all players have rolled
                 if (currentPlayerIndex >= players.size()) {
-                    // All players have rolled, now check for ties
-                    if (checkForTie(playerRolls)) {
-                        List<Player> tiedPlayers = findTiedPlayers(playerRolls);
+                    // Initialize the controller and check for ties
+                    PreGameController controller = new PreGameController(dice, playerRolls, players, difficultyLevel);
+                    if (controller.checkForTies()) {
+                        // Get the list of tied players and re-roll for them
+                        List<Player> tiedPlayers = controller.getTiedPlayers();
+                        controller.reRollForTiedPlayers(tiedPlayers);
 
-                        if (tiedPlayers.size() == 2) {
-                            // Sort the tied players by name alphabetically
-                            tiedPlayers.sort(Comparator.comparing(Player::getName));
+                        // Reset currentPlayerIndex and update UI for re-rolls
+                        currentPlayerIndex = 0;
+                        Player firstTiedPlayer = tiedPlayers.get(currentPlayerIndex);
+                        txtrPlayer.setText("\n    Turn : " + firstTiedPlayer.getName());
+                        setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
 
-                            // Customize and display the tie message only for two tied players
-                            String messageText = String.format("<html><font size='5' color='orange'>Tie detected between %s and %s.</font><br>" +
-                                "<font size='4' color='blue'>According to alphabetical order, %s will play first.</font><br>" +
-                                "<font size='6'>😃 Good luck, %s!</font></html>",
-                                tiedPlayers.get(0).getName(), tiedPlayers.get(1).getName(),
-                                tiedPlayers.get(0).getName(), tiedPlayers.get(0).getName());
 
-                            JOptionPane.showMessageDialog(PlayerTurn.this, messageText, "Tie Breaker", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                        // Clear or update roll results display area
+                        txtpnHi.setText("Tie detected! Players re-rolling:\n");
+
+                        // Enable the dice button for re-rolls
+                        diceButton.setEnabled(true);
+
+                        // Update roll label for the first tied player
+                        rollLabel.setText(firstTiedPlayer.getName() + " Roll the dice!");
+                        displayRollLabel();
+                    } else {
+                        // Handle the continuation of the game in case of no ties
+                        StringBuilder turnOrderMessage = controller.displayTurnOrder();
+                        currentPlayerIndex = 0;
+                        ResultPage(players.size(), controller.players);
+                        controller.startNewGame();
                     }
-                    // Proceed to the result page or the next phase of the game
-                    ResultPage(players.size(), players);
-                    startNewGame();
                 } else {
-                    // Prepare for the next player's turn
+                    // Set up the game for the next player's turn
                     rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
                     txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
                     setPlayerBackgroundColor(color[currentPlayerIndex], txtrPlayer);
@@ -123,128 +138,99 @@ public class PlayerTurn extends JFrame {
             }
         });
 
+      
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);
         diceButton.setBounds(761, 292, 120, 100);
         contentPane.add(diceButton);
-
+        
         JButton btnNewButton = new JButton("Back");
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
         btnNewButton.setBounds(42, 519, 120, 36);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PlayerTurn.this.setVisible(false);
-                new DataReception().setVisible(true);
+            PlayerTurn.this.setVisible(false);
+				new DataReception().setVisible(true);
             }
         });
-
+        
         contentPane.add(btnNewButton);
-
+        
+        
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBackground(new java.awt.Color(0, 100, 0));
         lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BounusGame.png")));
         lblNewLabel.setBounds(-277, -11, 1340, 709);
         contentPane.add(lblNewLabel);
-
+        
         JLabel lblNewLabel_2 = new JLabel("New label");
         lblNewLabel_2.setBounds(131, 127, 45, 13);
         contentPane.add(lblNewLabel_2);
         contentPane.setVisible(true);
     }
+        
+   
+        private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {//display the names of the player and what he got by rolling
+            StyledDocument doc = textPane.getStyledDocument();
+            
+            for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
+                Player player = entry.getKey();
+                int rollResult = entry.getValue();
 
-    private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
-        StyledDocument doc = textPane.getStyledDocument();
+                String message = player.getName() + " --- " + rollResult + "\n";
+                AttributeSet attributeSet = null; 
 
-        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
-            Player player = entry.getKey();
-            int rollResult = entry.getValue();
-
-            String message = player.getName() + " --- " + rollResult + "\n";
-            AttributeSet attributeSet = null;
-
-            try {
-                doc.insertString(doc.getLength(), message, attributeSet);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
-        Timer timer = new Timer(5000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (numPlayer == 2) {
-                    new BounusResults2(playersSortedByOrder).setVisible(true);
-                    PlayerTurn.this.setVisible(false);
-                }
-                if (numPlayer == 3) {
-                    new BounusResults3(playersSortedByOrder).setVisible(true);
-                    PlayerTurn.this.setVisible(false);
-                }
-                if (numPlayer == 4) {
-                    new BounusResults4(playersSortedByOrder).setVisible(true);
-                    PlayerTurn.this.setVisible(false);
+                try {
+                    doc.insertString(doc.getLength(), message, attributeSet);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+        }
+        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {//change the jtext background - by the player color
+                switch (color.toString()) {
+                case "BLUE":
+                    txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
+                    break;
+                case "GREEN": 
+                    txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
+                    break;
+                case "RED":
+                    txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+                    break;
+                case "YELLOW":
+                    txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+                    break;
+                default:
+                    // Default color for other players
+                    txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
+                    break;
+                } }
+        private void displayRollLabel() {
+            rollLabel.setVisible(true);
+        }
+    
+        
+        private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
+            Timer timer = new Timer(1500, new ActionListener() { // Corrected to wait 5 seconds
+                public void actionPerformed(ActionEvent e) {
+                    if (numPlayer == 2) {
+                        new BounusResults2(playersSortedByOrder).setVisible(true);
+                    } else if (numPlayer == 3) {
+                        new BounusResults3(playersSortedByOrder).setVisible(true);
+                    } else if (numPlayer == 4) {
+                        new BounusResults4(playersSortedByOrder).setVisible(true);
+                    } else {
+                        // Handle other cases or show an error message
+                    }
 
-        timer.setRepeats(false);
-        timer.start();
-    }
+                    PlayerTurn.this.setVisible(false); // Moved outside to ensure it executes in all cases
+                }
+            });
 
-    private boolean checkForTie(Map<Player, Integer> rolls) {
-        Set<Integer> uniqueRolls = new HashSet<>(rolls.values());
-        return uniqueRolls.size() < rolls.size(); // True if there's a tie
-    }
-
-    private List<Player> findTiedPlayers(Map<Player, Integer> rolls) {
-        Map<Integer, List<Player>> rollToPlayers = new HashMap<>();
-        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
-            rollToPlayers.computeIfAbsent(entry.getValue(), k -> new ArrayList<>()).add(entry.getKey());
+            timer.setRepeats(false);
+            timer.start();
         }
 
-        List<Player> tiedPlayers = new ArrayList<>();
-        for (List<Player> playerList : rollToPlayers.values()) {
-            if (playerList.size() > 1) { // If more than one player has the same roll
-                tiedPlayers.addAll(playerList);
-            }
-        }
-        return tiedPlayers;
-    }
-
-    private void setPlayerBackgroundColor(Color color, JTextArea txtrPlayer) {
-        switch (color.toString()) {
-            case "BLUE":
-                txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
-                break;
-            case "GREEN":
-                txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
-                break;
-            case "RED":
-                txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
-                break;
-            case "YELLOW":
-                txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
-                break;
-            default:
-                // Default color for other players
-                txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
-                break;
-        }
-    }
-
-    private void displayRollLabel() {
-        rollLabel.setVisible(true);
-    }
-
-    private StringBuilder displayTurnOrder() {
-        // Handle displaying turn order
-        // Implement your logic here
-        return new StringBuilder();
-    }
-
-    private void startNewGame() {
-        // Handle starting a new game
-        // Implement your logic here
-    }
+     
 }

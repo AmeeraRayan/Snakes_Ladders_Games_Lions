@@ -110,12 +110,7 @@ public class PreGameController {
 	    }
 
 	    // Method to handle re-rolls for tied players
-	    public void reRollForTiedPlayers(List<Player> tiedPlayers) {
-	        for (Player player : tiedPlayers) {
-	            int newRoll = dice.rollForTurn();
-	            playerRolls.put(player, newRoll);
-	        }
-	    }
+	   
 	    public boolean checkForTie(Map<Player, Integer> rolls) {
 	        Set<Integer> uniqueRolls = new HashSet<>(rolls.values());
 	        return uniqueRolls.size() == 1; // If there's only one unique roll, it's a tie
@@ -134,25 +129,31 @@ public class PreGameController {
 
 	        return tiedPlayers;
 	    }
+	   
+	    public void reRollForTiedPlayers(List<Player> tiedPlayers) {
+	        // Sort tied players alphabetically before re-rolling
+	        tiedPlayers.sort(Comparator.comparing(Player::getName));
+
+	        for (Player player : tiedPlayers) {
+	            int newRoll = dice.rollForTurn();
+	            playerRolls.put(player, newRoll);
+	        }
+	    }
+
 	    public void processEndOfRollPhase() {
 	        if (checkForTies()) {
 	            List<Player> tiedPlayers = getTiedPlayers();
 	            reRollForTiedPlayers(tiedPlayers);
 
-	            if (tiedPlayers.size() == 2) {
-	                // Sort the tied players by name alphabetically
-	                tiedPlayers.sort(Comparator.comparing(Player::getName));
-
-	                // Create and display the custom message for two tied players
-	                String messageText = "Player " + tiedPlayers.get(0).getName() + " and Player " + 
-	                                     tiedPlayers.get(1).getName() + " got tied. " +
-	                                     "As per alphabetical order, Player " + 
-	                                     tiedPlayers.get(0).getName() + " will be first.";
+	            if (checkForTies()) {
+	                // The tie persists, use alphabetical order
+	                String messageText = "Tie persists after re-roll. Players will be ordered alphabetically.";
 	                JOptionPane.showMessageDialog(null, messageText, "Tie Detected", JOptionPane.INFORMATION_MESSAGE);
 	            }
 	        }
 	        // Continue with the next phase of the game
 	        startNewGame();
 	    }
+
 
 }
