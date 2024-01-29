@@ -185,7 +185,7 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
-            Timer timer = new Timer(1, new ActionListener() { // Corrected to wait 5 seconds
+            Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
                 public void actionPerformed(ActionEvent e) {
                     if (numPlayer == 2) {
                         new BounusResults2(playersSortedByOrder).setVisible(true);
@@ -202,7 +202,7 @@ public class PlayerTurn extends JFrame {
             });
 
             timer.setRepeats(false);
-            timer.start();
+            timer.start();///BJDGAS
         }
 
      
