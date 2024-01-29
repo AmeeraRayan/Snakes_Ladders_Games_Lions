@@ -66,7 +66,7 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setBackground(new java.awt.Color(0, 100, 0));
         txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
-        txtrPlayer.setText("\r\n    Turn : <dynamic>");
+        txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
         txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
         txtrPlayer.setTabSize(20);
         txtrPlayer.setAlignmentX(0.2f);
@@ -207,7 +207,7 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
-            Timer timer = new Timer(2000, new ActionListener() { // Corrected to wait 5 seconds
+            Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
                 public void actionPerformed(ActionEvent e) {
                     if (numPlayer == 2) {
                         new BounusResults2(playersSortedByOrder).setVisible(true);
