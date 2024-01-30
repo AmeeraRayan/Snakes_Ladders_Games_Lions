@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -29,6 +30,10 @@ public class MangQuestionControl {
 	private static MangQuestionControl instance = null;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
 	public static SysData sysData= new SysData();
+	private List<Questions> easyQuestions;
+	private List<Questions> mediumQuestions;
+	private List<Questions> hardQuestions;
+    private Random random;
 
 
 	
@@ -159,6 +164,30 @@ public class MangQuestionControl {
 	    }
 		return false;
 	}
+	
+	public Questions getRandomQuestion(String level) {
+        List<Questions> questions;
+        switch (level.toLowerCase()) {
+            case "easy":
+                questions = easyQuestions;
+                break;
+            case "medium":
+                questions = mediumQuestions;
+                break;
+            case "hard":
+                questions = hardQuestions;
+                break;
+            default:
+                return null;
+        }
+
+        if (!questions.isEmpty()) {
+            int randomIndex = random.nextInt(questions.size());
+            return questions.get(randomIndex);
+        }
+
+        return null;
+    }
 	    
 	public boolean validateAdminCredentials(String userName, String password) {
         String storedPassword = sysData.getAdmins().get(userName);
