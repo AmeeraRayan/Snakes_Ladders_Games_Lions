@@ -125,9 +125,6 @@ public class PlayerTurn extends JFrame {
                         currentPlayerIndex = 0;
                         ResultPage(players.size(), players);
    
-                    currentPlayerIndex = 0;
-                    ResultPage(players.size(), players);
-
                     // Add any logic here for continuing the game after sorting
                 } else {
                 	rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
@@ -185,7 +182,7 @@ public class PlayerTurn extends JFrame {
                 }
             }
         }
-        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {
+        private void setPlayerBackgroundColor(Color color , JTextArea txtrPlayer) {//change the jtext background - by the player color
                 switch (color.toString()) {
                 case "BLUE":
                     txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
@@ -228,6 +225,7 @@ public class PlayerTurn extends JFrame {
 
             timer.setRepeats(false);
             timer.start();///BJDGAS
-        }
+        }
 
+     
 }
