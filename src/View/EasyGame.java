@@ -2,7 +2,6 @@ package View;
 
 import javax.swing.*;
 
-import Controller.MangQuestionControl;
 import Model.Board;
 import Model.Dice;
 import Model.Game;
@@ -28,11 +27,8 @@ public class EasyGame extends JFrame {
 
     private int timeElapsed;
 
-    public EasyGame(Game game) {
-		// TODO Auto-generated constructor stub
-	}
 
-	public void GUI(Game game) {
+	public EasyGame(Game game) {
         this.Easygame = game;
         initializeUI();
         initializeTimer();
