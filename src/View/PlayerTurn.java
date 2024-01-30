@@ -66,6 +66,7 @@ public class PlayerTurn extends JFrame {
         txtrPlayer.setBackground(new java.awt.Color(0, 100, 0));
         txtrPlayer.setBounds(45, 48, 317, 78);
         contentPane.add(txtrPlayer);
+        txtrPlayer.setText("\r\n    Turn : <dynamic>");
         txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
         txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
         txtrPlayer.setTabSize(20);
@@ -90,6 +91,7 @@ public class PlayerTurn extends JFrame {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
 
+<<<<<<< Updated upstream
                 // Update the text pane with roll results
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
@@ -164,6 +166,9 @@ public class PlayerTurn extends JFrame {
         contentPane.setVisible(true);
     }
         
+=======
+@ -167,66 +167,66 @@
+>>>>>>> Stashed changes
    
         private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {//display the names of the player and what he got by rolling
             StyledDocument doc = textPane.getStyledDocument();
@@ -207,6 +212,7 @@ public class PlayerTurn extends JFrame {
     
         
         private void ResultPage(int numPlayer, List<Player> playersSortedByOrder) {
+            Timer timer = new Timer(2000, new ActionListener() { // Corrected to wait 5 seconds
             Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
                 public void actionPerformed(ActionEvent e) {
                     if (numPlayer == 2) {
@@ -228,4 +234,8 @@ public class PlayerTurn extends JFrame {
         }
 
      
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
