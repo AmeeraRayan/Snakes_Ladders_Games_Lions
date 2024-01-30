@@ -1,6 +1,8 @@
+package View;
 
 import javax.swing.*;
 
+import Controller.MangQuestionControl;
 import Model.Board;
 import Model.Dice;
 import Model.Game;
@@ -26,7 +28,11 @@ public class EasyGame extends JFrame {
 
     private int timeElapsed;
 
-    public void GUI(Game game) {
+    public EasyGame(Game game) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void GUI(Game game) {
         this.Easygame = game;
         initializeUI();
         initializeTimer();
@@ -38,7 +44,7 @@ public class EasyGame extends JFrame {
         setLayout(new BorderLayout());
 
         // Initialize boardLabels
-        int boardSize = EasyGame.getBoard().getSize();
+        int boardSize = Easygame.getBoard().getSize();
         boardLabels = new JLabel[boardSize][boardSize];
         JPanel boardPanel = new JPanel(new GridLayout(boardSize, boardSize));
 
@@ -51,17 +57,17 @@ public class EasyGame extends JFrame {
             }
         }
         // Initialize playerLabels
-        playerLabels = new JLabel[EasyGame.getPlayers().size()];
+        playerLabels = new JLabel[Easygame.getPlayers().size()];
         JPanel playersPanel = new JPanel(new FlowLayout());
 
-        for (int i = 0; i < EasyGame.getPlayers().size(); i++) {
-            Player player = EasyGame.getPlayers().get(i);
+        for (int i = 0; i < Easygame.getPlayers().size(); i++) {
+            Player player = Easygame.getPlayers().get(i);
             playerLabels[i] = new JLabel(player.getName() + ": " + player.getPosition());
             playersPanel.add(playerLabels[i]);
         }
 
         // Initialize currentPlayerLabel
-        currentPlayerLabel = new JLabel("Current Player: " + EasyGame.getCurrentPlayer().getName());
+        currentPlayerLabel = new JLabel("Current Player: " + Easygame.getCurrentPlayer().getName());
 
         // Initialize timerLabel
         timerLabel = new JLabel("Time: " + timeElapsed + "s");
@@ -105,33 +111,33 @@ public class EasyGame extends JFrame {
         timeElapsed++;
 
         // Placeholder: Check for game over based on time
-        if (EasyGame.isGameOver()) {
+        if (Easygame.isGameOver()) {
             gameTimer.stop(); // Stop the timer when the game is over
-            JOptionPane.showMessageDialog(this, "Game Over! " + game.getWinner().getName() + " wins!");
+            JOptionPane.showMessageDialog(this, "Game Over! " + Easygame.getWinner().getName() + " wins!");
             System.exit(0);
         }
     }
 
     private void updatePlayerLabels() {
-        for (int i = 0; i < EasyGame.getPlayers().size(); i++) {
-            Player player = EasyGame.getPlayers().get(i);
+        for (int i = 0; i < Easygame.getPlayers().size(); i++) {
+            Player player = Easygame.getPlayers().get(i);
             playerLabels[i].setText(player.getName() + ": " + player.getPosition());
         }
 
-        currentPlayerLabel.setText("Current Player: " + EasyGame.getCurrentPlayer().getName());
+        currentPlayerLabel.setText("Current Player: " + Easygame.getCurrentPlayer().getName());
     }
 
     private void simulateRollDice() {
-        Player currentPlayer = EasyGame.getCurrentPlayer();
-        EasyGame.playTurn();
+        Player currentPlayer = Easygame.getCurrentPlayer();
+        Easygame.playTurn();
 
         // Update GUI components based on the game state
         updatePlayerLabels();
 
         // Check for a winner
-        if (EasyGame.isGameOver()) {
+        if (Easygame.isGameOver()) {
             gameTimer.stop(); // Stop the timer when the game is over
-            JOptionPane.showMessageDialog(this, "Game Over! " + game.getWinner().getName() + " wins!");
+            JOptionPane.showMessageDialog(this, "Game Over! " + Easygame.getWinner().getName() + " wins!");
             System.exit(0);
         } else {
             JOptionPane.showMessageDialog(this, currentPlayer.getName() + "'s turn.");
@@ -185,9 +191,9 @@ public class EasyGame extends JFrame {
         
 
         // Create the game instance
-        SnakesAndLadders game = new SnakesAndLadders(board, Arrays.asList(player1, player2,player3), cube, questionManager);
+        Game game = new Game(board, Arrays.asList(player1, player2,player3), dice);
 
         // Create the GUI
-        SwingUtilities.invokeLater(() -> new GUI(game));
+        SwingUtilities.invokeLater(() -> new EasyGame(game));
     }
 }

@@ -11,6 +11,7 @@ public class Game {
     private Board board;
     private Dice dice;
     private int turnCount;
+    private int currentPlayerIndex = 0; // Add this variable to track the current player index
     private MangQuestionControl mngControl= new MangQuestionControl();
     
     public Game(Board board, List<Player> players, Dice dice) {
@@ -30,10 +31,14 @@ public class Game {
 		this.players = players;
 	}
 
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
+	public  Player getCurrentPlayer() {
+        if (currentPlayerIndex >= 0 && currentPlayerIndex < players.size()) {
+            return players.get(currentPlayerIndex);
+        } else {
+            // Handle the case where the index is out of bounds
+            return null;
+        }
+    }
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
@@ -62,14 +67,6 @@ public class Game {
 		this.turnCount = turnCount;
 	}
 
-    public  Player getCurrentPlayer() {
-        if (currentPlayerIndex >= 0 && currentPlayerIndex < players.size()) {
-            return players.get(currentPlayerIndex);
-        } else {
-            // Handle the case where the index is out of bounds
-            return null;
-        }
-    }
 
 	public void playGame() {
         while (true) {
