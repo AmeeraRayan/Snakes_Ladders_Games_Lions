@@ -221,8 +221,9 @@ public class PlayerTurn extends JFrame {
 
                     PlayerTurn.this.setVisible(false); // Moved outside to ensure it executes in all cases
                 }
-            });
-//aa
+           
+        });
+
             timer.setRepeats(false);
             timer.start();///BJDGAS
         }
