@@ -8,7 +8,6 @@ import Model.Game;
 import Model.Ladder;
 import Model.Player;
 import Model.Snake;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -170,7 +169,7 @@ public class EasyGame extends JFrame {
 
 
         // Create the game board
-        Board board = new Board(10);
+        Board board = new Board(7);
 
         // Add snakes and ladders to the board
         // Add snakes
