@@ -25,7 +25,7 @@ public class BounusResults2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public BounusResults2(List<Player>  playersSortedByOrder) {
+	public BounusResults2(String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 713, 536);
 		contentPane = new JPanel();
@@ -60,15 +60,14 @@ public class BounusResults2 extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		
                 // Set the visibility of the new screen
-        	Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
-      	    game.playGame();
-             DataReception.this.setVisible(false);
+        	Game game = new Game(difficultyLevel, playersSortedByOrder);
+        	new BoardEasyView2Players(game).setVisible(true);
+        	contentPane.setVisible(false);
         			
         	}
         });
         btnNewButton_1.setBounds(556, 434, 119, 34);
         contentPane.add(btnNewButton_1);
-		 Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
-	      game.playGame();
+		 
 	}
 }

@@ -4,7 +4,6 @@ public class Square {
     private int row;
     private int col;
     private String value;
-    private boolean question;
 	public int getRow() {
 		return row;
 	}
@@ -23,18 +22,15 @@ public class Square {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	public boolean isQuestion() {
-		return question;
-	}
-	public void setQuestion(boolean question) {
-		this.question = question;
-	}
-	public Square(int row, int col, String value, boolean question) {
+	public Square(int row, int col, String value) {
 		super();
 		this.row = row;
 		this.col = col;
 		this.value = value;
-		this.question = question;
+	}
+	@Override
+	public String toString() {
+		return "Square [row=" + row + ", col=" + col + ", value=" + value + "]";
 	}
 
    

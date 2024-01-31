@@ -210,11 +210,11 @@ public class PlayerTurn extends JFrame {
             Timer timer = new Timer(1000, new ActionListener() { // Corrected to wait 5 seconds
                 public void actionPerformed(ActionEvent e) {
                     if (numPlayer == 2) {
-                        new BounusResults2(playersSortedByOrder).setVisible(true);
+                        new BounusResults2(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else if (numPlayer == 3) {
-                        new BounusResults3(playersSortedByOrder).setVisible(true);
+                     //   new BounusResults3(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else if (numPlayer == 4) {
-                        new BounusResults4(playersSortedByOrder).setVisible(true);
+                       // new BounusResults4(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else {
                         // Handle other cases or show an error message
                     }

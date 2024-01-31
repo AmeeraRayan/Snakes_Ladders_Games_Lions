@@ -17,12 +17,12 @@ public class Game {
 //  Singleton Instance
 	public static Game getInstance(List<Player> players,String difficulty) {
 		if (instance == null) {
-			instance = new Game(players,difficulty);
+			instance = new Game(difficulty,players);
 		}
 		return instance;
 	}
     
-    public Game( List<Player> players,String difficulty) {
+    public Game( String difficulty,List<Player> players) {
         this.players = players;
         this.currentPlayer = null; // Initialize based on game rules
         this.turnCount = 0;

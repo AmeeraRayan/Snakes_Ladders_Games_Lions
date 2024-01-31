@@ -25,24 +25,25 @@ public class Board {
             this.snakes = new Snake[4];
             this.ladders = new Ladder[4];
             initializeSnakesAndLaddersForEasy();
+            System.out.println(this.getCells().toString());
         }
         else if (size==10) {
         	this.cells = new Square[10][10];
             this.snakes = new Snake[6];
             this.ladders = new Ladder[6];
-            initializeSnakesAndLaddersForMedium();
+            //initializeSnakesAndLaddersForMedium();
         }else {
         	this.cells = new Square[13][13];
             this.snakes = new Snake[8];
             this.ladders = new Ladder[8];
-            initializeSnakesAndLaddersForHard();
+           // initializeSnakesAndLaddersForHard();
         }
     }
 
  
     	private void initializeSnakesAndLaddersForEasy() {
     	    // Initialize 4 snakes
-    	    snakes[0] = new Snake(new Square(0, 2, "45", false),new Square(0, 2, "45", false));//RED
+    	   /* snakes[0] = new Snake(new Square(0, 2, "45", false),new Square(0, 2, "45", false));//RED
     	    snakes[1] = new Snake(new Square(4, 6, "21", false),new Square(6, 5, "6", false));//GREEN
     	    snakes[2] = new Snake(new Square(2, 1,"30" , false),new Square(3,2 , "24", false));//YELLOW
     	    snakes[3] = new Snake(new Square(0, 4, "47", false),new Square( 3, 5,"27", false));//BLUE
@@ -55,14 +56,14 @@ public class Board {
     	    
     	    Square q1=new Square(6, 2, "3", true);
     	    Square q2=new Square(5, 6, "14", true);
-    	    Square q3=new Square(0, 3, "46", true);
-    	    int counter=1;
-    	    for (int i=0;i<7;i++)
+    	    Square q3=new Square(0, 3, "46", true);*/
+    	    int counter=1;    
+    	    for (int i=6;i>=0;i--)
     	    {
-    	    	   for (int j=0;i<7;j++)
+    	    	   for (int j=0;j<7;j++)
     	    	   {
-    	    		   cells[i][j].setValue(String.valueOf(counter));
-    	    		   if (counter==3)
+       	              cells[i][j] = new Square(i, j,String.valueOf(counter) );
+    	    		   if (counter==3)//value
     	    		   {
     	    			   cells[i][j].setValue("q1");
     	    		   }
@@ -116,11 +117,7 @@ public class Board {
     	    		   else if (counter==42) {
     	    			   cells[i][j].setValue("ladder4end");
     	    		   }
-
-
-
     	    		   counter+=1;
-    	    				   
     	    	   }
     	}
     	    
@@ -130,7 +127,7 @@ public class Board {
 
 
     }
-    private void initializeSnakesAndLaddersForMedium() {
+ /*   private void initializeSnakesAndLaddersForMedium() {
         // Ladders with lengths 1 to 6
         for (int i = 0; i < ladders.length; i++) {
             int[] startPosition = generateRandomPosition();
@@ -144,7 +141,6 @@ public class Board {
             int[] startPosition = generateRandomPosition();
             int[] endPosition = generateRandomPosition();
             snakes[i] = new Snake(startPosition[0], startPosition[1], endPosition[0], endPosition[1], snakeColors[i]);
-            randomlyAssignQuestionCells(3);
 
         }
         
@@ -167,7 +163,7 @@ public class Board {
         randomlyAssignQuestionCells(3);
 
     }
-
+*/
 	public static Board getInstance() {
 		return instance;
 	}
