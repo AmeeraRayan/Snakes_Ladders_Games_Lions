@@ -7,13 +7,13 @@ import java.util.List;
 public class Board {
 	private int id;
 	private int size;
-    private Cell[][] cells;
+    private Square[][] cells;
     private List<Snake> snakes;
     private List<Ladder> ladders;
 
     public Board(int size) {
         this.size = size;        
-        this.cells = new Cell[size][size];
+        this.cells = new Square[size][size];
         this.snakes = new ArrayList<>();
         this.ladders = new ArrayList<>();
         initializeCells();
@@ -35,8 +35,8 @@ public class Board {
         // Initialize cells with positions, you can customize as needed
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-            	CellType cellType = (row + col) % 2 == 0 ? CellType.QUESTION : CellType.SURPRISE;
-                cells[row][col] = new Cell(row, col, cellType);
+            	SquareType cellType = (row + col) % 2 == 0 ? SquareType.QUESTION : SquareType.SURPRISE;
+                cells[row][col] = new Square(row, col, cellType);
             }
         }
     }

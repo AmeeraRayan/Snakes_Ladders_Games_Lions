@@ -1,6 +1,6 @@
 package Model;
 
-public enum CellType {
+public enum SquareType {
     QUESTION,
     SURPRISE,
 }

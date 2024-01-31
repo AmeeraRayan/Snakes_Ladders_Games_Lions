@@ -1,11 +1,11 @@
 package Model;
 
-public class Cell {
+public class Square {
     private int row;
     private int col;
-    private CellType type;
+    private SquareType type;
 
-    public Cell(int row, int col, CellType type) {
+    public Square(int row, int col, SquareType type) {
         this.row = row;
         this.col = col;
         this.type = type;
@@ -27,11 +27,11 @@ public class Cell {
 		this.col = col;
 	}
 	
-	public CellType getType() {
+	public SquareType getType() {
 		return type;
 	}
 
-	public void setType(CellType type) {
+	public void setType(SquareType type) {
 		this.type = type;
 	}
 
