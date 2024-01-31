@@ -60,7 +60,8 @@ public class BounusResults2 extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		
                 // Set the visibility of the new screen
-        	Game game = new Game(difficultyLevel, playersSortedByOrder);
+        		BoardEasyView2Players boardView = new BoardEasyView2Players();
+        	Game game = new Game(difficultyLevel, playersSortedByOrder,boardView);
         	new BoardEasyView2Players(game).setVisible(true);
         	contentPane.setVisible(false);
         			

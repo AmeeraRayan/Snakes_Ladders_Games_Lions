@@ -3,17 +3,18 @@ package Model;
 import java.util.List;
 
 import Controller.MangQuestionControl;
+import View.BoardEasyView2Players;
 
 
 public class Game {
 	private static Game instance = null;
     private List<Player> players;
     private Player currentPlayer;
+    private BoardEasyView2Players boardView;
     private Board board;
     private Dice dice;
     private int turnCount;
     private int currentPlayerIndex = 0; // Add this variable to track the current player index
-    private MangQuestionControl mngControl= new MangQuestionControl();
 //  Singleton Instance
 	public static Game getInstance(List<Player> players,String difficulty) {
 		if (instance == null) {
@@ -31,6 +32,7 @@ public class Game {
 
         // Create the board
         Board board = new Board(boardSize);
+        this.boardView = boardView;
 
         // Create the dice
         Dice dice = new Dice(difficulty);
@@ -81,122 +83,57 @@ public class Game {
 		this.turnCount = turnCount;
 	}
 
-/*
-	public void playGame() {
-        while (true) {
-            Player currentPlayer = getCurrentPlayer();
-            int diceRoll = dice.roll();
-
-            if (diceRoll > 0 && diceRoll <= 6) {
-                System.out.println(currentPlayer.getName() + " rolled a " + diceRoll);
-
-                // Move the player on the board
-                int newPosition = currentPlayer.getPosition() + diceRoll;
-                newPosition = handleSnakesAndLadders(currentPlayer, newPosition);
-                currentPlayer.setPosition(newPosition);
-
-                // Check for a winning position
-                if (newPosition >= board.getSize()) {
-                    System.out.println(currentPlayer.getName() + " wins!");
-                    return;
-                }
-
-                // Handle questions based on the dice roll
-                if (diceRoll > 0 && diceRoll <= 6) {
-                    handleQuestion(currentPlayer, "easy");
-                    handleQuestion(currentPlayer, "medium");
-                    handleQuestion(currentPlayer, "hard");
-                }
-            } else {
-                // Handle the case where a question is triggered
-                handleQuestion(currentPlayer, "easy");
-                handleQuestion(currentPlayer, "medium");
-                handleQuestion(currentPlayer, "hard");
-            }
-
-            // Switch to the next player
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        }
-    }
-	private int handleSnakesAndLadders(Player currentPlayer, int newPosition) {
-	    // Check for snakes and ladders on the board
-	    for (Snake snake : board.getSnakes()) {
-	        if (newPosition == snake.getStart()) {
-	            System.out.println("Oops! Snake bite! " + currentPlayer.getName() + " goes back to " + snake.getEnd());
-	            return snake.getEnd();
-	        }
-	    }
-
-	    for (Ladder ladder : board.getLadders()) {
-	        if (newPosition == ladder.getStart()) {
-	            System.out.println("Great! " + currentPlayer.getName() + " climbs the ladder to " + ladder.getEnd());
-	            return ladder.getEnd();
-	        }
-	    }
-
-	    return newPosition;
-	}
-
-    private void handleQuestion(Player currentPlayer, String level) {
-        Questions question =mngControl.getRandomQuestion(level);
-        if (question != null) {
-            System.out.println("Question for " + currentPlayer.getName() + ": " + question.getQuestionText());
-            // Display options and get user input for the answer
-            // Check if the answer is correct and move the player accordingly
-            // Update player position based on correct/incorrect answer
+    public void rollDiceAndMovePlayer() {
+        int roll = dice.roll();
+        Player currentPlayer = getCurrentPlayer();
+        movePlayer(currentPlayer, roll);
+        checkForSnakesAndLadders(currentPlayer);
+        updateBoardView();
+        if (hasPlayerWon(currentPlayer)) {
+            endGame(currentPlayer);
         } else {
-            System.out.println("No questions available for " + level + " level.");
+            advanceToNextPlayer();
         }
     }
 
-        public void playTurn() {
-            Player currentPlayer = getCurrentPlayer();
-            int diceRoll = dice.roll();
+    private void movePlayer(Player player, int roll) {
+        int newPosition = player.getPosition() + roll;
+        newPosition = Math.min(newPosition, board.getSize() * board.getSize()); // Assuming a square board
+        player.setPosition(newPosition);
+    }
 
-            if (diceRoll > 0 && diceRoll <= 6) {
-                System.out.println(currentPlayer.getName() + " rolled a " + diceRoll);
-
-                // Move the player on the board
-                int newPosition = currentPlayer.getPosition() + diceRoll;
-                newPosition = handleSnakesAndLadders(currentPlayer, newPosition);
-                currentPlayer.setPosition(newPosition);
-
-                // Handle questions based on the dice roll
-                if (diceRoll > 0 && diceRoll <= 6) {
-                    handleQuestion(currentPlayer, "easy");
-                    handleQuestion(currentPlayer, "medium");
-                    handleQuestion(currentPlayer, "hard");
-                }
-            } else {
-                // Handle the case where a question is triggered
-                handleQuestion(currentPlayer, "easy");
-                handleQuestion(currentPlayer, "medium");
-                handleQuestion(currentPlayer, "hard");
+    private void checkForSnakesAndLadders(Player player) {
+        for (Snake snake : board.getSnakes()) {
+            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue()) ) {
+                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+                break;
             }
-
-            // Switch to the next player
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
-
-        public boolean isGameOver() {
-            // Check if any player has reached the end of the board
-            for (Player player : players) {
-                if (player.getPosition() >= board.getSize()) {
-                    return true; // Game is over
-                }
+        
+        for (Ladder ladder : board.getLadders()) {
+            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue()) ) {
+                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+                break;
             }
-            return false; // Game is not over
         }
+    }
 
-        public Player getWinner() {
-            // Find the player who has reached the end of the board first
-            for (Player player : players) {
-                if (player.getPosition() >= board.getSize()) {
-                    return player; // This player is the winner
-                }
-            }
-            return null; // No winner yet
-        }
-*/
-}
+    private void updateBoardView() {
+        Player currentPlayer = getCurrentPlayer();
+
+        // Convert the player's position to x and y coordinates on the board
+        int boardSize = board.getSize();
+        int x = (currentPlayer.getPosition() - 1) % boardSize;
+        int y = (currentPlayer.getPosition() - 1) / boardSize;
+
+        // Update the GUI component of the currentPlayer
+        boardView.updatePlayerPosition(currentPlayer, x, y);
+    }
+    private boolean hasPlayerWon(Player player) {
+        return player.getPosition() == board.getSize() * board.getSize();
+    }
+
+   }
+
+
 
