@@ -27,8 +27,8 @@ public class BoardEasyView2Players extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
-		lblNewLabel.setBounds(-13, -90, 1063, 752);
+		lblNewLabel.setIcon(new ImageIcon("images/bardeasy2.png"));
+		lblNewLabel.setBounds(-24, -94, 1063, 752);
 		contentPane.add(lblNewLabel);
 	}
 }
