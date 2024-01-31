@@ -3,29 +3,55 @@ package View;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
+import Controller.PreGameController;
 import Model.Game;
+import Model.Ladder;
 import Model.Player;
+import Model.Snake;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 public class BoardEasyView2Players extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private Map<Player, Integer> playerRolls;
 	private Game game;
+	private Player currentPlayer;
+	private int currentPlayerIndex;
 	private final int cellWidth = 100; // Width of each square cell in pixels
 	private final int cellHeight = 100;
+    private JLabel rollLabel;
     private Map<Player, JLabel> playerTokenMap = new HashMap<>();
 
-	public BoardEasyView2Players() {
+	public BoardEasyView2Players(Game game ) {
+        playerRolls = new LinkedHashMap<>();
+		this.currentPlayer=game.getCurrentPlayer();
+		this.game=game;
+		startGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1050, 700);
 		contentPane = new JPanel();
@@ -37,25 +63,62 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Player player : game.getPlayers()) {
 	            JLabel tokenLabel = null;
 	            if (playerIndex == 0) { // First player gets the blue token
-	                tokenLabel = new JLabel("C:\\Users\\Maria\\OneDrive\\שולחן העבודה\\Lions\\Snakes_Ladders_Games_Lions\\src\\images\\blueplayer.png");
+	                tokenLabel = new JLabel("C:\\Users\\Maria\\Downloads\\blueplayer.png");
 	            } else if (playerIndex == 1) { // Second player gets the green token
-	                tokenLabel = new JLabel("C:\\Users\\Maria\\OneDrive\\שולחן העבודה\\Lions\\Snakes_Ladders_Games_Lions\\src\\images\\greenplayer.png");
+	                tokenLabel = new JLabel("C:\\Users\\Maria\\Downloads\\greenplayer.png");
 	            }
 	            tokenLabel.setBounds(0, 0, cellWidth, cellHeight); // Set initial position to the first cell
 	            playerTokenMap.put(player, tokenLabel);
 	            getContentPane().add(tokenLabel); // Add the token to the JFrame's content pane
 	            playerIndex++;
 	        }
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\OneDrive\\שולחן העבודה\\Lions\\Snakes_Ladders_Games_Lions\\src\\images\\bardeasy2.png"));
+	        JTextPane txtpnHi = new JTextPane();
+	        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+	        txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
+	        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
+	        
+	        txtpnHi.setBounds(10, 202, 180, 239);
+	        contentPane.add(txtpnHi);
+	      
+		JButton diceButton = new JButton("");
+        diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
+		diceButton.setBounds(870, 240, 160, 160);
+		contentPane.add(diceButton);
+		diceButton.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent arg0) {
+		        // Perform the dice roll for the current player
+		        int rollResult = game.getDice().rollforEasy(game.getDifficulty());
+		        ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
+		        diceButton.setIcon(diceIcon); // Set the dice button icon to the image corresponding to the roll result
+
+		        currentPlayer = game.getPlayers().get(currentPlayerIndex); // Get the current player based on index
+		        playerRolls.put(currentPlayer, rollResult); // Save the roll result for the current player
+
+		        // Update the JTextPane with roll results for all players
+		        displayRollsInTextPane(txtpnHi, playerRolls);
+
+		        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size(); // Move to the next player
+		        // Optionally, update the display to indicate it's the next player's turn
+		        updateCurrentPlayerDisplay();
+		    }
+		});
+   
+        JLabel lblNewLabel = new JLabel("");
+
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
 		lblNewLabel.setBounds(-24, -94, 1063, 752);
 		contentPane.add(lblNewLabel);
+		
+		
 	}
 	public void updatePlayerPosition(Player player, int x, int y) {
-	    // This method would be responsible for updating the player's token on the GUI.
-	    // You'd need to translate the board position (x, y) to pixel coordinates if your layout requires it.
+	    System.out.println("Updating position for player: " + player); // Debug output
 	    JLabel playerToken = getPlayerToken(player);
+	    if (playerToken == null) {
+	        System.out.println("Player token is null for player: " + player); // More debug output
+	        return; // Prevent NullPointerException by exiting early if playerToken is null
+	    }
 	    playerToken.setLocation(calculatePixelX(x), calculatePixelY(y));
 	}
 
@@ -75,11 +138,117 @@ public class BoardEasyView2Players extends JFrame {
 	    return boardY * cellHeight; // cellHeight is the height of a cell in your GUI
 	}
 
-	private void endGame(Player winner) {
-	    // Display a victory message
-	    JOptionPane.showMessageDialog(null, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-	    // You might also want to disable further game actions or offer to restart the game.
-	}
 	
+	public void updateCurrentPlayerDisplay(Player currentPlayer) {
+        // Iterate over all entries in the playerTokenMap
+        for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
+            Player player = entry.getKey();
+            JLabel tokenLabel = entry.getValue();
 
+            if (player.equals(currentPlayer)) {
+                // Highlight the current player's token
+                tokenLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+            } else {
+                // Remove highlight from other players' tokens
+                tokenLabel.setBorder(null);
+            }
+        }
+
+        this.repaint(); // Repaint the board to show the updates
+    }
+	private void updateBoardView() {
+        currentPlayer = game.getCurrentPlayer();
+
+        // Convert the player's position to x and y coordinates on the board
+        int boardSize = game.getBoard().getSize();
+        int x = (currentPlayer.getPosition() - 1) % boardSize;
+        int y = (currentPlayer.getPosition() - 1) / boardSize;
+
+        // Update the GUI component of the currentPlayer
+        this.updatePlayerPosition(currentPlayer, x, y);
+    }
+	
+	public void rollDiceAndMovePlayer() {
+		
+        int roll = game.getDice().rollforEasy(game.getDifficulty());
+        currentPlayer = game.getCurrentPlayer();
+        movePlayer(currentPlayer, roll);
+        checkForSnakesAndLadders(currentPlayer);
+        updateBoardView();
+        if (hasPlayerWon(currentPlayer)) {
+            endGame(currentPlayer);
+        } else {
+            advanceToNextPlayer();
+        }
+    }
+	  private void endGame(Player winner) {
+		    JOptionPane.showMessageDialog(null, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		}
+	    private void movePlayer(Player player, int roll) {
+	        int newPosition = player.getPosition() + roll;
+	        newPosition = Math.min(newPosition, game.getBoard().getSize() * game.getBoard().getSize()); // Assuming a square board
+	        player.setPosition(newPosition);
+	    }
+	    private void checkForSnakesAndLadders(Player player) {
+	        for (Snake snake : game.getBoard().getSnakes()) {
+	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue()) ) {
+	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+	                break;
+	            }
+	        }
+	        
+	        for (Ladder ladder : game.getBoard().getLadders()) {
+	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue()) ) {
+	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	                break;
+	            }
+	        }
+	    }
+
+	    private boolean hasPlayerWon(Player player) {
+	        return player.getPosition() == game.getBoard().getSize() * game.getBoard().getSize();
+	    }
+	    private void advanceToNextPlayer() {
+	        currentPlayerIndex = (game.getCurrentPlayerIndex() + 1) % game.getPlayers().size();
+	        currentPlayer = game.getPlayers().get(game.getCurrentPlayerIndex());
+
+	        updateCurrentPlayerDisplay();
+	    }
+
+	    private void updateCurrentPlayerDisplay() {
+	        // Highlight the current player's token
+	        JLabel currentPlayerToken = playerTokenMap.get(currentPlayer);
+	        if (currentPlayerToken != null) {
+	            currentPlayerToken.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+	        }
+
+	        // Remove highlight from other players' tokens
+	        for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
+	            if (!entry.getKey().equals(currentPlayer)) {
+	                entry.getValue().setBorder(null);
+	            }
+	        }
+	    }
+	    public void startGame() {
+	        rollDiceAndMovePlayer(); 
+	    }
+	    private void displayRollLabel() {
+            rollLabel.setVisible(true);
+        }
+	    private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
+	        StyledDocument doc = textPane.getStyledDocument();
+	        textPane.setText(""); // Clear previous text
+	        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
+	            Player player = entry.getKey();
+	            Integer rollResult = entry.getValue();
+	            String playerRollText = player.getName() + " rolled a " + rollResult + "\n";
+	            try {
+	                doc.insertString(doc.getLength(), playerRollText, null); // Append roll result for each player
+	            } catch (BadLocationException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	  
 }

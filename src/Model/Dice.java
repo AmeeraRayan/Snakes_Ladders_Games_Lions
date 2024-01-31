@@ -3,10 +3,15 @@ import java.util.Random;
 
 public class Dice {
 	private Random random;
+	private String difficulty;
+	public Dice(String difficulty) {
+		this.difficulty=difficulty;
+	    this.random = new Random();
+	}
 	public Dice() {
 	    this.random = new Random();
 	}
-	public int Dice(String difficulty) {
+	public int rollforEasy(String difficulty) {
 		if (difficulty.equals("Easy"))	{
 	        return random.nextInt(4) + 1; // rolls a number between 1 and 6
 		}

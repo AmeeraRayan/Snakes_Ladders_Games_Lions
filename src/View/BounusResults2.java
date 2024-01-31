@@ -57,16 +57,14 @@ public class BounusResults2 extends JFrame {
 		 
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-                // Set the visibility of the new screen
-        		BoardEasyView2Players boardView = new BoardEasyView2Players();
-        	Game game = new Game(difficultyLevel, playersSortedByOrder,boardView);
-        	new BoardEasyView2Players(game).setVisible(true);
-        	contentPane.setVisible(false);
-        			
-        	}
+            public void actionPerformed(ActionEvent e) {
+                Game game = new Game(difficultyLevel, playersSortedByOrder); 
+                new BoardEasyView2Players(game).setVisible(true);
+                BounusResults2.this.setVisible(false); // Hide the current window
+            }
         });
+
+
         btnNewButton_1.setBounds(556, 434, 119, 34);
         contentPane.add(btnNewButton_1);
 		 
