@@ -40,14 +40,6 @@ public class Game {
 		this.players = players;
 	}
 
-	public  Player getCurrentPlayer() {
-        if (currentPlayerIndex >= 0 && currentPlayerIndex < players.size()) {
-            return players.get(currentPlayerIndex);
-        } else {
-            // Handle the case where the index is out of bounds
-            return null;
-        }
-    }
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
@@ -91,6 +83,10 @@ public class Game {
 
 	public void setCurrentPlayerIndex(int currentPlayerIndex) {
 		this.currentPlayerIndex = currentPlayerIndex;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
   
 

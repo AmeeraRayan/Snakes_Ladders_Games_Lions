@@ -25,7 +25,6 @@ public class Board {
             this.snakes = new Snake[4];
             this.ladders = new Ladder[4];
             initializeSnakesAndLaddersForEasy();
-            System.out.println(this.getCells().toString());
         }
         else if (size==10) {
         	this.cells = new Square[10][10];
@@ -120,10 +119,7 @@ public class Board {
     	    		   counter+=1;
     	    	   }
     	}
-    	    
- 
-    	    
-    	    
+    	   
 
 
     }

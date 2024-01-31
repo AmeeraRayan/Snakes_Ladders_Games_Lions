@@ -13,7 +13,7 @@ public class Dice {
 	}
 	public int rollforEasy(String difficulty) {
 		if (difficulty.equals("Easy"))	{
-	        return random.nextInt(4) + 1; // rolls a number between 1 and 6
+	        return random.nextInt(4) + 1; // rolls a number between 1 and 4
 		}
 		return 0;
 	}
