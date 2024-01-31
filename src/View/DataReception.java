@@ -145,7 +145,7 @@ public class DataReception extends JFrame {
                 }
         	}
         });
-        btnNewButton_1.setBounds(562, 434, 119, 34);
+        btnNewButton_1.setBounds(556, 434, 119, 34);
         panel.add(btnNewButton_1);
         
          
