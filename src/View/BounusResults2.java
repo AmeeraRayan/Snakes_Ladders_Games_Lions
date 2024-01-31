@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Model.Game;
 import Model.Player;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
@@ -51,5 +54,21 @@ public class BounusResults2 extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
 		lblNewLabel.setBounds(-108, -38, 1043, 669);
 		contentPane.add(lblNewLabel);
+		 
+        JButton btnNewButton_1 = new JButton("Next");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+                // Set the visibility of the new screen
+        	Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
+      	    game.playGame();
+             DataReception.this.setVisible(false);
+        			
+        	}
+        });
+        btnNewButton_1.setBounds(556, 434, 119, 34);
+        contentPane.add(btnNewButton_1);
+		 Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
+	      game.playGame();
 	}
 }

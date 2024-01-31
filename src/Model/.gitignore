@@ -7,3 +7,12 @@
 /SysData.class
 /colors.class
 /Color.class
+/Board.class
+/Cell.class
+/CellType.class
+/Ladder.class
+/Snake.class
+/GameSitup.class
+/GameSetup.class
+/Square.class
+/SquareType.class

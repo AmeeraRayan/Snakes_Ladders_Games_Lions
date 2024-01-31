@@ -6,6 +6,7 @@ import Controller.MangQuestionControl;
 
 
 public class Game {
+	private static Game instance = null;
     private List<Player> players;
     private Player currentPlayer;
     private Board board;
@@ -13,15 +14,28 @@ public class Game {
     private int turnCount;
     private int currentPlayerIndex = 0; // Add this variable to track the current player index
     private MangQuestionControl mngControl= new MangQuestionControl();
+//  Singleton Instance
+	public static Game getInstance(List<Player> players,String difficulty) {
+		if (instance == null) {
+			instance = new Game(players,difficulty);
+		}
+		return instance;
+	}
     
-    public Game(Board board, List<Player> players, Dice dice) {
+    public Game( List<Player> players,String difficulty) {
         this.players = players;
         this.currentPlayer = null; // Initialize based on game rules
-        this.board = board;
-        this.dice = dice;
         this.turnCount = 0;
-    }
+        // Set board size based on difficulty
+        int boardSize = difficulty.equals("Easy") ? 7 : difficulty.equals("Medium") ? 10 : 13;
 
+        // Create the board
+        Board board = new Board(boardSize);
+
+        // Create the dice
+        Dice dice = new Dice(difficulty);
+
+    }
 
     public List<Player> getPlayers() {
 		return players;
@@ -67,7 +81,7 @@ public class Game {
 		this.turnCount = turnCount;
 	}
 
-
+/*
 	public void playGame() {
         while (true) {
             Player currentPlayer = getCurrentPlayer();
@@ -183,6 +197,6 @@ public class Game {
             }
             return null; // No winner yet
         }
-
+*/
 }
 
