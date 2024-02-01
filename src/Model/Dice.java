@@ -32,7 +32,7 @@ public class Dice {
 
 	        // Now, retrieve a random question based on the selected difficulty
 	        Questions question = retrieveRandomQuestion(questionDifficulty);
-
+System.out.println(question.getQuestionText());
 	        // Present the question and options to the player
 	        presentQuestion(question);
 
@@ -40,13 +40,13 @@ public class Dice {
 	        int playerAnswer = getPlayerAnswer();
 
 	        // Verify the answer
-	        if (verifyAnswer(question, playerAnswer)) {
+	       /* if (verifyAnswer(question, playerAnswer)) {
 	            System.out.println("Correct! You move forward.");
 	            // Implement logic for moving the player forward
 	        } else {
 	            System.out.println("Wrong answer. You stay put.");
 	            // Implement logic for staying put or moving back if necessary
-	        }
+	        }*/
 	    }
 
 	    return roll;

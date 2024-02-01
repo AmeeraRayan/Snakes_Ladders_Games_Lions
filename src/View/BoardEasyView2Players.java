@@ -45,7 +45,6 @@ public class BoardEasyView2Players extends JFrame {
 	private int currentPlayerIndex;
 	private final int cellWidth = 100; // Width of each square cell in pixels
 	private final int cellHeight = 100;
-    private JLabel rollLabel;
     private int rollResult;
     private Map<Player, JLabel> playerTokenMap = new HashMap<>();
 	private JButton diceButton;
@@ -71,17 +70,24 @@ public class BoardEasyView2Players extends JFrame {
 		 int playerIndex = 0;
 	        for (Player player : game.getPlayers()) {
 	            JLabel tokenLabel = null;
-	            if (playerIndex == 0) { // First player gets the blue token
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));;
-	            } else if (playerIndex == 1) { // Second player gets the green token
+	            if (playerIndex == 0 && player.getColor()==Color.GREEN) {
+	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));
+		            playerTokenMap.put(player, tokenLabel);
+	            } else if (playerIndex == 1 && player.getColor()==Color.BLUE) { 
 	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
+		            playerTokenMap.put(player, tokenLabel);
+	            } else if (playerIndex == 1 && player.getColor()==Color.GREEN) { 
+	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));;
+		            playerTokenMap.put(player, tokenLabel);
+	            } else if (playerIndex == 0 && player.getColor()==Color.BLUE) { 
+	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
+		            playerTokenMap.put(player, tokenLabel);
 	            }
-	            tokenLabel.setBounds(0, 0, cellWidth, cellHeight); // Set initial position to the first cell
-	            System.out.println("label"+tokenLabel);
-	            playerTokenMap.put(player, tokenLabel);
-	            getContentPane().add(tokenLabel); // Add the token to the JFrame's content pane
+	            tokenLabel.setBounds(0, 0, cellWidth, cellHeight); 
+	            getContentPane().add(tokenLabel); 
 	            playerIndex++;
 	        }
+	        System.out.println(playerTokenMap.get(currentPlayer));
 	         txtpnHi = new JTextPane();
 	        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
 	        txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
@@ -102,103 +108,91 @@ public class BoardEasyView2Players extends JFrame {
 		contentPane.add(lblNewLabel);
 		startGame();
 		
+		
 	}
 	public void updatePlayerPosition(Player player, int x, int y) {
-	    System.out.println("Updating position for player: " + player.getName()); 
 	    JLabel playerToken = getPlayerToken(player);
-	    if (playerToken == null) {
-	        System.out.println("Player token is null for player: " + player); 
-	        return; // Prevent NullPointerException by exiting early if playerToken is null
+	    if (playerToken != null) {
+	        // Calculate new pixel positions
+	        int pixelX = calculatePixelX(x);
+	        int pixelY = calculatePixelY(y);
+	        playerToken.setBounds(pixelX, pixelY, playerToken.getWidth(), playerToken.getHeight());
+	        
+	        System.out.println(player.getName() + " moves to X: " + x + " Y: " + y + " (PixelX: " + pixelX + ", PixelY: " + pixelY + ")");
+	    } else {
+	        System.err.println("Token not found for player: " + player.getName());
 	    }
-	    playerToken.setLocation(calculatePixelX(y), calculatePixelY(x));
-	    System.out.println("lablel location x="+playerToken.getLocation().y+"y"+playerToken.getLocation().x);
+
+	    contentPane.revalidate();
+	    contentPane.repaint();
 	}
 
+
 	private JLabel getPlayerToken(Player player) {
-	    // Retrieve the JLabel associated with the player
-	    // This assumes you have a way to map from Player objects to their JLabel tokens.
 	    return playerTokenMap.get(player);
 	}
 
 	private int calculatePixelX(int boardX) {
-	    // Translate the board x-coordinate to a pixel coordinate for the GUI
-	    return boardX * cellWidth; // cellWidth is the width of a cell in your GUI
+	    return boardX * cellWidth;
 	}
 
 	private int calculatePixelY(int boardY) {
-	    // Translate the board y-coordinate to a pixel coordinate for the GUI
-	    return boardY * cellHeight; // cellHeight is the height of a cell in your GUI
+	    return boardY * cellHeight;
 	}
 
 	
-	public void updateCurrentPlayerDisplay(Player currentPlayer) {
-        // Iterate over all entries in the playerTokenMap
-        for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
-            Player player = entry.getKey();
-            JLabel tokenLabel = entry.getValue();
 
-            if (player.equals(currentPlayer)) {
-                // Highlight the current player's token
-               // tokenLabel.setBorder(BorderFactory.createStrokeBorder(Color.GREEN, 3));
-            } else {
-                // Remove highlight from other players' tokens
-                tokenLabel.setBorder(null);
-            }
-        }
+private void updateCurrentPlayerDisplay(Player currentPlayer) {
+    String bluePlayerIconPath = "/images/blueplayer.png";
+    String greenPlayerIconPath = "/images/greenplayer.png";
 
-        this.repaint(); // Repaint the board to show the updates
+    for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
+        Player player = entry.getKey();
+        JLabel tokenLabel = entry.getValue();
+        System.out.println("LABLE"+tokenLabel);
+        ImageIcon icon = new ImageIcon(getClass().getResource(
+            player.getColor() == Color.GREEN ? greenPlayerIconPath:bluePlayerIconPath ));
+        tokenLabel.setIcon(icon);
     }
+    this.repaint(); // Ensure the GUI updates to reflect these changes
+}
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
 
-	    // Convert the player's position to x and y coordinates on the board
 	    int boardSize = game.getBoard().getSize();
 	    int position = currentPlayer.getPosition() - 1; // Subtract 1 to start from 0 index
 	    int y = position % boardSize;
 	    int x = position / boardSize;
 
-	    // Check if we are on an even or an odd row
 	    if (x % 2 == 1) {
-	        // On odd rows, we reverse the x direction
 	        y = boardSize - 1 - y;
 	    }
 
-	    // The y direction is top to bottom, so we invert it
 	    x= (boardSize - 1) - x;
 
-	    // Update the GUI component of the currentPlayer
 	    this.updatePlayerPosition(currentPlayer, x, y);
 	    
 	}
 	private void performDiceRollAndMove() {
-	    // Disable the dice button to prevent multiple rolls
 	    diceButton.setEnabled(false);
 
-	    // Perform the dice roll for the current player
-	    rollResult = game.getDice().rollforEasy(game.getDifficulty());
+	    rollResult = game.getDice().rollForEasy();
 	    
-	    // Update the GUI with the dice roll result
 	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 	    diceButton.setIcon(diceIcon);
 
-	    // Move the player based on the dice roll
 	    movePlayer(currentPlayer, rollResult);
 	    
-	    // Check if the player encountered snakes or ladders
 	    checkForSnakesAndLadders(currentPlayer);
 	    
-	    // Update the board view to reflect the player's new position
 	    updateBoardView();
 	    
-	    // Update the text pane to show the roll results
 	    displayRollsInTextPane(txtpnHi, playerRolls);
 
-	    // Check if the current player has won the game
 	    if (hasPlayerWon(currentPlayer)) {
 	        // End the game if the player has won
 	        endGame(currentPlayer);
 	    } else {
-	        // Advance to the next player and update the display
 	        advanceToNextPlayer();
 	    }
 	}
@@ -254,31 +248,18 @@ public class BoardEasyView2Players extends JFrame {
 	    private void advanceToNextPlayer() {
 	        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
 	        currentPlayer = game.getPlayers().get(currentPlayerIndex);
-	        displayCurrentPlayer();
+	        
 	        updateCurrentPlayerDisplay(currentPlayer);
-	        enableDiceRollForCurrentPlayer(); // Enable the dice roll for the next player
+	        displayCurrentPlayer(); 
+	        
+	        diceButton.setEnabled(true); 
 	    }
+
 	    private void displayCurrentPlayer() {
-	        currentPlayerLabel.setText("Current Player: " + currentPlayer.getName());
-	    }
-
-	    private void updateCurrentPlayerDisplay() {
-	        String bluePlayerActiveIconPath = "/images/blueplayer.png";  
-	        String greenPlayerActiveIconPath = "/images/greenplayer.png";  
-
-	        for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
-	            Player player = entry.getKey();
-	            JLabel tokenLabel = entry.getValue();
-
-	            if (player.equals(currentPlayer)) {
-	                // Set the icon to the active version
-	                ImageIcon activeIcon = new ImageIcon(getClass().getResource(
-	                    player.getColor() == Color.BLUE ? bluePlayerActiveIconPath : greenPlayerActiveIconPath));
-	                tokenLabel.setIcon(activeIcon);
-	            } 
+	        if (currentPlayer != null) {
+	            currentPlayerLabel.setText("Current Player: " + currentPlayer.getName());
 	        }
 	    }
-
 
 	    public void startGame() {
 	        rollDiceAndMovePlayer(); 
