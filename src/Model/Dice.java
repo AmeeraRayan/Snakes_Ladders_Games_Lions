@@ -4,7 +4,7 @@ import java.util.Random;
 public class Dice {
 	private Random random;
 	private String difficulty;
-	private SysData sysdata=new SysData();
+	private SysData sysdata= SysData.getInstance();
 	public Dice(String difficulty) {
 		this.difficulty=difficulty;
 	    this.random = new Random();
@@ -23,14 +23,11 @@ public class Dice {
 	    // rolls a number between 1 and 4
 	    int roll = random.nextInt(4) + 1;
 
-	    // Suppose there is a 25% chance to land on a question square
 	    boolean landsOnQuestion = random.nextFloat() < 0.25;
 
 	    if (landsOnQuestion) {
-	        // If landed on question, randomly select a difficulty level for the question
-	        int questionDifficulty = random.nextInt(3) + 1; // This will give you 1, 2, or 3
+	        int questionDifficulty = random.nextInt(3) + 1; 
 
-	        // Now, retrieve a random question based on the selected difficulty
 	        Questions question = retrieveRandomQuestion(questionDifficulty);
 System.out.println(question.getQuestionText());
 	        // Present the question and options to the player
@@ -67,6 +64,7 @@ System.out.println(question.getQuestionText());
 	    return question.getCorrectOption() == playerAnswer;
 	}
 	private Questions retrieveRandomQuestion(int difficulty) {
+		this.sysdata.LoadQuestions();
 	   
 	    return this.sysdata.getRandomQuestion(difficulty);
 	}

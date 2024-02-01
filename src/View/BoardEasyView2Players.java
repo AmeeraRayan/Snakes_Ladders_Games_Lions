@@ -64,7 +64,6 @@ public class BoardEasyView2Players extends JFrame {
 		currentPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		currentPlayerLabel.setBounds(20, 20, 300, 50); 
 		contentPane.add(currentPlayerLabel);
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		 int playerIndex = 0;
@@ -87,7 +86,6 @@ public class BoardEasyView2Players extends JFrame {
 	            getContentPane().add(tokenLabel); 
 	            playerIndex++;
 	        }
-	        System.out.println(playerTokenMap.get(currentPlayer));
 	         txtpnHi = new JTextPane();
 	        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
 	        txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
@@ -154,7 +152,7 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
             player.getColor() == Color.GREEN ? greenPlayerIconPath:bluePlayerIconPath ));
         tokenLabel.setIcon(icon);
     }
-    this.repaint(); // Ensure the GUI updates to reflect these changes
+    this.repaint(); 
 }
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
@@ -175,26 +173,22 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	}
 	private void performDiceRollAndMove() {
 	    diceButton.setEnabled(false);
-
 	    rollResult = game.getDice().rollForEasy();
-	    
 	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 	    diceButton.setIcon(diceIcon);
-
 	    movePlayer(currentPlayer, rollResult);
-	    
 	    checkForSnakesAndLadders(currentPlayer);
-	    
 	    updateBoardView();
-	    
-	    displayRollsInTextPane(txtpnHi, playerRolls);
 
 	    if (hasPlayerWon(currentPlayer)) {
-	        // End the game if the player has won
 	        endGame(currentPlayer);
 	    } else {
 	        advanceToNextPlayer();
 	    }
+	}
+	private boolean hasPlayerWon(Player player) {
+	    int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
+	    return player.getPosition() >= maxPosition;
 	}
 
 	private void rollDiceAndMovePlayer() {
@@ -214,9 +208,11 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	    });
 	}
 
-	  private void endGame(Player winner) {
-		    JOptionPane.showMessageDialog(null, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-		}
+	private void endGame(Player winner) {
+	    JOptionPane.showMessageDialog(this, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+	    diceButton.setEnabled(false);
+	}
+
 	    private void movePlayer(Player player, int roll) {
 	        int newPosition = player.getPosition() + roll;
 	        newPosition = Math.min(newPosition, game.getBoard().getSize() * game.getBoard().getSize()); // Assuming a square board
@@ -240,10 +236,6 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	                break;
 	            }
 	        }
-	    }
-
-	    private boolean hasPlayerWon(Player player) {
-	        return player.getPosition() == game.getBoard().getSize() * game.getBoard().getSize();
 	    }
 	    private void advanceToNextPlayer() {
 	        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();

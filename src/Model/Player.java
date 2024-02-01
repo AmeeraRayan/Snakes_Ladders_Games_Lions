@@ -7,7 +7,24 @@ public class Player {
 	private String name;
 	private Color  color;
 	private int position;
-	
+    private int lastPosition;
+
+	public int getLastPosition() {
+		return lastPosition;
+	}
+
+	public void setLastPosition(int lastPosition) {
+		this.lastPosition = lastPosition;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setPosition(int newPosition) {
+        this.lastPosition = this.position; // Store the current position as last position
+        this.position = newPosition; // Update position
+    }
+
 	public Player(String name ,Color color) {
 	    this.name = name;
 	    this.position = 1; // Starting position
@@ -22,9 +39,7 @@ public class Player {
 	public int getPosition() {
 	    return position;
 	}
-	public void setPosition(int position) {
-	   this.position = position;
-	}
+	
 	public Color getColor() {
 		return color;
 	}
