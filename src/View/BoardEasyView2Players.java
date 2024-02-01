@@ -49,6 +49,7 @@ public class BoardEasyView2Players extends JFrame {
     private int rollResult;
     private Map<Player, JLabel> playerTokenMap = new HashMap<>();
 	private JButton diceButton;
+	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
 
 	public BoardEasyView2Players(Game game ) {
@@ -59,6 +60,11 @@ public class BoardEasyView2Players extends JFrame {
 		setBounds(100, 100, 1050, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		// Add this inside the constructor
+		currentPlayerLabel = new JLabel("");
+		currentPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		currentPlayerLabel.setBounds(20, 20, 300, 50); 
+		contentPane.add(currentPlayerLabel);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -66,9 +72,9 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Player player : game.getPlayers()) {
 	            JLabel tokenLabel = null;
 	            if (playerIndex == 0) { // First player gets the blue token
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
-	            } else if (playerIndex == 1) { // Second player gets the green token
 	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));;
+	            } else if (playerIndex == 1) { // Second player gets the green token
+	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
 	            }
 	            tokenLabel.setBounds(0, 0, cellWidth, cellHeight); // Set initial position to the first cell
 	            System.out.println("label"+tokenLabel);
@@ -92,7 +98,7 @@ public class BoardEasyView2Players extends JFrame {
         JLabel lblNewLabel = new JLabel("");
 
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
-		lblNewLabel.setBounds(-24, -94, 1063, 752);
+		lblNewLabel.setBounds(-17, -89, 1063, 752);
 		contentPane.add(lblNewLabel);
 		startGame();
 		
@@ -164,39 +170,56 @@ public class BoardEasyView2Players extends JFrame {
 	    this.updatePlayerPosition(currentPlayer, x, y);
 	    
 	}
+	private void performDiceRollAndMove() {
+	    // Disable the dice button to prevent multiple rolls
+	    diceButton.setEnabled(false);
 
-	public void rollDiceAndMovePlayer() {
-		
-        currentPlayer = game.getCurrentPlayer();
-        diceButton.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent arg0) {
-		        // Perform the dice roll for the current player
-		        rollResult = game.getDice().rollforEasy(game.getDifficulty());
-		        ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
-		        diceButton.setIcon(diceIcon); // Set the dice button icon to the image corresponding to the roll result
+	    // Perform the dice roll for the current player
+	    rollResult = game.getDice().rollforEasy(game.getDifficulty());
+	    
+	    // Update the GUI with the dice roll result
+	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
+	    diceButton.setIcon(diceIcon);
 
-		        currentPlayer = game.getPlayers().get(currentPlayerIndex); // Get the current player based on index
-		        playerRolls.put(currentPlayer, rollResult); // Save the roll result for the current player
+	    // Move the player based on the dice roll
+	    movePlayer(currentPlayer, rollResult);
+	    
+	    // Check if the player encountered snakes or ladders
+	    checkForSnakesAndLadders(currentPlayer);
+	    
+	    // Update the board view to reflect the player's new position
+	    updateBoardView();
+	    
+	    // Update the text pane to show the roll results
+	    displayRollsInTextPane(txtpnHi, playerRolls);
 
-		        // Update the JTextPane with roll results for all players
-		        displayRollsInTextPane(txtpnHi, playerRolls);
+	    // Check if the current player has won the game
+	    if (hasPlayerWon(currentPlayer)) {
+	        // End the game if the player has won
+	        endGame(currentPlayer);
+	    } else {
+	        // Advance to the next player and update the display
+	        advanceToNextPlayer();
+	    }
+	}
 
-		        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size(); // Move to the next player
-		        System.out.println("roolresult="+rollResult);
-		        updateCurrentPlayerDisplay();
-		        movePlayer(currentPlayer, rollResult);
-		        checkForSnakesAndLadders(currentPlayer);
-		        updateBoardView();
-		        if (hasPlayerWon(currentPlayer)) {
-		            endGame(currentPlayer);
-		        } else {
-		            advanceToNextPlayer();
-		        }
-		    }
-		});
-   
-    }
+	private void rollDiceAndMovePlayer() {
+	    currentPlayer = game.getCurrentPlayer();
+	    displayCurrentPlayer(); // Display the current player's name
+	    enableDiceRollForCurrentPlayer();
+	}
+
+	private void enableDiceRollForCurrentPlayer() {
+	    diceButton.setEnabled(true); // Enable the dice button for the current player
+	    diceButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent arg0) {
+	            diceButton.setEnabled(false); // Disable the button to prevent multiple rolls
+	            performDiceRollAndMove();
+	        }
+	    });
+	}
+
 	  private void endGame(Player winner) {
 		    JOptionPane.showMessageDialog(null, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -229,18 +252,19 @@ public class BoardEasyView2Players extends JFrame {
 	        return player.getPosition() == game.getBoard().getSize() * game.getBoard().getSize();
 	    }
 	    private void advanceToNextPlayer() {
-	        currentPlayerIndex = (game.getCurrentPlayerIndex() + 1) % game.getPlayers().size();
-	        currentPlayer = game.getPlayers().get(game.getCurrentPlayerIndex());
-	        System.out.println("currennt player="+currentPlayer.getName());
-
-	        updateCurrentPlayerDisplay();
+	        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
+	        currentPlayer = game.getPlayers().get(currentPlayerIndex);
+	        displayCurrentPlayer();
+	        updateCurrentPlayerDisplay(currentPlayer);
+	        enableDiceRollForCurrentPlayer(); // Enable the dice roll for the next player
+	    }
+	    private void displayCurrentPlayer() {
+	        currentPlayerLabel.setText("Current Player: " + currentPlayer.getName());
 	    }
 
 	    private void updateCurrentPlayerDisplay() {
 	        String bluePlayerActiveIconPath = "/images/blueplayer.png";  
 	        String greenPlayerActiveIconPath = "/images/greenplayer.png";  
-	        String bluePlayerInactiveIconPath = "/images/blueplayer.png";  
-	        String greenPlayerInactiveIconPath = "/images/greenplayer.png";  
 
 	        for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
 	            Player player = entry.getKey();
@@ -251,12 +275,7 @@ public class BoardEasyView2Players extends JFrame {
 	                ImageIcon activeIcon = new ImageIcon(getClass().getResource(
 	                    player.getColor() == Color.BLUE ? bluePlayerActiveIconPath : greenPlayerActiveIconPath));
 	                tokenLabel.setIcon(activeIcon);
-	            } else {
-	                // Set the icon to the inactive version
-	                ImageIcon inactiveIcon = new ImageIcon(getClass().getResource(
-	                    player.getColor() == Color.BLUE ? bluePlayerInactiveIconPath : greenPlayerInactiveIconPath));
-	                tokenLabel.setIcon(inactiveIcon);
-	            }
+	            } 
 	        }
 	    }
 
