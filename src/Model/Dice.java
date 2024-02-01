@@ -8,11 +8,8 @@ import Model.SysData;
 public class Dice {
 	private Random random;
 	private String difficulty;
-<<<<<<< Updated upstream
 	private SysData sysdata= SysData.getInstance();
-=======
 	private SysData sysData = SysData.getInstance();
->>>>>>> Stashed changes
 	public Dice(String difficulty) {
 		this.difficulty=difficulty;
 	    this.random = new Random();
@@ -61,10 +58,10 @@ System.out.println(question.getQuestionText());
 	    String questionText = question.getQuestionText();
 	    String[] options = question.getOptions();
 	    int correctAnswer = question.getCorrectOption();
-	    int difficultyLevel = question.getDiffculty();
+	    int difficultyLevel = question.getDiffculty();}
 
 	    // Present the question and options in a dialog
-	    String userAnswer = (String) JOptionPane.showInputDialog(
+	  /*  String userAnswer = (String) JOptionPane.showInputDialog(
 	            this, 
 	            questionText, 
 	            "Question", 
@@ -100,7 +97,7 @@ System.out.println(question.getQuestionText());
 	        // Handle case where user closes the dialog or presses Cancel
 	        JOptionPane.showMessageDialog(null, "No answer selected.", "No Answer", JOptionPane.WARNING_MESSAGE);
 	    }
-	}
+	}*/
 
 	private int getPlayerAnswer() {
 	    // Get player's answer
@@ -110,18 +107,18 @@ System.out.println(question.getQuestionText());
 	private void movePlayerBack(int stepsBack) {
 	    // Assuming 'currentPlayer' is the Player object for the player whose turn it is
 	    // And assuming the Player class has 'getPosition()' and 'setPosition(int)' methods
-	    int currentPosition = currentPlayer.getPosition();
+	  //  int currentPosition = currentPlayer.getPosition();
 	    
 	    // Calculate the new position
-	    int newPosition = currentPosition - stepsBack;
+	   // int newPosition = currentPosition - stepsBack;
 
 	    // Ensure the new position is not less than the starting point (e.g., 0 or 1 depending on how you track position)
-	    if (newPosition < 0) {
-	        newPosition = 0; // or 1, if your game positions start at 1
-	    }
+	 //   if (newPosition < 0) {
+	     //   newPosition = 0; // or 1, if your game positions start at 1
+	   // }
 
 	    // Set the player's new position
-	    currentPlayer.setPosition(newPosition);
+	   // currentPlayer.setPosition(newPosition);
 
 	    // Optionally, update the game board or UI to reflect the player's new position
 	    updateGameBoard();
