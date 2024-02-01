@@ -25,7 +25,7 @@ public class BounusResults2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public BounusResults2(List<Player>  playersSortedByOrder) {
+	public BounusResults2(String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 713, 536);
 		contentPane = new JPanel();
@@ -49,26 +49,24 @@ public class BounusResults2 extends JFrame {
 		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
 		PlayerTurnTwo.setBounds(232, 306, 243, 58);
 		contentPane.add(PlayerTurnTwo);
-		
+        JButton btnNewButton_1 = new JButton("Next");
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Game game = new Game(difficultyLevel, playersSortedByOrder); 
+                new BoardEasyView2Players(game).setVisible(true);
+                BounusResults2.this.setVisible(false); // Hide the current window
+            }
+        });
+
+
+        btnNewButton_1.setBounds(556, 434, 105, 34);
+        contentPane.add(btnNewButton_1);
+		 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
 		lblNewLabel.setBounds(-108, -38, 1043, 669);
 		contentPane.add(lblNewLabel);
 		 
-        JButton btnNewButton_1 = new JButton("Next");
-        btnNewButton_1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-                // Set the visibility of the new screen
-        	Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
-      	    game.playGame();
-             DataReception.this.setVisible(false);
-        			
-        	}
-        });
-        btnNewButton_1.setBounds(556, 434, 119, 34);
-        contentPane.add(btnNewButton_1);
-		 Game game = GameSetup.initializeGame(difficulty, numberOfPlayers, playerNames);
-	      game.playGame();
+
 	}
 }
