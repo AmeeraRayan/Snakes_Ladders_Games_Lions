@@ -1,6 +1,6 @@
 package Model;
 
-import java.awt.Color;
+
 
 public class Player {
 	private int playerId;
@@ -14,6 +14,7 @@ public class Player {
 	    this.color = color;
 	    
 	}
+
 	public String getName() {
 	    return name;
 	}
