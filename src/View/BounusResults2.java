@@ -49,12 +49,6 @@ public class BounusResults2 extends JFrame {
 		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
 		PlayerTurnTwo.setBounds(232, 306, 243, 58);
 		contentPane.add(PlayerTurnTwo);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
-		lblNewLabel.setBounds(-108, -38, 1043, 669);
-		contentPane.add(lblNewLabel);
-		 
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -65,8 +59,14 @@ public class BounusResults2 extends JFrame {
         });
 
 
-        btnNewButton_1.setBounds(556, 434, 119, 34);
+        btnNewButton_1.setBounds(556, 434, 105, 34);
         contentPane.add(btnNewButton_1);
 		 
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
+		lblNewLabel.setBounds(-108, -38, 1043, 669);
+		contentPane.add(lblNewLabel);
+		 
+
 	}
 }
