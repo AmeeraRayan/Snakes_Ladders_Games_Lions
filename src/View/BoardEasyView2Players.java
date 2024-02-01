@@ -12,6 +12,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import Controller.PreGameController;
+import Model.Color;
 import Model.Game;
 import Model.Ladder;
 import Model.Player;
@@ -20,7 +21,6 @@ import Model.Snake;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
@@ -133,7 +133,7 @@ public class BoardEasyView2Players extends JFrame {
 
             if (player.equals(currentPlayer)) {
                 // Highlight the current player's token
-                tokenLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+               // tokenLabel.setBorder(BorderFactory.createStrokeBorder(Color.GREEN, 3));
             } else {
                 // Remove highlight from other players' tokens
                 tokenLabel.setBorder(null);
