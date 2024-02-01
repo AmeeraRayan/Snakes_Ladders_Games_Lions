@@ -1,6 +1,8 @@
 package Model;
 
 import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.stream.Collectors;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,6 +27,9 @@ public class SysData {
 	private static SysData instance = null;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
 	private Map<String, String> adminCredentials;
+	
+	private List<Questions> questionss;
+    private Random random = new Random();
 
     public SysData() {
         adminCredentials = new HashMap<>();
@@ -142,6 +147,20 @@ public class SysData {
 	        return false;
 	    }
 	}
+	public Questions getRandomQuestion(int difficulty) {
+        // Filter questions by difficulty
+        List<Questions> filteredQuestions = questions.stream()
+                .filter(q -> q.getDiffculty() == difficulty)
+                .collect(Collectors.toList());
+
+        if (filteredQuestions.isEmpty()) {
+            return null; // or handle the case where there are no questions for the difficulty
+        }
+
+        // Get a random question from the filtered list
+        int index = random.nextInt(filteredQuestions.size());
+        return filteredQuestions.get(index);
+    }
 	
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();
