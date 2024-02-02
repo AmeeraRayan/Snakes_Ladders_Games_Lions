@@ -50,7 +50,7 @@ public class BoardEasyView2Players extends JFrame {
 	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
 
-
+/*ameraaa*/
 	public BoardEasyView2Players(Game game ) {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
