@@ -81,7 +81,7 @@ public class BoardEasyView2Players extends JFrame {
    
         JLabel lblNewLabel = new JLabel("");
 
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
+		lblNewLabel.setIcon(new ImageIcon("/images/bardeasy2.png"));
 		lblNewLabel.setBounds(-17, -89, 1000, 800);
 		contentPane.add(lblNewLabel);
 		startGame();
@@ -124,7 +124,7 @@ public class BoardEasyView2Players extends JFrame {
 	    currentPlayer = game.getCurrentPlayer();
 
 	    int boardSize = game.getBoard().getSize();
-	    int position = currentPlayer.getPosition() - 1; // Subtract 1 to start from 0 index
+	    int position = currentPlayer.getPosition() - 1;
 	    int y = position % boardSize;
 	    int x = position / boardSize;
 
