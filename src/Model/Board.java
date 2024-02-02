@@ -44,7 +44,7 @@ public class Board {
  
     	private void initializeSnakesAndLaddersForEasy() {
     	    // Initialize 4 snakes
-    	   snakes[0] = new Snake(new Square(0, 2, "45"),new Square(0, 2, "45"));//RED
+    	   snakes[0] = new Snake(new Square(0, 2, "45"),new Square(6, 0, "1"));//RED
     	    snakes[1] = new Snake(new Square(4, 6, "21"  ),new Square(6, 5, "6" ));//GREEN
     	    snakes[2] = new Snake(new Square(2, 1,"30"   ),new Square(3,2 , "24" ));//YELLOW
     	    snakes[3] = new Snake(new Square(0, 4, "47"  ),new Square( 3, 5,"27" ));//BLUE

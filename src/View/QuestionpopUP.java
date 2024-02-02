@@ -175,7 +175,9 @@ public class QuestionpopUP extends JFrame {
      * Moves the player based on the result of the question.
      */
     public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer) {
+    	 System.out.println("heeeeeeeeeeeello  " + questionDifficulty + isCorrectAnswer);
         // Define the movement rules based on difficulty and correctness
+    	
         int steps;
         if (isCorrectAnswer) {
             if (questionDifficulty == 3) { // Hard question
@@ -199,17 +201,21 @@ public class QuestionpopUP extends JFrame {
         // Assume we have a currentPlayer object with a method setPosition
         int currentPosition = this.currentPlayer.getPosition();
         int newPosition = currentPosition + steps;
+   	 System.out.println("ameeeeeeeeeeera  " + newPosition);
 
         // Ensure the new position is within bounds
         if (newPosition < 0) {
             newPosition = 0; // Prevent moving beyond the start
+          	 System.out.println("Prevent moving beyond the start ");
+
         } else if (newPosition > totalSquaresOnBoard) {
             newPosition = totalSquaresOnBoard; // Prevent moving beyond the end
+          	 System.out.println("Prevent moving beyond the end  " );
+
         }
 
         this.currentPlayer.setPosition(newPosition);
        QuestionpopUP.this.setVisible(false);
-        new  BoardEasyView2Players(this.game);
     }
 
 

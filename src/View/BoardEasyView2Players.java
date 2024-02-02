@@ -62,19 +62,19 @@ public class BoardEasyView2Players extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// Add this inside the constructor
 		currentPlayerLabel = new JLabel("");
-		currentPlayerLabel.setForeground(new java.awt.Color(255, 0, 0));
-		currentPlayerLabel.setFont(new Font("Segoe Script", Font.BOLD | Font.ITALIC, 35));
+		currentPlayerLabel.setForeground(new java.awt.Color(47, 79, 79));
+		currentPlayerLabel.setFont(new Font("High Tower Text", Font.BOLD, 35));
 		currentPlayerLabel.setBounds(20, 20, 450, 50); 
 		contentPane.add(currentPlayerLabel);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 	       
 	         txtpnHi = new JTextPane();
-	        txtpnHi.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, 21));
+	        txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	        txtpnHi.setForeground(java.awt.Color.BLUE);
 	        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
 	        
-	        txtpnHi.setBounds(10, 202, 180, 239);
+	        txtpnHi.setBounds(10, 202, 200, 239);
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
@@ -164,7 +164,7 @@ public class BoardEasyView2Players extends JFrame {
 	private void displayPlayerPositions() {
 	    StringBuilder positionsText = new StringBuilder();
 	    for (Player player : game.getPlayers()) {
-	        positionsText.append(player.getName()).append("on sqaure: ").append(player.getPosition()).append("\n");
+	        positionsText.append(" " + player.getName()).append(" on sqaure: ").append(player.getPosition()).append("\n");
 	    }
 	    txtpnHi.setText(positionsText.toString());
 	    contentPane.revalidate();
@@ -221,8 +221,7 @@ public class BoardEasyView2Players extends JFrame {
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
 	    	        System.out.println(quesTemp);
-	    	        BoardEasyView2Players.this.setVisible(false);
-	                new QuestionpopUP(quesTemp , player,game);
+	                new QuestionpopUP(quesTemp , player,game).setVisible(true);
 	                break;
 	            }}
 	        
