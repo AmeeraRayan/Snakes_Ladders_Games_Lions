@@ -16,8 +16,10 @@ import Model.Color;
 import Model.Game;
 import Model.Ladder;
 import Model.Player;
+import Model.Questions;
 import Model.Snake;
 import Model.Square;
+import Model.SysData;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,12 +51,13 @@ public class BoardEasyView2Players extends JFrame {
 	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
 
+	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
 	public BoardEasyView2Players(Game game ) {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 670);
+		setBounds(100, 100, 920, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// Add this inside the constructor
@@ -80,15 +83,11 @@ public class BoardEasyView2Players extends JFrame {
 		contentPane.add(diceButton);
 		
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(BoardEasyView2Players.class.getResource("/images/bardeasy2.png")));
 		lblNewLabel.setBounds(0, 10, 900, 670);
 
 		contentPane.add(lblNewLabel);
    
-       /* JLabel lblNewLabel = new JLabel("");
-
-		lblNewLabel.setIcon(new ImageIcon("/images/bardeasy2.png"));
-		lblNewLabel.setBounds(-17, -89, 900, 670);
-		contentPane.add(lblNewLabel);*/
 		startGame();
 		
 		
@@ -195,14 +194,8 @@ public class BoardEasyView2Players extends JFrame {
 	        System.out.println("player="+player.getName()+" "+player.getPosition());
 
 	    }
-	    private void checkForSnakesAndLadders(Player player) {
-	    	boolean Ifwin=true;
-	    	if(hasPlayerWon(player)==Ifwin)
-	        {
-    	        endGame(player);
-    	        Ifwin=false;
-    	        
-	        }
+		private void checkForSnakesAndLadders(Player player) {
+	
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue()) ) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
@@ -219,8 +212,17 @@ public class BoardEasyView2Players extends JFrame {
 	            }
 	        }
 	        for (Square q : game.getBoard().getQuestions()) {
+	        	Questions quesTemp;
 	            if (player.getPosition() == Integer.parseInt(q.getValue()) ) {
 	    	        System.out.println("square question here");///question
+	    	        SysData sysdata=new SysData();
+	    	        sysdata.LoadQuestions();
+					questionsPOPUP=SysData.getQuestionsPOPUP();
+	    	        SysData.putQuestions(questionsPOPUP);
+	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
+	    	        System.out.println(quesTemp);
+	    	        BoardEasyView2Players.this.setVisible(false);
+	                new QuestionpopUP(quesTemp , player,game);
 	                break;
 	            }}
 	        

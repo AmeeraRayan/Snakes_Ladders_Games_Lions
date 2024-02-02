@@ -2,8 +2,8 @@ package Model;
 
 import java.io.FileNotFoundException;
 
+
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,17 +29,18 @@ public class SysData {
 	private static SysData instance ;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
 	private Map<String, String> adminCredentials;
-	private HashMap<String, Questions> easyQuestions;
-	private HashMap<String, Questions> mediumQuestions;
-	private HashMap<String, Questions> HardQuestions;
-	private HashMap<String,Questions> questionsPOPUP;
-	private HashMap<Integer, String> questionPositions;
+	private static HashMap<String, Questions> easyQuestions;
+	private static HashMap<String, Questions> mediumQuestions;
+	private static HashMap<String, Questions> HardQuestions;
+	public static HashMap<String,Questions> questionsPOPUP;
+	private static HashMap<Integer, String> questionPositions;
 
 
     public SysData() {
-    	this.easyQuestions = new HashMap<String, Questions>(); 
-		this.mediumQuestions = new HashMap<String, Questions>(); 
-		this.HardQuestions = new HashMap<String, Questions>();
+    	SysData.easyQuestions = new HashMap<String, Questions>(); 
+		SysData.mediumQuestions = new HashMap<String, Questions>(); 
+		SysData.HardQuestions = new HashMap<String, Questions>();
+		SysData.questionsPOPUP=new HashMap<String, Questions>();
         adminCredentials = new HashMap<>();
         adminCredentials.put("admin1", "123");
         adminCredentials.put("admin2", "111");
@@ -71,7 +72,7 @@ public class SysData {
 
 
 	public void setEasyQuestions(HashMap<String, Questions> easyQuestions) {
-		this.easyQuestions = easyQuestions;
+		SysData.easyQuestions = easyQuestions;
 	}
 
 
@@ -81,7 +82,7 @@ public class SysData {
 
 
 	public void setMediumQuestions(HashMap<String, Questions> mediumQuestions) {
-		this.mediumQuestions = mediumQuestions;
+		SysData.mediumQuestions = mediumQuestions;
 	}
 
 
@@ -95,13 +96,13 @@ public class SysData {
 	}
 
 
-	public HashMap<String, Questions> getQuestionsPOPUP() {
+	public static HashMap<String, Questions> getQuestionsPOPUP() {
 		return questionsPOPUP;
 	}
 
 
 	public void setQuestionsPOPUP(HashMap<String, Questions> questionsPOPUP) {
-		this.questionsPOPUP = questionsPOPUP;
+		SysData.questionsPOPUP = questionsPOPUP;
 	}
 
 
@@ -138,7 +139,6 @@ public class SysData {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		@SuppressWarnings("deprecation")
 		JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
 
 		final JsonArray data = jsonObject.getAsJsonArray("questions");
@@ -173,7 +173,7 @@ public class SysData {
 
 			questions.add(q);
 			questionsPOPUP.put(q.getQuestionText(),q);
-			System.out.println(questions.toString());
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
 		}
 
@@ -221,26 +221,26 @@ public class SysData {
 	////////////////////////////////////////////
 
 	//Checks the difficulty and add the questions to the right places
-		public void putQuestions(HashMap <String, Questions> questions)
+		public static void putQuestions(HashMap <String, Questions> questions)
 		{
-			this.easyQuestions.clear();
-			this.mediumQuestions.clear();
-			this.HardQuestions.clear();
+			SysData.easyQuestions.clear();
+			SysData.mediumQuestions.clear();
+			SysData.HardQuestions.clear();
 			for(Questions q : questionsPOPUP.values())
 			{
 			if(q.getDiffculty()==1)
-				this.easyQuestions.put(q.getQuestionText(), q);
+				SysData.easyQuestions.put(q.getQuestionText(), q);
 			if(q.getDiffculty() == 2)
-				this.mediumQuestions.put(q.getQuestionText(), q);
+				SysData.mediumQuestions.put(q.getQuestionText(), q);
 			if(q.getDiffculty() == 3)
-				this.HardQuestions.put(q.getQuestionText(), q);
+				SysData.HardQuestions.put(q.getQuestionText(), q);
 			}
 		}
 		
 		
 
 		// Method to get a random question based on the player's position
-		public Questions getQuestionForPosition(int position) {
+		public static Questions getQuestionForPosition(int position) {
 		    String difficulty = questionPositions.get(position);
 		    
 		    if (difficulty != null) {
@@ -259,7 +259,7 @@ public class SysData {
 		}
 
 		// Helper method to get a random question from a map of questions
-		private Questions getRandomQuestion(HashMap<String, Questions> questionsMap) {
+		private static Questions getRandomQuestion(HashMap<String, Questions> questionsMap) {
 		    if (questionsMap == null || questionsMap.isEmpty()) {
 		        return null;
 		    }

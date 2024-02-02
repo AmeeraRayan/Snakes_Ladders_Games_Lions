@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.AWTException;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.LayoutManager;
@@ -26,6 +27,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import Model.Game;
+import Model.Player;
 import Model.Questions;
 import Model.Questions;
 import Model.SysData;
@@ -45,17 +47,21 @@ public class QuestionpopUP extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-    private Questions currQuestion;
-    private int OnwhichQuestionland;
+  
     private ButtonGroup optionsGroup;
     private JRadioButton answer1RButton, answer2RButton, answer3RButton, answer4RButton;
     private JButton submitButton;
     private JLabel questionLabel;
     private int selectedAnswer = -1;
+    private Questions questionpopUP;
+    private final int totalSquaresOnBoard = 7 * 7; // for a 7x7 board, this would be 49
+    private  Player currentPlayer;
+    private Game game;
     
-    
-    
-    public QuestionpopUP() {
+    public QuestionpopUP(Questions questionpopUP , Player player, Game game) {
+    	this.currentPlayer=player;
+    	this.game=game;
+    	this.questionpopUP=questionpopUP;
         setTitle("Question");
         setSize(510, 485);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,16 +71,16 @@ public class QuestionpopUP extends JFrame {
         setContentPane(contentPane);
 
         // Question label
-        questionLabel = new JLabel("Select One Type of nonfunctional requirement?");
+        questionLabel = new JLabel(this.questionpopUP.getQuestionText());
         questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPane.add(questionLabel);
 
         // Radio buttons for options
         optionsGroup = new ButtonGroup();
-        answer1RButton = new JRadioButton("Option 1");
-        answer2RButton = new JRadioButton("Option 2");
-        answer3RButton = new JRadioButton("Option 3");
-        answer4RButton = new JRadioButton("Option 4");
+        answer1RButton = new JRadioButton(this.questionpopUP.getOptions()[0]);
+        answer2RButton = new JRadioButton(this.questionpopUP.getOptions()[1]);
+        answer3RButton = new JRadioButton(this.questionpopUP.getOptions()[2]);
+        answer4RButton = new JRadioButton(this.questionpopUP.getOptions()[3]);
         optionsGroup.add(answer1RButton);
         optionsGroup.add(answer2RButton);
         optionsGroup.add(answer3RButton);
@@ -111,141 +117,101 @@ public class QuestionpopUP extends JFrame {
         		
         contentPane.add(submitButton);
      // Initialize question and answers
-        initialize();
         // Display the window.
         pack();
         setVisible(true);
     }
-    public void initialize() {
-        // Example question and answers
-        currQuestion = new Questions("Select One Type of nonfunctional requirement?", 
-                                     new String[]{"user requirements", "product requirements", "Efficiency requirements", "Correct Answer"}, 
-                                     3, // Assuming the correct answer is the third option
-                                     2); // Difficulty level
-        questionLabel.setText(currQuestion.getQuestionText());
-        answer1RButton.setText(currQuestion.getOptions()[0]);
-        answer2RButton.setText(currQuestion.getOptions()[1]);
-        answer3RButton.setText(currQuestion.getOptions()[2]);
-        answer4RButton.setText(currQuestion.getOptions()[3]);
-    }
 
-    private void handleAnswer() {
+
+    private void handleAnswer(int selectedAnswer ) {
+    	boolean isCorrectAnswer=true;
         if (answer1RButton.isSelected()) selectedAnswer = 1;
         if (answer2RButton.isSelected()) selectedAnswer = 2;
         if (answer3RButton.isSelected()) selectedAnswer = 3;
         if (answer4RButton.isSelected()) selectedAnswer = 4;
         
-        if(selectedAnswer == currQuestion.getCorrectOption()) {
+        if(selectedAnswer == this.questionpopUP.getCorrectOption()) {
             JOptionPane.showMessageDialog(this, "Correct Answer!");
+            if(this.questionpopUP.getDiffculty()==1)
+            {
+                movePlayerBasedOnQuestion(1 ,isCorrectAnswer);
+
+            }
+            if(this.questionpopUP.getDiffculty()==2)
+            {
+                movePlayerBasedOnQuestion(2 ,isCorrectAnswer);
+
+            }
+            if(this.questionpopUP.getDiffculty()==3)
+            {
+                movePlayerBasedOnQuestion(3 ,isCorrectAnswer);
+
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Wrong Answer!");
+            isCorrectAnswer=false;
+            if(this.questionpopUP.getDiffculty()==1)
+            {
+                movePlayerBasedOnQuestion(1 ,isCorrectAnswer);
+
+            }
+            if(this.questionpopUP.getDiffculty()==2)
+            {
+                movePlayerBasedOnQuestion(2 ,isCorrectAnswer);
+
+            }
+            if(this.questionpopUP.getDiffculty()==3)
+            {
+                movePlayerBasedOnQuestion(3 ,isCorrectAnswer);
+
+            }
         }
 
-        // Close the window
         dispose();
+        
+        
     }
-    private void handleAnswer(int selectedAnswer) {
-        // Implement your logic to handle the answer
-        System.out.println("Answer Selected: " + selectedAnswer);
-    }
-/*
-	public void initialize() {
-		OnwhichQuestionland = Game.getInstance().OnwhichQuestionland;
-		Random rand = new Random();
-		int randIndex = 0;
-		switch(OnwhichQuestionland) {
-			case 1:
-				Set<String> easy = SysData.getInstance().getEasyQuestions().keySet();
-				ArrayList<String> easyKeys = new ArrayList<String>(easy);
-				randIndex = rand.nextInt(easyKeys.size());
-				currQuestion = SysData.getInstance().getEasyQuestions().get(easyKeys.get(randIndex));
-				break;
-			case 2:
-				Set<String> medium = SysData.getInstance().getMediumQuestions().keySet();
-				ArrayList<String> mediumKeys = new ArrayList<String>(medium);
-				randIndex = rand.nextInt(mediumKeys.size());
-				currQuestion = SysData.getInstance().getMediumQuestions().get(mediumKeys.get(randIndex));
-				break;
-			case 3:
-				Set<String> hard = SysData.getInstance().getHardQuestions().keySet();
-				ArrayList<String> hardKeys = new ArrayList<String>(hard);
-				randIndex = rand.nextInt(hardKeys.size());
-				currQuestion = SysData.getInstance().getHardQuestions().get(hardKeys.get(randIndex));
-				break;
-		}
-		questionArea.setWrapText(true);
-		questionArea.setText(currQuestion.getQuestionText());
-		answer1RButton.setWrapText(true);
-		answer1RButton.setText(currQuestion.getOptions()[0]);
-		answer2RButton.setWrapText(true);
-		answer2RButton.setText(currQuestion.getOptions()[1]);
-		answer3RButton.setWrapText(true);
-		answer3RButton.setText(currQuestion.getOptions()[2]);
-		answer4RButton.setWrapText(true);
-		answer4RButton.setText(currQuestion.getOptions()[3]);
-	}
-	void answer1Action(ActionEvent event) {
-    	selectedAnswer = 1;
-    }
-    void answer2Action(ActionEvent event) {
-    	selectedAnswer = 2;
-    }
-
-    void answer3Action(ActionEvent event) {
-    	selectedAnswer = 3;
-    }
-
-    void answer4Action(ActionEvent event) {
-    	selectedAnswer = 4;
-    }
-    
-    
-	void submitAction(ActionEvent event) throws AWTException {
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	Alert alert = new Alert(AlertType.INFORMATION);    	
-    	Optional<ButtonType> result = null;
-    	//Checks if the player was right
-    	if(selectedAnswer == currQuestion.getCorrectOption()) {
-    		switch(OnwhichQuestionland) {
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			case 3:
-				
-				break;
-    		}
-    	}
-    	//Wrong Answer
-    	else {
-    		switch(OnwhichQuestionland) {
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			case 3:
-				
-				break;
-    		}
-    	}
-    		stage.close();
-    		Robot robot = new Robot();
-    		robot.keyPress(KeyEvent.VK_ENTER);
-    		robot.keyRelease(KeyEvent.VK_ENTER);
-    	//}
-
-    }*/
-    public static void main(String[] args) {
-        // Run the form
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new QuestionpopUP().setVisible(true);
+    /**
+     * Moves the player based on the result of the question.
+     */
+    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer) {
+        // Define the movement rules based on difficulty and correctness
+        int steps;
+        if (isCorrectAnswer) {
+            if (questionDifficulty == 3) { // Hard question
+                steps = 1; // Advance one step
+            } else {
+                steps = 0; // Stay in place for easy and medium questions
             }
-        });
+        } else {
+            // For wrong answers, move back 1, 2, or 3 steps based on difficulty
+            steps = -questionDifficulty;
+        }
+
+        // Apply the movement to the player's position
+        updatePlayerPosition(steps);
     }
-	
+
+    /**
+     * Update the player's position on the board.
+     */
+    private void updatePlayerPosition(int steps) {
+        // Assume we have a currentPlayer object with a method setPosition
+        int currentPosition = this.currentPlayer.getPosition();
+        int newPosition = currentPosition + steps;
+
+        // Ensure the new position is within bounds
+        if (newPosition < 0) {
+            newPosition = 0; // Prevent moving beyond the start
+        } else if (newPosition > totalSquaresOnBoard) {
+            newPosition = totalSquaresOnBoard; // Prevent moving beyond the end
+        }
+
+        this.currentPlayer.setPosition(newPosition);
+       QuestionpopUP.this.setVisible(false);
+        new  BoardEasyView2Players(this.game);
+    }
+
+
+
 }
