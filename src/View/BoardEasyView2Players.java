@@ -81,7 +81,7 @@ public class BoardEasyView2Players extends JFrame {
    
         JLabel lblNewLabel = new JLabel("");
 
-		lblNewLabel.setIcon(new ImageIcon("/images/bardeasy2.png"));
+		lblNewLabel.setIcon(new ImageIcon("images/bardeasy2.png"));
 		lblNewLabel.setBounds(-17, -89, 1000, 800);
 		contentPane.add(lblNewLabel);
 		startGame();
