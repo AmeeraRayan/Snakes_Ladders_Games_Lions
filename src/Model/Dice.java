@@ -34,76 +34,16 @@ public class Dice {
 	        int questionDifficulty = random.nextInt(3) + 1; 
 
 	        Questions question = retrieveRandomQuestion(questionDifficulty);
-System.out.println(question.getQuestionText());
+           System.out.println(question.getQuestionText());
 	        // Present the question and options to the player
-	        presentQuestion(question);
+	       
 
-	        // Get player's answer
-	        int playerAnswer = getPlayerAnswer();
-
-	        // Verify the answer
-	       /* if (verifyAnswer(question, playerAnswer)) {
-	            System.out.println("Correct! You move forward.");
-	            // Implement logic for moving the player forward
-	        } else {
-	            System.out.println("Wrong answer. You stay put.");
-	            // Implement logic for staying put or moving back if necessary
-	        }*/
 	    }
 
 	    return roll;
 	}
-	private void presentQuestion(Questions question) {
-	    // Get question details
-	    String questionText = question.getQuestionText();
-	    String[] options = question.getOptions();
-	    int correctAnswer = question.getCorrectOption();
-	    int difficultyLevel = question.getDiffculty();}
+	
 
-	    // Present the question and options in a dialog
-	  /*  String userAnswer = (String) JOptionPane.showInputDialog(
-	            this, 
-	            questionText, 
-	            "Question", 
-	            JOptionPane.QUESTION_MESSAGE, 
-	            null, 
-	            options, 
-	            options[0]
-	    );
-	    // Check if the user provided an answer
-	    if (userAnswer != null) {
-	        // Determine the number of steps to move back based on difficulty level
-	        int stepsBack = 0;
-	        if (difficultyLevel==1)
-	        {
-		            stepsBack = 1;
-	        }
-	         else if (difficultyLevel==2) {
-	            stepsBack = 2;
-	        } else if (difficultyLevel==3) {
-	            stepsBack = 3;
-	        }
-
-	        // Check the answer and respond
-	        if (userAnswer.equals(correctAnswer)) {
-	            JOptionPane.showMessageDialog(null, "Correct!", "Result", JOptionPane.INFORMATION_MESSAGE);
-	            // Logic for moving the player back 'stepsBack' steps
-	            movePlayerBack(stepsBack);
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Incorrect. The correct answer was: " + correctAnswer, "Result", JOptionPane.ERROR_MESSAGE);
-	            // No need to move the player back if the answer is incorrect (based on your requirement)
-	        }
-	    } else {
-	        // Handle case where user closes the dialog or presses Cancel
-	        JOptionPane.showMessageDialog(null, "No answer selected.", "No Answer", JOptionPane.WARNING_MESSAGE);
-	    }
-	}*/
-
-	private int getPlayerAnswer() {
-	    // Get player's answer
-	    // This is a placeholder for your implementation
-	    return 0; // Replace with actual player input
-	}
 	private void movePlayerBack(int stepsBack) {
 	    // Assuming 'currentPlayer' is the Player object for the player whose turn it is
 	    // And assuming the Player class has 'getPosition()' and 'setPosition(int)' methods
@@ -133,11 +73,7 @@ System.out.println(question.getQuestionText());
 	    // Verify the answer against the correct answer of the question
 	    return question.getCorrectOption() == playerAnswer;
 	}
-	private Questions retrieveRandomQuestion(int difficulty) {
-		this.sysdata.LoadQuestions();
-	   
-	    return this.sysData.getRandomQuestion(difficulty);
-	}
+
     public int rollForTurn() {
         return random.nextInt(6) + 1; // rolls a number between 1 and 6
     }
