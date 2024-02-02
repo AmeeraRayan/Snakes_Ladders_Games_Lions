@@ -74,12 +74,12 @@ public class BoardEasyView2Players extends JFrame {
 	        txtpnHi.setForeground(java.awt.Color.BLUE);
 	        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
 	        
-	        txtpnHi.setBounds(10, 202, 200, 239);
+	        txtpnHi.setBounds(10, 77, 519, 70);
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-		diceButton.setBounds(760, 290, 145, 145);
+		diceButton.setBounds(760, 290, 130, 145);
 		contentPane.add(diceButton);
 		
 		JLabel lblNewLabel = new JLabel("");
