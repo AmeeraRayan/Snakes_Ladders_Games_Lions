@@ -33,8 +33,8 @@ public class Dice {
 	    if (landsOnQuestion) {
 	        int questionDifficulty = random.nextInt(3) + 1; 
 
-	        Questions question = retrieveRandomQuestion(questionDifficulty);
-           System.out.println(question.getQuestionText());
+	       // Questions question = retrieveRandomQuestion(questionDifficulty);
+          // System.out.println(question.getQuestionText());
 	        // Present the question and options to the player
 	       
 
