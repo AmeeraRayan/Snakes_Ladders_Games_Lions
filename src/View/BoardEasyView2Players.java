@@ -49,6 +49,7 @@ public class BoardEasyView2Players extends JFrame {
 	private JButton diceButton;
 	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
+    private final int totalSquaresOneasyBoard = 7 * 7; // for a 7x7 board 
 
 
 	public BoardEasyView2Players(Game game ) {
@@ -77,14 +78,25 @@ public class BoardEasyView2Players extends JFrame {
 	      
 		 diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
+<<<<<<< Updated upstream
 		diceButton.setBounds(750, 270, 150, 145);
+=======
+		diceButton.setBounds(870, 270, 165, 170);
+>>>>>>> Stashed changes
 		contentPane.add(diceButton);
-   
-        JLabel lblNewLabel = new JLabel("");
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(10, 20, 1050, 650);
+		lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/bardeasy2.png")));;
 
+<<<<<<< Updated upstream
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
 		lblNewLabel.setBounds(-17, -89, 1000, 800);
+=======
+>>>>>>> Stashed changes
 		contentPane.add(lblNewLabel);
+   
+ 
 		startGame();
 		
 		
@@ -237,4 +249,70 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 	    }
 
+<<<<<<< Updated upstream
+=======
+	    public void startGame() {
+	        rollDiceAndMovePlayer(); 
+	    }
+	    private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
+	        StyledDocument doc = textPane.getStyledDocument();
+	        textPane.setText(""); // Clear previous text
+	        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
+	            Player player = entry.getKey();
+	            Integer rollResult = entry.getValue();
+	            String playerRollText = player.getName() + " rolled a " + rollResult + "\n";
+	            try {
+	                doc.insertString(doc.getLength(), playerRollText, null); // Append roll result for each player
+	            } catch (BadLocationException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    
+	    /////////////////////////// 
+	    /**
+	     * Moves the player based on the result of the question.
+	     */
+	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer) {
+	        // Define the movement rules based on difficulty and correctness
+	        int steps;
+	        if (isCorrectAnswer) {
+	            if (questionDifficulty == 3) { // Hard question
+	                steps = 1; // Advance one step
+	            } else {
+	                steps = 0; // Stay in place for easy and medium questions
+	            }
+	        } else {
+	            // For wrong answers, move back 1, 2, or 3 steps based on difficulty
+	            steps = -questionDifficulty;
+	        }
+
+	        // Apply the movement to the player's position
+	        updatePlayerPosition(steps);
+	    }
+
+	    /**
+	     * Update the player's position on the board.
+	     */
+	    private void updatePlayerPosition(int steps) {
+	        // Assume we have a currentPlayer object with a method setPosition
+	        int currentPosition = currentPlayer.getPosition();
+	        int newPosition = currentPosition + steps;
+
+	        // Ensure the new position is within bounds
+	        if (newPosition < 0) {
+	            newPosition = 0; // Prevent moving beyond the start
+	        } else if (newPosition > totalSquaresOneasyBoard) {
+	            newPosition = totalSquaresOneasyBoard; // Prevent moving beyond the end
+	        }
+
+	        currentPlayer.setPosition(newPosition);
+	        // You may need to add logic to handle passing a snake or ladder after moving
+	    }
+
+	    
+	    
+	    
+>>>>>>> Stashed changes
 }

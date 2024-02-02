@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.FileNotFoundException;
+
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.io.FileReader;
@@ -23,30 +24,98 @@ import com.google.gson.stream.JsonReader;
 
 
 
+
 public class SysData {
-	private static SysData instance = null;
+	private static SysData instance ;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
 	private Map<String, String> adminCredentials;
-	
-	private List<Questions> questionss;
-    private Random random = new Random();
+	private HashMap<String, Questions> easyQuestions;
+	private HashMap<String, Questions> mediumQuestions;
+	private HashMap<String, Questions> HardQuestions;
+	private HashMap<String,Questions> questionsPOPUP;
+	private HashMap<Integer, String> questionPositions;
+
 
     public SysData() {
+    	this.easyQuestions = new HashMap<String, Questions>(); 
+		this.mediumQuestions = new HashMap<String, Questions>(); 
+		this.HardQuestions = new HashMap<String, Questions>();
         adminCredentials = new HashMap<>();
         adminCredentials.put("admin1", "123");
         adminCredentials.put("admin2", "111");
         adminCredentials.put("admin3", "222");
+
+		// Initialize the map somewhere in your Game class constructor or an initialization block
+		questionPositions = new HashMap<>();
+		questionPositions.put(3, "easy"); // position for easy question
+		questionPositions.put(14, "medium"); // position for medium question
+		questionPositions.put(46, "hard"); // position for hard question
+
+        
     }
 
 	
+	public Map<String, String> getAdminCredentials() {
+		return adminCredentials;
+	}
+
+
+	public void setAdminCredentials(Map<String, String> adminCredentials) {
+		this.adminCredentials = adminCredentials;
+	}
+
+
+	public HashMap<String, Questions> getEasyQuestions() {
+		return easyQuestions;
+	}
+
+
+	public void setEasyQuestions(HashMap<String, Questions> easyQuestions) {
+		this.easyQuestions = easyQuestions;
+	}
+
+
+	public HashMap<String, Questions> getMediumQuestions() {
+		return mediumQuestions;
+	}
+
+
+	public void setMediumQuestions(HashMap<String, Questions> mediumQuestions) {
+		this.mediumQuestions = mediumQuestions;
+	}
+
+
+	public HashMap<String, Questions> getHardQuestions() {
+		return HardQuestions;
+	}
+
+
+	public void setHardQuestions(HashMap<String, Questions> hardQuestions) {
+		HardQuestions = hardQuestions;
+	}
+
+
+	public HashMap<String, Questions> getQuestionsPOPUP() {
+		return questionsPOPUP;
+	}
+
+
+	public void setQuestionsPOPUP(HashMap<String, Questions> questionsPOPUP) {
+		this.questionsPOPUP = questionsPOPUP;
+	}
+
+
+	public void setQuestions(ArrayList<Questions> questions) {
+		this.questions = questions;
+	}
+
+
 	//  Singleton Instance
 	public static SysData getInstance() {
-		if (instance == null) {
+		if(instance == null)
 			instance = new SysData();
-		}
-		return instance;
+		return instance; 
 	}
-	
 
 	public ArrayList<Questions> getQuestions() { //return all the questions 
 		return questions;
@@ -103,6 +172,7 @@ public class SysData {
 			}
 
 			questions.add(q);
+			questionsPOPUP.put(q.getQuestionText(),q);
 			System.out.println(questions.toString());
 
 		}
@@ -148,20 +218,65 @@ public class SysData {
 	        return false;
 	    }
 	}
-	public Questions getRandomQuestion(int difficulty) {
-        // Filter questions by difficulty
-        List<Questions> filteredQuestions = questions.stream()
-                .filter(q -> q.getDiffculty() == difficulty)
-                .collect(Collectors.toList());
+	////////////////////////////////////////////
 
-        if (filteredQuestions.isEmpty()) {
-            return null; 
-        }
+	//Checks the difficulty and add the questions to the right places
+		public void putQuestions(HashMap <String, Questions> questions)
+		{
+			this.easyQuestions.clear();
+			this.mediumQuestions.clear();
+			this.HardQuestions.clear();
+			for(Questions q : questionsPOPUP.values())
+			{
+			if(q.getDiffculty()==1)
+				this.easyQuestions.put(q.getQuestionText(), q);
+			if(q.getDiffculty() == 2)
+				this.mediumQuestions.put(q.getQuestionText(), q);
+			if(q.getDiffculty() == 3)
+				this.HardQuestions.put(q.getQuestionText(), q);
+			}
+		}
+		
+		
 
-        // Get a random question from the filtered list
-        int index = random.nextInt(filteredQuestions.size());
-        return filteredQuestions.get(index);
-    }
+		// Method to get a random question based on the player's position
+		public Questions getQuestionForPosition(int position) {
+		    String difficulty = questionPositions.get(position);
+		    
+		    if (difficulty != null) {
+		        switch (difficulty) {
+		            case "easy":
+		                return getRandomQuestion(easyQuestions);
+		            case "medium":
+		                return getRandomQuestion(mediumQuestions);
+		            case "hard":
+		                return getRandomQuestion(HardQuestions);
+		            default:
+		                return null; // No question for this position
+		        }
+		    }
+		    return null;
+		}
+
+		// Helper method to get a random question from a map of questions
+		private Questions getRandomQuestion(HashMap<String, Questions> questionsMap) {
+		    if (questionsMap == null || questionsMap.isEmpty()) {
+		        return null;
+		    }
+		    List<String> keys = new ArrayList<>(questionsMap.keySet());
+		    String randomKey = keys.get(new Random().nextInt(keys.size()));
+		    return questionsMap.get(randomKey);
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		//////////////////////////////
 	
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();

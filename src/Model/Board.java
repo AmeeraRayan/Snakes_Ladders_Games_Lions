@@ -125,6 +125,9 @@ public class Board {
 
 
     }
+    	
+    	
+    	
  /*   private void initializeSnakesAndLaddersForMedium() {
         // Ladders with lengths 1 to 6
         for (int i = 0; i < ladders.length; i++) {
