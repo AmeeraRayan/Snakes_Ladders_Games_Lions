@@ -78,12 +78,17 @@ public class BoardEasyView2Players extends JFrame {
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 		diceButton.setBounds(760, 290, 145, 145);
 		contentPane.add(diceButton);
-   
-        JLabel lblNewLabel = new JLabel("");
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 10, 900, 670);
 
-		lblNewLabel.setIcon(new ImageIcon("images/bardeasy2.png"));
-		lblNewLabel.setBounds(-17, -89, 1000, 800);
 		contentPane.add(lblNewLabel);
+   
+       /* JLabel lblNewLabel = new JLabel("");
+
+		lblNewLabel.setIcon(new ImageIcon("/images/bardeasy2.png"));
+		lblNewLabel.setBounds(-17, -89, 900, 670);
+		contentPane.add(lblNewLabel);*/
 		startGame();
 		
 		
@@ -191,6 +196,13 @@ public class BoardEasyView2Players extends JFrame {
 
 	    }
 	    private void checkForSnakesAndLadders(Player player) {
+	    	boolean Ifwin=true;
+	    	if(hasPlayerWon(player)==Ifwin)
+	        {
+    	        endGame(player);
+    	        Ifwin=false;
+    	        
+	        }
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue()) ) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
@@ -211,6 +223,7 @@ public class BoardEasyView2Players extends JFrame {
 	    	        System.out.println("square question here");///question
 	                break;
 	            }}
+	        
 	    }
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
@@ -234,7 +247,4 @@ public class BoardEasyView2Players extends JFrame {
 	        contentPane.revalidate();
 	        contentPane.repaint();
 	    }
-
-	    
-	  
 }
