@@ -17,6 +17,7 @@ import Model.Game;
 import Model.Ladder;
 import Model.Player;
 import Model.Snake;
+import Model.Square;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -34,126 +36,91 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.SystemColor;
 
 public class BoardEasyView2Players extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-    private Map<Player, Integer> playerRolls;
 	private Game game;
 	private Player currentPlayer;
 	private int currentPlayerIndex;
-	private final int cellWidth = 100; // Width of each square cell in pixels
-	private final int cellHeight = 100;
     private int rollResult;
-    private Map<Player, JLabel> playerTokenMap = new HashMap<>();
 	private JButton diceButton;
 	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
 
+
 	public BoardEasyView2Players(Game game ) {
-        playerRolls = new LinkedHashMap<>();
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1050, 700);
+		setBounds(100, 100, 900, 670);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// Add this inside the constructor
 		currentPlayerLabel = new JLabel("");
-		currentPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		currentPlayerLabel.setBounds(20, 20, 300, 50); 
+		currentPlayerLabel.setForeground(java.awt.Color.ORANGE);
+		currentPlayerLabel.setFont(new Font("Segoe Script", Font.BOLD | Font.ITALIC, 35));
+		currentPlayerLabel.setBounds(20, 20, 450, 50); 
 		contentPane.add(currentPlayerLabel);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		 int playerIndex = 0;
-	        for (Player player : game.getPlayers()) {
-	            JLabel tokenLabel = null;
-	            if (playerIndex == 0 && player.getColor()==Color.GREEN) {
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));
-		            playerTokenMap.put(player, tokenLabel);
-	            } else if (playerIndex == 1 && player.getColor()==Color.BLUE) { 
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
-		            playerTokenMap.put(player, tokenLabel);
-	            } else if (playerIndex == 1 && player.getColor()==Color.GREEN) { 
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/greenplayer.png")));;
-		            playerTokenMap.put(player, tokenLabel);
-	            } else if (playerIndex == 0 && player.getColor()==Color.BLUE) { 
-	                tokenLabel = new JLabel(new ImageIcon(PlayerTurn.class.getResource("/images/blueplayer.png")));;
-		            playerTokenMap.put(player, tokenLabel);
-	            }
-	            tokenLabel.setBounds(0, 0, cellWidth, cellHeight); 
-	            getContentPane().add(tokenLabel); 
-	            playerIndex++;
-	        }
+	       
 	         txtpnHi = new JTextPane();
-	        txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-	        txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
-	        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
+	        txtpnHi.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 21));
+	        txtpnHi.setForeground(new java.awt.Color(77, 151, 99));
+	        txtpnHi.setBackground(SystemColor.inactiveCaption);
 	        
-	        txtpnHi.setBounds(10, 202, 180, 239);
+	        txtpnHi.setBounds(10, 180, 190, 200);
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-		diceButton.setBounds(870, 240, 160, 160);
+		diceButton.setBounds(750, 270, 150, 145);
 		contentPane.add(diceButton);
    
         JLabel lblNewLabel = new JLabel("");
 
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
-		lblNewLabel.setBounds(-17, -89, 1063, 752);
+		lblNewLabel.setBounds(-17, -89, 1000, 800);
 		contentPane.add(lblNewLabel);
 		startGame();
 		
 		
 	}
-	public void updatePlayerPosition(Player player, int x, int y) {
-	    JLabel playerToken = getPlayerToken(player);
-	    if (playerToken != null) {
-	        // Calculate new pixel positions
-	        int pixelX = calculatePixelX(x);
-	        int pixelY = calculatePixelY(y);
-	        playerToken.setBounds(pixelX, pixelY, playerToken.getWidth(), playerToken.getHeight());
-	        
-	        System.out.println(player.getName() + " moves to X: " + x + " Y: " + y + " (PixelX: " + pixelX + ", PixelY: " + pixelY + ")");
-	    } else {
-	        System.err.println("Token not found for player: " + player.getName());
+	private void advanceToNextPlayer() {
+	    currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
+	    currentPlayer = game.getPlayers().get(currentPlayerIndex);
+	    
+	    displayCurrentPlayer(); 
+	    enableDiceRollForCurrentPlayer(); 
+	}
+
+	private void enableDiceRollForCurrentPlayer() {
+	    for (ActionListener al : diceButton.getActionListeners()) {
+	        diceButton.removeActionListener(al);
 	    }
+
+	    diceButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent arg0) {
+	            diceButton.setEnabled(false);
+	            performDiceRollAndMove();
+	        }
+	    });
+
+	    diceButton.setEnabled(true);
+	}
+	public void updatePlayerPosition(Player player, int x, int y) {
+	    
+	        
+	        System.out.println(player.getName() + " moves to X: " + x + " Y: " + y );
+	    
 
 	    contentPane.revalidate();
 	    contentPane.repaint();
 	}
-
-
-	private JLabel getPlayerToken(Player player) {
-	    return playerTokenMap.get(player);
-	}
-
-	private int calculatePixelX(int boardX) {
-	    return boardX * cellWidth;
-	}
-
-	private int calculatePixelY(int boardY) {
-	    return boardY * cellHeight;
-	}
-
-	
-
-private void updateCurrentPlayerDisplay(Player currentPlayer) {
-    String bluePlayerIconPath = "/images/blueplayer.png";
-    String greenPlayerIconPath = "/images/greenplayer.png";
-
-    for (Map.Entry<Player, JLabel> entry : playerTokenMap.entrySet()) {
-        Player player = entry.getKey();
-        JLabel tokenLabel = entry.getValue();
-        System.out.println("LABLE"+tokenLabel);
-        ImageIcon icon = new ImageIcon(getClass().getResource(
-            player.getColor() == Color.GREEN ? greenPlayerIconPath:bluePlayerIconPath ));
-        tokenLabel.setIcon(icon);
-    }
-    this.repaint(); 
-}
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
 
@@ -176,9 +143,14 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	    rollResult = game.getDice().rollForEasy();
 	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 	    diceButton.setIcon(diceIcon);
+	    
+	    // Show popup with dice roll result
+	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	    
 	    movePlayer(currentPlayer, rollResult);
 	    checkForSnakesAndLadders(currentPlayer);
 	    updateBoardView();
+	    displayPlayerPositions(); // Update the display of player positions
 
 	    if (hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
@@ -186,6 +158,33 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	        advanceToNextPlayer();
 	    }
 	}
+	private void displayPlayerPositions() {
+	    StringBuilder positionsText = new StringBuilder();
+	    for (Player player : game.getPlayers()) {
+	        positionsText.append(player.getName()).append("on sqaure: ").append(player.getPosition()).append("\n");
+	    }
+	    txtpnHi.setText(positionsText.toString());
+	    contentPane.revalidate();
+	    contentPane.repaint();
+	}
+	public void startGame() {
+	    initializePlayerPositions();
+	    rollDiceAndMovePlayer(); 
+	}
+
+	private void initializePlayerPositions() {
+	    StringBuilder positionsText = new StringBuilder();
+	    for (Player player : game.getPlayers()) {
+	        // Assuming the game starts with all players on square 1.
+	        player.setPosition(1);
+	        positionsText.append(player.getName()).append(" on square: ").append(player.getPosition()).append("\n");
+	    }
+	    txtpnHi.setText(positionsText.toString());
+	    contentPane.revalidate();
+	    contentPane.repaint();
+	}
+
+
 	private boolean hasPlayerWon(Player player) {
 	    int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
 	    return player.getPosition() >= maxPosition;
@@ -195,17 +194,6 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	    currentPlayer = game.getCurrentPlayer();
 	    displayCurrentPlayer(); // Display the current player's name
 	    enableDiceRollForCurrentPlayer();
-	}
-
-	private void enableDiceRollForCurrentPlayer() {
-	    diceButton.setEnabled(true); // Enable the dice button for the current player
-	    diceButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent arg0) {
-	            diceButton.setEnabled(false); // Disable the button to prevent multiple rolls
-	            performDiceRollAndMove();
-	        }
-	    });
 	}
 
 	private void endGame(Player winner) {
@@ -236,40 +224,17 @@ private void updateCurrentPlayerDisplay(Player currentPlayer) {
 	                break;
 	            }
 	        }
+	        for (Square q : game.getBoard().getQuestions()) {
+	            if (player.getPosition() == Integer.parseInt(q.getValue()) ) {
+	    	        System.out.println("square question here");///question
+	                break;
+	            }}
 	    }
-	    private void advanceToNextPlayer() {
-	        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
-	        currentPlayer = game.getPlayers().get(currentPlayerIndex);
-	        
-	        updateCurrentPlayerDisplay(currentPlayer);
-	        displayCurrentPlayer(); 
-	        
-	        diceButton.setEnabled(true); 
-	    }
-
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
-	            currentPlayerLabel.setText("Current Player: " + currentPlayer.getName());
+	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
+	            setTitle("Current Player: " + currentPlayer.getName() + "'s Turn");
 	        }
 	    }
 
-	    public void startGame() {
-	        rollDiceAndMovePlayer(); 
-	    }
-	    private void displayRollsInTextPane(JTextPane textPane, Map<Player, Integer> rolls) {
-	        StyledDocument doc = textPane.getStyledDocument();
-	        textPane.setText(""); // Clear previous text
-	        for (Map.Entry<Player, Integer> entry : rolls.entrySet()) {
-	            Player player = entry.getKey();
-	            Integer rollResult = entry.getValue();
-	            String playerRollText = player.getName() + " rolled a " + rollResult + "\n";
-	            try {
-	                doc.insertString(doc.getLength(), playerRollText, null); // Append roll result for each player
-	            } catch (BadLocationException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-
-	  
 }

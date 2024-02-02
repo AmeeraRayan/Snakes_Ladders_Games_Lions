@@ -10,6 +10,7 @@ public class Board {
     private Square[][] cells;
     private Snake[] snakes;
     private Ladder[] ladders;
+    private Square[] questions;
 //  Singleton Instance
 	public static Board getInstance(int size) {
 		if (instance == null) {
@@ -24,6 +25,7 @@ public class Board {
         	this.cells = new Square[7][7];
             this.snakes = new Snake[4];
             this.ladders = new Ladder[4];
+            this.questions=new Square[3];
             initializeSnakesAndLaddersForEasy();
         }
         else if (size==10) {
@@ -53,9 +55,9 @@ public class Board {
     	    ladders[2] = new Ladder(new Square(6,1 , "2"),new Square(3,1 , "23" ));//3
     	    ladders[3] = new Ladder(new Square(5, 5,"13" ),new Square(1,6 ,"42"));//4
     	    
-    	    Square q1=new Square(6, 2, "3");
-    	    Square q2=new Square(5, 6, "14");
-    	    Square q3=new Square(0, 3, "46");
+    	    questions[0]=new Square(6, 2, "3");
+    	    questions[1]=new Square(5, 6, "14");
+    	    questions[2]=new Square(0, 3, "46");
     	    int counter=1;    
     	    for (int i=6;i>=0;i--)
     	    {
@@ -198,6 +200,14 @@ public class Board {
 
 	public void setLadders(Ladder[] ladders) {
 		this.ladders = ladders;
+	}
+
+	public Square[] getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Square[] questions) {
+		this.questions = questions;
 	}
 
 
