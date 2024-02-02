@@ -78,22 +78,16 @@ public class BoardEasyView2Players extends JFrame {
 	      
 		 diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-<<<<<<< Updated upstream
 		diceButton.setBounds(750, 270, 150, 145);
-=======
 		diceButton.setBounds(870, 270, 165, 170);
->>>>>>> Stashed changes
 		contentPane.add(diceButton);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(10, 20, 1050, 650);
 		lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/bardeasy2.png")));;
 
-<<<<<<< Updated upstream
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maria\\Downloads\\bardeasy2.png"));
+		lblNewLabel.setIcon(new ImageIcon("/images/bardeasy2.png"));
 		lblNewLabel.setBounds(-17, -89, 1000, 800);
-=======
->>>>>>> Stashed changes
 		contentPane.add(lblNewLabel);
    
  
@@ -249,8 +243,6 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 	    }
 
-<<<<<<< Updated upstream
-=======
 	    public void startGame() {
 	        rollDiceAndMovePlayer(); 
 	    }
@@ -314,5 +306,4 @@ public class BoardEasyView2Players extends JFrame {
 	    
 	    
 	    
->>>>>>> Stashed changes
 }
