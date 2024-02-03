@@ -79,11 +79,9 @@ public class PlayerTurn extends JFrame {
         contentPane.add(rollLabel);
         displayRollLabel();
 
-     // Inside your PlayerTurn constructor or initialization method
         diceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // Perform the dice roll for the current player
                 rollLabel.setText("");
                 int rollResult = dice.rollForTurn();
                 String path = "/images/dice " + rollResult + ".jpg";
@@ -91,17 +89,15 @@ public class PlayerTurn extends JFrame {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
 
-                // Update the text pane with roll results
                 txtpnHi.setText("");
                 displayRollsInTextPane(txtpnHi, playerRolls);
                 txtpnHi.setFont(new Font("Yu Gothic Light", Font.BOLD | Font.ITALIC, 14));
                 currentPlayerIndex++;
 
-                // Check if all players have rolled
                 if (currentPlayerIndex >= players.size()) {
+                    diceButton.setEnabled(false); 
                     PreGameController controller = new PreGameController(dice, playerRolls, players, difficultyLevel);
 
-                    // Sort all players based on dice roll results, and in case of a tie, by nicknames
                     controller.sortPlayers();
 
                     if (controller.checkForTies()) {
@@ -110,23 +106,19 @@ public class PlayerTurn extends JFrame {
                         for (Player player : tiedPlayers) {
                             tieMessage.append(player.getName()).append(", ");
                         }
-                        tieMessage.setLength(tieMessage.length() - 2); // Remove the last comma and space
+                        tieMessage.setLength(tieMessage.length() - 2);
                         tieMessage.append(" So the players ");
                         for (Player player : tiedPlayers) {
                             tieMessage.append(player.getName()).append(", ");
                         }
-                        tieMessage.setLength(tieMessage.length() - 2); // Remove the last comma and space
+                        tieMessage.setLength(tieMessage.length() - 2); 
                         tieMessage.append(" will be plays according to apha beta of thier nacknames:))) ");
-                        // Display the tie message using PlayerTurn.this as the Component parameter
                         JOptionPane.showMessageDialog(PlayerTurn.this, tieMessage.toString(), "Tie Detected", JOptionPane.INFORMATION_MESSAGE);
 
-                        // Here, you can implement logic for handling the tie (e.g., allow tied players to roll again)
                     } 
-                        // Proceed with the game if there's no tie
                         currentPlayerIndex = 0;
                         ResultPage(players.size(), players);
    
-                    // Add any logic here for continuing the game after sorting
                 } else {
                 	rollLabel.setText(players.get(currentPlayerIndex).getName() + " Roll the dice!");
                     txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
