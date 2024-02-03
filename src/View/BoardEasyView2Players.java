@@ -3,6 +3,7 @@ package View;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -37,6 +38,7 @@ import java.util.Map;
 import javax.swing.Timer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.UIManager;
@@ -292,18 +294,21 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 
 	        for (Square q : game.getBoard().getQuestions()) {
-	        	Questions quesTemp;
-	            if (player.getPosition() == Integer.parseInt(q.getValue()) ) {
-	    	        System.out.println("square question here");///question
-	    	        SysData sysdata=new SysData();
-	    	        sysdata.LoadQuestions();
-					questionsPOPUP=SysData.getQuestionsPOPUP();
-	    	        SysData.putQuestions(questionsPOPUP);
-	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
-	    	        System.out.println(quesTemp);
-	                new QuestionpopUP(quesTemp , player,game).setVisible(true);
-	                break;
-	            }}
+	            if (player.getPosition() == Integer.parseInt(q.getValue())) {
+	                // Load questions if not already loaded
+	                if (questionsPOPUP.isEmpty()) {
+	                    SysData sysdata = new SysData();
+	                    sysdata.LoadQuestions();
+	                    questionsPOPUP = SysData.getQuestionsPOPUP();
+	                }
+	                Questions quesTemp = questionsPOPUP.get(q.getValue());
+	                if (quesTemp != null) {
+	                    // Call showQuestionPopup here
+	                    showQuestionPopup(quesTemp, player);
+	                    break; // Found a question, no need to check further
+	                }
+	            }
+	        }
 	        
 	    }
 	    private void displayCurrentPlayer() {
@@ -313,6 +318,51 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 	    }
 
+	    private void showQuestionPopup(Questions question, Player player) {
+	        JTextArea questionArea = new JTextArea(question.getQuestionText());
+	        questionArea.setEditable(false);
+	        JRadioButton[] optionsButtons = new JRadioButton[4];
+	        ButtonGroup group = new ButtonGroup();
+	        JPanel panel = new JPanel(new GridLayout(0, 1));
+	        panel.add(questionArea);
+	        
+	        for (int i = 0; i < 4; i++) {
+	            optionsButtons[i] = new JRadioButton(question.getOptions()[i]);
+	            group.add(optionsButtons[i]);
+	            panel.add(optionsButtons[i]);
+	        }
+	        
+	        int result = JOptionPane.showConfirmDialog(this, panel, "Answer the question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	        
+	        if (result == JOptionPane.OK_OPTION) {
+	            int selectedAnswer = -1;
+	            for (int i = 0; i < optionsButtons.length; i++) {
+	                if (optionsButtons[i].isSelected()) {
+	                    selectedAnswer = i + 1;
+	                    break;
+	                }
+	            }
+	            
+	            if (selectedAnswer == question.getCorrectOption()) {
+	                JOptionPane.showMessageDialog(this, "Correct Answer!");
+	            } else {
+	                JOptionPane.showMessageDialog(this, "Wrong Answer!");
+	            }
+	            
+	            updateBoardAfterAnswer(player);
+	        }
+	    }
+
+	    private void updateBoardAfterAnswer(Player player) {
+	      updateBoardView();
+	        displayPlayerPositions();
+	        // Check if the game is over
+	        if (hasPlayerWon(player)) {
+	            endGame(player);
+	        } else {
+	            advanceToNextPlayer();
+	        }
+	    }
 
 	    private void initializePlayerPositions() {
 	        StringBuilder positionsText = new StringBuilder();
