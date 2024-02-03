@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.Component;
+
 import java.awt.EventQueue;
 
 import java.awt.SystemColor;

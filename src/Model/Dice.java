@@ -1,6 +1,10 @@
 package Model;
 import java.util.Random;
 
+import javax.swing.*;
+import java.util.*;
+import Model.SysData;
+
 public class Dice {
 	private Random random;
 	private String difficulty;
@@ -17,6 +21,15 @@ public class Dice {
 		}
 		return 0;
 	}
+	
+	public int rollForEasy() {
+	    // rolls a number between 1 and 4
+	    int roll = random.nextInt(4) + 1;
+	    return roll;
+	}
+	
+
+
     public int rollForTurn() {
         return random.nextInt(6) + 1; // rolls a number between 1 and 6
     }

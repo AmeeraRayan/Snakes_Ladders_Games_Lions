@@ -31,7 +31,6 @@ public class PreGameController {
 			this.difficultyLevel = difficultyLevel;
 		}
 	 
-//comment
 	public Dice getDice() {
 		return dice;
 	}

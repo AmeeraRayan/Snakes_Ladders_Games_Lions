@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.Arrays;
 
 public class Questions {
 	    private String questionText;
@@ -58,6 +59,12 @@ public class Questions {
 		}
 		public int getDiffculty() {
 			return diffculty;
+		}
+
+		@Override
+		public String toString() {
+			return "Questions [questionText=" + questionText + ", options=" + Arrays.toString(options)
+					+ ", correctOption=" + correctOption + ", id=" + id + ", diffculty=" + diffculty + "]";
 		}
 	 
 	 

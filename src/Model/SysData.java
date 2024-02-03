@@ -1,6 +1,9 @@
 package Model;
 
 import java.io.FileNotFoundException;
+
+
+import java.util.Random;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,27 +24,99 @@ import com.google.gson.stream.JsonReader;
 
 
 
+
 public class SysData {
-	private static SysData instance = null;
+	private static SysData instance ;
 	private ArrayList<Questions> questions = new ArrayList<Questions>();
 	private Map<String, String> adminCredentials;
+	private static HashMap<String, Questions> easyQuestions;
+	private static HashMap<String, Questions> mediumQuestions;
+	private static HashMap<String, Questions> HardQuestions;
+	public static HashMap<String,Questions> questionsPOPUP;
+	private static HashMap<Integer, String> questionPositions;
+
 
     public SysData() {
+    	SysData.easyQuestions = new HashMap<String, Questions>(); 
+		SysData.mediumQuestions = new HashMap<String, Questions>(); 
+		SysData.HardQuestions = new HashMap<String, Questions>();
+		SysData.questionsPOPUP=new HashMap<String, Questions>();
         adminCredentials = new HashMap<>();
         adminCredentials.put("admin1", "123");
         adminCredentials.put("admin2", "111");
         adminCredentials.put("admin3", "222");
+
+		// Initialize the map somewhere in your Game class constructor or an initialization block
+		questionPositions = new HashMap<>();
+		questionPositions.put(3, "easy"); // position for easy question
+		questionPositions.put(14, "medium"); // position for medium question
+		questionPositions.put(46, "hard"); // position for hard question
+
+        
     }
 
 	
+	public Map<String, String> getAdminCredentials() {
+		return adminCredentials;
+	}
+
+
+	public void setAdminCredentials(Map<String, String> adminCredentials) {
+		this.adminCredentials = adminCredentials;
+	}
+
+
+	public HashMap<String, Questions> getEasyQuestions() {
+		return easyQuestions;
+	}
+
+
+	public void setEasyQuestions(HashMap<String, Questions> easyQuestions) {
+		SysData.easyQuestions = easyQuestions;
+	}
+
+
+	public HashMap<String, Questions> getMediumQuestions() {
+		return mediumQuestions;
+	}
+
+
+	public void setMediumQuestions(HashMap<String, Questions> mediumQuestions) {
+		SysData.mediumQuestions = mediumQuestions;
+	}
+
+
+	public HashMap<String, Questions> getHardQuestions() {
+		return HardQuestions;
+	}
+
+
+	public void setHardQuestions(HashMap<String, Questions> hardQuestions) {
+		HardQuestions = hardQuestions;
+	}
+
+
+	public static HashMap<String, Questions> getQuestionsPOPUP() {
+		return questionsPOPUP;
+	}
+
+
+	public void setQuestionsPOPUP(HashMap<String, Questions> questionsPOPUP) {
+		SysData.questionsPOPUP = questionsPOPUP;
+	}
+
+
+	public void setQuestions(ArrayList<Questions> questions) {
+		this.questions = questions;
+	}
+
+
 	//  Singleton Instance
 	public static SysData getInstance() {
-		if (instance == null) {
+		if(instance == null)
 			instance = new SysData();
-		}
-		return instance;
+		return instance; 
 	}
-	
 
 	public ArrayList<Questions> getQuestions() { //return all the questions 
 		return questions;
@@ -60,11 +135,10 @@ public class SysData {
 		JsonReader reader = null;
 		try {
 			
-			reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
+			reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		@SuppressWarnings("deprecation")
 		JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
 
 		final JsonArray data = jsonObject.getAsJsonArray("questions");
@@ -98,7 +172,7 @@ public class SysData {
 			}
 
 			questions.add(q);
-
+			questionsPOPUP.put(q.getQuestionText(),q);
 		}
 
 		this.getQuestions();
@@ -106,7 +180,7 @@ public class SysData {
 	}
 	public boolean saveQuestions(List<Questions> questions) {
 	    // Write JSON file
-	    try (FileWriter file = new FileWriter("src/QuestionsAndAnswers.json")) {
+	    try (FileWriter file = new FileWriter("QuestionsAndAnswers.json")) {
 	        JsonArray questionsArray = new JsonArray();
 
 	        for (Questions question : this.getQuestions()) {
@@ -142,6 +216,65 @@ public class SysData {
 	        return false;
 	    }
 	}
+	////////////////////////////////////////////
+
+	//Checks the difficulty and add the questions to the right places
+		public static void putQuestions(HashMap <String, Questions> questions)
+		{
+			SysData.easyQuestions.clear();
+			SysData.mediumQuestions.clear();
+			SysData.HardQuestions.clear();
+			for(Questions q : questionsPOPUP.values())
+			{
+			if(q.getDiffculty()==1)
+				SysData.easyQuestions.put(q.getQuestionText(), q);
+			if(q.getDiffculty() == 2)
+				SysData.mediumQuestions.put(q.getQuestionText(), q);
+			if(q.getDiffculty() == 3)
+				SysData.HardQuestions.put(q.getQuestionText(), q);
+			}
+		}
+		
+		
+
+		// Method to get a random question based on the player's position
+		public static Questions getQuestionForPosition(int position) {
+		    String difficulty = questionPositions.get(position);
+		    
+		    if (difficulty != null) {
+		        switch (difficulty) {
+		            case "easy":
+		                return getRandomQuestion(easyQuestions);
+		            case "medium":
+		                return getRandomQuestion(mediumQuestions);
+		            case "hard":
+		                return getRandomQuestion(HardQuestions);
+		            default:
+		                return null; // No question for this position
+		        }
+		    }
+		    return null;
+		}
+
+		// Helper method to get a random question from a map of questions
+		private static Questions getRandomQuestion(HashMap<String, Questions> questionsMap) {
+		    if (questionsMap == null || questionsMap.isEmpty()) {
+		        return null;
+		    }
+		    List<String> keys = new ArrayList<>(questionsMap.keySet());
+		    String randomKey = keys.get(new Random().nextInt(keys.size()));
+		    return questionsMap.get(randomKey);
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		//////////////////////////////
 	
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();
@@ -171,7 +304,7 @@ public class SysData {
 	    root.add("questions", questionsArray);
 
 	    // Write to file
-	    try (Writer w = new FileWriter("src/QuestionsAndAnswers.json")) {
+	    try (Writer w = new FileWriter("QuestionsAndAnswers.json")) {
 	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	        gson.toJson(root, w);
 	    } catch (IOException e) {

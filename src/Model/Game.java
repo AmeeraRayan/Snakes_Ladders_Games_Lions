@@ -14,6 +14,7 @@ public class Game {
     private Board board;
     private String difficulty;
     private Dice dice;
+    public int OnwhichQuestionland = 0;
     private int currentPlayerIndex = 0; // Add this variable to track the current player index
 //  Singleton Instance
 	public static Game getInstance(List<Player> players,String difficulty) {
