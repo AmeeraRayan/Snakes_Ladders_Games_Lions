@@ -64,6 +64,19 @@ public class QuestionManagment extends JFrame   {
         scrollPane.setBounds(62, 249, 671, 292);
         frame.getContentPane().add(scrollPane);
         
+        JButton btnNewButton = new JButton("Back Home");
+        btnNewButton.setBounds(32, 611, 108, 23);
+        frame.getContentPane().add(btnNewButton);
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Code to go back to the main screen
+                // For example, you might close the current frame and open the main screen frame
+                frame.dispose(); // Close the current frame
+                MainScreen mainScreen = new MainScreen(); // Assuming MainScreen is your main screen class
+                mainScreen.show(); // Show the main screen frame
+            }
+        });
+        
         searchField = new JTextField();
         searchField.setColumns(20);
         searchField.setBounds(62, 131, 506, 38);
