@@ -12,8 +12,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
-import Controller.PreGameController;
-import Model.Color;
 import Model.Game;
 import Model.Ladder;
 import Model.Player;
@@ -149,7 +147,14 @@ public class BoardEasyView2Players extends JFrame {
 	private void advanceToNextPlayer() {
 	    currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
 	    currentPlayer = game.getPlayers().get(currentPlayerIndex);
-	    
+	   /* for(Player p: game.getPlayers())
+	    {
+	    	if (!game.getCurrentPlayer().getName().equals(p.getName()))
+	    			{
+	    	   game.setCurrentPlayer(p);
+	    	   curentplayer=had leshu
+	    			}
+	    }*/
 	    displayCurrentPlayer(); 
 	    enableDiceRollForCurrentPlayer(); 
 	}
@@ -174,7 +179,8 @@ public class BoardEasyView2Players extends JFrame {
 	   System.out.println(player.getName() + " moves to X: " + x + " Y: " + y );
 	    contentPane.revalidate();
 	    contentPane.repaint();
-	}
+	    
+	    }
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
 
@@ -271,7 +277,6 @@ public class BoardEasyView2Players extends JFrame {
 	}
 	    private void movePlayer(Player player, int roll) {
 	        int newPosition = player.getPosition() + roll;
-	        newPosition = Math.min(newPosition, game.getBoard().getSize() * game.getBoard().getSize()); // Assuming a square board
 	        player.setPosition(newPosition);
 	        System.out.println("player="+player.getName()+" "+player.getPosition());
 
@@ -294,19 +299,18 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 
 	        for (Square q : game.getBoard().getQuestions()) {
+	        	Questions quesTemp;
 	            if (player.getPosition() == Integer.parseInt(q.getValue())) {
-	                // Load questions if not already loaded
-	                if (questionsPOPUP.isEmpty()) {
-	                    SysData sysdata = new SysData();
-	                    sysdata.LoadQuestions();
-	                    questionsPOPUP = SysData.getQuestionsPOPUP();
-	                }
-	                Questions quesTemp = questionsPOPUP.get(q.getValue());
-	                if (quesTemp != null) {
-	                    // Call showQuestionPopup here
-	                    showQuestionPopup(quesTemp, player);
-	                    break; // Found a question, no need to check further
-	                }
+	            	System.out.println("square question here");///question
+	    	        SysData sysdata=new SysData();
+	    	        sysdata.LoadQuestions();
+					questionsPOPUP=SysData.getQuestionsPOPUP();
+	    	        SysData.putQuestions(questionsPOPUP);
+	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
+	    	        System.out.println(quesTemp);
+	                new QuestionpopUP(quesTemp , player,game).setVisible(true);
+	                break;
+
 	            }
 	        }
 	        
@@ -315,52 +319,6 @@ public class BoardEasyView2Players extends JFrame {
 	        if (currentPlayer != null) {
 	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
 	            setTitle("Current Player: " + currentPlayer.getName() + "'s Turn");
-	        }
-	    }
-
-	    private void showQuestionPopup(Questions question, Player player) {
-	        JTextArea questionArea = new JTextArea(question.getQuestionText());
-	        questionArea.setEditable(false);
-	        JRadioButton[] optionsButtons = new JRadioButton[4];
-	        ButtonGroup group = new ButtonGroup();
-	        JPanel panel = new JPanel(new GridLayout(0, 1));
-	        panel.add(questionArea);
-	        
-	        for (int i = 0; i < 4; i++) {
-	            optionsButtons[i] = new JRadioButton(question.getOptions()[i]);
-	            group.add(optionsButtons[i]);
-	            panel.add(optionsButtons[i]);
-	        }
-	        
-	        int result = JOptionPane.showConfirmDialog(this, panel, "Answer the question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-	        
-	        if (result == JOptionPane.OK_OPTION) {
-	            int selectedAnswer = -1;
-	            for (int i = 0; i < optionsButtons.length; i++) {
-	                if (optionsButtons[i].isSelected()) {
-	                    selectedAnswer = i + 1;
-	                    break;
-	                }
-	            }
-	            
-	            if (selectedAnswer == question.getCorrectOption()) {
-	                JOptionPane.showMessageDialog(this, "Correct Answer!");
-	            } else {
-	                JOptionPane.showMessageDialog(this, "Wrong Answer!");
-	            }
-	            
-	            updateBoardAfterAnswer(player);
-	        }
-	    }
-
-	    private void updateBoardAfterAnswer(Player player) {
-	      updateBoardView();
-	        displayPlayerPositions();
-	        // Check if the game is over
-	        if (hasPlayerWon(player)) {
-	            endGame(player);
-	        } else {
-	            advanceToNextPlayer();
 	        }
 	    }
 
