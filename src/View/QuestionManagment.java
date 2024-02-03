@@ -177,7 +177,7 @@ public class QuestionManagment extends JFrame   {
                 Questions newQuestion = new Questions(questionField.getText(), answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
                 mangQuestionControl.addNewQuestion(newQuestion);
                 tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
-
+                
                 // Show success message
                 JOptionPane.showMessageDialog(null, "Question added successfully!");
 
@@ -290,7 +290,7 @@ public class QuestionManagment extends JFrame   {
     private void deleteQuestion() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            int questionId = sysData.getQuestions().get(selectedRow).getid();
+            int questionId = mangQuestionControl.getQuestions().get(selectedRow).getid();
             // Call the SysData method to remove the question
             mangQuestionControl.removeQuestionLocaly(questionId);
             // Update the table
@@ -323,7 +323,7 @@ public class QuestionManagment extends JFrame   {
             for (int i = 0; i < answers.length; i++) {
                 messageBuilder.append(answers[i]).append("\n");
             }
-            messageBuilder.append("Correct Answer: ").append(correctAnswerIndex + 1).append("\n");
+            messageBuilder.append("Correct Answer: ").append(correctAnswerIndex).append("\n");
             messageBuilder.append("Difficulty: ").append(difficulty);
 
             // Show the message dialog
