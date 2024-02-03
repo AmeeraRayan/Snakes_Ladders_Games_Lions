@@ -42,9 +42,13 @@ public class MediumGameBoard extends JFrame {
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
+        JTextPane textPane = new JTextPane();
+        textPane.setBounds(411, 23, 251, 55);
+        outerPanel.add(textPane);
+        
         JButton btnNewButton = new JButton("");
         btnNewButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
-        btnNewButton.setBounds(857, 507, 78, 81);
+        btnNewButton.setBounds(857, 421, 78, 81);
         outerPanel.add(btnNewButton);
         
 
@@ -62,13 +66,14 @@ public class MediumGameBoard extends JFrame {
         // Adding the outer panel to the frame
         getContentPane().add(outerPanel);
         
-        JTextPane textPane = new JTextPane();
-        textPane.setBounds(335, 10, 323, 72);
-        outerPanel.add(textPane);
-        
         JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(10, 231, 120, 229);
+        textPane_1.setBounds(28, 175, 106, 140);
         outerPanel.add(textPane_1);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/boardScreenM.png")));
+        lblNewLabel.setBounds(10, -67, 1135, 1131);
+        outerPanel.add(lblNewLabel);
  
         setVisible(true);
     }
