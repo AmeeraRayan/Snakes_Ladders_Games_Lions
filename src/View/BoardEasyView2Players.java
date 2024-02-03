@@ -310,9 +310,14 @@ public class BoardEasyView2Players extends JFrame {
 	    	        System.out.println(quesTemp);
 	                new QuestionpopUP(quesTemp , player,game).setVisible(true);
 	                break;
+<<<<<<< Updated upstream
 
 	            }
 	        }
+=======
+	            }
+	            }
+>>>>>>> Stashed changes
 	        
 	    }
 	    private void displayCurrentPlayer() {
