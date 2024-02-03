@@ -1,11 +1,25 @@
 package Model;
 
 public class BoardSquare {
-	    private int row;
-	    private int col;
-	    private int value;
+	
+		private int row;
+		private int col;
+	    private SquareType type;
 	    private int boundsX;
 	    private int boundsY;
+	    private int value;
+	    
+	    public BoardSquare(int row, int col, SquareType type, int boundsX, int boundsY, int value) {
+			super();
+			this.row = row;
+			this.col = col;
+			this.type = type;
+			this.boundsX = boundsX;
+			this.boundsY = boundsY;
+			this.value = value;
+		}
+	    
+	    
 		public int getRow() {
 			return row;
 		}
@@ -31,25 +45,28 @@ public class BoardSquare {
 		public void setboundsY(int boundsY) {
 			this.boundsY = boundsY;
 		}
+		public SquareType getType() {
+			return type;
+		}
+		public void setType(SquareType type) {
+			this.type = type;
+		}
+
+	
 		public int getValue() {
 			return value;
 		}
+
 		public void setValue(int value) {
 			this.value = value;
 		}
-		public BoardSquare(int row, int col, int value,int boundsX,int boundsY ) {
-			super();
-			this.row = row;
-			this.col = col;
-			this.value = value;
-			this.boundsX = boundsX;
-			this.boundsY = boundsY; 
-		}
-		@Override
+		
+	    @Override
 		public String toString() {
-			return "Square [row=" + row + ", col=" + col + ", value=" + value + "boundsX=" + boundsX +"boundsX=" + boundsX +"]";
+			return "BoardSquare [row=" + row + ", col=" + col + ", type=" + type + ", boundsX=" + boundsX + ", boundsY="
+					+ boundsY + ", value=" + value + "]";
 		}
-
-	   
+		
+	
 	
 }

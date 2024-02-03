@@ -2,6 +2,6 @@ package Model;
 
 public enum SquareType {
     QUESTION,
-    SURPRISE,
+    SURPRISE, NORMAL
 }
 
