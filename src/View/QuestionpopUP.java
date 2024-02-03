@@ -2,6 +2,7 @@ package View;
 
 import java.awt.AWTException;
 
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.LayoutManager;
@@ -215,15 +216,6 @@ public class QuestionpopUP extends JFrame {
 
         this.currentPlayer.setPosition(newPosition);
       	 System.out.println("ameeeeeeeeeeera  " + newPosition);
-
-        for (Player player : game.getPlayers()) {
-             if(player.getName().equals(currentPlayer.getName()))
-             {
-            	 currentPlayer.setPosition(newPosition);
-             }
-        	BoardEasyView2Players.positionsText.append(" " + player.getName()).append(" on sqaure: ").append(player.getPosition()).append("\n");
-	    }
-        BoardEasyView2Players.txtpnHi.setText(BoardEasyView2Players.positionsText.toString());
        QuestionpopUP.this.setVisible(false);
     }
 
