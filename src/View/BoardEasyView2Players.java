@@ -278,7 +278,6 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-	                System.out.println("player if snake=" + player.getName() + " " + player.getPosition());
 	                showSnakePopup(player); 
 	                break;
 	            }
@@ -287,7 +286,6 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Ladder ladder : game.getBoard().getLadders()) {
 	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-	                System.out.println("player if ladder=" + player.getName() + " " + player.getPosition());
 	                showLadderPopup(player); 
 	                break;
 	            }
@@ -308,6 +306,7 @@ public class BoardEasyView2Players extends JFrame {
 	            }}
 	        
 	    }
+	    
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
 	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
