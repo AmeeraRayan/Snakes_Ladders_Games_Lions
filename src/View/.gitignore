@@ -76,7 +76,21 @@
 /BoardEasyView2Players.class
 /BounusResults2$1$1.class
 /BoardEasyView2Players$2.class
+<<<<<<< Updated upstream
 /QuestionpopUP$1.class
 /QuestionpopUP$2.class
 /QuestionpopUP.class
+<<<<<<< HEAD
 /GameScreen.class
+=======
+=======
+/MeduimBoard$1.class
+/MeduimBoard.class
+/MediumBoard$1.class
+/MediumBoard.class
+/GameScreen$1.class
+/GameScreen.class
+/SnakeIcon.class
+>>>>>>> Stashed changes
+/MediumGameBoard.class
+>>>>>>> ce44eeff2893e9d312631c34edf44b514d3b545b
