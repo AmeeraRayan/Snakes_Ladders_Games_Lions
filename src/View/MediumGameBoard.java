@@ -16,14 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-
-import Model.Board;
 import Model.BoardSnake;
 import Model.BoardSquare;
-import Model.Game;
-import Model.GameBoard;
-import Model.Snake;
-import Model.Square;
 import Model.SquareType;
 
 import java.awt.*;
@@ -138,65 +132,97 @@ public class MediumGameBoard extends JFrame {
     
     
     private void setRedSnakes(JPanel panel) {
-    	int i = generateRandomNumber1(); //Red snakes
-    	int j = generateRandomNumber1();
-    	int j_1=generateRandomNumber1();
-    	int i_1=generateRandomNumber1();
-    	label_1.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 55, 55);
-        //the red snake cant be at square number 1 
-    	
-        BoardSnake redSnake1 = new BoardSnake(squares[i][j],squares[9][0]);
-        BoardSnake redSnake2 = new BoardSnake(squares[i_1][j_1],squares[9][0]);
+        int i1, j1, i2, j2;
+        
+        // Place the first red snake
+        do {
+            i1 = generateRandomNumber1(); // Red snake 1
+            j1 = generateRandomNumber1();
+        } while (isSquareOccupied(i1, j1) || (squares[i1][j1].getValue() == 1 && squares[i1][j1].getValue() == 100)|| isBoundsConflict(i1,j1));
+
+        // Place the second red snake
+        do {
+            i2 = generateRandomNumber1(); // Red snake 2
+            j2 = generateRandomNumber1();
+        } while (isSquareOccupied(i2, j2) || (squares[i2][j2].getValue() == 1 && squares[i2][j2].getValue() == 100)|| isBoundsConflict(i2,j2));
+
+        label_1.setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY(), 55, 55);
+        BoardSnake redSnake1 = new BoardSnake(squares[i1][j1], squares[9][0]);
         Snakes[0] = redSnake1;
-        Snakes[1] = redSnake2;
         panel.add(label_1);
         label_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedSnake.png")));
-
+        JLabel label_2 = new JLabel();
+        label_2.setBounds(squares[i2][j2].getboundsX(), squares[i2][j2].getboundsY(), 55, 55);
+        //object red snake 2 
+        BoardSnake redSnake2 = new BoardSnake(squares[i2][j2], squares[9][0]);
+        Snakes[1] = redSnake2;
+        panel.add(label_2);
+        label_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedSnake.png")));
     }
+
     
     private void setYellowSnake(JPanel panel) {
-    	int i = generateRandomNumber2(); //Red snakes
-    	int j = generateRandomNumber3();
-    	JLabel yellowSnakeLabel = new JLabel();
-    	yellowSnakeLabel.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 100, 100);//Yellow
-    	System.out.println(squares[i][j].getValue());
-    	BoardSquare EndSquare = findSquare(squares[i][j],Color.YELLOW);
-    	BoardSnake yellowSnake = new BoardSnake(squares[i][j],EndSquare);
+        int i, j;
+        do {
+            i = generateRandomNumber2(); // Yellow snakes
+            j = generateRandomNumber3();
+        } while (isSquareOccupied(i, j) || (squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100)|| isBoundsConflict(i,j));
+
+        JLabel yellowSnakeLabel = new JLabel();
+        yellowSnakeLabel.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 100, 100);// Yellow
+        System.out.println(squares[i][j].getValue());
+        BoardSquare EndSquare = findSquare(squares[i][j], Color.YELLOW);
+        BoardSnake yellowSnake = new BoardSnake(squares[i][j], EndSquare);
         Snakes[2] = yellowSnake;
         yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/rightYellow.png")));
         panel.add(yellowSnakeLabel);
-    	
     }
+
     private void setBlueSnakes(JPanel panel) {
-    	int i = generateRandomNumber4(); //BLUE snakes
-    	int j = generateRandomNumber3();
-    	System.out.println(i +" " + j );
-    	JLabel labelBlue = new JLabel();
-    	labelBlue.setBounds(squares[i][j].getboundsX()-110, squares[i][j].getboundsY()+15, 140, 170);//BLUE
-    	BoardSquare EndSquare = findSquare(squares[i][j],Color.BLUE);
+        int i, j;
+        do {
+            i = generateRandomNumber4(); // Blue snakes
+            j = generateRandomNumber3();
+        } while (isSquareOccupied(i, j) || (squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100)|| isBoundsConflict(i,j));
+
+        JLabel labelBlue = new JLabel();
+        labelBlue.setBounds(squares[i][j].getboundsX() - 110, squares[i][j].getboundsY() + 15, 140, 170);// BLUE
+        BoardSquare EndSquare = findSquare(squares[i][j], Color.BLUE);
         System.out.println(squares[i][j].getValue());
-        BoardSnake BlueSnake1 = new BoardSnake(squares[i][j],EndSquare);
-        System.out.println(squares[i][j].getValue());
+        BoardSnake BlueSnake1 = new BoardSnake(squares[i][j], EndSquare);
         Snakes[3] = BlueSnake1;
         labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/SnakeBlueRight.png")));
         panel.add(labelBlue);
     }
+
     
     private void setGreenSnakes(JPanel panel) {
-    	int i = generateRandomNumber4(); //Red snakes
-    	int j = generateRandomNumber4();
-    	JLabel label = new JLabel();
-    	
-    	label.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY()+15, 170, 140);//Green
-        //the red snake cant be at square number 1 
-    	BoardSquare EndSquare = findSquare(squares[i][j],Color.GREEN);
-        BoardSnake GreenSnake1 = new BoardSnake(squares[i][j],EndSquare);
+        int i1, j1,i2,j2;
+        do {
+            i1 = generateRandomNumber4(); // Green snakes
+            j1 = generateRandomNumber4();
+        } while (isSquareOccupied(i1, j1) || (squares[i1][j1].getValue() == 1 && squares[i1][j1].getValue() ==100) || isBoundsConflict(i1,j1));
+        
+        do {
+            i2 = generateRandomNumber4(); // Green snakes
+            j2 = generateRandomNumber4();
+        } while (isSquareOccupied(i2, j2) || (squares[i2][j2].getValue() == 1 && squares[i2][j2].getValue() ==100)|| isBoundsConflict(i2,j2));
+
+        JLabel label1 = new JLabel();
+        JLabel label2 = new JLabel();
+        label1.setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY() + 15, 170, 140);// Green
+        label2.setBounds(squares[i2][j2].getboundsX(), squares[i2][j2].getboundsY() + 15, 170, 140);// Green
+        BoardSquare EndSquare1 = findSquare(squares[i1][j1], Color.GREEN);
+        BoardSquare EndSquare2 = findSquare(squares[i2][j2], Color.GREEN);
+        BoardSnake GreenSnake1 = new BoardSnake(squares[i1][j1], EndSquare1);
+        BoardSnake GreenSnake2 = new BoardSnake(squares[i2][j2], EndSquare2);
         Snakes[4] = GreenSnake1;
-        System.out.println(squares[i][j].getValue() + ">> Green");
-        label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/GSnake.png")));
-        panel.add(label);
-
-
+        Snakes[5] = GreenSnake2;
+        System.out.println(squares[i1][j1].getValue() + ">> Green");
+        label1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/GSnake.png")));
+        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Gsnake.png")));
+        panel.add(label1);
+        panel.add(label2);
     }
     
     
@@ -222,9 +248,47 @@ public class MediumGameBoard extends JFrame {
         int num = random.nextInt(4)+3; 
         return num; 
     }
-  
-
     
+    private boolean isSquareOccupied(int row, int col) {
+        for (BoardSnake snake : Snakes) {
+            if (snake != null && snake.getSquareStart().getRow() == row && snake.getSquareStart().getCol() == col) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+ // we will check later ***
+    private boolean isBoundsConflict(int i, int j) {
+        for (BoardSnake snake : Snakes) {
+            if (snake != null && snake.getSquareStart() != null) {
+                int startX = snake.getSquareStart().getRow();
+                int startY = snake.getSquareStart().getCol();
+                int endX = snake.getSquareEnd().getRow();
+                int endY = snake.getSquareEnd().getCol();
+                // Check if there's any conflict along the entire path
+                if (isPathConflict(i, j, startX, startY, endX, endY)) {
+                    return true; 
+                }
+            }
+        }
+        return false;
+    }
+
+    // Check for conflict along the entire path between two points
+    private boolean isPathConflict(int i, int j, int startX, int startY, int endX, int endY) {
+        for (int x = Math.min(startX, endX); x <= Math.max(startX, endX); x++) {
+            for (int y = Math.min(startY, endY); y <= Math.max(startY, endY); y++) {
+                if (i == x && j == y) {
+                    return true;
+                }
+            }
+        }
+        return false; 
+    }
+
+  
     private BoardSquare findSquare(BoardSquare StartSquare,Color color) {
     	  for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares[i].length; j++) {
