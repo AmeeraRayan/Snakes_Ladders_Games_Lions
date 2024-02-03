@@ -34,10 +34,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.Timer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.UIManager;
+import java.util.concurrent.TimeUnit;
 
 public class BoardEasyView2Players extends JFrame {
 
@@ -49,8 +52,11 @@ public class BoardEasyView2Players extends JFrame {
     private int rollResult;
 	private JButton diceButton;
 	private JLabel currentPlayerLabel;
-	public static JTextPane txtpnHi;
-	public static StringBuilder positionsText;
+	private JTextPane txtpnHi;
+	private JLabel timerLabel;
+	private long startTime;
+	private Timer gameTimer;
+	
 
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
@@ -58,13 +64,12 @@ public class BoardEasyView2Players extends JFrame {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 920, 700);
+		setBounds(100, 100, 1000, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// Add this inside the constructor
 		currentPlayerLabel = new JLabel("");
-		currentPlayerLabel.setForeground(new java.awt.Color(47, 79, 79));
-		currentPlayerLabel.setFont(new Font("High Tower Text", Font.BOLD, 35));
+		currentPlayerLabel.setForeground(new java.awt.Color(0, 0, 0));
+		currentPlayerLabel.setFont(new Font("Rage Italic", Font.BOLD, 35));
 		currentPlayerLabel.setBounds(20, 20, 450, 50); 
 		contentPane.add(currentPlayerLabel);
 		setContentPane(contentPane);
@@ -73,26 +78,72 @@ public class BoardEasyView2Players extends JFrame {
 	         txtpnHi = new JTextPane();
 	        txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	        txtpnHi.setForeground(java.awt.Color.BLUE);
-	        txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
+	        txtpnHi.setBackground(UIManager.getColor("Tree.selectionBackground"));
 	        
-	        txtpnHi.setBounds(10, 77, 519, 70);
+	        txtpnHi.setBounds(10, 67, 519, 70);
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-		diceButton.setBounds(760, 290, 130, 145);
+		diceButton.setBounds(850, 330, 150, 145);
 		contentPane.add(diceButton);
 		
+		
+		timerLabel = new JLabel("00:00");
+		timerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		timerLabel.setBounds(730, 20, 100, 50); 
+		contentPane.add(timerLabel);
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(BoardEasyView2Players.class.getResource("/images/boradeasy2.png")));
-		lblNewLabel.setBounds(0, 10, 900, 670);
+		lblNewLabel.setBounds(0, 10, 1000, 700);
 
 		contentPane.add(lblNewLabel);
-   
 		startGame();
 		
 		
 	}
+	public void startGame() {
+	    initializePlayerPositions();
+	    rollDiceAndMovePlayer();
+	    animatePlayerTurnTitle(); 
+	    startGameTimer(); 
+
+	}
+	private void startGameTimer() {
+	    startTime = System.currentTimeMillis();
+	    gameTimer = new Timer(1000, new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            long now = System.currentTimeMillis();
+	            long elapsed = now - startTime;
+	            long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+	            long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
+	            timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+	        }
+	    });
+	    gameTimer.start();
+	}
+
+	
+	private void animatePlayerTurnTitle() {
+	    final int delay = 500;
+	    ActionListener taskPerformer = new ActionListener() {
+	        private boolean flag = false;
+	        public void actionPerformed(ActionEvent evt) {
+	            if (currentPlayer != null) {
+	                if (flag) {
+	                    currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
+	                } else {
+	                    currentPlayerLabel.setText(">> Player Turn: " + currentPlayer.getName() + " <<");
+	                }
+	                flag = !flag; 
+	            }
+	        }
+	    };
+	    new Timer(delay, taskPerformer).start();
+	}
+
 	private void advanceToNextPlayer() {
 	    currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
 	    currentPlayer = game.getPlayers().get(currentPlayerIndex);
@@ -118,10 +169,7 @@ public class BoardEasyView2Players extends JFrame {
 	}
 	public void updatePlayerPosition(Player player, int x, int y) {
 	    
-	        
-	        System.out.println(player.getName() + " moves to X: " + x + " Y: " + y );
-	    
-
+	   System.out.println(player.getName() + " moves to X: " + x + " Y: " + y );
 	    contentPane.revalidate();
 	    contentPane.repaint();
 	}
@@ -142,13 +190,24 @@ public class BoardEasyView2Players extends JFrame {
 	    this.updatePlayerPosition(currentPlayer, x, y);
 	    
 	}
+	private void showLadderPopup(Player player) {
+	    JOptionPane.showMessageDialog(this,
+	        "<html><body><p>Heyyy! " + player.getName() + " climbed a ladder 🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
+	        "Ladder Encounter!", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private void showSnakePopup(Player player) {
+	    JOptionPane.showMessageDialog(this,
+	        "<html><body><p>Oh no! " + player.getName() + " encountered a snake! 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
+	        "Snake Encounter!", JOptionPane.WARNING_MESSAGE);
+	}
+
 	private void performDiceRollAndMove() {
 	    diceButton.setEnabled(false);
 	    rollResult = game.getDice().rollForEasy();
 	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 	    diceButton.setIcon(diceIcon);
 	    
-	    // Show popup with dice roll result
 	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
@@ -163,7 +222,7 @@ public class BoardEasyView2Players extends JFrame {
 	    }
 	}
 	private void displayPlayerPositions() {
-	    positionsText = new StringBuilder();
+	    StringBuilder positionsText = new StringBuilder();
 	    for (Player player : game.getPlayers()) {
 	        positionsText.append(" " + player.getName()).append(" on sqaure: ").append(player.getPosition()).append("\n");
 	    }
@@ -173,21 +232,41 @@ public class BoardEasyView2Players extends JFrame {
 	}
 
 	private boolean hasPlayerWon(Player player) {
-	    int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
-	    return player.getPosition() >= maxPosition;
+	    //int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
+	    return currentPlayer.getPosition() == 49;
 	}
 
 	private void rollDiceAndMovePlayer() {
 	    currentPlayer = game.getCurrentPlayer();
-	    displayCurrentPlayer(); // Display the current player's name
+	    displayCurrentPlayer();
 	    enableDiceRollForCurrentPlayer();
 	}
 
 	private void endGame(Player winner) {
-	    JOptionPane.showMessageDialog(this, winner.getName() + " wins the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-	    diceButton.setEnabled(false);
+	    gameTimer.stop(); // Stop the timer
+	    JOptionPane.showMessageDialog(this, winner.getName() + " wins the game! Time: " + timerLabel.getText(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
+	    int playAgain = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Play Again?", JOptionPane.YES_NO_OPTION);
+	    if (playAgain == JOptionPane.YES_OPTION) {
+	        restartGame();
+	    } else {
+	        BoardEasyView2Players.this.setVisible(false);
+			new DataReception().setVisible(true);
+	    }
 	}
+	private void restartGame() {
+	    if (gameTimer != null) {
+	        gameTimer.stop();
+	    }
 
+	    for (Player player : game.getPlayers()) {
+	        player.setPosition(1);
+	    }
+	    	    
+	    initializePlayerPositions();
+	    startGameTimer();
+	    rollDiceAndMovePlayer();
+	    animatePlayerTurnTitle();
+	}
 	    private void movePlayer(Player player, int roll) {
 	        int newPosition = player.getPosition() + roll;
 	        newPosition = Math.min(newPosition, game.getBoard().getSize() * game.getBoard().getSize()); // Assuming a square board
@@ -195,25 +274,23 @@ public class BoardEasyView2Players extends JFrame {
 	        System.out.println("player="+player.getName()+" "+player.getPosition());
 
 	    }
-		private void checkForSnakesAndLadders(Player player) {
-	
+	    private void checkForSnakesAndLadders(Player player) {
 	        for (Snake snake : game.getBoard().getSnakes()) {
-	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue()) ) {
+	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                showSnakePopup(player); 
-	    	        System.out.println("player if snake="+player.getName()+" "+player.getPosition());
 	                break;
 	            }
 	        }
-	        
+
 	        for (Ladder ladder : game.getBoard().getLadders()) {
-	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue()) ) {
+	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(player); 
-	    	        System.out.println("player if ladder="+player.getName()+" "+player.getPosition());
 	                break;
 	            }
 	        }
+
 	        for (Square q : game.getBoard().getQuestions()) {
 	        	Questions quesTemp;
 	            if (player.getPosition() == Integer.parseInt(q.getValue()) ) {
@@ -229,7 +306,6 @@ public class BoardEasyView2Players extends JFrame {
 	            }}
 	        
 	    }
-	    
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
 	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
@@ -237,10 +313,6 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 	    }
 
-	    public void startGame() {
-	        initializePlayerPositions();
-	        rollDiceAndMovePlayer(); 
-	    }
 
 	    private void initializePlayerPositions() {
 	        StringBuilder positionsText = new StringBuilder();
