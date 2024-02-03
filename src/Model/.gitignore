@@ -16,3 +16,6 @@
 /GameSetup.class
 /Square.class
 /SquareType.class
+/BoardSquare.class
+/GameBoard.class
+/BoardSnake.class
