@@ -111,7 +111,6 @@ public class MangQuestionControl {
 	            question.setCorrectOption(updatedQuestion.getCorrectOption());
 	            question.setDiffculty(updatedQuestion.getDiffculty());
 	            updateQuestionToJson(questions);
-	            System.out.println(question);
 
 	            return;
 	        }
