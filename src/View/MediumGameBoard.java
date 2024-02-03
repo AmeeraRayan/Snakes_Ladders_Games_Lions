@@ -258,6 +258,7 @@ public class MediumGameBoard extends JFrame {
         return false;
     }
     
+    
  // we will check later ***
     private boolean isBoundsConflict(int i, int j) {
         for (BoardSnake snake : Snakes) {
