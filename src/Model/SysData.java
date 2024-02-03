@@ -173,8 +173,6 @@ public class SysData {
 
 			questions.add(q);
 			questionsPOPUP.put(q.getQuestionText(),q);
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
 		}
 
 		this.getQuestions();
