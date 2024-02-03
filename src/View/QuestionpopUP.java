@@ -201,7 +201,6 @@ public class QuestionpopUP extends JFrame {
         // Assume we have a currentPlayer object with a method setPosition
         int currentPosition = this.currentPlayer.getPosition();
         int newPosition = currentPosition + steps;
-   	 System.out.println("ameeeeeeeeeeera  " + newPosition);
 
         // Ensure the new position is within bounds
         if (newPosition < 0) {
@@ -215,7 +214,13 @@ public class QuestionpopUP extends JFrame {
         }
 
         this.currentPlayer.setPosition(newPosition);
+      	 System.out.println("ameeeeeeeeeeera  " + newPosition);
+
         for (Player player : game.getPlayers()) {
+             if(player.getName().equals(currentPlayer.getName()))
+             {
+            	 currentPlayer.setPosition(newPosition);
+             }
         	BoardEasyView2Players.positionsText.append(" " + player.getName()).append(" on sqaure: ").append(player.getPosition()).append("\n");
 	    }
         BoardEasyView2Players.txtpnHi.setText(BoardEasyView2Players.positionsText.toString());
