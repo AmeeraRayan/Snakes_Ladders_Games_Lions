@@ -215,6 +215,10 @@ public class QuestionpopUP extends JFrame {
         }
 
         this.currentPlayer.setPosition(newPosition);
+        for (Player player : game.getPlayers()) {
+        	BoardEasyView2Players.positionsText.append(" " + player.getName()).append(" on sqaure: ").append(player.getPosition()).append("\n");
+	    }
+        BoardEasyView2Players.txtpnHi.setText(BoardEasyView2Players.positionsText.toString());
        QuestionpopUP.this.setVisible(false);
     }
 
