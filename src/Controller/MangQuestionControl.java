@@ -112,6 +112,7 @@ public class MangQuestionControl {
 	            question.setCorrectOption(updatedQuestion.getCorrectOption());
 	            question.setDiffculty(updatedQuestion.getDiffculty());
 	            updateQuestionToJson(questions);
+	            System.out.println(question);
 
 	            return;
 	        }
@@ -120,50 +121,46 @@ public class MangQuestionControl {
 	}
 	
 	private boolean updateQuestionToJson(List<Questions> questions) {
-	    try (Reader reader = new FileReader("src/QuestionsAndAnswers.json")) {
-	        JsonParser parser = new JsonParser();
-	        JsonObject existingJson = parser.parse(reader).getAsJsonObject();
+	    // Create a JsonObject to hold the updated questions
+	    JsonObject updatedJson = new JsonObject();
 
-	        // Update only the "questions" part of the existing JSON
-	        existingJson.remove("questions");
+	    // Create a JsonArray for the questions
+	    JsonArray questionsJsonArray = new JsonArray();
 
-	        JsonArray questionsJsonArray = new JsonArray();
+	    for (Questions question : questions) {
+	        JsonObject questionJsonObject = new JsonObject();
+	        questionJsonObject.addProperty("question", question.getQuestionText());
 
-	        for (Questions question : questions) {
-	            JsonObject questionJsonObject = new JsonObject();
-	            questionJsonObject.addProperty("question", question.getQuestionText());
-
-	            JsonArray answersArray = new JsonArray();
-	            for (String answer : question.getOptions()) {
-	                answersArray.add(answer);
-	            }
-	            questionJsonObject.add("answers", answersArray);
-
-	            Integer correct = question.getCorrectOption() + 1;
-	            Integer difficulty = question.getDiffculty();
-
-	            questionJsonObject.addProperty("correct_ans", correct.toString());
-	            questionJsonObject.addProperty("difficulty", difficulty.toString() );
-
-
-	            questionsJsonArray.add(questionJsonObject);
+	        JsonArray answersArray = new JsonArray();
+	        for (String answer : question.getOptions()) {
+	            answersArray.add(answer);
 	        }
+	        questionJsonObject.add("answers", answersArray);
 
-	        existingJson.add("questions", questionsJsonArray);
+	        Integer correct = question.getCorrectOption();
+	        Integer difficulty = question.getDiffculty();
 
-	        // Write the updated JSON back to the file with proper indentation
-	        try (Writer writer = new FileWriter("src/QuestionsAndAnswers.json")) {
-	            JsonWriter jsonWriter = new JsonWriter(writer);
-	            jsonWriter.setIndent(" "); // Set the desired indentation
-	            new Gson().toJson(existingJson, jsonWriter);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+	        questionJsonObject.addProperty("correct_ans", correct.toString());
+	        questionJsonObject.addProperty("difficulty", difficulty.toString());
+
+	        questionsJsonArray.add(questionJsonObject);
+	    }
+
+	    // Add the questions array to the updated Json object
+	    updatedJson.add("questions", questionsJsonArray);
+
+	    // Write the updated JSON back to the file with proper indentation
+	    try (Writer writer = new FileWriter("src/QuestionsAndAnswers.json")) {
+	        JsonWriter jsonWriter = new JsonWriter(writer);
+	        jsonWriter.setIndent(" ");
+	        new Gson().toJson(updatedJson, jsonWriter);
+	        return true; 
 	    } catch (IOException e) {
 	        e.printStackTrace();
+	        return false;
 	    }
-		return false;
 	}
+
 	
 	public Questions getRandomQuestion(String level) {
         List<Questions> questions;
