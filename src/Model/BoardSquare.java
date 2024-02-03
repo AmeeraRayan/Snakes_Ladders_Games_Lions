@@ -1,24 +1,22 @@
 package Model;
 
 public class BoardSquare {
-	
-		private int row;
-		private int col;
+	    private int row;
+	    private int col;
 	    private SquareType type;
 	    private int boundsX;
 	    private int boundsY;
 	    private int value;
 	    
-	    public BoardSquare(int row, int col, SquareType type, int boundsX, int boundsY, int value) {
+	    public BoardSquare(int row, int col, SquareType type, int boundsX, int boundsY, int value ) {
 			super();
 			this.row = row;
 			this.col = col;
-			this.type = type;
+			this.type= type;
 			this.boundsX = boundsX;
-			this.boundsY = boundsY;
-			this.value = value;
+			this.boundsY = boundsY; 
+			this.setValue(value);
 		}
-	    
 	    
 		public int getRow() {
 			return row;
@@ -52,19 +50,18 @@ public class BoardSquare {
 			this.type = type;
 		}
 
-	
+		@Override
+		public String toString() {
+			return "BoardSquare [row=" + row + ", col=" + col + ", type=" + type + ", boundsX=" + boundsX + ", boundsY="
+					+ boundsY + "]";
+		}
+
 		public int getValue() {
 			return value;
 		}
 
 		public void setValue(int value) {
 			this.value = value;
-		}
-		
-	    @Override
-		public String toString() {
-			return "BoardSquare [row=" + row + ", col=" + col + ", type=" + type + ", boundsX=" + boundsX + ", boundsY="
-					+ boundsY + ", value=" + value + "]";
 		}
 		
 	
