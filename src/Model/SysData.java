@@ -267,15 +267,6 @@ public class SysData {
 		}
 
 		
-		
-		
-		
-		
-		
-		
-		
-		//////////////////////////////
-	
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();
 	    for (Questions q : this.getQuestions()) {
