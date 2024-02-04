@@ -28,7 +28,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -346,16 +345,14 @@ public class BoardEasyView2Players extends JFrame {
 	    }
 	    
 	    private void showEditQuestionDialog( Player player) {
-	    	ImageIcon icon = new ImageIcon(getClass().getResource("/images/smile.png"));
-	    	
-
+	 
 	    	// Create the panel that contains the question and options
 	    	  JPanel questionPanel = new JPanel();
 	    	  questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
 
 	    	  // Create and add the position label to the panel
-	    	  JLabel tempPositionsOfplayer = new JLabel("Hii "+ player.getName() +", you are on square " + player.getPosition() + " Be careful, as you will move forward or backward based on your answer.", icon, JLabel.LEFT);
-	    	  tempPositionsOfplayer.setHorizontalAlignment(JLabel.LEFT);
+	    	  JLabel tempPositionsOfplayer = new JLabel("You landed on a question !!, you are on square " + player.getPosition() + " be careful, as you will move forward or backward based on your answer.");
+	    	  tempPositionsOfplayer.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    	  questionPanel.add(tempPositionsOfplayer);
 
 	    	  // Add question label
@@ -380,7 +377,7 @@ public class BoardEasyView2Players extends JFrame {
 
 	    	  // Display the dialog
 	    	  int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	    	      "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	    	      "Hi "+ player.getName(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 	           // Show the dialog
 	          
