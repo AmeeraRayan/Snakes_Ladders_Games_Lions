@@ -150,6 +150,8 @@ public class BoardEasyView2Players extends JFrame {
 	private void advanceToNextPlayer() {
 	    currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
 	    currentPlayer = game.getPlayers().get(currentPlayerIndex);
+	    game.setCurrentPlayer(currentPlayer);
+	    game.setCurrentPlayerIndex(currentPlayerIndex);
 	   /* for(Player p: game.getPlayers())
 	    {
 	    	if (!game.getCurrentPlayer().getName().equals(p.getName()))
@@ -244,7 +246,7 @@ public class BoardEasyView2Players extends JFrame {
 
 	private boolean hasPlayerWon(Player player) {
 	    //int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
-	    return currentPlayer.getPosition() == 49;
+	    return game.getCurrentPlayer().getPosition() == 49;
 	}
 
 	private void rollDiceAndMovePlayer() {
@@ -284,9 +286,11 @@ public class BoardEasyView2Players extends JFrame {
 	        if (newPosition >= totalSquaresOnBoard) {
 	            newPosition = totalSquaresOnBoard;
 	            player.setPosition(newPosition);
+	            game.getCurrentPlayer().setPosition(newPosition);
 	            endGame(player); // Call the end game method
 	        } else {
 	            player.setPosition(newPosition);
+	            game.getCurrentPlayer().setPosition(newPosition);
 	        }
 	        System.out.println("player=" + player.getName() + " " + player.getPosition());
 	    }
@@ -294,6 +298,7 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                showSnakePopup(player); 
 	                break;
 	            }
@@ -302,6 +307,7 @@ public class BoardEasyView2Players extends JFrame {
 	        for (Ladder ladder : game.getBoard().getLadders()) {
 	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(player); 
 	                break;
 	            }
@@ -345,42 +351,33 @@ public class BoardEasyView2Players extends JFrame {
 	    }
 	    
 	    private void showEditQuestionDialog( Player player) {
-	 
-	    	// Create the panel that contains the question and options
-	    	  JPanel questionPanel = new JPanel();
-	    	  questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-
-	    	  // Create and add the position label to the panel
-	    	  JLabel tempPositionsOfplayer = new JLabel("You landed on a question !!, you are on square " + player.getPosition() + " be careful, as you will move forward or backward based on your answer.");
-	    	  tempPositionsOfplayer.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    	  questionPanel.add(tempPositionsOfplayer);
-
-	    	  // Add question label
-	    	  JLabel questionLabel = new JLabel(this.quesTemp.getQuestionText());
-	    	  questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    	  questionPanel.add(questionLabel);
-
-	    	  // Create and add the radio buttons to the panel
-	    	  ButtonGroup optionsGroup = new ButtonGroup();
-	    	  JRadioButton option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
-	    	  JRadioButton option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
-	    	  JRadioButton option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
-	    	  JRadioButton option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
-	    	  optionsGroup.add(option1);
-	    	  optionsGroup.add(option2);
-	    	  optionsGroup.add(option3);
-	    	  optionsGroup.add(option4);
-	    	  questionPanel.add(option1);
-	    	  questionPanel.add(option2);
-	    	  questionPanel.add(option3);
-	    	  questionPanel.add(option4);
-
-	    	  // Display the dialog
-	    	  int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	    	      "Hi "+ player.getName(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
+	    	  ButtonGroup optionsGroup;
+	    	  JRadioButton option1, option2, option3, option4;
+	    	  JLabel questionLabel;
+	    	     // Radio buttons for options
+	           optionsGroup = new ButtonGroup();
+	           option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
+	           option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
+	           option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
+	           option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
+	           optionsGroup.add(option1);
+	           optionsGroup.add(option2);
+	           optionsGroup.add(option3);
+	           optionsGroup.add(option4);
+	    	   // Question label
+	    	    JPanel questionPanel = new JPanel();
+	           questionLabel = new JLabel(this.quesTemp.getQuestionText());
+	           questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	           questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+	           questionPanel.add(new JLabel(quesTemp.getQuestionText()));
+	           questionPanel.add(option1);
+	           questionPanel.add(option2);
+	           questionPanel.add(option3);
+	           questionPanel.add(option4);
 	           // Show the dialog
-	          
+	           int result = JOptionPane.showConfirmDialog(null, questionPanel, 
+	               "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
 	           if (result == JOptionPane.OK_OPTION) {
 	               if (option1.isSelected()) selectedAnswer = 0;
 	               if (option2.isSelected()) selectedAnswer = 1;
@@ -492,6 +489,7 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 
 	        player.setPosition(newPosition);
+            game.getCurrentPlayer().setPosition(newPosition);
 	      	 System.out.println("ameeeeeeeeeeera  " + newPosition);
 	    }
 	
