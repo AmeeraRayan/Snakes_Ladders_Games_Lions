@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
- 
+
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -18,11 +19,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import Model.BoardSnake;
 import Model.BoardSquare;
+import Model.Dice;
 import Model.SquareType;
 
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
  
 public class MediumGameBoard extends JFrame {
 	private static final int GRID_SIZE = 10;
@@ -30,6 +34,7 @@ public class MediumGameBoard extends JFrame {
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
 	private final JLabel label_1 = new JLabel("");
     private BoardSquare[][] squares = new BoardSquare[10][10];
+    private Dice dice = new Dice("medium");
     //private GameBoard game ; 
     private BoardSnake[] Snakes = new BoardSnake[6];
     public MediumGameBoard() {
@@ -46,10 +51,21 @@ public class MediumGameBoard extends JFrame {
         textPane.setBounds(411, 23, 251, 55);
         outerPanel.add(textPane);
         
-        JButton btnNewButton = new JButton("");
-        btnNewButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
-        btnNewButton.setBounds(857, 421, 78, 81);
-        outerPanel.add(btnNewButton);
+        JButton diceButton = new JButton("");
+        diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
+        diceButton.setBounds(857, 421, 78, 81);
+        outerPanel.add(diceButton);
+        
+        diceButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int result = dice.DiceForMediumGame();
+        		System.out.println(result);
+        		String path = "/images/dice " + result + ".jpg";
+                diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+        	}
+        });
+       
         
 
         // Creating the inner panel
@@ -70,11 +86,7 @@ public class MediumGameBoard extends JFrame {
         textPane_1.setBounds(28, 175, 106, 140);
         outerPanel.add(textPane_1);
         
-        JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/boardScreenM.png")));
-        lblNewLabel.setBounds(10, -67, 1135, 1131);
-        outerPanel.add(lblNewLabel);
- 
+  
         setVisible(true);
     }
     private void initializeBoard(JPanel panel , JPanel outerPanel ) {
@@ -106,14 +118,14 @@ public class MediumGameBoard extends JFrame {
                 int y = i * cellSize + panel.getBounds().y +118 ;
                 squares[i][j]= new BoardSquare(i, j, SquareType.NORMAL, x, y,cellNumber);
                // System.out.println( squares[i][j] );
-                System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", "+ " i "+ i + " j" + j);
+               // System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", "+ " i "+ i + " j" + j);
             }
         }
          setRedSnakes(outerPanel);
          setYellowSnake(outerPanel);
          setBlueSnakes(outerPanel);
          setGreenSnakes(outerPanel);
-    
+       
         
     }
 
