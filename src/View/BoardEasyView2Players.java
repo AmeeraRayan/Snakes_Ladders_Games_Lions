@@ -28,6 +28,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -345,33 +346,44 @@ public class BoardEasyView2Players extends JFrame {
 	    }
 	    
 	    private void showEditQuestionDialog( Player player) {
-	    	  ButtonGroup optionsGroup;
-	    	  JRadioButton option1, option2, option3, option4;
-	    	  JLabel questionLabel;
-	    	     // Radio buttons for options
-	           optionsGroup = new ButtonGroup();
-	           option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
-	           option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
-	           option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
-	           option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
-	           optionsGroup.add(option1);
-	           optionsGroup.add(option2);
-	           optionsGroup.add(option3);
-	           optionsGroup.add(option4);
-	    	   // Question label
-	    	    JPanel questionPanel = new JPanel();
-	           questionLabel = new JLabel(this.quesTemp.getQuestionText());
-	           questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-	           questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-	           questionPanel.add(new JLabel(quesTemp.getQuestionText()));
-	           questionPanel.add(option1);
-	           questionPanel.add(option2);
-	           questionPanel.add(option3);
-	           questionPanel.add(option4);
-	           // Show the dialog
-	           int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	               "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	    	ImageIcon icon = new ImageIcon(getClass().getResource("/images/smile.png"));
+	    	
 
+	    	// Create the panel that contains the question and options
+	    	  JPanel questionPanel = new JPanel();
+	    	  questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+
+	    	  // Create and add the position label to the panel
+	    	  JLabel tempPositionsOfplayer = new JLabel("Hii "+ player.getName() +", you are on square " + player.getPosition() + " Be careful, as you will move forward or backward based on your answer.", icon, JLabel.LEFT);
+	    	  tempPositionsOfplayer.setHorizontalAlignment(JLabel.LEFT);
+	    	  questionPanel.add(tempPositionsOfplayer);
+
+	    	  // Add question label
+	    	  JLabel questionLabel = new JLabel(this.quesTemp.getQuestionText());
+	    	  questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    	  questionPanel.add(questionLabel);
+
+	    	  // Create and add the radio buttons to the panel
+	    	  ButtonGroup optionsGroup = new ButtonGroup();
+	    	  JRadioButton option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
+	    	  JRadioButton option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
+	    	  JRadioButton option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
+	    	  JRadioButton option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
+	    	  optionsGroup.add(option1);
+	    	  optionsGroup.add(option2);
+	    	  optionsGroup.add(option3);
+	    	  optionsGroup.add(option4);
+	    	  questionPanel.add(option1);
+	    	  questionPanel.add(option2);
+	    	  questionPanel.add(option3);
+	    	  questionPanel.add(option4);
+
+	    	  // Display the dialog
+	    	  int result = JOptionPane.showConfirmDialog(null, questionPanel, 
+	    	      "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+	           // Show the dialog
+	          
 	           if (result == JOptionPane.OK_OPTION) {
 	               if (option1.isSelected()) selectedAnswer = 0;
 	               if (option2.isSelected()) selectedAnswer = 1;
