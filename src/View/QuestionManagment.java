@@ -54,7 +54,12 @@ public class QuestionManagment extends JFrame   {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make all cells non-editable
+            }
+        };
         tableModel.addColumn("Question");
         tableModel.addColumn("Correct Answer");
         tableModel.addColumn("Difficulty");
