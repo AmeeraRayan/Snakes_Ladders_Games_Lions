@@ -280,8 +280,15 @@ public class BoardEasyView2Players extends JFrame {
 	}
 	    private void movePlayer(Player player, int roll) {
 	        int newPosition = player.getPosition() + roll;
-	        player.setPosition(newPosition);
-	        System.out.println("player="+player.getName()+" "+player.getPosition());
+	     // Ensure the player does not go past the last square
+	        if (newPosition >= totalSquaresOnBoard) {
+	            newPosition = totalSquaresOnBoard;
+	            player.setPosition(newPosition);
+	            endGame(player); // Call the end game method
+	        } else {
+	            player.setPosition(newPosition);
+	        }
+	        System.out.println("player=" + player.getName() + " " + player.getPosition());
 
 	    }
 	    private void checkForSnakesAndLadders(Player player) {
@@ -363,7 +370,7 @@ public class BoardEasyView2Players extends JFrame {
 	           questionPanel.add(option4);
 	           // Show the dialog
 	           int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	               "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	               "Select Your Answer", JOptionPane.PLAIN_MESSAGE);
 
 	           if (result == JOptionPane.OK_OPTION) {
 	               if (option1.isSelected()) selectedAnswer = 0;
