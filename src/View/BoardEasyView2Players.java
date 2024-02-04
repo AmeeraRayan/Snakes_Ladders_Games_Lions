@@ -289,7 +289,6 @@ public class BoardEasyView2Players extends JFrame {
 	            player.setPosition(newPosition);
 	        }
 	        System.out.println("player=" + player.getName() + " " + player.getPosition());
-
 	    }
 	    private void checkForSnakesAndLadders(Player player) {
 	        for (Snake snake : game.getBoard().getSnakes()) {
@@ -317,6 +316,7 @@ public class BoardEasyView2Players extends JFrame {
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
 	    	        System.out.println(quesTemp);
+	    	        System.out.println(player.getPosition()+"aaaaaaaaaaaaaaaaaaaaa");
 	    	        showEditQuestionDialog(player);
 	                break;
 
@@ -370,7 +370,7 @@ public class BoardEasyView2Players extends JFrame {
 	           questionPanel.add(option4);
 	           // Show the dialog
 	           int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	               "Select Your Answer", JOptionPane.PLAIN_MESSAGE);
+	               "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 	           if (result == JOptionPane.OK_OPTION) {
 	               if (option1.isSelected()) selectedAnswer = 0;
