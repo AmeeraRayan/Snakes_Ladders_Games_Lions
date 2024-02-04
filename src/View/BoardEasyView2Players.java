@@ -356,8 +356,9 @@ public class BoardEasyView2Players extends JFrame {
 	    	  questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
 
 	    	  // Create and add the position label to the panel
-	    	  JLabel tempPositionsOfplayer = new JLabel("You landed on a question ? you are on square " + player.getPosition() + " be careful, as you will move forward or backward based on your answer.");
-	    	  tempPositionsOfplayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    	  JLabel tempPositionsOfplayer = new JLabel("\"You've landed on a question of difficulty level \" + this.quesTemp.getDiffculty() + \", situated on square \" + player.getPosition() + \". Exercise caution, as your answer will dictate whether you move forward or backward. An incorrect answer to an easy (level 1) question will result in a setback of one square. A medium (level 2) question will set you back two squares, and a hard (level 3) question will set you back three squares. If you answer a hard question correctly, you'll move forward by one square; however, correct answers to easy or medium questions will keep you in place.\""
+	    	  		+ " ");
+	    	  tempPositionsOfplayer.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    	  questionPanel.add(tempPositionsOfplayer);
 
 	    	  // Add question label
