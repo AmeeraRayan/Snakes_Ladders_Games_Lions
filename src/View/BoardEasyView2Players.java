@@ -12,7 +12,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
-
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 import Model.Game;
 import Model.Ladder;
 import Model.Player;
@@ -37,12 +38,18 @@ import java.util.Map;
 import javax.swing.Timer;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.util.concurrent.TimeUnit;
+import java.awt.Dimension;
+
+
+
+
 
 public class BoardEasyView2Players extends JFrame {
 
@@ -67,39 +74,38 @@ public class BoardEasyView2Players extends JFrame {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 750);
+		setBounds(0, 0, 1071, 770);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
 		currentPlayerLabel = new JLabel("");
+		currentPlayerLabel.setBounds(420, 80, 450, 50);
 		currentPlayerLabel.setForeground(new java.awt.Color(0, 0, 0));
 		currentPlayerLabel.setFont(new Font("Rage Italic", Font.BOLD, 35));
-		currentPlayerLabel.setBounds(20, 20, 450, 50); 
 		contentPane.add(currentPlayerLabel);
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 	       
 	         txtpnHi = new JTextPane();
+	         txtpnHi.setBounds(10, 10, 325, 145);
 	        txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	        txtpnHi.setForeground(java.awt.Color.BLUE);
 	        txtpnHi.setBackground(UIManager.getColor("Tree.selectionBackground"));
-	        
-	        txtpnHi.setBounds(10, 67, 519, 70);
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
+		 diceButton.setBounds(895, 340, 150, 145);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
-		diceButton.setBounds(850, 330, 150, 145);
 		contentPane.add(diceButton);
 		
 		
 		timerLabel = new JLabel("00:00");
-		timerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		timerLabel.setBounds(730, 20, 100, 50); 
+		timerLabel.setBounds(920, 50, 100, 50);
+		timerLabel.setFont(new Font("Snap ITC", Font.BOLD, 25));
 		contentPane.add(timerLabel);
 
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 0, 1071, 761);
 		lblNewLabel.setIcon(new ImageIcon(BoardEasyView2Players.class.getResource("/images/boradeasy2.png")));
-		lblNewLabel.setBounds(0, 10, 1000, 700);
 
 		contentPane.add(lblNewLabel);
 		startGame();
@@ -350,28 +356,63 @@ public class BoardEasyView2Players extends JFrame {
 	        contentPane.repaint();
 	    }
 	    
-	    private void showEditQuestionDialog( Player player) {
-	    	// Create the panel that contains the question and options
-	    	  JPanel questionPanel = new JPanel();
-	    	  questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-
+	    @SuppressWarnings("serial")
+		private void showEditQuestionDialog( Player player) {
+	    	 JPanel questionPanel = new JPanel();
+	    	    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+	    	    Dimension preferredSize = new Dimension(700, 400);
+	    	    questionPanel.setPreferredSize(preferredSize);
 	    	  // Create and add the position label to the panel
-	    	  JLabel tempPositionsOfplayer = new JLabel("\"You've landed on a question of difficulty level \" + this.quesTemp.getDiffculty() + \", situated on square \" + player.getPosition() + \". Exercise caution, as your answer will dictate whether you move forward or backward. An incorrect answer to an easy (level 1) question will result in a setback of one square. A medium (level 2) question will set you back two squares, and a hard (level 3) question will set you back three squares. If you answer a hard question correctly, you'll move forward by one square; however, correct answers to easy or medium questions will keep you in place.\""
-	    	  		+ " ");
-	    	  tempPositionsOfplayer.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    	  questionPanel.add(tempPositionsOfplayer);
+	    	  String message;
+	    	    switch (this.quesTemp.getDiffculty()) {
+	    	        case 1: // Easy
+	    	            message = "This is an easy question. A wrong answer will set you back one square, and a correct answer will keep you on place.";
+	    	            break;
+	    	        case 2: // Medium
+	    	            message = "You're facing a medium difficulty question. Incorrectly answering will set you back two squares , and a correct answer will stay on place";
+	    	            break;
+	    	        case 3: // Hard
+	    	            message = "This is a hard question. A wrong answer will set you back three squares, but a correct answer will move you forward one square ";
+	    	            break;
+	    	        default:
+	    	            message = "Difficulty level is unknown. Be cautious with your answer.";
+	    	            break;
+	    	    }
+	    	    
+	    	 // Create and add the information label to the panel with a yellow background
+	    	    // Add styled information label with emoji
+	    	    JLabel infoLabel = new JLabel("<html><div style='background-color: yellow; padding: 10px; font-size: 20px; font-family: Serif; font-style: italic;'>😃 " + message + " 😃</div></html>");
+	    	    infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    	    questionPanel.add(infoLabel);
 
-	    	  // Add question label
-	    	  JLabel questionLabel = new JLabel(this.quesTemp.getQuestionText());
-	    	  questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    	  questionPanel.add(questionLabel);
+
+	    	 // Add spacing
+	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+	    	    // Add question label with a yellow background
+	    	    JLabel questionLabel = new JLabel("<html><div style='padding: 10px;font-size: 20px;font-family: Serif; font-style: italic;'>" + this.quesTemp.getQuestionText() + "</div></html>");
+	    	    questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    	    questionPanel.add(questionLabel);
+	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
 
 	    	  // Create and add the radio buttons to the panel
 	    	  ButtonGroup optionsGroup = new ButtonGroup();
 	    	  JRadioButton option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
+	    	  option1.setForeground(Color.RED); // Color the text
+	    	  option1.setFont(new Font("Comic Sans MS", Font.BOLD, 20)); // Set the font
+
 	    	  JRadioButton option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
+	    	  option2.setForeground(Color.ORANGE);
+	    	  option2.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+
 	    	  JRadioButton option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
+	    	  option3.setForeground(Color.BLUE);
+	    	  option3.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+
 	    	  JRadioButton option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
+	    	  option4.setForeground(Color.GREEN);
+	    	  option4.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
 	    	  optionsGroup.add(option1);
 	    	  optionsGroup.add(option2);
 	    	  optionsGroup.add(option3);
@@ -381,9 +422,14 @@ public class BoardEasyView2Players extends JFrame {
 	    	  questionPanel.add(option3);
 	    	  questionPanel.add(option4);
 
-	    	  // Display the dialog
-	    	  int result = JOptionPane.showConfirmDialog(null, questionPanel, 
-	    	      "Hii "+ player.getName(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+	    	  // Display the dialog and capture the result as an integer
+	    	  int result = JOptionPane.showOptionDialog(null, questionPanel, 
+	    	      "Hii " + player.getName(), 
+	    	      JOptionPane.OK_CANCEL_OPTION, 
+	    	      JOptionPane.PLAIN_MESSAGE, 
+	    	      null, null, null);
+
 	           if (result == JOptionPane.OK_OPTION) {
 	               if (option1.isSelected()) selectedAnswer = 0;
 	               if (option2.isSelected()) selectedAnswer = 1;

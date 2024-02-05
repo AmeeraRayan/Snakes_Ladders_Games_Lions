@@ -205,7 +205,7 @@ public class PlayerTurn extends JFrame {
                     if (numPlayer == 2) {
                         new BounusResults2(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else if (numPlayer == 3) {
-                     //   new BounusResults3(difficultyLevel,playersSortedByOrder).setVisible(true);
+                        new BounusResults3(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else if (numPlayer == 4) {
                        // new BounusResults4(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else {
