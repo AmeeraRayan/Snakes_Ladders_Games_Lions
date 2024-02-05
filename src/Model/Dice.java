@@ -28,6 +28,17 @@ public class Dice {
 	    return roll;
 	}
 	
+	public int DiceForMediumGame() {
+		 int firstRoll = random.nextInt(7) + 1; 
+		  int result = random.nextInt(9); 
+
+	        if (result <= 6) {
+	            return result;
+	        } else {
+	            return 7;
+	        }
+	}
+	
 
 
     public int rollForTurn() {

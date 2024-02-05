@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -36,6 +37,7 @@ import java.util.Map;
 import javax.swing.Timer;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,8 +58,9 @@ public class BoardEasyView2Players extends JFrame {
 	private JLabel timerLabel;
 	private long startTime;
 	private Timer gameTimer;
-	
-
+	private Questions quesTemp;
+    private final int totalSquaresOnBoard = 7 * 7; // for a 7x7 board, this would be 49
+    private  int selectedAnswer = -1;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
 	public BoardEasyView2Players(Game game ) {
@@ -277,9 +280,15 @@ public class BoardEasyView2Players extends JFrame {
 	}
 	    private void movePlayer(Player player, int roll) {
 	        int newPosition = player.getPosition() + roll;
-	        player.setPosition(newPosition);
-	        System.out.println("player="+player.getName()+" "+player.getPosition());
-
+	     // Ensure the player does not go past the last square
+	        if (newPosition >= totalSquaresOnBoard) {
+	            newPosition = totalSquaresOnBoard;
+	            player.setPosition(newPosition);
+	            endGame(player); // Call the end game method
+	        } else {
+	            player.setPosition(newPosition);
+	        }
+	        System.out.println("player=" + player.getName() + " " + player.getPosition());
 	    }
 	    private void checkForSnakesAndLadders(Player player) {
 	        for (Snake snake : game.getBoard().getSnakes()) {
@@ -299,7 +308,6 @@ public class BoardEasyView2Players extends JFrame {
 	        }
 
 	        for (Square q : game.getBoard().getQuestions()) {
-	        	Questions quesTemp;
 	            if (player.getPosition() == Integer.parseInt(q.getValue())) {
 	            	System.out.println("square question here");///question
 	    	        SysData sysdata=new SysData();
@@ -308,7 +316,8 @@ public class BoardEasyView2Players extends JFrame {
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
 	    	        System.out.println(quesTemp);
-	                new QuestionpopUP(quesTemp , player,game).setVisible(true);
+	    	        System.out.println(player.getPosition()+"aaaaaaaaaaaaaaaaaaaaa");
+	    	        showEditQuestionDialog(player);
 	                break;
 
 	            }
@@ -334,4 +343,161 @@ public class BoardEasyView2Players extends JFrame {
 	        contentPane.revalidate();
 	        contentPane.repaint();
 	    }
-}
+	    
+	    private void showEditQuestionDialog( Player player) {
+	    	  ButtonGroup optionsGroup;
+	    	  JRadioButton option1, option2, option3, option4;
+	    	  JLabel questionLabel;
+	    	     // Radio buttons for options
+	           optionsGroup = new ButtonGroup();
+	           option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
+	           option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
+	           option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
+	           option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
+	           optionsGroup.add(option1);
+	           optionsGroup.add(option2);
+	           optionsGroup.add(option3);
+	           optionsGroup.add(option4);
+	    	   // Question label
+	    	    JPanel questionPanel = new JPanel();
+	           questionLabel = new JLabel(this.quesTemp.getQuestionText());
+	           questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	           questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+	           questionPanel.add(new JLabel(quesTemp.getQuestionText()));
+	           questionPanel.add(option1);
+	           questionPanel.add(option2);
+	           questionPanel.add(option3);
+	           questionPanel.add(option4);
+	           // Show the dialog
+	           int result = JOptionPane.showConfirmDialog(null, questionPanel, 
+	               "Select Your Answer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+	           if (result == JOptionPane.OK_OPTION) {
+	               if (option1.isSelected()) selectedAnswer = 0;
+	               if (option2.isSelected()) selectedAnswer = 1;
+	               if (option3.isSelected()) selectedAnswer = 2;
+	               if (option4.isSelected()) selectedAnswer = 3;
+
+	               // Call your method to handle the answer and update player position
+	               handleAnswer(selectedAnswer,player);
+	           }
+	       }
+
+
+
+	    private void handleAnswer(int selectedAnswer , Player player) {
+	    	boolean isCorrectAnswer=true;
+	       
+	        
+	        if(selectedAnswer == this.quesTemp.getCorrectOption()) {
+	            JOptionPane.showMessageDialog(this, "Correct Answer!");
+	            if(this.quesTemp.getDiffculty()==1)
+	            {
+	            	System.out.println("sahkshaksk");
+
+	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
+
+	            }
+	            if(this.quesTemp.getDiffculty()==2)
+	            {
+	            	System.out.println("sahkshaksk");
+
+	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
+
+	            }
+	            if(this.quesTemp.getDiffculty()==3)
+	            {
+	            	System.out.println("sahkshaksk");
+
+	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
+
+	            }
+	        } else {
+	            JOptionPane.showMessageDialog(this, "Wrong Answer!");
+	            isCorrectAnswer=false;
+	            if(this.quesTemp.getDiffculty()==1)
+	            {
+	            	System.out.println("sahkshaksk");
+	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
+
+	            }
+	            if(this.quesTemp.getDiffculty()==2)
+	            {
+	            	System.out.println("sahkshaksk");
+
+	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
+
+	            }
+	            if(this.quesTemp.getDiffculty()==3)
+	            {
+	            	System.out.println("sahkshaksk");
+
+	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
+
+	            }
+	        }
+	        
+	        
+	    }
+
+	    /**
+	     * Moves the player based on the result of the question.
+	     */
+	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer,Player player) {
+	    	 System.out.println("heeeeeeeeeeeello  " + questionDifficulty +" "+ isCorrectAnswer);
+	        // Define the movement rules based on difficulty and correctness
+	    	
+	        int steps;
+	        if (isCorrectAnswer) {
+	            if (questionDifficulty == 3) { // Hard question
+	                steps = 1; // Advance one step
+	            } else {
+	                steps = 0; // Stay in place for easy and medium questions
+	            }
+	        } else {
+	            // For wrong answers, move back 1, 2, or 3 steps based on difficulty
+	            steps = -questionDifficulty;
+	        }
+
+	        // Apply the movement to the player's position
+	        updatePlayerPosition(steps,player);
+	    }
+
+	    /**
+	     * Update the player's position on the board.
+	     */
+	    private void updatePlayerPosition(int steps,Player player) {
+	        // Assume we have a currentPlayer object with a method setPosition
+	        int currentPosition = player.getPosition();
+	        int newPosition = currentPosition + steps;
+
+	        // Ensure the new position is within bounds
+	        if (newPosition < 0) {
+	            newPosition = 0; // Prevent moving beyond the start
+	          	 System.out.println("Prevent moving beyond the start ");
+
+	        } else if (newPosition > totalSquaresOnBoard) {
+	            newPosition = totalSquaresOnBoard; // Prevent moving beyond the end
+	          	 System.out.println("Prevent moving beyond the end  " );
+
+	        }
+
+	        player.setPosition(newPosition);
+	      	 System.out.println("ameeeeeeeeeeera  " + newPosition);
+	    }
+	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	       
+	    }
+
+	    
+	    
+	    
+	  
