@@ -54,8 +54,8 @@ public class BounusResults2 extends JFrame {
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Game game = new Game(difficultyLevel, playersSortedByOrder); 
-                new BoardEasyView2Players(game).setVisible(true);
-                BounusResults2.this.setVisible(false); // Hide the current window
+                new BoardEasyViewPlayers(game).setVisible(true);
+                BounusResults2.this.setVisible(false); 
             }
         });
 

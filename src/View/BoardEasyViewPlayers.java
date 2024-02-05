@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -48,10 +49,7 @@ import java.util.concurrent.TimeUnit;
 import java.awt.Dimension;
 
 
-
-
-
-public class BoardEasyView2Players extends JFrame {
+public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -66,17 +64,22 @@ public class BoardEasyView2Players extends JFrame {
 	private long startTime;
 	private Timer gameTimer;
 	private Questions quesTemp;
-    private final int totalSquaresOnBoard = 7 * 7; // for a 7x7 board, this would be 49
+    private final int totalSquaresOnBoard = 7 * 7; 
     private  int selectedAnswer = -1;
+    private JLabel greenPlayerLabel;
+    private JLabel redPlayerLabel;
+    private JLabel yellowPlayerLabel;
+    private JLabel bluePlayerLabel;
+
+
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
-	public BoardEasyView2Players(Game game ) {
+	public BoardEasyViewPlayers(Game game ) {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1071, 770);
+		setBounds(100, 100, 1100, 810);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		currentPlayerLabel = new JLabel("");
 		currentPlayerLabel.setBounds(420, 80, 450, 50);
@@ -86,6 +89,7 @@ public class BoardEasyView2Players extends JFrame {
 		setContentPane(contentPane);
 	       
 	         txtpnHi = new JTextPane();
+	         txtpnHi.setEditable(false);
 	         txtpnHi.setBounds(10, 10, 325, 145);
 	        txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	        txtpnHi.setForeground(java.awt.Color.BLUE);
@@ -93,7 +97,7 @@ public class BoardEasyView2Players extends JFrame {
 	        contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
-		 diceButton.setBounds(895, 340, 150, 145);
+		 diceButton.setBounds(920, 360, 150, 145);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 		contentPane.add(diceButton);
 		
@@ -103,11 +107,35 @@ public class BoardEasyView2Players extends JFrame {
 		timerLabel.setFont(new Font("Snap ITC", Font.BOLD, 25));
 		contentPane.add(timerLabel);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(0, 0, 1071, 761);
-		lblNewLabel.setIcon(new ImageIcon(BoardEasyView2Players.class.getResource("/images/boradeasy2.png")));
 
+		 bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/dice 0.jpg")));
+		bluePlayerLabel.setSize(30, 30);
+		bluePlayerLabel.setLocation(310, 4000);
+		contentPane.add(bluePlayerLabel);
+
+		// Create JLabel for the green player
+		 greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/greenplayer.png")));
+		greenPlayerLabel.setSize(30, 30);
+		greenPlayerLabel.setLocation(540, 280);
+		contentPane.add(greenPlayerLabel);
+
+		// Create JLabel for the red player
+		 redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/redplayer.png")));
+		redPlayerLabel.setSize(50, 50);
+		redPlayerLabel.setLocation(100, 630);
+		contentPane.add(redPlayerLabel);
+
+		// Create JLabel for the yellow player
+		 yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellowplayer.png")));
+		yellowPlayerLabel.setSize(50, 50);
+		yellowPlayerLabel.setLocation(70, 630);
+		contentPane.add(yellowPlayerLabel);
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 10, 1095, 772);
+		lblNewLabel.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/boradeasy2.png")));
 		contentPane.add(lblNewLabel);
+
 		startGame();
 		
 		
@@ -152,23 +180,18 @@ public class BoardEasyView2Players extends JFrame {
 	    };
 	    new Timer(delay, taskPerformer).start();
 	}
+	
+	   
 
 	private void advanceToNextPlayer() {
 	    currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().size();
 	    currentPlayer = game.getPlayers().get(currentPlayerIndex);
 	    game.setCurrentPlayer(currentPlayer);
 	    game.setCurrentPlayerIndex(currentPlayerIndex);
-	   /* for(Player p: game.getPlayers())
-	    {
-	    	if (!game.getCurrentPlayer().getName().equals(p.getName()))
-	    			{
-	    	   game.setCurrentPlayer(p);
-	    	   curentplayer=had leshu
-	    			}
-	    }*/
 	    displayCurrentPlayer(); 
 	    enableDiceRollForCurrentPlayer(); 
 	}
+
 
 	private void enableDiceRollForCurrentPlayer() {
 	    for (ActionListener al : diceButton.getActionListeners()) {
@@ -192,6 +215,26 @@ public class BoardEasyView2Players extends JFrame {
 	    contentPane.repaint();
 	    
 	    }
+	
+	public Point boardPositionToPixel(int boardPosition) {
+	    // Define the difference in pixels between squares horizontally and vertically
+	    int xDiff = 80; // the horizontal distance between squares
+	    int yDiff = 70; // vertical distance between squares
+
+	    int row = (boardPosition - 1) / 7;
+	    int col = (boardPosition - 1) % 7;
+
+	    int x = 300;
+	    int y = 645;
+
+	    
+	    x += col * xDiff;
+	   
+	    y -= row * yDiff;
+
+	    return new Point(x, y);
+	}
+
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
 
@@ -268,7 +311,7 @@ public class BoardEasyView2Players extends JFrame {
 	    if (playAgain == JOptionPane.YES_OPTION) {
 	        restartGame();
 	    } else {
-	        BoardEasyView2Players.this.setVisible(false);
+	        BoardEasyViewPlayers.this.setVisible(false);
 			new DataReception().setVisible(true);
 	    }
 	}
@@ -286,24 +329,156 @@ public class BoardEasyView2Players extends JFrame {
 	    rollDiceAndMovePlayer();
 	    animatePlayerTurnTitle();
 	}
-	    private void movePlayer(Player player, int roll) {
-	        int newPosition = player.getPosition() + roll;
-	     // Ensure the player does not go past the last square
-	        if (newPosition >= totalSquaresOnBoard) {
-	            newPosition = totalSquaresOnBoard;
-	            player.setPosition(newPosition);
-	            game.getCurrentPlayer().setPosition(newPosition);
-	            endGame(player); // Call the end game method
-	        } else {
-	            player.setPosition(newPosition);
-	            game.getCurrentPlayer().setPosition(newPosition);
-	        }
-	        System.out.println("player=" + player.getName() + " " + player.getPosition());
+	@SuppressWarnings("unlikely-arg-type")
+	private void movePlayer(Player player, int roll) {
+	    int oldPosition = player.getPosition();
+	    int newPosition = oldPosition + roll;
+
+	    // Ensure the player does not go past the last square
+	    if (newPosition > totalSquaresOnBoard) {
+	        newPosition = totalSquaresOnBoard;
 	    }
+
+	    checkForSnakesAndLadders(player);
+
+
+	    // Update the player's position in the game logic
+	    player.setPosition(newPosition);
+	    game.getCurrentPlayer().setPosition(newPosition);
+	    currentPlayer.setPosition(newPosition);
+
+	    // Calculate the old and new pixel positions for animation
+	    Point startPoint = boardPositionToPixel(oldPosition);
+	    Point endPoint = boardPositionToPixel(newPosition);
+
+	    // Get the player's label for animation
+	    JLabel playerLabel = getPlayerLabel(currentPlayer);
+
+	    // Animate the movement to the final position
+	    if (playerLabel != null) {
+	    	if (player.getPosition()==2)
+	    	{
+	    		playerLabel.setLocation(380, 420);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}
+	    	if (player.getPosition()==36)
+	    	{
+	    		playerLabel.setLocation(380, 210);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==45)
+	    	{
+	    		playerLabel.setLocation(300, 645);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==30)
+	    	{
+	    		playerLabel.setLocation(460, 420);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==21)
+	    	{
+	    		playerLabel.setLocation(680, 645);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==13)
+	    	{
+	    		playerLabel.setLocation(770, 280);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==47)
+	    	{
+	    		playerLabel.setLocation(680, 430);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}if (player.getPosition()==26)
+	    	{
+	    		playerLabel.setLocation(540, 280);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+	    	}
+	    /*	switch (player.getPosition()) {
+	        case 2:
+	            endPoint = new Point(380, 420);
+	            break;
+	        case 36:
+	            endPoint = new Point(380, 210);
+	            break;
+	        case 45:
+	            endPoint = new Point(300, 645);
+	            break;
+	        case 30:
+	            endPoint = new Point(460, 420);
+	            break;
+	        case 21:
+	            endPoint = new Point(680, 645);
+	            break;
+	        case 26:
+	            endPoint = new Point(540, 280);
+	            break;
+	        case 13:
+	            endPoint = new Point(770, 280);
+	            break;
+	        case 47:
+	            endPoint = new Point(680, 430);
+	            break;*/
+	    	else
+	    		animateMovement(playerLabel, startPoint, endPoint);
+	    }
+	    // Check if the game is over
+	    if (newPosition == totalSquaresOnBoard) {
+	        endGame(player);
+	    }
+	}
+
+	private void animateMovement(JLabel playerLabel, Point start, Point end) {
+	    final int numberOfSteps = 10;
+	    final Timer timer = new Timer(100, null);
+	    timer.addActionListener(new ActionListener() {
+	        int currentStep = 0;
+
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            double xIncrement = (end.x - start.x) / (double) numberOfSteps;
+	            double yIncrement = (end.y - start.y) / (double) numberOfSteps;
+
+	            int newX = (int) (start.x + (xIncrement * currentStep));
+	            int newY = (int) (start.y + (yIncrement * currentStep));
+
+	            playerLabel.setLocation(newX, newY);
+	            contentPane.revalidate();
+	            contentPane.repaint();
+
+	            currentStep++;
+	            if (currentStep > numberOfSteps) {
+	                timer.stop();
+	            }
+	        }
+	    });
+	    timer.start();
+	}
+
+	private JLabel getPlayerLabel(Player player) {
+	    switch (player.getColor()) {
+	        case BLUE:
+	            return bluePlayerLabel;
+	        case GREEN:
+	            return greenPlayerLabel;
+	        case RED:
+	            return redPlayerLabel;
+	        case YELLOW:
+	            return yellowPlayerLabel;
+	        default:
+	            return null; // Or handle error
+	    }
+	}
+
 	    private void checkForSnakesAndLadders(Player player) {
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+	                currentPlayer.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                showSnakePopup(player); 
 	                break;
@@ -314,6 +489,7 @@ public class BoardEasyView2Players extends JFrame {
 	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(player); 
 	                break;
 	            }
@@ -328,7 +504,6 @@ public class BoardEasyView2Players extends JFrame {
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
 	    	        System.out.println(quesTemp);
-	    	        System.out.println(player.getPosition()+"aaaaaaaaaaaaaaaaaaaaa");
 	    	        showEditQuestionDialog(player);
 	                break;
 
@@ -352,11 +527,17 @@ public class BoardEasyView2Players extends JFrame {
 	            positionsText.append(player.getName()).append(" on square: ").append(player.getPosition()).append("\n");
 	        }
 	        txtpnHi.setText(positionsText.toString());
+	        Point bluePlayerStartPos = boardPositionToPixel(1); 
+	        Point greenPlayerStartPos = boardPositionToPixel(1); 
+	        bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+	        Point greenPlayerLabel = boardPositionToPixel(1); // For player 2
+	        bluePlayerLabel.setLocation(greenPlayerLabel.x, greenPlayerStartPos.y);
+
+
 	        contentPane.revalidate();
 	        contentPane.repaint();
 	    }
 	    
-	    @SuppressWarnings("serial")
 		private void showEditQuestionDialog( Player player) {
 	    	 JPanel questionPanel = new JPanel();
 	    	    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
@@ -379,24 +560,19 @@ public class BoardEasyView2Players extends JFrame {
 	    	            break;
 	    	    }
 	    	    
-	    	 // Create and add the information label to the panel with a yellow background
-	    	    // Add styled information label with emoji
 	    	    JLabel infoLabel = new JLabel("<html><div style='background-color: yellow; padding: 10px; font-size: 20px; font-family: Serif; font-style: italic;'>😃 " + message + " 😃</div></html>");
 	    	    infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	    questionPanel.add(infoLabel);
 
 
-	    	 // Add spacing
 	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-	    	    // Add question label with a yellow background
 	    	    JLabel questionLabel = new JLabel("<html><div style='padding: 10px;font-size: 20px;font-family: Serif; font-style: italic;'>" + this.quesTemp.getQuestionText() + "</div></html>");
 	    	    questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    	    questionPanel.add(questionLabel);
 	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
 
-	    	  // Create and add the radio buttons to the panel
 	    	  ButtonGroup optionsGroup = new ButtonGroup();
 	    	  JRadioButton option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
 	    	  option1.setForeground(Color.RED); // Color the text
@@ -423,7 +599,6 @@ public class BoardEasyView2Players extends JFrame {
 	    	  questionPanel.add(option4);
 
 
-	    	  // Display the dialog and capture the result as an integer
 	    	  int result = JOptionPane.showOptionDialog(null, questionPanel, 
 	    	      "Hii " + player.getName(), 
 	    	      JOptionPane.OK_CANCEL_OPTION, 
@@ -436,7 +611,6 @@ public class BoardEasyView2Players extends JFrame {
 	               if (option3.isSelected()) selectedAnswer = 2;
 	               if (option4.isSelected()) selectedAnswer = 3;
 
-	               // Call your method to handle the answer and update player position
 	               handleAnswer(selectedAnswer,player);
 	           }
 	       }
@@ -451,21 +625,18 @@ public class BoardEasyView2Players extends JFrame {
 	            JOptionPane.showMessageDialog(this, "Correct Answer!");
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
-	            	System.out.println("sahkshaksk");
 
 	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==2)
 	            {
-	            	System.out.println("sahkshaksk");
 
 	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==3)
 	            {
-	            	System.out.println("sahkshaksk");
 
 	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
 
@@ -475,20 +646,17 @@ public class BoardEasyView2Players extends JFrame {
 	            isCorrectAnswer=false;
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
-	            	System.out.println("sahkshaksk");
 	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==2)
 	            {
-	            	System.out.println("sahkshaksk");
 
 	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==3)
 	            {
-	            	System.out.println("sahkshaksk");
 
 	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
 
@@ -521,15 +689,10 @@ public class BoardEasyView2Players extends JFrame {
 	        updatePlayerPosition(steps,player);
 	    }
 
-	    /**
-	     * Update the player's position on the board.
-	     */
 	    private void updatePlayerPosition(int steps,Player player) {
-	        // Assume we have a currentPlayer object with a method setPosition
 	        int currentPosition = player.getPosition();
 	        int newPosition = currentPosition + steps;
 
-	        // Ensure the new position is within bounds
 	        if (newPosition < 0) {
 	            newPosition = 0; // Prevent moving beyond the start
 	          	 System.out.println("Prevent moving beyond the start ");
@@ -542,7 +705,8 @@ public class BoardEasyView2Players extends JFrame {
 
 	        player.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
-	      	 System.out.println("ameeeeeeeeeeera  " + newPosition);
+            currentPlayer.setPosition(newPosition);
+
 	    }
 	
 	    	
