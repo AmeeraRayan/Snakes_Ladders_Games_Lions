@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import View.BoardEasyView2Players;
+import View.BoardEasyViewPlayers;
 
 
 public class Game {

@@ -207,10 +207,8 @@ public class PlayerTurn extends JFrame {
                     } else if (numPlayer == 3) {
                         new BounusResults3(difficultyLevel,playersSortedByOrder).setVisible(true);
                     } else if (numPlayer == 4) {
-                       // new BounusResults4(difficultyLevel,playersSortedByOrder).setVisible(true);
-                    } else {
-                        // Handle other cases or show an error message
-                    }
+                        new BounusResults4(difficultyLevel,playersSortedByOrder).setVisible(true);
+                    } 
 
                     PlayerTurn.this.setVisible(false); // Moved outside to ensure it executes in all cases
                 }
