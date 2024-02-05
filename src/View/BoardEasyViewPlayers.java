@@ -348,56 +348,16 @@ public class BoardEasyViewPlayers extends JFrame {
 	    currentPlayer.setPosition(newPosition);
 
 	    // Calculate the old and new pixel positions for animation
+	 // Example call within movePlayer or a similar method
 	    Point startPoint = boardPositionToPixel(oldPosition);
-	    Point endPoint = boardPositionToPixel(newPosition);
+	    Point endPoint = boardPositionToPixel(newPosition); // This would be the default end point
 
 	    // Get the player's label for animation
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
-
+System.out.println("pppp"+player.getPosition());
 	    // Animate the movement to the final position
 	    if (playerLabel != null) {
-	    	if (player.getPosition()==2)
-	    	{
-	    		playerLabel.setLocation(380, 420);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}
-	    	if (player.getPosition()==36)
-	    	{
-	    		playerLabel.setLocation(380, 210);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==45)
-	    	{
-	    		playerLabel.setLocation(300, 645);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==30)
-	    	{
-	    		playerLabel.setLocation(460, 420);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==21)
-	    	{
-	    		playerLabel.setLocation(680, 645);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==13)
-	    	{
-	    		playerLabel.setLocation(770, 280);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==47)
-	    	{
-	    		playerLabel.setLocation(680, 430);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}if (player.getPosition()==26)
-	    	{
-	    		playerLabel.setLocation(540, 280);
-	            contentPane.revalidate();
-	            contentPane.repaint();
-	    	}
+	    	
 	    /*	switch (player.getPosition()) {
 	        case 2:
 	            endPoint = new Point(380, 420);
@@ -423,8 +383,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	        case 47:
 	            endPoint = new Point(680, 430);
 	            break;*/
-	    	else
-	    		animateMovement(playerLabel, startPoint, endPoint);
+	    	
+		    animateMovement(playerLabel, startPoint, endPoint, player);
 	    }
 	    // Check if the game is over
 	    if (newPosition == totalSquaresOnBoard) {
@@ -432,7 +392,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	}
 
-	private void animateMovement(JLabel playerLabel, Point start, Point end) {
+	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
+	    // Define the target end point based on specific positions
+	    Point targetEndPoint = getCustomEndPoint(player.getPosition(), end);
+
 	    final int numberOfSteps = 10;
 	    final Timer timer = new Timer(100, null);
 	    timer.addActionListener(new ActionListener() {
@@ -440,8 +403,8 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            double xIncrement = (end.x - start.x) / (double) numberOfSteps;
-	            double yIncrement = (end.y - start.y) / (double) numberOfSteps;
+	            double xIncrement = (targetEndPoint.x - start.x) / (double) numberOfSteps;
+	            double yIncrement = (targetEndPoint.y - start.y) / (double) numberOfSteps;
 
 	            int newX = (int) (start.x + (xIncrement * currentStep));
 	            int newY = (int) (start.y + (yIncrement * currentStep));
@@ -458,6 +421,21 @@ public class BoardEasyViewPlayers extends JFrame {
 	    });
 	    timer.start();
 	}
+
+	private Point getCustomEndPoint(int position, Point defaultEndPoint) {
+	    switch (position) {
+	        case 2: return new Point(380, 420);
+	        case 36: return new Point(380, 210);
+	        case 45: return new Point(300, 645);
+	        case 30: return new Point(460, 420);
+	        case 21: return new Point(680, 645);
+	        case 26: return new Point(540, 280);
+	        case 13: return new Point(770, 280);
+	        case 47: return new Point(680, 430);
+	        default: return defaultEndPoint; // Use the calculated end point if no special case
+	    }
+	}
+
 
 	private JLabel getPlayerLabel(Player player) {
 	    switch (player.getColor()) {
