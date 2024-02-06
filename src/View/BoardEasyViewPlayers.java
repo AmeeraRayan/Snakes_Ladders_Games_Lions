@@ -273,9 +273,13 @@ public class BoardEasyViewPlayers extends JFrame {
 	    diceButton.setEnabled(false);
 	    ImageIcon diceIcon;
 	    rollResult = game.getDice().rollForEasy();
+
 	    if(rollResult==5)
 	    {
+	      	 System.out.println("Im a question   ");
+
 		     diceIcon = new ImageIcon(getClass().getResource("/images/question.png"));
+			    diceButton.setIcon(diceIcon);
 		     SysData sysdata=new SysData();
 		     sysdata.LoadQuestions();
 			questionsPOPUP=SysData.getQuestionsPOPUP();
@@ -284,22 +288,28 @@ public class BoardEasyViewPlayers extends JFrame {
   	      String temp=SysData.getRandomQuestion(difficulty_levels);
  	        quesTemp= SysData.getQuestionForPosition(temp);
  	        showEditQuestionDialog(this.currentPlayer);
+ 	       movePlayer(currentPlayer);
+ 		   checkForSnakesAndLadders(currentPlayer);
+ 		    updateBoardView();
+ 		    displayPlayerPositions(); // Update the display of player positions
 
-		     
+ 	             
 	    }
 	    else {
+	      	 System.out.println("rollResult  " + rollResult );
+
 		     diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 
-	    }
+	    
 	    diceButton.setIcon(diceIcon);
 	    
-	   // JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    checkForSnakesAndLadders(currentPlayer);
 	    updateBoardView();
 	    displayPlayerPositions(); // Update the display of player positions
-
+	    }
 	    if (hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
 	    } else {
@@ -377,7 +387,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    // Get the player's label for animation
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
-System.out.println("pppp"+player.getPosition());
+        System.out.println("the player now on "+player.getPosition());
 	    // Animate the movement to the final position
 	    if (playerLabel != null) {
 	    	
@@ -415,6 +425,69 @@ System.out.println("pppp"+player.getPosition());
 	    }
 	}
 
+	
+	
+	//for a question on dice 
+	private void movePlayer(Player player) {
+	    int newPosition = player.getPosition();
+
+	    // Ensure the player does not go past the last square
+	    if (newPosition > totalSquaresOnBoard) {
+	        newPosition = totalSquaresOnBoard;
+	    }
+
+	    checkForSnakesAndLadders(player);
+
+
+	    // Update the player's position in the game logic
+	    player.setPosition(newPosition);
+	    game.getCurrentPlayer().setPosition(newPosition);
+	    currentPlayer.setPosition(newPosition);
+
+	    // Calculate the old and new pixel positions for animation
+	 // Example call within movePlayer or a similar method
+	    Point startPoint = boardPositionToPixel(player.getLastPosition());
+	    Point endPoint = boardPositionToPixel(newPosition); // This would be the default end point
+
+	    // Get the player's label for animation
+	    JLabel playerLabel = getPlayerLabel(currentPlayer);
+        System.out.println("the player now on "+player.getPosition());
+	    // Animate the movement to the final position
+	    if (playerLabel != null) {
+	    	
+	    /*	switch (player.getPosition()) {
+	        case 2:
+	            endPoint = new Point(380, 420);
+	            break;
+	        case 36:
+	            endPoint = new Point(380, 210);
+	            break;
+	        case 45:
+	            endPoint = new Point(300, 645);
+	            break;
+	        case 30:
+	            endPoint = new Point(460, 420);
+	            break;
+	        case 21:
+	            endPoint = new Point(680, 645);
+	            break;
+	        case 26:
+	            endPoint = new Point(540, 280);
+	            break;
+	        case 13:
+	            endPoint = new Point(770, 280);
+	            break;
+	        case 47:
+	            endPoint = new Point(680, 430);
+	            break;*/
+	    	
+		    animateMovement(playerLabel, startPoint, endPoint, player);
+	    }
+	    // Check if the game is over
+	    if (newPosition == totalSquaresOnBoard) {
+	        endGame(player);
+	    }
+	}
 	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
 	    // Define the target end point based on specific positions
 	    Point targetEndPoint = getCustomEndPoint(player.getPosition(), end);
@@ -545,6 +618,8 @@ System.out.println("pppp"+player.getPosition());
 	    	    Dimension preferredSize = new Dimension(700, 400);
 	    	    questionPanel.setPreferredSize(preferredSize);
 	    	  // Create and add the position label to the panel
+	    	   	 System.out.println("the correct answer  " + this.quesTemp.getCorrectOption() );
+
 	    	  String message;
 	    	    switch (this.quesTemp.getDiffculty()) {
 	    	        case 1: // Easy
@@ -605,12 +680,12 @@ System.out.println("pppp"+player.getPosition());
 	    	      JOptionPane.OK_CANCEL_OPTION, 
 	    	      JOptionPane.PLAIN_MESSAGE, 
 	    	      null, null, null);
-
+               
 	           if (result == JOptionPane.OK_OPTION) {
-	               if (option1.isSelected()) selectedAnswer = 0;
-	               if (option2.isSelected()) selectedAnswer = 1;
-	               if (option3.isSelected()) selectedAnswer = 2;
-	               if (option4.isSelected()) selectedAnswer = 3;
+	               if (option1.isSelected()) selectedAnswer = 1;
+	               if (option2.isSelected()) selectedAnswer = 2;
+	               if (option3.isSelected()) selectedAnswer = 3;
+	               if (option4.isSelected()) selectedAnswer = 4;
 
 	               handleAnswer(selectedAnswer,player);
 	           }
@@ -671,7 +746,7 @@ System.out.println("pppp"+player.getPosition());
 	     * Moves the player based on the result of the question.
 	     */
 	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer,Player player) {
-	    	 System.out.println("heeeeeeeeeeeello  " + questionDifficulty +" "+ isCorrectAnswer);
+	    	 System.out.println("questionDifficulty  " + questionDifficulty +" isCorrectAnswer"+ isCorrectAnswer);
 	        // Define the movement rules based on difficulty and correctness
 	    	
 	        int steps;
@@ -706,7 +781,8 @@ System.out.println("pppp"+player.getPosition());
 
 	        player.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
-            currentPlayer.setPosition(newPosition);
+    	    currentPlayer.setPosition(newPosition);
+
 
 	    }
 	
