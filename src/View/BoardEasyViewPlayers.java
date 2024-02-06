@@ -31,6 +31,7 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class BoardEasyViewPlayers extends JFrame {
     private JLabel yellowPlayerLabel;
     private JLabel bluePlayerLabel;
     private SysData sysdata;
+    private JLabel lblNewLabel;
 
 
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
@@ -116,40 +118,34 @@ public class BoardEasyViewPlayers extends JFrame {
 		contentPane.add(timerLabel);
 
 
-		 bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/dice 0.jpg")));
+		 bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.jpg")));
 		bluePlayerLabel.setSize(30, 30);
-		bluePlayerLabel.setLocation(310, 4000);
-		contentPane.add(bluePlayerLabel);
 
 		// Create JLabel for the green player
 		 greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/greenplayer.png")));
 		greenPlayerLabel.setSize(30, 30);
-		greenPlayerLabel.setLocation(540, 280);
-		contentPane.add(greenPlayerLabel);
+		
 
 		// Create JLabel for the red player
 		 redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/redplayer.png")));
-		redPlayerLabel.setSize(50, 50);
-		redPlayerLabel.setLocation(100, 630);
-		contentPane.add(redPlayerLabel);
+		redPlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the yellow player
 		 yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellowplayer.png")));
-		yellowPlayerLabel.setSize(50, 50);
-		yellowPlayerLabel.setLocation(70, 630);
-		contentPane.add(yellowPlayerLabel);
+		yellowPlayerLabel.setSize(30, 30);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(0, 10, 1095, 772);
-		lblNewLabel.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/boradeasy2.png")));
-		contentPane.add(lblNewLabel);
-
+	  
 		startGame();
 		
 		
 	}
 	public void startGame() {
 	    initializePlayerPositions();
+	    lblNewLabel = new JLabel("");
+	  		lblNewLabel.setBounds(0, 10, 1095, 772);
+	  		lblNewLabel.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/boradeasy2.png")));
+	  		contentPane.add(lblNewLabel);
+
 	    rollDiceAndMovePlayer();
 	    animatePlayerTurnTitle(); 
 	    startGameTimer(); 
@@ -234,7 +230,10 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    int x = 300;
 	    int y = 645;
-
+	    if (boardPosition==1)
+	    {
+		    return new Point(300,645);
+	    }
 	    
 	    x += col * xDiff;
 	   
@@ -260,16 +259,17 @@ public class BoardEasyViewPlayers extends JFrame {
 	    this.updatePlayerPosition(currentPlayer, x, y);
 	    
 	}
-	private void showLadderPopup(Player player) {
+	private void showLadderPopup(Player player,int lastpos) {
 	    JOptionPane.showMessageDialog(this,
-	        "<html><body><p>Heyyy! " + player.getName() + " climbed a ladder 🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
-	        "Ladder Encounter!", JOptionPane.INFORMATION_MESSAGE);
+		    "<html><body><p> U have been move to "+lastpos+" but the Ladder will move u to "+player.getLastPosition() +"🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
+	        "Congratss!! "+player.getName()+" got a ladder!!!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private void showSnakePopup(Player player) {
+	private void showSnakePopup(Player player,int lastpos) {
 	    JOptionPane.showMessageDialog(this,
-	        "<html><body><p>Oh no! " + player.getName() + " encountered a snake! 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
-	        "Snake Encounter!", JOptionPane.WARNING_MESSAGE);
+	        "<html><body><p> U have been move to "+lastpos+" but the snake will move u to "+player.getLastPosition()+" 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
+	        "Oh no! "+player.getName()+" got a snake ", JOptionPane.WARNING_MESSAGE);
+
 	}
 
 	private void performDiceRollAndMove() {
@@ -290,11 +290,11 @@ public class BoardEasyViewPlayers extends JFrame {
  	       String[] difficulty_levels ={"easy", "medium", "hard"};
   	      String temp=SysData.getRandomQuestion(difficulty_levels);
  	        quesTemp= SysData.getQuestionForPosition(temp);
+ 		    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
  	        showEditQuestionDialog(this.currentPlayer);
  	       movePlayer(currentPlayer);
- 		   checkForSnakesAndLadders(currentPlayer);
  		    updateBoardView();
- 		    displayPlayerPositions(); // Update the display of player positions
+ 		    displayPlayerPositions(); 
 
  	             
 	    }
@@ -368,7 +368,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 	
 	private void movePlayer(Player player, int roll) {
-	    int oldPosition = player.getPosition();
+	    int oldPosition = currentPlayer.getLastPosition();
 	    int newPosition = oldPosition + roll;
 
 	    // Ensure the player does not go past the last square
@@ -384,119 +384,64 @@ public class BoardEasyViewPlayers extends JFrame {
 	    game.getCurrentPlayer().setPosition(newPosition);
 	    currentPlayer.setPosition(newPosition);
 
-	    // Calculate the old and new pixel positions for animation
-	 // Example call within movePlayer or a similar method
 	    Point startPoint = boardPositionToPixel(oldPosition);
-	    Point endPoint = boardPositionToPixel(newPosition); // This would be the default end point
+	    Point endPoint = boardPositionToPixel(newPosition); 
 
-	    // Get the player's label for animation
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
-        System.out.println("the player now on "+player.getPosition());
+        System.out.println("the player now on "+currentPlayer.getPosition());
 	    // Animate the movement to the final position
 	    if (playerLabel != null) {
-	    	
-	    /*	switch (player.getPosition()) {
-	        case 2:
-	            endPoint = new Point(380, 420);
-	            break;
-	        case 36:
-	            endPoint = new Point(380, 210);
-	            break;
-	        case 45:
-	            endPoint = new Point(300, 645);
-	            break;
-	        case 30:
-	            endPoint = new Point(460, 420);
-	            break;
-	        case 21:
-	            endPoint = new Point(680, 645);
-	            break;
-	        case 26:
-	            endPoint = new Point(540, 280);
-	            break;
-	        case 13:
-	            endPoint = new Point(770, 280);
-	            break;
-	        case 47:
-	            endPoint = new Point(680, 430);
-	            break;*/
-	    	
-		    animateMovement(playerLabel, startPoint, endPoint, player);
+		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
 	    }
 	    // Check if the game is over
 	    if (newPosition == totalSquaresOnBoard) {
-	        endGame(player);
+	        endGame(currentPlayer);
 	    }
+	    currentPlayer.setLastPosition(newPosition);
+
 	}
 
-	
-	
 	//for a question on dice 
 	private void movePlayer(Player player) {
-	    int newPosition = player.getPosition();
+	    int newPosition = currentPlayer.getPosition();
 
 	    // Ensure the player does not go past the last square
 	    if (newPosition > totalSquaresOnBoard) {
 	        newPosition = totalSquaresOnBoard;
 	    }
-	    if (newPosition < 0) {
+	    if (newPosition <= 0) {
 	        newPosition = 1;
 	    }
-	    checkForSnakesAndLadders(player);
-
 
 	    // Update the player's position in the game logic
 	    player.setPosition(newPosition);
 	    game.getCurrentPlayer().setPosition(newPosition);
 	    currentPlayer.setPosition(newPosition);
 
-	    // Calculate the old and new pixel positions for animation
-	 // Example call within movePlayer or a similar method
-	    Point startPoint = boardPositionToPixel(player.getLastPosition());
-	    Point endPoint = boardPositionToPixel(newPosition); // This would be the default end point
+	  
+	    Point startPoint = boardPositionToPixel(currentPlayer.getLastPosition());
+	    Point endPoint = boardPositionToPixel(newPosition);
 
-	    // Get the player's label for animation
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
-        System.out.println("the player now on "+player.getPosition());
-	    // Animate the movement to the final position
+
 	    if (playerLabel != null) {
-	    	
-	    /*	switch (player.getPosition()) {
-	        case 2:
-	            endPoint = new Point(380, 420);
-	            break;
-	        case 36:
-	            endPoint = new Point(380, 210);
-	            break;
-	        case 45:
-	            endPoint = new Point(300, 645);
-	            break;
-	        case 30:
-	            endPoint = new Point(460, 420);
-	            break;
-	        case 21:
-	            endPoint = new Point(680, 645);
-	            break;
-	        case 26:
-	            endPoint = new Point(540, 280);
-	            break;
-	        case 13:
-	            endPoint = new Point(770, 280);
-	            break;
-	        case 47:
-	            endPoint = new Point(680, 430);
-	            break;*/
-	    	
-		    animateMovement(playerLabel, startPoint, endPoint, player);
+		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
+		   // checkForSnakesAndLadders(player);
+
 	    }
 	    // Check if the game is over
 	    if (newPosition == totalSquaresOnBoard) {
 	        endGame(player);
 	    }
+	    currentPlayer.setLastPosition(newPosition);
+	    
 	}
 	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
 	    // Define the target end point based on specific positions
-	    Point targetEndPoint = getCustomEndPoint(player.getPosition(), end);
+		 System.out.println("222"+currentPlayer.getLastPosition());
+ 	    System.out.println("222"+currentPlayer.getPosition());
+
+	    Point targetEndPoint = getCustomEndPoint(currentPlayer.getPosition(), end);
 
 	    final int numberOfSteps = 10;
 	    final Timer timer = new Timer(100, null);
@@ -557,12 +502,13 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 
 	    private void checkForSnakesAndLadders(Player player) {
+        	int lastpos=player.getPosition();
 	        for (Snake snake : game.getBoard().getSnakes()) {
 	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-	                showSnakePopup(player); 
+	                showSnakePopup(player,lastpos); 
 	                break;
 	            }
 	        }
@@ -572,7 +518,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-	                showLadderPopup(player); 
+	                showLadderPopup(player,lastpos); 
 	                break;
 	            }
 	        }
@@ -611,10 +557,36 @@ public class BoardEasyViewPlayers extends JFrame {
 	        txtpnHi.setText(positionsText.toString());
 	        Point bluePlayerStartPos = boardPositionToPixel(1); 
 	        Point greenPlayerStartPos = boardPositionToPixel(1); 
-	        bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
-	        Point greenPlayerLabel = boardPositionToPixel(1); // For player 2
-	        bluePlayerLabel.setLocation(greenPlayerLabel.x, greenPlayerStartPos.y);
+	        Point redPlayerStartPos = boardPositionToPixel(1); 
+	        Point yellowPlayerStartPos = boardPositionToPixel(1); 
+	        if (game.getPlayers().size()==2)
+	        {
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+				contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
 
+	        }
+	        else if(game.getPlayers().size()==3)
+	        {
+	        	redPlayerLabel.setLocation(redPlayerStartPos.x, redPlayerStartPos.y);
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+		        contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
+				contentPane.add(redPlayerLabel);
+	        }
+	        else {
+		        yellowPlayerLabel.setLocation(yellowPlayerStartPos.x, yellowPlayerStartPos.y);
+		        redPlayerLabel.setLocation(redPlayerStartPos.x, redPlayerStartPos.y);
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+		        contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
+				contentPane.add(yellowPlayerLabel);
+				contentPane.add(redPlayerLabel);
+
+	        }
 
 	        contentPane.revalidate();
 	        contentPane.repaint();
@@ -706,7 +678,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	       
 	        
 	        if(selectedAnswer == this.quesTemp.getCorrectOption()) {
-	            JOptionPane.showMessageDialog(this, "Correct Answer!");
+	            JOptionPane.showMessageDialog(this, "Congratsss! It's a correct Answer!");
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
 
@@ -726,7 +698,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	            }
 	        } else {
-	            JOptionPane.showMessageDialog(this, "Wrong Answer!");
+	            JOptionPane.showMessageDialog(this, "Opss! It's an wrong Answer!");
 	            isCorrectAnswer=false;
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
@@ -750,14 +722,11 @@ public class BoardEasyViewPlayers extends JFrame {
 	        
 	    }
 
-	    /**
-	     * Moves the player based on the result of the question.
-	     */
 	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer,Player player) {
 	    	 System.out.println("questionDifficulty  " + questionDifficulty +" isCorrectAnswer"+ isCorrectAnswer);
 	        // Define the movement rules based on difficulty and correctness
 	    	
-	        int steps;
+	        int steps=0;
 	        if (isCorrectAnswer) {
 	            if (questionDifficulty == 3) { // Hard question
 	                steps = 1; // Advance one step
@@ -774,9 +743,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 
 	    private void updatePlayerPosition(int steps,Player player) {
-	        int currentPosition = player.getPosition();
+	        int currentPosition = player.getLastPosition();
+	        System.out.println( "last"+player.getLastPosition());
 	        int newPosition = currentPosition + steps;
-
+	        System.out.println("new"+newPosition);
 	        if (newPosition < 0) {
 	            newPosition = 1; // Prevent moving beyond the start
 	          	 System.out.println("Prevent moving beyond the start ");
@@ -790,20 +760,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	        player.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
     	    currentPlayer.setPosition(newPosition);
-
+    	    
 
 	    }
-	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	       
-	    }
+	   }
 
 	    
 	    

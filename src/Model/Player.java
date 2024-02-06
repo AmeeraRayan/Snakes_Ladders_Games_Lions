@@ -21,14 +21,14 @@ public class Player {
 		this.name = name;
 	}
 	public void setPosition(int newPosition) {
-        this.lastPosition = this.position; // Store the current position as last position
-        this.position = newPosition; // Update position
+        this.position = newPosition; 
     }
 
 	public Player(String name ,Color color) {
 	    this.name = name;
 	    this.position = 1; // Starting position
 	    this.color = color;
+		this.lastPosition = 1;
 	    
 	}
 
