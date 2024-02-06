@@ -56,6 +56,10 @@ import java.awt.Dimension;
 public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static final Object BLUE = null;
+	private static final Object YELLOW = null;
+	private static final Object GREEN = null;
+	private static final Object RED = null;
 	private JPanel contentPane;
 	private Game game;
 	private Player currentPlayer;
@@ -92,14 +96,13 @@ public class BoardEasyViewPlayers extends JFrame {
 		currentPlayerLabel.setFont(new Font("Rage Italic", Font.BOLD, 35));
 		contentPane.add(currentPlayerLabel);
 		setContentPane(contentPane);
-	       
-	         txtpnHi = new JTextPane();
-	         txtpnHi.setEditable(false);
-	         txtpnHi.setBounds(10, 10, 325, 145);
-	        txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
-	        txtpnHi.setForeground(java.awt.Color.BLUE);
-	        txtpnHi.setBackground(UIManager.getColor("Tree.selectionBackground"));
-	        contentPane.add(txtpnHi);
+	     txtpnHi = new JTextPane();
+	     txtpnHi.setEditable(false);
+	      txtpnHi.setBounds(10, 10, 325, 145);
+	      txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
+	      txtpnHi.setForeground(java.awt.Color.BLUE);
+	      txtpnHi.setBackground(UIManager.getColor("Tree.selectionBackground"));
+	      contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
 		 diceButton.setBounds(920, 360, 150, 145);
@@ -336,33 +339,34 @@ public class BoardEasyViewPlayers extends JFrame {
 	    displayCurrentPlayer();
 	    enableDiceRollForCurrentPlayer();
 	}
+	
+
+
 
 	private void endGame(Player winner) {
 	    gameTimer.stop(); // Stop the timer
-	    JOptionPane.showMessageDialog(this, winner.getName() + " wins the game! Time: " + timerLabel.getText(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
-	    int playAgain = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Play Again?", JOptionPane.YES_NO_OPTION);
-	    if (playAgain == JOptionPane.YES_OPTION) {
-	        restartGame();
-	    } else {
-	        BoardEasyViewPlayers.this.setVisible(false);
-			new DataReception().setVisible(true);
-	    }
-	}
-	private void restartGame() {
-	    if (gameTimer != null) {
-	        gameTimer.stop();
-	    }
+	    switch (winner.getColor()) {
+        case RED:
+	         BoardEasyViewPlayers.this.setVisible(false);	
+        	 new RedWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+	         break;
+        case GREEN:
+	         BoardEasyViewPlayers.this.setVisible(false);
+        	new GreenWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+	         break;
+        case BLUE:
+	         BoardEasyViewPlayers.this.setVisible(false);
+        	new BlueWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+	         break;
+        case YELLOW:
+	         BoardEasyViewPlayers.this.setVisible(false);
+        	new YellowWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+	         break;
+        
+    }
 
-	    for (Player player : game.getPlayers()) {
-	        player.setPosition(1);
-	    }
-	    	    
-	    initializePlayerPositions();
-	    startGameTimer();
-	    rollDiceAndMovePlayer();
-	    animatePlayerTurnTitle();
 	}
-	@SuppressWarnings("unlikely-arg-type")
+	
 	private void movePlayer(Player player, int roll) {
 	    int oldPosition = player.getPosition();
 	    int newPosition = oldPosition + roll;
@@ -549,6 +553,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	            return null; // Or handle error
 	    }
 	}
+	
+	
 
 	    private void checkForSnakesAndLadders(Player player) {
 	        for (Snake snake : game.getBoard().getSnakes()) {
