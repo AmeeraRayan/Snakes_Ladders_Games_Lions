@@ -24,7 +24,7 @@ public class Dice {
 	
 	public int rollForEasy() {
 	    // rolls a number between 1 and 4
-	    int roll = random.nextInt(4) + 1;
+	    int roll = random.nextInt(4) + 1+1;
 	    return roll;
 	}
 	

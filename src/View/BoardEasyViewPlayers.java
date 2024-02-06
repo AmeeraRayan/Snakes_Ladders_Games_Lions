@@ -2,6 +2,7 @@ package View;
 
 
 import javax.swing.JFrame;
+
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -32,10 +33,13 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 import javax.swing.Timer;
 
 import javax.swing.BorderFactory;
@@ -70,6 +74,7 @@ public class BoardEasyViewPlayers extends JFrame {
     private JLabel redPlayerLabel;
     private JLabel yellowPlayerLabel;
     private JLabel bluePlayerLabel;
+    private SysData sysdata;
 
 
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
@@ -266,11 +271,29 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	private void performDiceRollAndMove() {
 	    diceButton.setEnabled(false);
+	    ImageIcon diceIcon;
 	    rollResult = game.getDice().rollForEasy();
-	    ImageIcon diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
+	    if(rollResult==5)
+	    {
+		     diceIcon = new ImageIcon(getClass().getResource("/images/question.png"));
+		     SysData sysdata=new SysData();
+		     sysdata.LoadQuestions();
+			questionsPOPUP=SysData.getQuestionsPOPUP();
+ 	        SysData.putQuestions(questionsPOPUP);
+ 	       String[] difficulty_levels ={"easy", "medium", "hard"};
+  	      String temp=SysData.getRandomQuestion(difficulty_levels);
+ 	        quesTemp= SysData.getQuestionForPosition(temp);
+ 	        showEditQuestionDialog(this.currentPlayer);
+
+		     
+	    }
+	    else {
+		     diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
+
+	    }
 	    diceButton.setIcon(diceIcon);
 	    
-	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	   // JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    checkForSnakesAndLadders(currentPlayer);
@@ -476,7 +499,7 @@ System.out.println("pppp"+player.getPosition());
 	        for (Square q : game.getBoard().getQuestions()) {
 	            if (player.getPosition() == Integer.parseInt(q.getValue())) {
 	            	System.out.println("square question here");///question
-	    	        SysData sysdata=new SysData();
+	            	SysData sysdata=new SysData();
 	    	        sysdata.LoadQuestions();
 					questionsPOPUP=SysData.getQuestionsPOPUP();
 	    	        SysData.putQuestions(questionsPOPUP);
@@ -578,7 +601,7 @@ System.out.println("pppp"+player.getPosition());
 
 
 	    	  int result = JOptionPane.showOptionDialog(null, questionPanel, 
-	    	      "Hii " + player.getName(), 
+	    	      "Hii " + player.getName()+" you are on "+ player.getPosition(), 
 	    	      JOptionPane.OK_CANCEL_OPTION, 
 	    	      JOptionPane.PLAIN_MESSAGE, 
 	    	      null, null, null);
@@ -672,7 +695,7 @@ System.out.println("pppp"+player.getPosition());
 	        int newPosition = currentPosition + steps;
 
 	        if (newPosition < 0) {
-	            newPosition = 0; // Prevent moving beyond the start
+	            newPosition = 1; // Prevent moving beyond the start
 	          	 System.out.println("Prevent moving beyond the start ");
 
 	        } else if (newPosition > totalSquaresOnBoard) {

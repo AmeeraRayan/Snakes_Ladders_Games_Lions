@@ -23,6 +23,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 
 
+import java.util.Random;
 
 
 public class SysData {
@@ -66,7 +67,7 @@ public class SysData {
 	}
 
 
-	public HashMap<String, Questions> getEasyQuestions() {
+	public static HashMap<String, Questions> getEasyQuestions() {
 		return easyQuestions;
 	}
 
@@ -76,7 +77,7 @@ public class SysData {
 	}
 
 
-	public HashMap<String, Questions> getMediumQuestions() {
+	public static HashMap<String, Questions> getMediumQuestions() {
 		return mediumQuestions;
 	}
 
@@ -86,7 +87,7 @@ public class SysData {
 	}
 
 
-	public HashMap<String, Questions> getHardQuestions() {
+	public static HashMap<String, Questions> getHardQuestions() {
 		return HardQuestions;
 	}
 
@@ -256,6 +257,21 @@ public class SysData {
 		    return null;
 		}
 
+		public static Questions getQuestionForPosition(String difficulty) {		    
+		    if (difficulty != null) {
+		        switch (difficulty) {
+		            case "easy":
+		                return getRandomQuestion(easyQuestions);
+		            case "medium":
+		                return getRandomQuestion(mediumQuestions);
+		            case "hard":
+		                return getRandomQuestion(HardQuestions);
+		            default:
+		                return null; // No question for this position
+		        }
+		    }
+		    return null;
+		}
 		// Helper method to get a random question from a map of questions
 		private static Questions getRandomQuestion(HashMap<String, Questions> questionsMap) {
 		    if (questionsMap == null || questionsMap.isEmpty()) {
@@ -265,7 +281,16 @@ public class SysData {
 		    String randomKey = keys.get(new Random().nextInt(keys.size()));
 		    return questionsMap.get(randomKey);
 		}
-
+		public static String getRandomQuestion(String [] difficultyLevels) {
+		    if (difficultyLevels == null ) {
+		        return null;
+		    }
+		    Random random = new Random();
+	        int randomIndex = random.nextInt(difficultyLevels.length);
+	        String randomDifficulty = difficultyLevels[randomIndex];
+		    
+		    return randomDifficulty;
+		}
 		
 	public void writeQuestionsToJsonFile() {
 	    JsonArray questionsArray = new JsonArray();
