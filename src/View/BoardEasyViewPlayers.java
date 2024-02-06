@@ -435,7 +435,9 @@ public class BoardEasyViewPlayers extends JFrame {
 	    if (newPosition > totalSquaresOnBoard) {
 	        newPosition = totalSquaresOnBoard;
 	    }
-
+	    if (newPosition < 0) {
+	        newPosition = 1;
+	    }
 	    checkForSnakesAndLadders(player);
 
 
