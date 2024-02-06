@@ -73,9 +73,11 @@ public class GreenWin extends JFrame {
 				for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
+					player.setLastPosition(1);
 				}
+			new BoardEasyViewPlayers(game).setVisible(true);
 			GreenWin.this.setVisible(false);
-			new BoardEasyViewPlayers(game).setVisible(true);}
+}
 		});
 		btnNewButton.setBounds(155, 487, 100, 21);
 		contentPane.add(btnNewButton);
@@ -84,8 +86,9 @@ public class GreenWin extends JFrame {
 		btnNewButton_1.setForeground(new Color(58, 173, 62));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 GreenWin.this.setVisible(false);
 					new DataReception().setVisible(true);
+					 GreenWin.this.setVisible(false);
+
 			}
 		});
 		btnNewButton_1.setBounds(643, 497, 85, 21);

@@ -57,10 +57,6 @@ import java.awt.Dimension;
 public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static final Object BLUE = null;
-	private static final Object YELLOW = null;
-	private static final Object GREEN = null;
-	private static final Object RED = null;
 	private JPanel contentPane;
 	private Game game;
 	private Player currentPlayer;
@@ -79,7 +75,6 @@ public class BoardEasyViewPlayers extends JFrame {
     private JLabel redPlayerLabel;
     private JLabel yellowPlayerLabel;
     private JLabel bluePlayerLabel;
-    private SysData sysdata;
     private JLabel lblNewLabel;
 
 
@@ -103,7 +98,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	      txtpnHi.setBounds(10, 10, 325, 145);
 	      txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	      txtpnHi.setForeground(java.awt.Color.BLUE);
-	      txtpnHi.setBackground(UIManager.getColor("Tree.selectionBackground"));
+	      txtpnHi.setBackground(new Color(255, 255, 153));
 	      contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
@@ -118,7 +113,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		contentPane.add(timerLabel);
 
 
-		 bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.jpg")));
+		 bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.png")));
 		bluePlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the green player
@@ -212,9 +207,9 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    diceButton.setEnabled(true);
 	}
-	public void updatePlayerPosition(Player player, int x, int y) {
+	public void updatePlayerPosition( int x, int y) {
 	    
-	   System.out.println(player.getName() + " moves to X: " + x + " Y: " + y );
+	   System.out.println(currentPlayer.getName() + " moves to X: " + x + " Y: " + y );
 	    contentPane.revalidate();
 	    contentPane.repaint();
 	    
@@ -256,19 +251,19 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    x= (boardSize - 1) - x;
 
-	    this.updatePlayerPosition(currentPlayer, x, y);
+	    this.updatePlayerPosition( x, y);
 	    
 	}
-	private void showLadderPopup(Player player,int lastpos) {
+	private void showLadderPopup(int lastpos) {
 	    JOptionPane.showMessageDialog(this,
-		    "<html><body><p> U have been move to "+lastpos+" but the Ladder will move u to "+player.getLastPosition() +"🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
-	        "Congratss!! "+player.getName()+" got a ladder!!!", JOptionPane.INFORMATION_MESSAGE);
+		    "<html><body><p> U have been move to "+lastpos+" but the Ladder will move u to "+currentPlayer.getPosition() +"🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
+	        "Congratss!! "+currentPlayer.getName()+" got a ladder!!!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private void showSnakePopup(Player player,int lastpos) {
+	private void showSnakePopup(int lastpos) {
 	    JOptionPane.showMessageDialog(this,
-	        "<html><body><p> U have been move to "+lastpos+" but the snake will move u to "+player.getLastPosition()+" 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
-	        "Oh no! "+player.getName()+" got a snake ", JOptionPane.WARNING_MESSAGE);
+	        "<html><body><p> U have been move to "+lastpos+" but the snake will move u to "+currentPlayer.getPosition()+" 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
+	        "Oh no! "+currentPlayer.getName()+" got a snake ", JOptionPane.WARNING_MESSAGE);
 
 	}
 
@@ -316,7 +311,9 @@ public class BoardEasyViewPlayers extends JFrame {
 	    if (hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
 	    } else {
+ 		    currentPlayer.setLastPosition(currentPlayer.getPosition());
 	        advanceToNextPlayer();
+
 	    }
 	}
 	private void displayPlayerPositions() {
@@ -393,10 +390,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    if (playerLabel != null) {
 		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
 	    }
-	    // Check if the game is over
-	    if (newPosition == totalSquaresOnBoard) {
-	        endGame(currentPlayer);
-	    }
+	   
 	    currentPlayer.setLastPosition(newPosition);
 
 	}
@@ -426,20 +420,13 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    if (playerLabel != null) {
 		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
-		   // checkForSnakesAndLadders(player);
-
 	    }
-	    // Check if the game is over
-	    if (newPosition == totalSquaresOnBoard) {
-	        endGame(player);
-	    }
+	   
 	    currentPlayer.setLastPosition(newPosition);
 	    
 	}
 	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
 	    // Define the target end point based on specific positions
-		 System.out.println("222"+currentPlayer.getLastPosition());
- 	    System.out.println("222"+currentPlayer.getPosition());
 
 	    Point targetEndPoint = getCustomEndPoint(currentPlayer.getPosition(), end);
 
@@ -508,7 +495,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-	                showSnakePopup(player,lastpos); 
+	                showSnakePopup(lastpos); 
 	                break;
 	            }
 	        }
@@ -518,7 +505,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-	                showLadderPopup(player,lastpos); 
+	                showLadderPopup(lastpos); 
 	                break;
 	            }
 	        }

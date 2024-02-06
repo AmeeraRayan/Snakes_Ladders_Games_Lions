@@ -2,9 +2,7 @@ package Model;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
 
-import View.BoardEasyViewPlayers;
 
 
 public class Game {
@@ -38,10 +36,12 @@ public class Game {
 	}
 
 	public void setPlayers(List<Player> players) {
+	    players.set(currentPlayerIndex, currentPlayer);
 		this.players = players;
 	}
 
 	public void setCurrentPlayer(Player currentPlayer) {
+		
 		this.currentPlayer = currentPlayer;
 	}
 	

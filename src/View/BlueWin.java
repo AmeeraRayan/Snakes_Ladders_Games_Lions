@@ -64,22 +64,25 @@ public class BlueWin extends JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 28));
 		contentPane.add(lblNewLabel_3);
 		JButton btnNewButton = new JButton("Play again?");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		btnNewButton.setForeground(new Color(58, 173, 62));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
+					player.setLastPosition(1);
 				}
 				BlueWin.this.setVisible(false);
 				new BoardEasyViewPlayers(game).setVisible(true);
 				
 			}
 		});
-		btnNewButton.setBounds(155, 487, 100, 21);
+		btnNewButton.setBounds(170, 480, 100, 21);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Menu");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		btnNewButton_1.setForeground(new Color(58, 173, 62));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +90,7 @@ public class BlueWin extends JFrame {
 					new DataReception().setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(643, 497, 85, 21);
+		btnNewButton_1.setBounds(630, 485, 85, 21);
 		contentPane.add(btnNewButton_1);
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/BlueWin.png")));
