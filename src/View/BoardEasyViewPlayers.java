@@ -289,9 +289,7 @@ public class BoardEasyViewPlayers extends JFrame {
  	        showEditQuestionDialog(this.currentPlayer);
  	       movePlayer(currentPlayer);
  		    updateBoardView();
- 		    displayPlayerPositions(); 
-
- 	             
+ 		    displayPlayerPositions();     
 	    }
 	    else {
 	      	 System.out.println("rollResult  " + rollResult );
@@ -311,7 +309,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    if (hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
 	    } else {
- 		    currentPlayer.setLastPosition(currentPlayer.getPosition());
 	        advanceToNextPlayer();
 
 	    }
@@ -380,6 +377,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    player.setPosition(newPosition);
 	    game.getCurrentPlayer().setPosition(newPosition);
 	    currentPlayer.setPosition(newPosition);
+	    game.updatePlayerPositionInList(player.getName(), newPosition);
 
 	    Point startPoint = boardPositionToPixel(oldPosition);
 	    Point endPoint = boardPositionToPixel(newPosition); 
@@ -392,6 +390,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	   
 	    currentPlayer.setLastPosition(newPosition);
+        game.updatePlayerlastPositionInList(currentPlayer.getName(), newPosition);
 
 	}
 
@@ -411,7 +410,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    player.setPosition(newPosition);
 	    game.getCurrentPlayer().setPosition(newPosition);
 	    currentPlayer.setPosition(newPosition);
-
+	    game.updatePlayerPositionInList(player.getName(), newPosition);
 	  
 	    Point startPoint = boardPositionToPixel(currentPlayer.getLastPosition());
 	    Point endPoint = boardPositionToPixel(newPosition);
@@ -423,6 +422,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	   
 	    currentPlayer.setLastPosition(newPosition);
+        game.updatePlayerlastPositionInList(currentPlayer.getName(),newPosition);
 	    
 	}
 	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
@@ -495,7 +495,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-	                showSnakePopup(lastpos); 
+		    	    game.updatePlayerPositionInList(player.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+		            showSnakePopup(lastpos); 
 	                break;
 	            }
 	        }
@@ -505,6 +506,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	        	    game.updatePlayerPositionInList(player.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(lastpos); 
 	                break;
 	            }
@@ -540,6 +542,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	        for (Player player : game.getPlayers()) {
 	            player.setPosition(1);
 	            positionsText.append(player.getName()).append(" on square: ").append(player.getPosition()).append("\n");
+	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
 	        Point bluePlayerStartPos = boardPositionToPixel(1); 
@@ -747,6 +750,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	        player.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
     	    currentPlayer.setPosition(newPosition);
+    	    game.updatePlayerPositionInList(player.getName(), newPosition);
     	    
 
 	    }

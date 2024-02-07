@@ -36,7 +36,7 @@ public class Game {
 	}
 
 	public void setPlayers(List<Player> players) {
-	    players.set(currentPlayerIndex, currentPlayer);
+	   // players.set(currentPlayerIndex, currentPlayer);
 		this.players = players;
 	}
 
@@ -90,7 +90,22 @@ public class Game {
 		return currentPlayer;
 	}
   
-
+	public void updatePlayerPositionInList(String playerName, int newPosition) {
+	    for (Player p : players) {
+	        if (p.getName().equals(playerName)) {
+	            p.setPosition(newPosition);
+	            break;
+	        }
+	    }
+	}
+	public void updatePlayerlastPositionInList(String playerName, int lastpos) {
+	    for (Player p : players) {
+	        if (p.getName().equals(playerName)) {
+	            p.setLastPosition(lastpos);
+	            break;
+	        }
+	    }
+	}
    }
 
 
