@@ -117,16 +117,16 @@ public class BoardEasyViewPlayers extends JFrame {
 		bluePlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the green player
-		 greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/greenplayer.png")));
+		 greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/green.png")));
 		greenPlayerLabel.setSize(30, 30);
 		
 
 		// Create JLabel for the red player
-		 redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/redplayer.png")));
+		 redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/red.png")));
 		redPlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the yellow player
-		 yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellowplayer.png")));
+		 yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellow.png")));
 		yellowPlayerLabel.setSize(30, 30);
 
 	  
