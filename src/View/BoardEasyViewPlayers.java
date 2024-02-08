@@ -15,6 +15,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import Model.Board;
 import Model.Game;
 import Model.Ladder;
 import Model.Player;
@@ -134,17 +136,43 @@ public class BoardEasyViewPlayers extends JFrame {
 		
 		
 	}
+	
+	
+
 	public void startGame() {
 	    initializePlayerPositions();
-	    lblNewLabel = new JLabel("");
-	  		lblNewLabel.setBounds(0, 10, 1095, 772);
-	  		lblNewLabel.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/boradeasy2.png")));
-	  		contentPane.add(lblNewLabel);
-
+  		initializeBoard();
+	    
 	    rollDiceAndMovePlayer();
 	    animatePlayerTurnTitle(); 
 	    startGameTimer(); 
 
+	}
+	
+	public void initializeBoard() {
+	    // Randomly select a board configuration
+	    int boardType = new Random().nextInt(3) + 1; // Generates 1, 2, or 3
+	    lblNewLabel = new JLabel("");
+  		lblNewLabel.setBounds(0, 10, 1095, 772);
+	    // Call the corresponding initialization method
+	    switch (3) {
+	        case 1:
+	            Board.initializeSnakesAndLaddersForEasy1();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
+	            break;
+	        case 2:
+	            Board.initializeSnakesAndLaddersForEasy();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
+	            break;
+	        case 3:
+
+	            Board.initializeSnakesAndLaddersForEasy3();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
+	            break;
+	    }
+  		contentPane.add(lblNewLabel);
+
+	    // Now your board is initialized, you can proceed with the rest of the game setup
 	}
 	private void startGameTimer() {
 	    startTime = System.currentTimeMillis();
