@@ -54,6 +54,7 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.util.concurrent.TimeUnit;
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 
 public class BoardEasyViewPlayers extends JFrame {
@@ -191,7 +192,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	
 	private void animatePlayerTurnTitle() {
-	    final int delay = 500;
+	    final int delay = 200;
 	    ActionListener taskPerformer = new ActionListener() {
 	        private boolean flag = false;
 	        public void actionPerformed(ActionEvent evt) {
@@ -244,7 +245,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	
 	public Point boardPositionToPixel(int boardPosition) {
-	    // Define the difference in pixels between squares horizontally and vertically
 	    int xDiff = 80; // the horizontal distance between squares
 	    int yDiff = 70; // vertical distance between squares
 
@@ -253,10 +253,6 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    int x = 300;
 	    int y = 645;
-	    if (boardPosition==1)
-	    {
-		    return new Point(300,645);
-	    }
 	    
 	    x += col * xDiff;
 	   
@@ -314,8 +310,10 @@ public class BoardEasyViewPlayers extends JFrame {
   	      String temp=SysData.getRandomQuestion(difficulty_levels);
  	        quesTemp= SysData.getQuestionForPosition(temp);
  		    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
- 	        showEditQuestionDialog(this.currentPlayer);
- 	       movePlayer(currentPlayer);
+ 		    int pos=currentPlayer.getPosition();
+ 	        showEditQuestionDialog(pos);
+ 	       movePlayer(pos);
+ 		    checkForSnakesAndLadders(currentPlayer.getPosition());
  		    updateBoardView();
  		    displayPlayerPositions();     
 	    }
@@ -330,7 +328,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
-	    checkForSnakesAndLadders(currentPlayer);
 	    updateBoardView();
 	    displayPlayerPositions(); // Update the display of player positions
 	    }
@@ -390,74 +387,66 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 	
 	private void movePlayer(Player player, int roll) {
-	    int oldPosition = currentPlayer.getLastPosition();
+	    int oldPosition = currentPlayer.getPosition();
 	    int newPosition = oldPosition + roll;
-
+	    JLabel playerLabel =null;
+	    Point startPoint=null;
+	    Point endPoint =null;
 	    // Ensure the player does not go past the last square
 	    if (newPosition > totalSquaresOnBoard) {
 	        newPosition = totalSquaresOnBoard;
 	    }
+	    boolean temp=false;
+	    temp=checkForSnakesAndLadders(newPosition);
+	   
+	    if(temp==true)
+	    { player.setPosition(currentPlayer.getPosition());
+	    game.getCurrentPlayer().setPosition(currentPlayer.getPosition());
+	    currentPlayer.setPosition(currentPlayer.getPosition());
+	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
 
-	    checkForSnakesAndLadders(player);
+	     startPoint = boardPositionToPixel(oldPosition);
+	     endPoint = boardPositionToPixel(currentPlayer.getPosition()); 
 
+	     playerLabel = getPlayerLabel(currentPlayer);
+	    }else
+	    {
+	    	 player.setPosition(newPosition);
+	 	    game.getCurrentPlayer().setPosition(newPosition);
+	 	    currentPlayer.setPosition(newPosition);
+	 	    game.updatePlayerPositionInList(player.getName(),newPosition);
 
-	    // Update the player's position in the game logic
-	    player.setPosition(newPosition);
-	    game.getCurrentPlayer().setPosition(newPosition);
-	    currentPlayer.setPosition(newPosition);
-	    game.updatePlayerPositionInList(player.getName(), newPosition);
+	 	     startPoint = boardPositionToPixel(oldPosition);
+	 	     endPoint = boardPositionToPixel(newPosition); 
 
-	    Point startPoint = boardPositionToPixel(oldPosition);
-	    Point endPoint = boardPositionToPixel(newPosition); 
-
-	    JLabel playerLabel = getPlayerLabel(currentPlayer);
-        System.out.println("the player now on "+currentPlayer.getPosition());
-	    // Animate the movement to the final position
-	    if (playerLabel != null) {
-		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
+	 	     playerLabel = getPlayerLabel(currentPlayer);
+	    }
+	    	if (playerLabel != null) {
+		    animateMovement(playerLabel, startPoint, endPoint);
 	    }
 	   
-	    currentPlayer.setLastPosition(newPosition);
-        game.updatePlayerlastPositionInList(currentPlayer.getName(), newPosition);
 
 	}
 
 	//for a question on dice 
-	private void movePlayer(Player player) {
-	    int newPosition = currentPlayer.getPosition();
+	private void movePlayer(int pos) {
 
-	    // Ensure the player does not go past the last square
-	    if (newPosition > totalSquaresOnBoard) {
-	        newPosition = totalSquaresOnBoard;
-	    }
-	    if (newPosition <= 0) {
-	        newPosition = 1;
-	    }
-
-	    // Update the player's position in the game logic
-	    player.setPosition(newPosition);
-	    game.getCurrentPlayer().setPosition(newPosition);
-	    currentPlayer.setPosition(newPosition);
-	    game.updatePlayerPositionInList(player.getName(), newPosition);
-	  
-	    Point startPoint = boardPositionToPixel(currentPlayer.getLastPosition());
-	    Point endPoint = boardPositionToPixel(newPosition);
+	    
+	    Point startPoint = boardPositionToPixel(pos);
+	    Point endPoint = boardPositionToPixel(currentPlayer.getPosition());
 
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
 
 	    if (playerLabel != null) {
-		    animateMovement(playerLabel, startPoint, endPoint, currentPlayer);
+		    animateMovement(playerLabel, startPoint, endPoint);
 	    }
 	   
-	    currentPlayer.setLastPosition(newPosition);
-        game.updatePlayerlastPositionInList(currentPlayer.getName(),newPosition);
 	    
 	}
-	private void animateMovement(JLabel playerLabel, Point start, Point end, Player player) {
+	private void animateMovement(JLabel playerLabel, Point start, Point end) {
 	    // Define the target end point based on specific positions
-
-	    Point targetEndPoint = getCustomEndPoint(currentPlayer.getPosition(), end);
-
+	    Point targetEndPoint = end;
+System.out.println(currentPlayer.getPosition());
 	    final int numberOfSteps = 10;
 	    final Timer timer = new Timer(100, null);
 	    timer.addActionListener(new ActionListener() {
@@ -484,20 +473,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    timer.start();
 	}
 
-	private Point getCustomEndPoint(int position, Point defaultEndPoint) {
-	    switch (position) {
-	        case 2: return new Point(380, 420);
-	        case 36: return new Point(380, 210);
-	        case 45: return new Point(300, 645);
-	        case 30: return new Point(460, 420);
-	        case 21: return new Point(680, 645);
-	        case 26: return new Point(540, 280);
-	        case 13: return new Point(770, 280);
-	        case 47: return new Point(680, 430);
-	        default: return defaultEndPoint; // Use the calculated end point if no special case
-	    }
-	}
-
 
 	private JLabel getPlayerLabel(Player player) {
 	    switch (player.getColor()) {
@@ -516,46 +491,46 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	
 
-	    private void checkForSnakesAndLadders(Player player) {
-        	int lastpos=player.getPosition();
+	    private boolean checkForSnakesAndLadders(int pos) {
+        	int lastpos=pos;
 	        for (Snake snake : game.getBoard().getSnakes()) {
-	            if (player.getPosition() == Integer.parseInt(snake.getSquareStart().getValue())) {
-	                player.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-	                currentPlayer.setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+	            if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-		    	    game.updatePlayerPositionInList(player.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
 		            showSnakePopup(lastpos); 
-	                break;
+	                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
+	                return true;
 	            }
 	        }
 
 	        for (Ladder ladder : game.getBoard().getLadders()) {
-	            if (player.getPosition() == Integer.parseInt(ladder.getSquareStart().getValue())) {
-	                player.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	            if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
 		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-	        	    game.updatePlayerPositionInList(player.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(lastpos); 
-	                break;
+	                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
+	                return true;
 	            }
 	        }
 
 	        for (Square q : game.getBoard().getQuestions()) {
-	            if (player.getPosition() == Integer.parseInt(q.getValue())) {
+	            if (pos== Integer.parseInt(q.getValue())) {
 	            	System.out.println("square question here");///question
 	            	SysData sysdata=new SysData();
 	    	        sysdata.LoadQuestions();
 					questionsPOPUP=SysData.getQuestionsPOPUP();
 	    	        SysData.putQuestions(questionsPOPUP);
-	    	        quesTemp= SysData.getQuestionForPosition(player.getPosition());
+	    	        quesTemp= SysData.getQuestionForPosition(pos);
 	    	        System.out.println(quesTemp);
-	    	        showEditQuestionDialog(player);
-	                break;
+	    	        showEditQuestionDialog(pos);
+	                return true;
 
 	            }
 	        
 	            
 	            }
+			return false;
 	        
 	    }
 	    private void displayCurrentPlayer() {
@@ -573,10 +548,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos = boardPositionToPixel(1); 
-	        Point greenPlayerStartPos = boardPositionToPixel(1); 
-	        Point redPlayerStartPos = boardPositionToPixel(1); 
-	        Point yellowPlayerStartPos = boardPositionToPixel(1); 
+	        Point bluePlayerStartPos =  new Point(290,630); 
+	        Point greenPlayerStartPos = new Point(320,630); 
+	        Point redPlayerStartPos = new Point(290,660); 
+	        Point yellowPlayerStartPos = new Point(320,660); 
 	        if (game.getPlayers().size()==2)
 	        {
 	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
@@ -610,7 +585,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	        contentPane.repaint();
 	    }
 	    
-		private void showEditQuestionDialog( Player player) {
+		private void showEditQuestionDialog(int pos ) {
 	    	 JPanel questionPanel = new JPanel();
 	    	    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
 	    	    Dimension preferredSize = new Dimension(700, 400);
@@ -674,7 +649,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 	    	  int result = JOptionPane.showOptionDialog(null, questionPanel, 
-	    	      "Hii " + player.getName()+" you are on "+ player.getPosition(), 
+	    	      "Hii " + currentPlayer.getName()+" you are now suppose to be in "+ pos+" but as ur response u will move or stay in "+pos, 
 	    	      JOptionPane.OK_CANCEL_OPTION, 
 	    	      JOptionPane.PLAIN_MESSAGE, 
 	    	      null, null, null);
@@ -685,13 +660,13 @@ public class BoardEasyViewPlayers extends JFrame {
 	               if (option3.isSelected()) selectedAnswer = 3;
 	               if (option4.isSelected()) selectedAnswer = 4;
 
-	               handleAnswer(selectedAnswer,player);
+	               handleAnswer(selectedAnswer);
 	           }
 	       }
 
 
 
-	    private void handleAnswer(int selectedAnswer , Player player) {
+	    private void handleAnswer(int selectedAnswer ) {
 	    	boolean isCorrectAnswer=true;
 	       
 	        
@@ -700,19 +675,19 @@ public class BoardEasyViewPlayers extends JFrame {
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
 
-	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==2)
 	            {
 
-	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==3)
 	            {
 
-	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer);
 
 	            }
 	        } else {
@@ -720,19 +695,19 @@ public class BoardEasyViewPlayers extends JFrame {
 	            isCorrectAnswer=false;
 	            if(this.quesTemp.getDiffculty()==1)
 	            {
-	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(1 ,isCorrectAnswer);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==2)
 	            {
 
-	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(2 ,isCorrectAnswer);
 
 	            }
 	            if(this.quesTemp.getDiffculty()==3)
 	            {
 
-	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer,player);
+	                movePlayerBasedOnQuestion(3 ,isCorrectAnswer);
 
 	            }
 	        }
@@ -740,7 +715,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	        
 	    }
 
-	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer,Player player) {
+	    public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer) {
 	    	 System.out.println("questionDifficulty  " + questionDifficulty +" isCorrectAnswer"+ isCorrectAnswer);
 	        // Define the movement rules based on difficulty and correctness
 	    	
@@ -757,15 +732,14 @@ public class BoardEasyViewPlayers extends JFrame {
 	        }
 
 	        // Apply the movement to the player's position
-	        updatePlayerPosition(steps,player);
+	        updatePlayerPosition(steps);
 	    }
 
-	    private void updatePlayerPosition(int steps,Player player) {
-	        int currentPosition = player.getLastPosition();
-	        System.out.println( "last"+player.getLastPosition());
+	    private void updatePlayerPosition(int steps) {
+	        int currentPosition = currentPlayer.getPosition();
 	        int newPosition = currentPosition + steps;
 	        System.out.println("new"+newPosition);
-	        if (newPosition < 0) {
+	        if (newPosition <= 0) {
 	            newPosition = 1; // Prevent moving beyond the start
 	          	 System.out.println("Prevent moving beyond the start ");
 
@@ -774,11 +748,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	          	 System.out.println("Prevent moving beyond the end  " );
 
 	        }
-
-	        player.setPosition(newPosition);
+	        currentPlayer.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
     	    currentPlayer.setPosition(newPosition);
-    	    game.updatePlayerPositionInList(player.getName(), newPosition);
+    	    game.updatePlayerPositionInList(currentPlayer.getName(), newPosition);
     	    
 
 	    }

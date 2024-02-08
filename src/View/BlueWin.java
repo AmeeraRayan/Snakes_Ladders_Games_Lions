@@ -71,7 +71,6 @@ public class BlueWin extends JFrame {
 				for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
-					player.setLastPosition(1);
 				}
 				BlueWin.this.setVisible(false);
 				new BoardEasyViewPlayers(game).setVisible(true);

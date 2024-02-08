@@ -98,14 +98,7 @@ public class Game {
 	        }
 	    }
 	}
-	public void updatePlayerlastPositionInList(String playerName, int lastpos) {
-	    for (Player p : players) {
-	        if (p.getName().equals(playerName)) {
-	            p.setLastPosition(lastpos);
-	            break;
-	        }
-	    }
-	}
+	
    }
 
 

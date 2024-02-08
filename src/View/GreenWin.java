@@ -73,7 +73,6 @@ public class GreenWin extends JFrame {
 				for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
-					player.setLastPosition(1);
 				}
 			new BoardEasyViewPlayers(game).setVisible(true);
 			GreenWin.this.setVisible(false);

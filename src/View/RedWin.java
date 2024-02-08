@@ -70,7 +70,6 @@ public class RedWin extends JFrame {
 				for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
-					player.setLastPosition(1);
 				}
 				RedWin.this.setVisible(false);
 				new BoardEasyViewPlayers(game).setVisible(true);
