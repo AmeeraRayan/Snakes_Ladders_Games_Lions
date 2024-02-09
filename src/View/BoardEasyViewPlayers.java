@@ -173,15 +173,22 @@ public class BoardEasyViewPlayers extends JFrame {
 	  		lblNewLabel_4 = new JLabel("");
 	  		lblNewLabel_4.setBounds(50, 350, 250, 40);
 	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
-	  		JButton btnNewButtonBack = new JButton(new ImageIcon("/images/back.png"));
+	  		
+	  		JButton btnNewButtonBack = new JButton("Back");
+	  		btnNewButtonBack.setFont(new Font("David", Font.BOLD, 24)); // Set the font
+	  		btnNewButtonBack.setForeground(Color.WHITE); // Set the text color
+	  		btnNewButtonBack.setBackground(new Color(40, 120, 45)); 
+	  		btnNewButtonBack.setBorder(BorderFactory.createRaisedBevelBorder()); 
+	  		btnNewButtonBack.setFocusPainted(false); // 
 	  		btnNewButtonBack.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					BoardEasyViewPlayers.this.setVisible(false);
-						new DataReception().setVisible(true);
-				}
-			});
+	  		    public void actionPerformed(ActionEvent e) {
+	  		        BoardEasyViewPlayers.this.setVisible(false);
+	  		        new DataReception().setVisible(true);
+	  		    }
+	  		});
 	  		btnNewButtonBack.setBounds(45, 700, 160, 50);
-			contentPane.add(btnNewButtonBack);
+	  		contentPane.add(btnNewButtonBack);
+
 
 		startGame();
 		
