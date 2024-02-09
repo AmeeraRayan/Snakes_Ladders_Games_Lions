@@ -173,8 +173,15 @@ public class BoardEasyViewPlayers extends JFrame {
 	  		lblNewLabel_4 = new JLabel("");
 	  		lblNewLabel_4.setBounds(50, 350, 250, 40);
 	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
-
-	  
+	  		JButton btnNewButtonBack = new JButton(new ImageIcon("/images/back.png"));
+	  		btnNewButtonBack.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BoardEasyViewPlayers.this.setVisible(false);
+						new DataReception().setVisible(true);
+				}
+			});
+	  		btnNewButtonBack.setBounds(45, 700, 160, 50);
+			contentPane.add(btnNewButtonBack);
 
 		startGame();
 		
@@ -589,7 +596,7 @@ System.out.println(currentPlayer.getPosition());
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos =  new Point(290,630); 
+	        Point bluePlayerStartPos =  new Point(295,630); 
 	        Point greenPlayerStartPos = new Point(320,630); 
 	        Point redPlayerStartPos = new Point(290,660); 
 	        Point yellowPlayerStartPos = new Point(320,660); 
