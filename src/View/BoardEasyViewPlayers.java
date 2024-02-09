@@ -373,7 +373,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    updateBoardView();
-	    displayPlayerPositions(); // Update the display of player positions
+	    displayPlayerPositions();
 	    }
 	    if (controller.hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
@@ -465,6 +465,73 @@ public class BoardEasyViewPlayers extends JFrame {
 		    animateMovement(playerLabel, startPoint, endPoint);
 	    }
 	   
+
+	}	private void movePlayer1(Player player, int roll) {
+	    int oldPosition = currentPlayer.getPosition();
+	    int newPosition = oldPosition + roll;
+	    JLabel playerLabel =null;
+	    Point startPoint=null;
+	    Point endPoint =null;
+	    // Ensure the player does not go past the last square
+	    if (newPosition > totalSquaresOnBoard) {
+	        newPosition = totalSquaresOnBoard;
+	    }
+	    boolean temp=false;
+	    temp=checkForSnakesAndLadders1(newPosition);
+	   
+	    if(temp==true)
+	    { player.setPosition(currentPlayer.getPosition());
+	    game.getCurrentPlayer().setPosition(currentPlayer.getPosition());
+	    currentPlayer.setPosition(currentPlayer.getPosition());
+	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
+
+	     startPoint = controller.boardPositionToPixel(newPosition,currentPlayer);
+	     endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer); 
+
+	     playerLabel = getPlayerLabel(currentPlayer);
+	    }else
+	    {
+	    	 player.setPosition(newPosition);
+	 	    game.getCurrentPlayer().setPosition(newPosition);
+	 	    currentPlayer.setPosition(newPosition);
+	 	    game.updatePlayerPositionInList(player.getName(),newPosition);
+
+	 	     startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer);
+	 	     endPoint = controller.boardPositionToPixel(newPosition,currentPlayer); 
+
+	 	     playerLabel = getPlayerLabel(currentPlayer);
+	    }
+	    	if (playerLabel != null) {
+		    animateMovement(playerLabel, startPoint, endPoint);
+	    }
+	   
+
+	}
+	private boolean checkForSnakesAndLadders1(int pos)
+	{
+		int lastpos=pos;
+        for (Snake snake : game.getBoard().getSnakes()) {
+            if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
+	            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+	    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+	            showSnakePopup(lastpos); 
+                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
+                return true;
+            }
+        }
+
+        for (Ladder ladder : game.getBoard().getLadders()) {
+            if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
+	            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+                showLadderPopup(lastpos); 
+                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
+                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
+                return true;
+            }
+        }
+        return false;
 
 	}
 
@@ -564,7 +631,10 @@ System.out.println(currentPlayer.getPosition());
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(pos);
 	    	        System.out.println(quesTemp);
+	    	        currentPlayer.setPosition(pos);
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 	    	        showEditQuestionDialog(pos);
+	    	        movePlayer1(currentPlayer,0);
 	                return true;
 
 	            }
@@ -736,8 +806,7 @@ System.out.println(currentPlayer.getPosition());
 
 	    private void handleAnswer(int selectedAnswer ) {
 	    	boolean isCorrectAnswer=true;
-	       
-	        
+	   
 	        if(selectedAnswer == this.quesTemp.getCorrectOption()) {
 	            JOptionPane.showMessageDialog(this, "Congratsss! It's a correct Answer!");
 	            if(this.quesTemp.getDiffculty()==1)
