@@ -164,12 +164,12 @@ public class BoardEasyViewPlayers extends JFrame {
 	  		lblNewLabel_2.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
 
 	  	lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setBounds(50, 350, 250, 40);
+		lblNewLabel_3.setBounds(50, 400, 250, 40);
 		lblNewLabel_3.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
 
 
 	  		lblNewLabel_4 = new JLabel("");
-	  		lblNewLabel_4.setBounds(50, 400, 250, 40);
+	  		lblNewLabel_4.setBounds(50, 350, 250, 40);
 	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
 
 	  		
@@ -285,7 +285,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	public Point boardPositionToPixel(int boardPosition) {
 		    int xDiff = 80; // the horizontal distance between squares
-		    int yDiff = 70; // vertical distance between squares
+		    int yDiff = 60; // vertical distance between squares
 
 		    int row = (boardPosition - 1) / 7;
 		    int col = (boardPosition - 1) % 7;
@@ -367,8 +367,8 @@ public class BoardEasyViewPlayers extends JFrame {
  		    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
  		    int pos=currentPlayer.getPosition();
  	        showEditQuestionDialog(pos);
- 	       movePlayer(pos);
  		    checkForSnakesAndLadders(currentPlayer.getPosition());
+  	       movePlayer(pos);
  		    updateBoardView();
  		    displayPlayerPositions();     
 	    }
@@ -460,7 +460,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    currentPlayer.setPosition(currentPlayer.getPosition());
 	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
 
-	     startPoint = boardPositionToPixel(oldPosition);
+	     startPoint = boardPositionToPixel(newPosition);
 	     endPoint = boardPositionToPixel(currentPlayer.getPosition()); 
 
 	     playerLabel = getPlayerLabel(currentPlayer);
@@ -540,7 +540,7 @@ System.out.println(currentPlayer.getPosition());
 	        case YELLOW:
 	            return yellowPlayerLabel;
 	        default:
-	            return null; // Or handle error
+	            return null; 
 	    }
 	}
 	
@@ -565,6 +565,7 @@ System.out.println(currentPlayer.getPosition());
 		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(lastpos); 
 	                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
+	                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
 	                return true;
 	            }
 	        }
