@@ -55,6 +55,7 @@ import javax.swing.UIManager;
 import java.util.concurrent.TimeUnit;
 import java.awt.Dimension;
 import javax.swing.JCheckBox;
+import java.awt.SystemColor;
 
 
 public class BoardEasyViewPlayers extends JFrame {
@@ -79,9 +80,16 @@ public class BoardEasyViewPlayers extends JFrame {
     private JLabel yellowPlayerLabel;
     private JLabel bluePlayerLabel;
     private JLabel lblNewLabel;
-
-
+    private JLabel lblNewLabel_blue;
+    private JLabel lblNewLabel_yellow;
+    private JLabel lblNewLabel_red;
+    private JLabel lblNewLabel_green;
+    private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
+	
 
 	public BoardEasyViewPlayers(Game game ) {
 		this.currentPlayer=game.getCurrentPlayer();
@@ -100,8 +108,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	     txtpnHi.setEditable(false);
 	      txtpnHi.setBounds(10, 10, 325, 145);
 	      txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
-	      txtpnHi.setForeground(java.awt.Color.BLUE);
-	      txtpnHi.setBackground(new Color(255, 255, 153));
+	      txtpnHi.setForeground(SystemColor.desktop);
+	      txtpnHi.setBackground(new Color(60, 179, 113));
 	      contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
@@ -132,7 +140,39 @@ public class BoardEasyViewPlayers extends JFrame {
 		 yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellow.png")));
 		yellowPlayerLabel.setSize(30, 30);
 
-	  
+		 
+  		lblNewLabel_blue = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.png")));
+  		lblNewLabel_blue.setBounds(10, 250, 40, 40);
+  		
+  		lblNewLabel_green = new JLabel(new ImageIcon(getClass().getResource("/images/green.png")));
+  		lblNewLabel_green.setBounds(10, 300, 40, 40);
+  		
+  		
+  		lblNewLabel_red = new JLabel(new ImageIcon(getClass().getResource("/images/red.png")));
+  		lblNewLabel_red.setBounds(10, 350, 40, 40);
+  		
+  		lblNewLabel_yellow = new JLabel(new ImageIcon(getClass().getResource("/images/yellow.png")));
+  		lblNewLabel_yellow.setBounds(10, 400, 40, 40);
+  		
+  		lblNewLabel_1 = new JLabel("");
+	  		lblNewLabel_1.setBounds(50, 250, 250, 40);
+	  		lblNewLabel_1.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+
+	  		
+	  		lblNewLabel_2 = new JLabel("");
+	  		lblNewLabel_2.setBounds(50, 300, 250, 40);
+	  		lblNewLabel_2.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+
+	  	lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBounds(50, 350, 250, 40);
+		lblNewLabel_3.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+
+
+	  		lblNewLabel_4 = new JLabel("");
+	  		lblNewLabel_4.setBounds(50, 400, 250, 40);
+	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+
+	  		
 		startGame();
 		
 		
@@ -152,9 +192,9 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	public void initializeBoard() {
 	    // Randomly select a board configuration
-	    int boardType = new Random().nextInt(3) + 1; // Generates 1, 2, or 3
 	    lblNewLabel = new JLabel("");
-  		lblNewLabel.setBounds(0, 10, 1095, 772);
+	    lblNewLabel.setForeground(new Color(0, 0, 0));
+  		lblNewLabel.setBounds(10, 10, 1095, 772);
 	    // Call the corresponding initialization method
 	    switch (3) {
 	        case 1:
@@ -172,8 +212,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	            break;
 	    }
   		contentPane.add(lblNewLabel);
-
-	    // Now your board is initialized, you can proceed with the rest of the game setup
+ 
 	}
 	private void startGameTimer() {
 	    startTime = System.currentTimeMillis();
@@ -245,21 +284,37 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	
 	public Point boardPositionToPixel(int boardPosition) {
-	    int xDiff = 80; // the horizontal distance between squares
-	    int yDiff = 70; // vertical distance between squares
+		    int xDiff = 80; // the horizontal distance between squares
+		    int yDiff = 70; // vertical distance between squares
 
-	    int row = (boardPosition - 1) / 7;
-	    int col = (boardPosition - 1) % 7;
+		    int row = (boardPosition - 1) / 7;
+		    int col = (boardPosition - 1) % 7;
 
-	    int x = 300;
-	    int y = 645;
-	    
-	    x += col * xDiff;
-	   
-	    y -= row * yDiff;
+		    int x = 0;
+		    int y = 0;
+		    Model.Color color = currentPlayer.getColor();
+		    if (color.equals(Model.Color.BLUE)) {
+		        x = 290;
+		        y = 630;
+		    } else if (color.equals(Model.Color.GREEN)) {
+		        x = 320;
+		        y = 630;
+		    } else if (color.equals(Model.Color.RED)) {
+		        x = 290;
+		        y = 660;
+		    } else if (color.equals(Model.Color.YELLOW)) {
+		        x = 320;
+		        y = 660;
+		    }
 
-	    return new Point(x, y);
-	}
+
+		    x += col * xDiff;
+		    y -= row * yDiff;
+
+		    return new Point(x, y);
+		}
+
+	
 
 	private void updateBoardView() {
 	    currentPlayer = game.getCurrentPlayer();
@@ -540,7 +595,7 @@ System.out.println(currentPlayer.getPosition());
 	        }
 	    }
 
-	    private void initializePlayerPositions() {
+		private void initializePlayerPositions() {
 	        StringBuilder positionsText = new StringBuilder();
 	        for (Player player : game.getPlayers()) {
 	            player.setPosition(1);
@@ -558,6 +613,9 @@ System.out.println(currentPlayer.getPosition());
 		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
 				contentPane.add(greenPlayerLabel);
 				contentPane.add(bluePlayerLabel);
+		  		contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+
 
 	        }
 	        else if(game.getPlayers().size()==3)
@@ -568,6 +626,10 @@ System.out.println(currentPlayer.getPosition());
 		        contentPane.add(greenPlayerLabel);
 				contentPane.add(bluePlayerLabel);
 				contentPane.add(redPlayerLabel);
+				contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+		  		contentPane.add(lblNewLabel_red);
+
 	        }
 	        else {
 		        yellowPlayerLabel.setLocation(yellowPlayerStartPos.x, yellowPlayerStartPos.y);
@@ -578,7 +640,27 @@ System.out.println(currentPlayer.getPosition());
 				contentPane.add(bluePlayerLabel);
 				contentPane.add(yellowPlayerLabel);
 				contentPane.add(redPlayerLabel);
+				contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+		  		contentPane.add(lblNewLabel_red);
+		  		contentPane.add(lblNewLabel_yellow);
 
+	        }
+	        for (Player p : game.getPlayers()) {
+	            Model.Color playerColor = p.getColor();
+	            if (playerColor.equals(Model.Color .BLUE)) {
+	                lblNewLabel_1.setText(p.getName());
+	                contentPane.add(lblNewLabel_1);
+	            } else if (playerColor.equals(Model.Color .GREEN)) {
+	                lblNewLabel_2.setText(p.getName());
+	                contentPane.add(lblNewLabel_2);
+	            } else if (playerColor.equals(Model.Color .YELLOW)) {
+	                lblNewLabel_3.setText(p.getName());
+	                contentPane.add(lblNewLabel_3);
+	            } else {
+	                lblNewLabel_4.setText(p.getName());
+	                contentPane.add(lblNewLabel_4);
+	            }
 	        }
 
 	        contentPane.revalidate();
@@ -742,12 +824,8 @@ System.out.println(currentPlayer.getPosition());
 	        if (newPosition <= 0) {
 	            newPosition = 1; // Prevent moving beyond the start
 	          	 System.out.println("Prevent moving beyond the start ");
-
-	        } else if (newPosition > totalSquaresOnBoard) {
-	            newPosition = totalSquaresOnBoard; // Prevent moving beyond the end
-	          	 System.out.println("Prevent moving beyond the end  " );
-
 	        }
+
 	        currentPlayer.setPosition(newPosition);
             game.getCurrentPlayer().setPosition(newPosition);
     	    currentPlayer.setPosition(newPosition);
@@ -756,8 +834,3 @@ System.out.println(currentPlayer.getPosition());
 
 	    }
 	   }
-
-	    
-	    
-	    
-	  
