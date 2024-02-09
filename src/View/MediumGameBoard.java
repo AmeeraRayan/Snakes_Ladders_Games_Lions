@@ -34,6 +34,7 @@ public class MediumGameBoard extends JFrame {
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
 	private final JLabel label_1 = new JLabel("");
     private BoardSquare[][] squares = new BoardSquare[10][10];
+    private JLabel[][] boardlabels = new JLabel[GRID_SIZE][GRID_SIZE];
     private Dice dice = new Dice("medium");
     //private GameBoard game ; 
     private BoardSnake[] Snakes = new BoardSnake[6];
@@ -117,6 +118,7 @@ public class MediumGameBoard extends JFrame {
                 int x = j * cellSize + panel.getBounds().x +224 ; // Adjust for the actual position of the panel
                 int y = i * cellSize + panel.getBounds().y +118 ;
                 squares[i][j]= new BoardSquare(i, j, SquareType.NORMAL, x, y,cellNumber);
+                boardlabels[i][j] = label;
                // System.out.println( squares[i][j] );
                 System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", "+ " i "+ i + " j" + j);
             }
@@ -203,7 +205,7 @@ public class MediumGameBoard extends JFrame {
             j = generateRandomNumber1(Color.BLUE); // Blue snakes
             i = generateRandomNumber1(Color.BLUE);
             System.out.println("index i :" + i + " index j " + j + " "+squares[i][j].getValue());
-        } while (isSquareOccupied(i, j) || (squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100) || 30>squares[i][j].getValue() );
+        } while (isSquareOccupied(i, j) || (squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100) || 31>squares[i][j].getValue() );
 
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getboundsX() - 110, squares[i][j].getboundsY() + 15, 140, 170);// BLUE
@@ -252,22 +254,29 @@ public class MediumGameBoard extends JFrame {
             easyI = generateRandomNumber1(Color.WHITE); // Green snakes
             easyJ = generateRandomNumber1(Color.WHITE);
         } while (isSquareOccupied(easyI, easyJ) || (squares[easyI][easyJ].getValue() == 1 || squares[easyI][easyJ].getValue() ==100));
-        System.out.println("Easy " + squares[easyI][easyJ].getValue());
-        JLabel label1 = new JLabel("?");
-        label1.setBounds(squares[easyI][easyJ].getboundsX(), squares[easyI][easyJ].getboundsY(), 170, 140);// Green
-        
+        System.out.println("Easy " + squares[easyI][easyI].getValue());
+         boardlabels[easyI][easyI].setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark .png")));;
+       
 
-        do {
-            hardI = generateRandomNumber1(Color.WHITE); // Green snakes
-            hardJ = generateRandomNumber1(Color.WHITE);
-        } while (isSquareOccupied(hardI, hardJ) || (squares[hardI][hardJ].getValue() == 1 || squares[hardI][hardJ].getValue() ==100 || squares[hardI][hardJ].getValue() == squares[easyI][easyJ].getValue() ));
-        System.out.println("Hard " + squares[hardI][hardJ].getValue());
+//
+//        do {
+//            hardI = generateRandomNumber1(Color.WHITE); // Green snakes
+//            hardJ = generateRandomNumber1(Color.WHITE);
+//        } while (isSquareOccupied(hardI, hardJ) || (squares[hardI][hardJ].getValue() == 1 || squares[hardI][hardJ].getValue() ==100 || squares[hardI][hardJ].getValue() == squares[easyI][easyJ].getValue() ));
+//        System.out.println("Hard " + squares[hardI][hardJ].getValue());
+//        JLabel label2 = new JLabel();
+//        label2.setBounds(squares[hardI][hardJ].getboundsX(), squares[hardI][hardJ].getboundsY(), 55, 55);
+//        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
+//
+//      do {
+//            mediumI = generateRandomNumber1(Color.WHITE); // Green snakes
+//            mediumJ = generateRandomNumber1(Color.WHITE);
+//        } while (isSquareOccupied(mediumI, mediumJ) || (squares[mediumI][mediumJ].getValue() == 1 || squares[mediumI][mediumJ].getValue() ==100 ||squares[hardI][hardJ].getValue() == squares[mediumI][mediumJ].getValue()));
+//       System.out.println("Hard " + squares[mediumI][mediumJ].getValue());
+//       JLabel label3 = new JLabel();
+//       label3.setBounds(squares[mediumI][mediumJ].getboundsX(), squares[mediumI][mediumJ].getboundsY(), 55, 55);
+//       label3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
 
-      do {
-            mediumI = generateRandomNumber1(Color.WHITE); // Green snakes
-            mediumJ = generateRandomNumber1(Color.WHITE);
-        } while (isSquareOccupied(mediumI, mediumJ) || (squares[mediumI][mediumJ].getValue() == 1 || squares[mediumI][mediumJ].getValue() ==100 ||squares[hardI][hardJ].getValue() == squares[mediumI][mediumJ].getValue()));
-       System.out.println("Hard " + squares[mediumI][mediumJ].getValue());
 
     }
     
