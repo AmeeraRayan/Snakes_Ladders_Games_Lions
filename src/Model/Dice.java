@@ -8,6 +8,7 @@ import Model.SysData;
 public class Dice {
 	private Random random;
 	private String difficulty;
+	
 	public Dice(String difficulty) {
 		this.difficulty=difficulty;
 	    this.random = new Random();
