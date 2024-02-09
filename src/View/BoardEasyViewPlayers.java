@@ -343,7 +343,24 @@ public class BoardEasyViewPlayers extends JFrame {
  		    updateBoardView();
  		    displayPlayerPositions();     
 	    }
-	    else {
+	    else if(rollResult==6)
+	    {
+	    	rollResult=0;
+
+		     diceIcon = new ImageIcon(getClass().getResource("/images/dice zero.jpg"));
+
+	    
+	    diceButton.setIcon(diceIcon);
+	    
+	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	    
+	    movePlayer(currentPlayer, rollResult);
+	    updateBoardView();
+	    displayPlayerPositions(); // Update the display of player positions
+	    }
+	    
+	    else 
+	    {
 	      	 System.out.println("rollResult  " + rollResult );
 
 		     diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));

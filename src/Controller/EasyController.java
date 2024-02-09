@@ -28,7 +28,7 @@ public class EasyController {
 
 	public Point boardPositionToPixel(int boardPosition,Player currentPlayer) {
 	    int xDiff = 80; // the horizontal distance between squares
-	    int yDiff = 60; // vertical distance between squares
+	    int yDiff = 75; // vertical distance between squares
 
 	    int row = (boardPosition - 1) / 7;
 	    int col = (boardPosition - 1) % 7;
