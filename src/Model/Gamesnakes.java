@@ -1,10 +1,10 @@
 package Model;
 
-public class BoardSnake {
+public class Gamesnakes {
 	private BoardSquare squareStart;
 	private BoardSquare squareEnd;
 	private Enum<Model.Color> color;
-	public BoardSnake(BoardSquare squares, BoardSquare squares2) {
+	public Gamesnakes(BoardSquare squares, BoardSquare squares2) {
 		super();
 		this.squareStart = squares;
 		this.squareEnd = squares2;
