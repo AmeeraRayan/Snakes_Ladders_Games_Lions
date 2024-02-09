@@ -1,28 +1,19 @@
 package Model;
 
-
+import java.util.Objects;
 
 public class Player {
 	private int playerId;
 	private String name;
 	private Color  color;
 	private int position;
-    private int lastPosition;
 
-	public int getLastPosition() {
-		return lastPosition;
-	}
-
-	public void setLastPosition(int lastPosition) {
-		this.lastPosition = lastPosition;
-	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 	public void setPosition(int newPosition) {
-        this.lastPosition = this.position; // Store the current position as last position
-        this.position = newPosition; // Update position
+        this.position = newPosition; 
     }
 
 	public Player(String name ,Color color) {
@@ -51,6 +42,23 @@ public class Player {
 	}
 	public void setPlayerId(int playerId) {
 		this.playerId = playerId;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		return Objects.equals(name, other.name);
 	}
 	
 }
