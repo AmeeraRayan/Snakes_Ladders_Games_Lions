@@ -115,7 +115,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	      contentPane.add(txtpnHi);
 	      
 		 diceButton = new JButton("");
-		 diceButton.setBounds(920, 360, 150, 145);
+		 diceButton.setBounds(920, 360, 160, 145);
         diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 		contentPane.add(diceButton);
 		
