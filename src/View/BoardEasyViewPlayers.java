@@ -174,7 +174,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	  		lblNewLabel_4.setBounds(50, 350, 250, 40);
 	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
 
-	  		
+	  
+
 		startGame();
 		
 		
@@ -352,7 +353,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    
 	    diceButton.setIcon(diceIcon);
 	    
-	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult +" , so will keep you on place", "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    updateBoardView();
