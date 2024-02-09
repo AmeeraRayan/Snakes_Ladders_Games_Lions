@@ -24,7 +24,7 @@ import Model.Questions;
 import Model.Snake;
 import Model.Square;
 import Model.SysData;
-
+import Controller.EasyController;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -88,12 +88,14 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private EasyController controller; 
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 	
 
 	public BoardEasyViewPlayers(Game game ) {
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
+		this.controller=new EasyController(game);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 810);
 		contentPane = new JPanel();
@@ -281,38 +283,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    contentPane.revalidate();
 	    contentPane.repaint();
 	    
-	    }
-	
-	public Point boardPositionToPixel(int boardPosition) {
-		    int xDiff = 80; // the horizontal distance between squares
-		    int yDiff = 60; // vertical distance between squares
-
-		    int row = (boardPosition - 1) / 7;
-		    int col = (boardPosition - 1) % 7;
-
-		    int x = 0;
-		    int y = 0;
-		    Model.Color color = currentPlayer.getColor();
-		    if (color.equals(Model.Color.BLUE)) {
-		        x = 290;
-		        y = 630;
-		    } else if (color.equals(Model.Color.GREEN)) {
-		        x = 320;
-		        y = 630;
-		    } else if (color.equals(Model.Color.RED)) {
-		        x = 290;
-		        y = 660;
-		    } else if (color.equals(Model.Color.YELLOW)) {
-		        x = 320;
-		        y = 660;
-		    }
-
-
-		    x += col * xDiff;
-		    y -= row * yDiff;
-
-		    return new Point(x, y);
-		}
+	}
 
 	
 
@@ -386,7 +357,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    updateBoardView();
 	    displayPlayerPositions(); // Update the display of player positions
 	    }
-	    if (hasPlayerWon(currentPlayer)) {
+	    if (controller.hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
 	    } else {
 	        advanceToNextPlayer();
@@ -403,10 +374,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    contentPane.repaint();
 	}
 
-	private boolean hasPlayerWon(Player player) {
-	    //int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
-	    return game.getCurrentPlayer().getPosition() == 49;
-	}
 
 	private void rollDiceAndMovePlayer() {
 	    currentPlayer = game.getCurrentPlayer();
@@ -460,8 +427,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	    currentPlayer.setPosition(currentPlayer.getPosition());
 	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
 
-	     startPoint = boardPositionToPixel(newPosition);
-	     endPoint = boardPositionToPixel(currentPlayer.getPosition()); 
+	     startPoint = controller.boardPositionToPixel(newPosition,currentPlayer);
+	     endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer); 
 
 	     playerLabel = getPlayerLabel(currentPlayer);
 	    }else
@@ -471,8 +438,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	 	    currentPlayer.setPosition(newPosition);
 	 	    game.updatePlayerPositionInList(player.getName(),newPosition);
 
-	 	     startPoint = boardPositionToPixel(oldPosition);
-	 	     endPoint = boardPositionToPixel(newPosition); 
+	 	     startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer);
+	 	     endPoint = controller.boardPositionToPixel(newPosition,currentPlayer); 
 
 	 	     playerLabel = getPlayerLabel(currentPlayer);
 	    }
@@ -487,8 +454,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	private void movePlayer(int pos) {
 
 	    
-	    Point startPoint = boardPositionToPixel(pos);
-	    Point endPoint = boardPositionToPixel(currentPlayer.getPosition());
+	    Point startPoint = controller.boardPositionToPixel(pos,currentPlayer);
+	    Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
 
 	    JLabel playerLabel = getPlayerLabel(currentPlayer);
 
@@ -815,23 +782,8 @@ System.out.println(currentPlayer.getPosition());
 	        }
 
 	        // Apply the movement to the player's position
-	        updatePlayerPosition(steps);
+	        controller.updatePlayerPosition(steps,currentPlayer);
 	    }
 
-	    private void updatePlayerPosition(int steps) {
-	        int currentPosition = currentPlayer.getPosition();
-	        int newPosition = currentPosition + steps;
-	        System.out.println("new"+newPosition);
-	        if (newPosition <= 0) {
-	            newPosition = 1; // Prevent moving beyond the start
-	          	 System.out.println("Prevent moving beyond the start ");
-	        }
-
-	        currentPlayer.setPosition(newPosition);
-            game.getCurrentPlayer().setPosition(newPosition);
-    	    currentPlayer.setPosition(newPosition);
-    	    game.updatePlayerPositionInList(currentPlayer.getName(), newPosition);
-    	    
-
-	    }
+	 
 	   }

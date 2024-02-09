@@ -8,7 +8,6 @@ import java.util.Random;
 public class Board {
 	private static Board instance = null;
 	private int size;
-    private Square[][] cells;
     private static Snake[] snakes;
     private static Ladder[] ladders;
     private static Square[] questions;
@@ -122,38 +121,21 @@ public class Board {
 		this.size = size;
 	}
 
-	public Square[][] getCells() {
-		return cells;
-	}
-
-	public void setCells(Square[][] cells) {
-		this.cells = cells;
-	}
-
 	public Snake[] getSnakes() {
 		return snakes;
-	}
-
-	public void setSnakes(Snake[] snakes) {
-		this.snakes = snakes;
 	}
 
 	public Ladder[] getLadders() {
 		return ladders;
 	}
 
-	public void setLadders(Ladder[] ladders) {
-		this.ladders = ladders;
-	}
+	
 
 	public Square[] getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Square[] questions) {
-		this.questions = questions;
-	}
-
+	
 
 
 
