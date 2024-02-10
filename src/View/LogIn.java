@@ -65,39 +65,36 @@ public class LogIn extends JFrame implements ActionListener{
         
     }
     
-    @Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==btnNewButton) {
-		// TODO Auto-generated method stub
-		try {		
-        String entereduserName = txtuser.getText();
-        String enteredPassword = passwordField.getText();
-        if(entereduserName.equals("") || enteredPassword.equals("")) {
-			throw new NullPointerException("return value is null!");
-		}
-        if (mangQuestionControl.validateAdminCredentials(entereduserName, enteredPassword)) {
-            JOptionPane.showMessageDialog(null, "Login successful! Redirecting to admin page...");
-            frame.setVisible(false);
-         // Create an instance of QuestionManagment and display its frame
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        QuestionManagment questionManagement = new QuestionManagment();
-                        questionManagement.frame.setVisible(true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid email or password. Please try again.");
+    public boolean validateLogin(String enteredUserName, String enteredPassword) {
+        if(enteredUserName == null || enteredPassword == null) {
+            throw new NullPointerException("Username or password is null.");
         }
-		} catch(NullPointerException e1 ){
-			JOptionPane.showMessageDialog(null, e1.getMessage());
-		}
-        
+         return mangQuestionControl.validateAdminCredentials(enteredUserName, enteredPassword);
     }
- }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnNewButton) {
+            String enteredUserName = txtuser.getText();
+            String enteredPassword = new String(passwordField.getPassword()); // Use getPassword() for JPasswordField
+            try {
+                if (validateLogin(enteredUserName, enteredPassword)) {
+                    // Login successful
+                    JOptionPane.showMessageDialog(null, "Login successful! Redirecting to admin page...");
+                    this.frame.setVisible(false);
+                    QuestionManagment questionManagement = new QuestionManagment();
+                    questionManagement.frame.setVisible(true); 
+                    
+                } else {
+                    // Login failed
+                    JOptionPane.showMessageDialog(null, "Invalid email or password. Please try again.");
+                }
+            } catch(NullPointerException e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage());
+            }
+        }
+    }
+
 
     public void showLoginScreen() {
         frame.setVisible(true);
