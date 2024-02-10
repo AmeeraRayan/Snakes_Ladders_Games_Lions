@@ -8,6 +8,7 @@ import java.util.Random;
 public class Board {
 	private static Board instance = null;
 	private int size;
+    private Square[][] cells;
     private static Snake[] snakes;
     private static Ladder[] ladders;
     private static Square[] questions;
@@ -27,10 +28,12 @@ public class Board {
             this.questions=new Square[3];
             }
         else if (size==10) {
+        	this.cells = new Square[10][10];
             this.snakes = new Snake[6];
             this.ladders = new Ladder[6];
             //initializeSnakesAndLaddersForMedium();
         }else {
+        	this.cells = new Square[13][13];
             this.snakes = new Snake[8];
             this.ladders = new Ladder[8];
            // initializeSnakesAndLaddersForHard();
@@ -38,7 +41,6 @@ public class Board {
     }
     
     
-
 	public static void initializeSnakesAndLaddersForEasy1() {//easybord1
 	    // Initialize 4 snakes	
 	   snakes[0] = new Snake(new Square(5, 3, 45),new Square(6, 0, 1));//RED
@@ -74,8 +76,7 @@ public class Board {
 
 }
 	
- 
-    	public static void initializeSnakesAndLaddersForEasy() {//boradeasy2
+   public static void initializeSnakesAndLaddersForEasy() {//boradeasy2
     	    // Initialize 4 snakes
     	   snakes[0] = new Snake(new Square(0, 2, 45),new Square(6, 0, 1));//RED
     	    snakes[1] = new Snake(new Square(4, 6, 21  ),new Square(6, 5, 6 ));//GREEN
@@ -120,10 +121,16 @@ public class Board {
 	public Square[] getQuestions() {
 		return questions;
 	}
+	
+	public Square[][] getCells() {
+		return cells;
+	}
 
+	public void setCells(Square[][] cells) {
+		this.cells = cells;
+	}
 	@Override
 	public String toString() {
 		return "Board [size=" + size + "]";
 	}
-
 }

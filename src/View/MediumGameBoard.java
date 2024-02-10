@@ -272,7 +272,7 @@ public class MediumGameBoard extends JFrame {
             ladderLabel.setBounds(boundX, boundY, width, height);
             Square startSquare = findStartSquare_ladder(squares[i][j], num);
             Square endSquare = findEndSquare_ladder(squares[i][j], length, num, width);
-            // Check if the start or end of the new ladder coincides with any existing ladder
+            // Check if the start or end of the new ladder coincides with any existing ladder 
              coincide = isLadderCoincide(i,j); 
              conflictedWithSnake =isLadderStartSquareCoincideWithSnakes(startSquare);
             if (coincide || conflictedWithSnake || isQuestionSquare(i,j)) {
@@ -390,11 +390,11 @@ public class MediumGameBoard extends JFrame {
  // Method to check if the start or end of the new ladder coincides with any existing ladder
     private boolean isLadderCoincide(int i, int j) {
         // Check if the start or end coincides with any existing ladder
-        for (Ladder ladder : ladders) {           
+        for (Ladder ladder : ladders) {
                 if (ladder!=null && ladder.getSquareStart().getRow() == i && ladder.getSquareStart().getCol() == j) {
                     return true; // If the start or end coincides with an existing ladder, return true
                 }
-        }
+        	}
         return false;
     }
     
@@ -452,39 +452,39 @@ public class MediumGameBoard extends JFrame {
     	  for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares[i].length; j++) {
             if(number == 1) {
-              if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+ 55 &&squares[i][j].getBoundsY() == startSquare.getBoundsX()+ 55) {
+              if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+55 &&squares[i][j].getBoundsY() == startSquare.getBoundsY()+ 55) {
             	  System.out.println(squares[i][j].getValue()+ " start ladder"+number);
             	  return squares[i][j];
               }
             }
             if(number == 2) {
-            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+55 &&squares[i][j].getBoundsY() == startSquare.getBoundsX()+110) {
+            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+55 &&squares[i][j].getBoundsY() == startSquare.getBoundsY()+110) {
               	  System.out.println(squares[i][j].getValue()+ " start ladder"+number);
               	  return squares[i][j];
                 }
             	
             }
             if(number == 3) {
-            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-165 == startSquare.getBoundsX()) {
+            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-165 == startSquare.getBoundsY()) {
               	  System.out.println(squares[i][j].getValue()+"start ladder "+number);
               	  return squares[i][j];
                 }
             	
             }
             if(number == 4) {
-            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-220 == startSquare.getBoundsX()) {
+            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-220 == startSquare.getBoundsY()) {
                 	  System.out.println(squares[i][j].getValue()+ "start ladder"+number);
                 	  return squares[i][j];
                   }
             }
             if(number == 5) {
-            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-275 == startSquare.getBoundsX()) {
+            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX() &&squares[i][j].getBoundsY()-275 == startSquare.getBoundsY()) {
                 	  System.out.println(squares[i][j].getValue()+ "start ladder"+number);
                 	  return squares[i][j];
                   }
             }
             if(number == 6) {
-            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+110 &&squares[i][j].getBoundsY()-330 == startSquare.getBoundsX()) {
+            	if(squares[i][j].getBoundsX() == startSquare.getBoundsX()+110 &&squares[i][j].getBoundsY()-330 == startSquare.getBoundsY()) {
                 	  System.out.println(squares[i][j].getValue()+ "start ladder"+number);
                 	  return squares[i][j];
                   }

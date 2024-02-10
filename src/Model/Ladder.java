@@ -4,10 +4,10 @@ public class Ladder {
 	private Square squareStart;
 	private Square squareEnd;
 	
-	public Ladder(Square squareStart, Square squareEnd) {
+	public Ladder(Square startSquare, Square enSquare) {
 		super();
-		this.squareStart = squareStart;
-		this.squareEnd = squareEnd;
+		this.squareStart = startSquare;
+		this.squareEnd = enSquare;
 	}
 	public Square getSquareStart() {
 		return squareStart;
@@ -21,5 +21,9 @@ public class Ladder {
 	public void setSquareEnd(Square squareEnd) {
 		this.squareEnd = squareEnd;
 	}
-
+	@Override
+	public String toString() {
+		return "Ladder [squareStart=" + squareStart + ", squareEnd=" + squareEnd + "]";
+	}
+	
 }
