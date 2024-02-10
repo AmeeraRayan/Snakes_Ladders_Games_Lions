@@ -95,11 +95,12 @@ public class MediumGameBoard extends JFrame {
         setVisible(true);
     }
     private void initializeBoard(JPanel panel, JPanel outerPanel) {
-        int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels        
+        int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
         for(int i = 0; i < GRID_SIZE; i++) {
             for(int j = 0; j < GRID_SIZE; j++) {
                 int cellNumber = i * GRID_SIZE + (i % 2 == 0 ? j : GRID_SIZE - 1 - j);
                 cellNumber = GRID_SIZE * GRID_SIZE - cellNumber;
+               
                 
                 JPanel cell = new JPanel(new BorderLayout());
                 cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -118,9 +119,9 @@ public class MediumGameBoard extends JFrame {
                 panel.add(cell);
                 
                 // Calculate the bounds for each label
-                int x = j * cellSize + panel.getBounds().x + 224; // Adjust for the actual position of the panel
-                int y = i * cellSize + panel.getBounds().y + 118;
-                squares[i][j] = new BoardSquare(Math.abs(i-9), j, SquareType.NORMAL, x, y, cellNumber);
+                int x = j * cellSize + panel.getBounds().x +224; // Adjust for the actual position of the panel
+                int y = i * cellSize + panel.getBounds().y +118;
+                squares[i][j] = new BoardSquare(i, j, SquareType.NORMAL, x, y, cellNumber);
                 boardlabels[i][j] = label; 
                 
                  System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
@@ -196,13 +197,12 @@ public class MediumGameBoard extends JFrame {
         do {
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
-        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100));
-        System.out.println("index i :" + i + " index j " + j + " "+squares[i][j].getValue());
+            System.out.println(i+" returned value for yellow");
+        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100));       
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 100, 100);// Yellow
-        System.out.println("X"+squares[i][j].getboundsX()+"y"+ squares[i][j].getboundsY());
-        System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow());
+        System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
         BoardSquare EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Gamesnakes yellowSnake = new Gamesnakes(squares[i][j], EndSquare);
         snakes[2] = yellowSnake;
@@ -213,15 +213,15 @@ public class MediumGameBoard extends JFrame {
     private void setBlueSnakes(JPanel panel) {
         int i, j;
         do {
-            j = generateRandomNumber_I(Color.BLUE); // Blue snakes
-            i = generateRandomNumber_J(Color.BLUE);
-            System.out.println("index i :" + i + " index j " + j + " "+squares[i][j].getValue());
-        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100) || 31>squares[i][j].getValue() );
+            i = generateRandomNumber_I(Color.BLUE); // Blue snakes
+            j = generateRandomNumber_J(Color.BLUE);
+            System.out.println(i+" returned value for blue ");
+        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100) );
 
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getboundsX() - 110, squares[i][j].getboundsY() + 15, 140, 170);// BLUE
         BoardSquare EndSquare = findSquare(squares[i][j], Color.BLUE);
-        System.out.println(squares[i][j].getValue()+"start blue"+squares[i][j]);
+        System.out.println(squares[i][j].getValue()+"start blue"+" row="+squares[i][j].getRow()+ "i="+i);
         Gamesnakes BlueSnake1 = new Gamesnakes(squares[i][j], EndSquare);
         snakes[3] = BlueSnake1;
         labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/SnakeBlueRight.png")));
@@ -231,23 +231,25 @@ public class MediumGameBoard extends JFrame {
     
     private void setGreenSnakes(JPanel panel) {
         int i1, j1,i2,j2;
-        do {
+      
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
+            System.out.println(i1+"returned value i for green1");
             j1 = generateRandomNumber_J(Color.GREEN);
-        } while ((squares[i1][j1].getValue() == 1 && squares[i1][j1].getValue() ==100));
         
-        do {
+        
+     
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
+            System.out.println(i2 +"returned values for green 2");
             j2 = generateRandomNumber_J(Color.GREEN);
-        } while ((squares[i2][j2].getValue() == 1 && squares[i2][j2].getValue() ==100));
+     
         
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
         label1.setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY() + 15, 170, 140);// Green
         label2.setBounds(squares[i2][j2].getboundsX(), squares[i2][j2].getboundsY() + 15, 170, 140);// Green
-        System.out.println(squares[i1][j1].getValue() + "start Green1");
+        System.out.println(squares[i1][j1].getValue() + "start Green1"+" i="+squares[i1][j1].getRow());
         BoardSquare EndSquare1 = findSquare(squares[i1][j1], Color.GREEN);
-        System.out.println(squares[i2][j2].getValue() + "start Green2");
+        System.out.println(squares[i2][j2].getValue() + "start Green2"+" i="+squares[i2][j2].getRow());
         BoardSquare EndSquare2 = findSquare(squares[i2][j2], Color.GREEN);
         Gamesnakes GreenSnake1 = new Gamesnakes(squares[i1][j1], EndSquare1);
         Gamesnakes GreenSnake2 = new Gamesnakes(squares[i2][j2], EndSquare2);
@@ -380,25 +382,26 @@ public class MediumGameBoard extends JFrame {
     
     private static int generateRandomNumber_I(Color color) { //..-9
         Random random = new Random();
-        int num_i;
+        int num_i = 0;
         if(color == Color.GREEN ) { 
-             num_i = random.nextInt(8)+2; //2-9
+             num_i = random.nextInt(8); //0-7
+             System.out.println(num_i+"random i in func");
         }
         if(color == Color.BLUE ){ 
-            num_i = random.nextInt(7)+3; //3-9
+            num_i = random.nextInt(7); //0-6
+            System.out.println(num_i+"random i in func blue");
         }
         if(color == Color.YELLOW ){ 
-        	num_i = random.nextInt(9)+1;//1-9
+        	num_i = random.nextInt(9);//0-8
+        	System.out.println(num_i+"random i in func");
         }
-        else {
-             num_i = random.nextInt(10); //0-9
-        }
+       
         return num_i; 
     }
     
     private static int generateRandomNumber_J(Color color) { //..-9
         Random random = new Random();
-        int num_j;
+        int num_j = 0;
         if(color == Color.GREEN ) { 
              num_j = random.nextInt(9);  //0-8
         }
@@ -408,9 +411,7 @@ public class MediumGameBoard extends JFrame {
         if(color == Color.YELLOW ){ 
             num_j = random.nextInt(9); //0-8
         }
-        else {
-            num_j = random.nextInt(10); //0-9
-        }
+        
         return num_j; 
     }
     
