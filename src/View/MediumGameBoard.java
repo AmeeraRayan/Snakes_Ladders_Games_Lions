@@ -124,16 +124,16 @@ public class MediumGameBoard extends JFrame {
                 squares[i][j] = new BoardSquare(i, j, SquareType.NORMAL, x, y, cellNumber);
                 boardlabels[i][j] = label; 
                 
-                 System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
+                 //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
             }
         }
 
-        //setladder1(outerPanel);
-        //setladder2(outerPanel);
-        //setladder3(outerPanel);
-        //setladder4(outerPanel);
-        //setladder5(outerPanel);
-        //setladder6(outerPanel);
+        setladder1(outerPanel);
+        setladder2(outerPanel);
+        setladder3(outerPanel);
+        setladder4(outerPanel);
+        setladder5(outerPanel);
+        setladder6(outerPanel);
         setRedSnakes(outerPanel);
         setYellowSnake(outerPanel);
         setBlueSnakes(outerPanel);
@@ -261,7 +261,7 @@ public class MediumGameBoard extends JFrame {
         panel.add(label2);
     }
     
-    private void uniqueSquares(){
+    /*private void uniqueSquares(){
     	int easyI , easyJ,hardI,hardJ, mediumI, mediumJ;
         do {
             easyI = generateRandomNumber_I(Color.WHITE); // Green snakes
@@ -269,25 +269,24 @@ public class MediumGameBoard extends JFrame {
         } while ((squares[easyI][easyJ].getValue() == 1 || squares[easyI][easyJ].getValue() ==100));
         System.out.println("Easy " + squares[easyI][easyI].getValue());
         boardlabels[easyI][easyI].setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark .png")));
-    }
+    }*/
         
        
     private void setLadders(JPanel panel, int num, int random_i, int random_j, int boundX, int boundY, String imagePath, int width, int height) {
         int i, j, length = 0;
-        boolean ladderOverlap,coincide;
+        boolean coincide;
         List<JLabel> ladderLabels = new ArrayList<>();
         
         do {
             i = random_i;
             j = random_j;
-
             JLabel ladderLabel = new JLabel();
             ladderLabels.add(ladderLabel);
             ladderLabel.setBounds(boundX, boundY, width, height);
             BoardSquare startSquare = findStartSquare_ladder(squares[i][j], num);
             BoardSquare endSquare = findEndSquare_ladder(squares[i][j], length, num, width);
             // Check if the start or end of the new ladder coincides with any existing ladder
-             coincide = isLadderCoincide(startSquare.getRow(), startSquare.getCol(), endSquare.getRow(), endSquare.getCol());           
+             coincide = isLadderCoincide(i,j);           
             if (coincide) {
                 // If coincidence found, set a new random position for the ladder
                 switch (num) {
@@ -313,11 +312,10 @@ public class MediumGameBoard extends JFrame {
                 return; // Exit the function to prevent setting the ladder again after finding a non-overlapping position
             }           
             // Print endSquare value and create ladder
-            System.out.println(endSquare.getValue() + "end ladder" + num);
+            System.out.println(endSquare.getValue() + "end ladder" + num +"i= "+random_i);
             GameLadder ladder = new GameLadder(startSquare, endSquare);
             ladders[length] = ladder;
-            length++;
-            
+            length++;            
             // Use the provided image path
             ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource(imagePath)));
             panel.add(ladderLabel);
@@ -325,35 +323,35 @@ public class MediumGameBoard extends JFrame {
     }
 
     private void setladder1(JPanel panel) {
-    	int i = rand.nextInt(9);
-    	int j = rand.nextInt(9);
+    	int i = rand.nextInt(9); //0-8
+    	int j = rand.nextInt(9); //0-8
     	setLadders(panel,1,i, j,squares[i][j].getboundsX(),squares[i][j].getboundsY(), "/images/ladder.png",110,110);
     }
     
     private void setladder2(JPanel panel) {
-    	int i = rand.nextInt(8);
-    	int j = rand.nextInt(8);
+    	int i = rand.nextInt(8);//0-7
+    	int j = rand.nextInt(9);//0-8
     	setLadders(panel,2, i, j,squares[i][j].getboundsX()-10, squares[i][j].getboundsY(), "/images/ladder2.png",110,165);
     }
     
     private void setladder3(JPanel panel) {
-    	int i = rand.nextInt(7)+1;
-    	int j = rand.nextInt(8);
+    	int i = rand.nextInt(7);//0-6
+    	int j = rand.nextInt(10);//0-9
     	setLadders(panel,3, i, j, squares[i][j].getboundsX()-20,squares[i][j].getboundsY()+25, "/images/ladder3.png",55,160);
     }
     private void setladder4(JPanel panel) {
-    	int i = rand.nextInt(6)+1; //1 to 7
+    	int i = rand.nextInt(6); //0-5
         int j = rand.nextInt(8)+1; //1 to 9
     	setLadders(panel,4 , i, j, squares[i][j].getboundsX()-10,squares[i][j].getboundsY(), "/images/ladder4.png",115,275);
     }
     private void setladder5(JPanel panel) {
-    	int i = rand.nextInt(4)+1; //1 to 5
-    	int j = rand.nextInt(7)+1; //1 to 9
+    	int i = rand.nextInt(5); //0-4
+    	int j = rand.nextInt(8); //0-7
     	setLadders(panel,5 ,i ,j ,squares[i][j].getboundsX()-10,squares[i][j].getboundsY(),"/images/ladder5.png" ,165,330);
     }
     private void setladder6(JPanel panel) {
-		 int i = rand.nextInt(4); //row form 0 to 4 
-		 int j = rand.nextInt(7)+2;//column from 2 to 9 
+		 int i = rand.nextInt(4);//0-3
+		 int j = rand.nextInt(8);//0-7
 		 setLadders(panel,6, i, j,squares[i][j].getboundsX()-15, squares[i][j].getboundsY(),"/images/ladder6.png",165,385);
 	}
     
@@ -427,15 +425,12 @@ public class MediumGameBoard extends JFrame {
     }
     
  // Method to check if the start or end of the new ladder coincides with any existing ladder
-    private boolean isLadderCoincide(int startRow, int startCol, int endRow, int endCol) {
+    private boolean isLadderCoincide(int i, int j) {
         // Check if the start or end coincides with any existing ladder
-        for (GameLadder ladder : ladders) {
-            if (ladder != null) {
-                if ((ladder.getStartSquare().getRow() == startRow && ladder.getStartSquare().getCol() == startCol)
-                    || (ladder.getEndSquare().getRow() == endRow && ladder.getEndSquare().getCol() == endCol)) {
+        for (GameLadder ladder : ladders) {           
+                if (ladder!=null && ladder.getStartSquare().getRow() == i && ladder.getStartSquare().getCol() == j) {
                     return true; // If the start or end coincides with an existing ladder, return true
                 }
-            }
         }
         return false;
     }
