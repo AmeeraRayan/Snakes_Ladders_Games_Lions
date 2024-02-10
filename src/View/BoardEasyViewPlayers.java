@@ -173,8 +173,23 @@ public class BoardEasyViewPlayers extends JFrame {
 	  		lblNewLabel_4 = new JLabel("");
 	  		lblNewLabel_4.setBounds(50, 350, 250, 40);
 	  		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
-
 	  		
+	  		JButton btnNewButtonBack = new JButton("Back");
+	  		btnNewButtonBack.setFont(new Font("David", Font.BOLD, 24)); // Set the font
+	  		btnNewButtonBack.setForeground(Color.WHITE); // Set the text color
+	  		btnNewButtonBack.setBackground(new Color(40, 120, 45)); 
+	  		btnNewButtonBack.setBorder(BorderFactory.createRaisedBevelBorder()); 
+	  		btnNewButtonBack.setFocusPainted(false); // 
+	  		btnNewButtonBack.addActionListener(new ActionListener() {
+	  		    public void actionPerformed(ActionEvent e) {
+	  		        BoardEasyViewPlayers.this.setVisible(false);
+	  		        new DataReception().setVisible(true);
+	  		    }
+	  		});
+	  		btnNewButtonBack.setBounds(45, 700, 160, 50);
+	  		contentPane.add(btnNewButtonBack);
+
+
 		startGame();
 		
 		
@@ -352,7 +367,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    
 	    diceButton.setIcon(diceIcon);
 	    
-	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult +" , so will keep you on place", "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    updateBoardView();
@@ -372,7 +387,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    
 	    movePlayer(currentPlayer, rollResult);
 	    updateBoardView();
-	    displayPlayerPositions(); // Update the display of player positions
+	    displayPlayerPositions();
 	    }
 	    if (controller.hasPlayerWon(currentPlayer)) {
 	        endGame(currentPlayer);
@@ -464,6 +479,73 @@ public class BoardEasyViewPlayers extends JFrame {
 		    animateMovement(playerLabel, startPoint, endPoint);
 	    }
 	   
+
+	}	private void movePlayer1(Player player, int roll) {
+	    int oldPosition = currentPlayer.getPosition();
+	    int newPosition = oldPosition + roll;
+	    JLabel playerLabel =null;
+	    Point startPoint=null;
+	    Point endPoint =null;
+	    // Ensure the player does not go past the last square
+	    if (newPosition > totalSquaresOnBoard) {
+	        newPosition = totalSquaresOnBoard;
+	    }
+	    boolean temp=false;
+	    temp=checkForSnakesAndLadders1(newPosition);
+	   
+	    if(temp==true)
+	    { player.setPosition(currentPlayer.getPosition());
+	    game.getCurrentPlayer().setPosition(currentPlayer.getPosition());
+	    currentPlayer.setPosition(currentPlayer.getPosition());
+	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
+
+	     startPoint = controller.boardPositionToPixel(newPosition,currentPlayer);
+	     endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer); 
+
+	     playerLabel = getPlayerLabel(currentPlayer);
+	    }else
+	    {
+	    	 player.setPosition(newPosition);
+	 	    game.getCurrentPlayer().setPosition(newPosition);
+	 	    currentPlayer.setPosition(newPosition);
+	 	    game.updatePlayerPositionInList(player.getName(),newPosition);
+
+	 	     startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer);
+	 	     endPoint = controller.boardPositionToPixel(newPosition,currentPlayer); 
+
+	 	     playerLabel = getPlayerLabel(currentPlayer);
+	    }
+	    	if (playerLabel != null) {
+		    animateMovement(playerLabel, startPoint, endPoint);
+	    }
+	   
+
+	}
+	private boolean checkForSnakesAndLadders1(int pos)
+	{
+		int lastpos=pos;
+        for (Snake snake : game.getBoard().getSnakes()) {
+            if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
+	            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+	    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+	            showSnakePopup(lastpos); 
+                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
+                return true;
+            }
+        }
+
+        for (Ladder ladder : game.getBoard().getLadders()) {
+            if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
+	            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+                showLadderPopup(lastpos); 
+                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
+                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
+                return true;
+            }
+        }
+        return false;
 
 	}
 
@@ -563,7 +645,10 @@ System.out.println(currentPlayer.getPosition());
 	    	        SysData.putQuestions(questionsPOPUP);
 	    	        quesTemp= SysData.getQuestionForPosition(pos);
 	    	        System.out.println(quesTemp);
+	    	        currentPlayer.setPosition(pos);
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 	    	        showEditQuestionDialog(pos);
+	    	        movePlayer1(currentPlayer,0);
 	                return true;
 
 	            }
@@ -588,7 +673,7 @@ System.out.println(currentPlayer.getPosition());
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos =  new Point(290,630); 
+	        Point bluePlayerStartPos =  new Point(295,630); 
 	        Point greenPlayerStartPos = new Point(320,630); 
 	        Point redPlayerStartPos = new Point(290,660); 
 	        Point yellowPlayerStartPos = new Point(320,660); 
@@ -735,8 +820,7 @@ System.out.println(currentPlayer.getPosition());
 
 	    private void handleAnswer(int selectedAnswer ) {
 	    	boolean isCorrectAnswer=true;
-	       
-	        
+	   
 	        if(selectedAnswer == this.quesTemp.getCorrectOption()) {
 	            JOptionPane.showMessageDialog(this, "Congratsss! It's a correct Answer!");
 	            if(this.quesTemp.getDiffculty()==1)
