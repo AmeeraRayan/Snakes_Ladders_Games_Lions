@@ -41,7 +41,7 @@ public class MediumGameBoard extends JFrame {
     private Dice dice = new Dice("medium"); 
     private Gamesnakes[] snakes = new Gamesnakes[6];
     private GameLadder[] ladders = new GameLadder[6];
-    private BoardSquare[] quaestionSquares = new BoardSquare[3];
+    private BoardSquare[] quastionSquares = new BoardSquare[3];
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     public MediumGameBoard() {
@@ -121,7 +121,7 @@ public class MediumGameBoard extends JFrame {
                     label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
                     label.setText(""); // Set empty string for text
                     squares[i][j] = new BoardSquare(i, j, SquareType.QUESTION, x, y, cellNumber);
-                    quaestionSquares[count] = squares[i][j];
+                    quastionSquares[count] = squares[i][j];
                     count++;
                 } else {
                     squares[i][j] = new BoardSquare(i, j, SquareType.NORMAL, x, y, cellNumber);
@@ -168,13 +168,13 @@ public class MediumGameBoard extends JFrame {
         do {
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
-        } while(isSnakeStartSquareTaken(i1, j1));
+        } while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));
 
         // Place the second red snake
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
-        } while (isSnakeStartSquareTaken(i2, j2) || (i2 == i1 && j2 == j1));
+        } while (isSnakeStartSquareTaken(i2, j2) || isQuestionSquare(i2,j2) || (i2 == i1 && j2 == j1));
 
         JLabel label_1 = new JLabel();
 		label_1 .setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY(), 55, 55);
@@ -200,7 +200,7 @@ public class MediumGameBoard extends JFrame {
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
             System.out.println(i+" returned value for yellow");
-        } while(isSnakeStartSquareTaken(i, j));       
+        } while(isSnakeStartSquareTaken(i, j) || isQuestionSquare(i,j));       
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 100, 100);// Yellow
@@ -218,7 +218,7 @@ public class MediumGameBoard extends JFrame {
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
             System.out.println(i+" returned value for blue ");
-        } while(isSnakeStartSquareTaken(i, j));
+        } while(isSnakeStartSquareTaken(i, j) || isQuestionSquare(i,j));
 
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getboundsX() - 110, squares[i][j].getboundsY() + 15, 140, 170);// BLUE
@@ -237,13 +237,13 @@ public class MediumGameBoard extends JFrame {
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i1+"returned value i for green1");
             j1 = generateRandomNumber_J(Color.GREEN);
-        }while(isSnakeStartSquareTaken(i1, j1));
+        }while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));
         
         do {             
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i2 +"returned values for green 2");
             j2 = generateRandomNumber_J(Color.GREEN);
-        }while(isSnakeStartSquareTaken(i2, j2) || (i2 == i1 && j2 == j1) );
+        }while(isSnakeStartSquareTaken(i2, j2) || isQuestionSquare(i2,j2) || (i2 == i1 && j2 == j1) );
              
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -276,7 +276,7 @@ public class MediumGameBoard extends JFrame {
             // Check if the start or end of the new ladder coincides with any existing ladder
              coincide = isLadderCoincide(i,j); 
              conflictedWithSnake =isLadderStartSquareCoincideWithSnakes(startSquare);
-            if (coincide || conflictedWithSnake) {
+            if (coincide || conflictedWithSnake || isQuestionSquare(i,j)) {
                 // If coincidence found, set a new random position for the ladder
                 switch (num) {
                     case 1:
@@ -407,6 +407,16 @@ public class MediumGameBoard extends JFrame {
             }
         }
         return false;
+    }
+    
+ // Function to check if a given position coincides with question squares
+    private boolean isQuestionSquare(int i, int j) {
+        for (BoardSquare questionSquare : quastionSquares) {
+            if (questionSquare != null && questionSquare.getRow() == i && questionSquare.getCol() == j) {
+                return true;
+            }
+        }
+        return false; // No coincidence found
     }
 
     
