@@ -167,13 +167,13 @@ public class MediumGameBoard extends JFrame {
         do {
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
-        } while ((squares[i1][j1].getValue() == 1 && squares[i1][j1].getValue() == 100));
+        } while(isSnakeStartSquareTaken(i1, j1));
 
         // Place the second red snake
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
-        } while ((squares[i2][j2].getValue() == 1 && squares[i2][j2].getValue() == 100));
+        } while (isSnakeStartSquareTaken(i2, j2) || (i2 == i1 && j2 == j1));
 
         label_1.setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY(), 55, 55);
         Gamesnakes redSnake1 = new Gamesnakes(squares[i1][j1], squares[9][0]);
@@ -198,7 +198,7 @@ public class MediumGameBoard extends JFrame {
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
             System.out.println(i+" returned value for yellow");
-        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100));       
+        } while(isSnakeStartSquareTaken(i, j));       
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getboundsX(), squares[i][j].getboundsY(), 100, 100);// Yellow
@@ -216,7 +216,7 @@ public class MediumGameBoard extends JFrame {
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
             System.out.println(i+" returned value for blue ");
-        } while ((squares[i][j].getValue() == 1 && squares[i][j].getValue() ==100) );
+        } while(isSnakeStartSquareTaken(i, j));
 
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getboundsX() - 110, squares[i][j].getboundsY() + 15, 140, 170);// BLUE
@@ -231,18 +231,18 @@ public class MediumGameBoard extends JFrame {
     
     private void setGreenSnakes(JPanel panel) {
         int i1, j1,i2,j2;
-      
+        do {
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i1+"returned value i for green1");
             j1 = generateRandomNumber_J(Color.GREEN);
+        }while(isSnakeStartSquareTaken(i1, j1));
         
-        
-     
+        do {             
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i2 +"returned values for green 2");
             j2 = generateRandomNumber_J(Color.GREEN);
-     
-        
+        }while(isSnakeStartSquareTaken(i2, j2) || (i2 == i1 && j2 == j1) );
+             
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
         label1.setBounds(squares[i1][j1].getboundsX(), squares[i1][j1].getboundsY() + 15, 170, 140);// Green
@@ -416,7 +416,16 @@ public class MediumGameBoard extends JFrame {
     }
     
       
-
+ // Function to check if the start square is taken by another snake
+    private boolean isSnakeStartSquareTaken(int i, int j) {
+        for (Gamesnakes snake : snakes) {
+            if (snake != null && snake.getSquareStart().getRow() == i && snake.getSquareStart().getCol() == j) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
  // Method to check if the start or end of the new ladder coincides with any existing ladder
     private boolean isLadderCoincide(int startRow, int startCol, int endRow, int endCol) {
         // Check if the start or end coincides with any existing ladder
