@@ -274,20 +274,18 @@ public class MediumGameBoard extends JFrame {
        
     private void setLadders(JPanel panel, int num, int random_i, int random_j, int boundX, int boundY, String imagePath, int width, int height) {
         int i, j, length = 0;
-        boolean coincide;
-        List<JLabel> ladderLabels = new ArrayList<>();
-        
+        boolean coincide,conflictedWithSnake;        
         do {
             i = random_i;
             j = random_j;
             JLabel ladderLabel = new JLabel();
-            ladderLabels.add(ladderLabel);
             ladderLabel.setBounds(boundX, boundY, width, height);
             BoardSquare startSquare = findStartSquare_ladder(squares[i][j], num);
             BoardSquare endSquare = findEndSquare_ladder(squares[i][j], length, num, width);
             // Check if the start or end of the new ladder coincides with any existing ladder
-             coincide = isLadderCoincide(i,j);           
-            if (coincide) {
+             coincide = isLadderCoincide(i,j); 
+             conflictedWithSnake =isLadderStartSquareCoincideWithSnakes(startSquare);
+            if (coincide || conflictedWithSnake) {
                 // If coincidence found, set a new random position for the ladder
                 switch (num) {
                     case 1:
@@ -311,15 +309,13 @@ public class MediumGameBoard extends JFrame {
                 }
                 return; // Exit the function to prevent setting the ladder again after finding a non-overlapping position
             }           
-            // Print endSquare value and create ladder
             System.out.println(endSquare.getValue() + "end ladder" + num +"i= "+random_i);
             GameLadder ladder = new GameLadder(startSquare, endSquare);
             ladders[length] = ladder;
             length++;            
-            // Use the provided image path
             ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource(imagePath)));
             panel.add(ladderLabel);
-        } while ( coincide);
+        } while (coincide || conflictedWithSnake);
     }
 
     private void setladder1(JPanel panel) {
@@ -434,6 +430,17 @@ public class MediumGameBoard extends JFrame {
         }
         return false;
     }
+    
+ // Function to check if a ladder's start square coincides with any of the snake's start squares
+    private boolean isLadderStartSquareCoincideWithSnakes(BoardSquare ladderStartSquare) {
+        for (Gamesnakes snake : snakes) {
+            if (snake != null && snake.getSquareStart().equals(ladderStartSquare)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     
     private BoardSquare findSquare(BoardSquare StartSquare,Color color) {
     	  for (int i = 0; i < squares.length; i++) {
