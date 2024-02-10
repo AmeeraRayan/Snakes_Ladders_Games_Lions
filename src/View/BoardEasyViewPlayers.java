@@ -206,6 +206,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		startGameTimer(); 
 
 	}
+<<<<<<< Updated upstream
 
 	public void initializeBoard() {
 		// Randomly select a board configuration
@@ -232,6 +233,35 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 		contentPane.add(lblNewLabel);
 
+=======
+	
+	public void initializeBoard() {
+	    // Randomly select a board configuration
+	    lblNewLabel = new JLabel("");
+	    lblNewLabel.setForeground(new Color(0, 0, 0));
+  		lblNewLabel.setBounds(10, 10, 1095, 772);
+	    // Call the corresponding initialization method
+	    switch (3) {
+	        case 1:
+	            Board.initializeSnakesAndLaddersForEasy1();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
+	            path= new String("board1");
+	            break;
+	        case 2:
+	            Board.initializeSnakesAndLaddersForEasy();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
+	            path= new String("board2");
+	            break;
+	        case 3:
+
+	            Board.initializeSnakesAndLaddersForEasy3();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
+	            path= new String("board3");
+	            break;
+	    }
+  		contentPane.add(lblNewLabel);
+ 
+>>>>>>> Stashed changes
 	}
 	private void startGameTimer() {
 		startTime = System.currentTimeMillis();
@@ -439,6 +469,28 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public void movePlayer(Player player, int roll) {
+	    int oldPosition = currentPlayer.getPosition();
+	    int newPosition = oldPosition + roll;
+	    JLabel playerLabel =null;
+	    Point startPoint=null;
+	    Point endPoint =null;
+	    // Ensure the player does not go past the last square
+	    if (newPosition > totalSquaresOnBoard) {
+	        newPosition = totalSquaresOnBoard;
+	    }
+	    boolean temp=false;
+	    temp=checkForSnakesAndLadders(newPosition);
+	   
+	    if(temp==true)
+	    { player.setPosition(currentPlayer.getPosition());
+	    game.getCurrentPlayer().setPosition(currentPlayer.getPosition());
+	    currentPlayer.setPosition(currentPlayer.getPosition());
+	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
+>>>>>>> Stashed changes
 
 	public void movePlayer(Player player, int roll) {
 		int oldPosition = currentPlayer.getPosition();
@@ -608,6 +660,215 @@ public class BoardEasyViewPlayers extends JFrame {
 			return null; 
 		}
 	}
+<<<<<<< Updated upstream
+=======
+	
+	
+
+	    public boolean checkForSnakesAndLadders(int pos) {
+        	int lastpos=pos;
+	        for (Snake snake : game.getBoard().getSnakes()) {
+	            if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
+		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+		            showSnakePopup(lastpos); 
+	                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
+	                return true;
+	            }
+	        }
+
+	        for (Ladder ladder : game.getBoard().getLadders()) {
+	            if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
+		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+	                showLadderPopup(lastpos); 
+	                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
+	                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
+	                return true;
+	            }
+	        }
+
+	        for (Square q : game.getBoard().getQuestions()) {
+	            if (pos== Integer.parseInt(q.getValue())) {
+	            	System.out.println("square question here");///question
+	            	SysData sysdata=new SysData();
+	    	        sysdata.LoadQuestions();
+					questionsPOPUP=SysData.getQuestionsPOPUP();
+	    	        SysData.putQuestions(questionsPOPUP);
+	    	        quesTemp= SysData.getQuestionForPosition(pos);
+	    	        System.out.println(quesTemp);
+	    	        currentPlayer.setPosition(pos);
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
+	    	        showEditQuestionDialog(pos);
+	    	        movePlayer1(currentPlayer,0);
+	                return true;
+
+	            }
+	        
+	            
+	            }
+			return false;
+	        
+	    }
+	    private void displayCurrentPlayer() {
+	        if (currentPlayer != null) {
+	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
+	            setTitle("Current Player: " + currentPlayer.getName() + "'s Turn");
+	        }
+	    }
+
+		private void initializePlayerPositions() {
+	        StringBuilder positionsText = new StringBuilder();
+	        for (Player player : game.getPlayers()) {
+	            player.setPosition(1);
+	            positionsText.append(player.getName()).append(" on square: ").append(player.getPosition()).append("\n");
+	            game.updatePlayerPositionInList(player.getName(), 1);
+	        }
+	        txtpnHi.setText(positionsText.toString());
+	        Point bluePlayerStartPos =  new Point(295,630); 
+	        Point greenPlayerStartPos = new Point(320,630); 
+	        Point redPlayerStartPos = new Point(290,660); 
+	        Point yellowPlayerStartPos = new Point(320,660); 
+	        if (game.getPlayers().size()==2)
+	        {
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+				contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
+		  		contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+
+
+	        }
+	        else if(game.getPlayers().size()==3)
+	        {
+	        	redPlayerLabel.setLocation(redPlayerStartPos.x, redPlayerStartPos.y);
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+		        contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
+				contentPane.add(redPlayerLabel);
+				contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+		  		contentPane.add(lblNewLabel_red);
+
+	        }
+	        else {
+		        yellowPlayerLabel.setLocation(yellowPlayerStartPos.x, yellowPlayerStartPos.y);
+		        redPlayerLabel.setLocation(redPlayerStartPos.x, redPlayerStartPos.y);
+	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
+		        greenPlayerLabel.setLocation(greenPlayerStartPos.x, greenPlayerStartPos.y);
+		        contentPane.add(greenPlayerLabel);
+				contentPane.add(bluePlayerLabel);
+				contentPane.add(yellowPlayerLabel);
+				contentPane.add(redPlayerLabel);
+				contentPane.add(lblNewLabel_green);
+		  		contentPane.add(lblNewLabel_blue);
+		  		contentPane.add(lblNewLabel_red);
+		  		contentPane.add(lblNewLabel_yellow);
+
+	        }
+	        for (Player p : game.getPlayers()) {
+	            Model.Color playerColor = p.getColor();
+	            if (playerColor.equals(Model.Color .BLUE)) {
+	                lblNewLabel_1.setText(p.getName());
+	                contentPane.add(lblNewLabel_1);
+	            } else if (playerColor.equals(Model.Color .GREEN)) {
+	                lblNewLabel_2.setText(p.getName());
+	                contentPane.add(lblNewLabel_2);
+	            } else if (playerColor.equals(Model.Color .YELLOW)) {
+	                lblNewLabel_3.setText(p.getName());
+	                contentPane.add(lblNewLabel_3);
+	            } else {
+	                lblNewLabel_4.setText(p.getName());
+	                contentPane.add(lblNewLabel_4);
+	            }
+	        }
+
+	        contentPane.revalidate();
+	        contentPane.repaint();
+	    }
+	    
+		private void showEditQuestionDialog(int pos ) {
+	    	 JPanel questionPanel = new JPanel();
+	    	    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+	    	    Dimension preferredSize = new Dimension(700, 400);
+	    	    questionPanel.setPreferredSize(preferredSize);
+	    	  // Create and add the position label to the panel
+	    	   	 System.out.println("the correct answer  " + this.quesTemp.getCorrectOption() );
+
+	    	  String message;
+	    	    switch (this.quesTemp.getDiffculty()) {
+	    	        case 1: // Easy
+	    	            message = "This is an easy question. A wrong answer will set you back one square, and a correct answer will keep you on place.";
+	    	            break;
+	    	        case 2: // Medium
+	    	            message = "You're facing a medium difficulty question. Incorrectly answering will set you back two squares , and a correct answer will stay on place";
+	    	            break;
+	    	        case 3: // Hard
+	    	            message = "This is a hard question. A wrong answer will set you back three squares, but a correct answer will move you forward one square ";
+	    	            break;
+	    	        default:
+	    	            message = "Difficulty level is unknown. Be cautious with your answer.";
+	    	            break;
+	    	    }
+	    	    
+	    	    JLabel infoLabel = new JLabel("<html><div style='background-color: yellow; padding: 10px; font-size: 20px; font-family: Serif; font-style: italic;'>😃 " + message + " 😃</div></html>");
+	    	    infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    	    questionPanel.add(infoLabel);
+
+
+	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+	    	    JLabel questionLabel = new JLabel("<html><div style='padding: 10px;font-size: 20px;font-family: Serif; font-style: italic;'>" + this.quesTemp.getQuestionText() + "</div></html>");
+	    	    questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    	    questionPanel.add(questionLabel);
+	    	    questionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+
+	    	  ButtonGroup optionsGroup = new ButtonGroup();
+	    	  JRadioButton option1 = new JRadioButton(this.quesTemp.getOptions()[0]);
+	    	  option1.setForeground(Color.RED); // Color the text
+	    	  option1.setFont(new Font("Comic Sans MS", Font.BOLD, 20)); // Set the font
+
+	    	  JRadioButton option2 = new JRadioButton(this.quesTemp.getOptions()[1]);
+	    	  option2.setForeground(Color.ORANGE);
+	    	  option2.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+
+	    	  JRadioButton option3 = new JRadioButton(this.quesTemp.getOptions()[2]);
+	    	  option3.setForeground(Color.BLUE);
+	    	  option3.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+
+	    	  JRadioButton option4 = new JRadioButton(this.quesTemp.getOptions()[3]);
+	    	  option4.setForeground(Color.GREEN);
+	    	  option4.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+	    	  optionsGroup.add(option1);
+	    	  optionsGroup.add(option2);
+	    	  optionsGroup.add(option3);
+	    	  optionsGroup.add(option4);
+	    	  questionPanel.add(option1);
+	    	  questionPanel.add(option2);
+	    	  questionPanel.add(option3);
+	    	  questionPanel.add(option4);
+
+
+	    	  int result = JOptionPane.showOptionDialog(null, questionPanel, 
+	    	      "Hii " + currentPlayer.getName()+" you are now suppose to be in "+ pos+" but as ur response u will move or stay in "+pos, 
+	    	      JOptionPane.OK_CANCEL_OPTION, 
+	    	      JOptionPane.PLAIN_MESSAGE, 
+	    	      null, null, null);
+               
+	           if (result == JOptionPane.OK_OPTION) {
+	               if (option1.isSelected()) selectedAnswer = 1;
+	               if (option2.isSelected()) selectedAnswer = 2;
+	               if (option3.isSelected()) selectedAnswer = 3;
+	               if (option4.isSelected()) selectedAnswer = 4;
+
+	               handleAnswer(selectedAnswer);
+	           }
+	       }
+>>>>>>> Stashed changes
 
 
 
