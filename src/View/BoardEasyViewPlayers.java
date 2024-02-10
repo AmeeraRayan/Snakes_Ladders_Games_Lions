@@ -194,8 +194,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		
 		
 	}
-	
-	
+		
 
 	public void startGame() {
 	    initializePlayerPositions();
