@@ -206,7 +206,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		startGameTimer(); 
 
 	}
-<<<<<<< Updated upstream
 
 	public void initializeBoard() {
 		// Randomly select a board configuration
@@ -233,7 +232,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 		contentPane.add(lblNewLabel);
 
-=======
 	
 	public void initializeBoard() {
 	    // Randomly select a board configuration
@@ -469,8 +467,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 
 	}
-<<<<<<< Updated upstream
-=======
 	
 	public void movePlayer(Player player, int roll) {
 	    int oldPosition = currentPlayer.getPosition();
@@ -490,7 +486,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    game.getCurrentPlayer().setPosition(currentPlayer.getPosition());
 	    currentPlayer.setPosition(currentPlayer.getPosition());
 	    game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
->>>>>>> Stashed changes
 
 	public void movePlayer(Player player, int roll) {
 		int oldPosition = currentPlayer.getPosition();
