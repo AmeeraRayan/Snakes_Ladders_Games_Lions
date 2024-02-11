@@ -257,7 +257,7 @@ public class SysData {
 		    return null;
 		}
 
-		public static Questions getQuestionForPosition(String difficulty) {		    
+		public static Questions getQuestionLevel(String difficulty) {		    
 		    if (difficulty != null) {
 		        switch (difficulty) {
 		            case "easy":

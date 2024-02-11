@@ -863,7 +863,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	               handleAnswer(selectedAnswer);
 	           }
 	       }
->>>>>>> Stashed changes
 
 
 
