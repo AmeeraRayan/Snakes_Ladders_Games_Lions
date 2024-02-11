@@ -48,7 +48,23 @@ public class QuestionManagment extends JFrame   {
 
     }
 
-    private void initialize() {
+    public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
+	}
+
+	private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 804, 701);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -296,28 +296,6 @@
       ],
       "correct_ans": "1",
       "difficulty": "2"
-    },
-    {
-      "question": "Why is Agile methodology considered effective in managing changing requirements?",
-      "answers": [
-        "1. Because it follows a strict plan with no changes allowed",
-        "2. Because it emphasizes on comprehensive documentation",
-        "3. Because it accommodates changes rapidly and focuses on incremental development",
-        "4. Because it completely eliminates the need for requirements"
-      ],
-      "correct_ans": "3",
-      "difficulty": "2"
-    },
-    {
-      "question": "What is a key principle of Agile software development?",
-      "answers": [
-        "1.Extensive planning at the beginning of a project to ensure there are no changes in the requirements.",
-        "2.Strong documentation is more important than working software.",
-        "3.Regular adaptation to changing circumstances and user feedback.",
-        "4.Complete each project phase before starting the next one without any overlap."
-      ],
-      "correct_ans": "3",
-      "difficulty": "1"
     }
   ]
 }
