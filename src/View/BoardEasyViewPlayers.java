@@ -431,18 +431,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	}
 
-	
-
-	private void showWinnerPopup(Class<?> winPopupClass, Player winner) {
-	    try {
-	        Constructor<?> constructor = winPopupClass.getConstructor(String.class, String.class, Game.class);
-	        JFrame winPopup = (JFrame) constructor.newInstance(winner.getName(), timerLabel.getText(), game);
-	        BoardEasyViewPlayers.this.setVisible(false);
-	        winPopup.setVisible(true);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
 
 
 	public void endGame(Player winner) {
@@ -874,7 +862,9 @@ public class BoardEasyViewPlayers extends JFrame {
 				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
 				Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition() + roll,currentPlayer); 
 				JLabel playerLabel = getPlayerLabel(currentPlayer);
-				animateMovement(playerLabel, startPoint, endPoint);	
+				animateMovement(playerLabel, startPoint, endPoint);
+				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
+				displayPlayerPositions();
 				sysdata.LoadQuestions();
 				questionsPOPUP=SysData.getQuestionsPOPUP();
 				SysData.putQuestions(questionsPOPUP);
@@ -882,7 +872,6 @@ public class BoardEasyViewPlayers extends JFrame {
 				currentPlayer.setPosition(pos);
 				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 				showEditQuestionDialog(pos);
-
 				movePlayer1(currentPlayer,0);
 				return true;
 			}
