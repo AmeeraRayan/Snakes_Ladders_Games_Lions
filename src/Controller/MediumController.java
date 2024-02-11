@@ -47,10 +47,12 @@ public class MediumController {
 		if(type.equals("Snake") || type.equals("Ladder")) {
 		     newPosition = result;
 		}
-		if(newPosition<100) {
-			currentPlayer.setPosition(newPosition);
-			IAndJ = FindSquareByValue(newPosition);
+	
+		if(newPosition >=100) {
+			newPosition = 100;
 		}
+		currentPlayer.setPosition(newPosition);
+		IAndJ = FindSquareByValue(newPosition);
 		return IAndJ;
 	}
 	
@@ -99,6 +101,7 @@ public class MediumController {
 	}
 	
 	public void DiceQuestion(int result , JFrame frame) {
+		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
 			 question = SysData.getQuestionLevel("easy");
