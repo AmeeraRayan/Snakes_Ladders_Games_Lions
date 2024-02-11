@@ -207,31 +207,33 @@ public class BoardEasyViewPlayers extends JFrame {
 		startGameTimer(); 
 
 	}
-
+	
 	public void initializeBoard() {
-		// Randomly select a board configuration
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setForeground(new Color(0, 0, 0));
-		lblNewLabel.setBounds(10, 10, 1095, 772);
-		switch (3) {
-		case 1:
-			Board.initializeSnakesAndLaddersForEasy1();
-			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
-			path =new String("board1");
-			break;
-		case 2:
-			Board.initializeSnakesAndLaddersForEasy();
-			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
-			path =new String("board2");
-			break;
-		case 3:
+	    // Randomly select a board configuration
+	    lblNewLabel = new JLabel("");
+	    lblNewLabel.setForeground(new Color(0, 0, 0));
+  		lblNewLabel.setBounds(10, 10, 1095, 772);
+	    // Call the corresponding initialization method
+	    switch (3) {
+	        case 1:
+	            Board.initializeSnakesAndLaddersForEasy1();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
+	            path= new String("board1");
+	            break;
+	        case 2:
+	            Board.initializeSnakesAndLaddersForEasy();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
+	            path= new String("board2");
+	            break;
+	        case 3:
 
-			Board.initializeSnakesAndLaddersForEasy3();
-			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
-			path =new String("board3");
-			break;
-		}
-		contentPane.add(lblNewLabel);
+	            Board.initializeSnakesAndLaddersForEasy3();
+	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
+	            path= new String("board3");
+	            break;
+	    }
+  		contentPane.add(lblNewLabel);
+ 
 	}
 	private void startGameTimer() {
 		startTime = System.currentTimeMillis();
@@ -429,12 +431,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	}
 
-	public void endGame(Player winner) {
-	    gameTimer.stop(); 
-	    Class<?> winPopupClass = getWinPopupClassForWinner(winner);
-	    
-	    showWinnerPopup(winPopupClass, winner);
-	}
+	
 
 	private void showWinnerPopup(Class<?> winPopupClass, Player winner) {
 	    try {
@@ -445,6 +442,31 @@ public class BoardEasyViewPlayers extends JFrame {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	}
+
+
+	public void endGame(Player winner) {
+		gameTimer.stop(); // Stop the timer
+		switch (winner.getColor()) {
+		case RED:
+			BoardEasyViewPlayers.this.setVisible(false);	
+			new RedWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			break;
+		case GREEN:
+			BoardEasyViewPlayers.this.setVisible(false);
+			new GreenWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			break;
+		case BLUE:
+			BoardEasyViewPlayers.this.setVisible(false);
+			new BlueWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			break;
+		case YELLOW:
+			BoardEasyViewPlayers.this.setVisible(false);
+			new YellowWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			break;
+
+		}
+
 	}
 
 

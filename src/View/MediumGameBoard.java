@@ -19,10 +19,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.PanelUI;
 
+import Controller.MediumController;
 import Model.Ladder;
+import Model.Player;
 import Model.Snake;
 import Model.Square;
+import Model.Board;
 import Model.Dice;
+import Model.Game;
 import Model.SquareType;
 
 import java.awt.*;
@@ -31,7 +35,7 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
  
-public class MediumGameBoard extends JFrame {
+public class MediumGameBoard extends JFrame{
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{Color.BLUE, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -41,14 +45,19 @@ public class MediumGameBoard extends JFrame {
     private Snake[] snakes = new Snake[6];
     private Ladder[] ladders = new Ladder[6];
     private Square[] quastionSquares = new Square[3];
+    private Board meduimboard = new Board(GRID_SIZE);
+    private  Game gameInstance;
+    private MediumController controller ; 
+     JFrame frame;
+    Player CurrentPlayer ;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
-    public MediumGameBoard() {
+    public MediumGameBoard(Game game) {
         // Setting up the main frame
-        setTitle("Game Board");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(985, 748);
- 
+    	frame = new JFrame();
+        frame.setTitle("Game Board");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(985, 748);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
@@ -62,34 +71,53 @@ public class MediumGameBoard extends JFrame {
         diceButton.setBounds(857, 421, 78, 81);
         outerPanel.add(diceButton);
         
+        
+        
+        // Creating the inner panel
+        JPanel innerPanel = new JPanel();
+        initializeBoard(innerPanel,outerPanel);
+        game.setBoard(meduimboard);
+        game.setDice(dice);
+        controller = new MediumController(game);
+        // create game instance and set the board and the dice >> BACKEND . 
+        CurrentPlayer = controller.getGame().getCurrentPlayer();
+        
         diceButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
+        		System.out.println(game.getBoard().getLadders()[0].toString());
+        		System.out.println(game.getBoard().getLadders()[1].toString());
+
         		int result = dice.DiceForMediumGame();
         		System.out.println(result);
         		String path = "/images/dice " + result + ".jpg";
                 diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                if(result != 7 ) {
+                int[] IAndJ = new int[2];
+                IAndJ = controller.updatePlayerPosition(CurrentPlayer, result , "Dice" );
+                System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1]+" val: " +controller.getGame().getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue() );
+                controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
+                System.out.println("\n Position: " +controller.getGame().getCurrentPlayer().getPosition());
+                }
         	}
         });
-        // Creating the inner panel
-        JPanel innerPanel = new JPanel();
-        initializeBoard(innerPanel,outerPanel);
- 
+     
         innerPanel.setBounds(224, 118, 550, 550);
         innerPanel.setBackground(Color.WHITE);
  
         // Adding the inner panel to the center of the outer panel
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
-        
+     
         // Adding the outer panel to the frame
-        getContentPane().add(outerPanel);        
+        frame.add(outerPanel);        
         JTextPane textPane_1 = new JTextPane();
         textPane_1.setBounds(28, 175, 106, 140);
         outerPanel.add(textPane_1);
-          
-        setVisible(true);
+        this.frame.setVisible(true);
+        
     }
-    private void initializeBoard(JPanel panel, JPanel outerPanel) {
+    private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
         int count=0;
         Set<Integer> chosenCells = new HashSet<>(); // Track chosen cell numbers
@@ -126,22 +154,28 @@ public class MediumGameBoard extends JFrame {
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
                 boardlabels[i][j] = label;
-                
+               
                 //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
             }
         }
+ 
+        setRedSnakes(outerPanel);
+        setYellowSnake(outerPanel);
+        setBlueSnakes(outerPanel);
+        setGreenSnakes(outerPanel);
         setladder1(outerPanel);
         setladder2(outerPanel);
         setladder3(outerPanel);
         setladder4(outerPanel);
         setladder5(outerPanel);
         setladder6(outerPanel);
-        setRedSnakes(outerPanel);
-        setYellowSnake(outerPanel);
-        setBlueSnakes(outerPanel);
-        setGreenSnakes(outerPanel);
-       
+        for(int i = 0; i < ladders.length ; i++) {
+        	System.out.println("\n");
+        	System.out.println(ladders[i].toString());
+        }
+        meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
     }
+    
 
     // Get a color that is different from the adjacent cell
     private Color getUniqueColor(int row, int col) {
@@ -553,9 +587,9 @@ public class MediumGameBoard extends JFrame {
         return null; // Handle case where start square is not found
     }
  
- 
-    public static void main(String[] args) {
-        // Running the application
-        SwingUtilities.invokeLater(() -> new MediumGameBoard());
-    }
+// 
+//    public static void main(String[] args) {
+//        // Running the application
+//        SwingUtilities.invokeLater(() -> new MediumGameBoard());
+//    }
 }

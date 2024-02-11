@@ -53,9 +53,15 @@ public class BounusResults2 extends JFrame {
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Game game = new Game(difficultyLevel, playersSortedByOrder); 
+                Game game = new Game(difficultyLevel, playersSortedByOrder);
+                if(difficultyLevel.equals("Easy")) {
                 new BoardEasyViewPlayers(game).setVisible(true);
                 BounusResults2.this.setVisible(false); 
+                }
+                if(difficultyLevel.equals("Medium")) {
+                    new MediumGameBoard(game).setVisible(true);
+                    BounusResults2.this.setVisible(false); 
+                    }
             }
         });
 
