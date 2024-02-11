@@ -86,8 +86,8 @@ public class MediumGameBoard extends JFrame{
         diceButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		System.out.println(game.getBoard().getLadders()[0].toString());
-        		System.out.println(game.getBoard().getLadders()[1].toString());
+        		//System.out.println(game.getBoard().getLadders()[0].toString());
+        		//System.out.println(game.getBoard().getLadders()[1].toString());
 
         		int result = dice.DiceForMediumGame();
         		System.out.println(result);
@@ -173,10 +173,6 @@ public class MediumGameBoard extends JFrame{
         setladder4(outerPanel);
         setladder5(outerPanel);
         setladder6(outerPanel);
-        for(int i = 0; i < ladders.length ; i++) {
-        	System.out.println("\n");
-        	System.out.println(ladders[i].toString());
-        }
         meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
     }
     

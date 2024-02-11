@@ -186,8 +186,29 @@ public class MediumController {
 		          selectedOption = 3;
 		      }
 		  }
-
+		  updateplayerbyAnswer(question, selectedOption);
 	       
 	    }
-
+	  public void updateplayerbyAnswer(Questions question,int result) {
+		  if(question.getDiffculty() == 1 ) {
+			  if(result != question.getCorrectOption()) {
+				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
+			  }
+		  }
+		  if(question.getDiffculty() == 2) {
+			  if(result != question.getCorrectOption()) {
+				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
+				  }
+			  }
+		  if(question.getDiffculty() == 3) {
+			  if(result == question.getCorrectOption()) {
+				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
+			  }
+			  else {
+					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
+				  }
+		  } 
+		  System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
+	}
+	  
 }
