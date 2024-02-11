@@ -231,6 +231,7 @@ public class BoardEasyViewPlayers extends JFrame {
 			break;
 		}
 		contentPane.add(lblNewLabel);
+	}
 
 	
 	public void initializeBoard() {
@@ -259,7 +260,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
   		contentPane.add(lblNewLabel);
  
->>>>>>> Stashed changes
 	}
 	private void startGameTimer() {
 		startTime = System.currentTimeMillis();
@@ -575,19 +575,19 @@ public class BoardEasyViewPlayers extends JFrame {
 	{
 		int lastpos=pos;
 		for (Snake snake : game.getBoard().getSnakes()) {
-			if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
-				game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-				game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+			if (pos == (snake.getSquareStart().getValue())) {
+				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 				showSnakePopup(lastpos); 
 				return true;
 			}
 		}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
-			if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
-				game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-				currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-				game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+			if (pos == (ladder.getSquareStart().getValue())) {
+				game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
+				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (ladder.getSquareEnd().getValue()));
 				showLadderPopup(lastpos); 
 				return true;
 			}
@@ -655,17 +655,15 @@ public class BoardEasyViewPlayers extends JFrame {
 			return null; 
 		}
 	}
-<<<<<<< Updated upstream
-=======
 	
 	
 
 	    public boolean checkForSnakesAndLadders(int pos) {
         	int lastpos=pos;
 	        for (Snake snake : game.getBoard().getSnakes()) {
-	            if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
-		            game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+	            if (pos == (snake.getSquareStart().getValue())) {
+		            game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 		            showSnakePopup(lastpos); 
 	                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
 	                return true;
@@ -673,10 +671,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	        }
 
 	        for (Ladder ladder : game.getBoard().getLadders()) {
-	            if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
-		            game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-	                currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+	            if (pos == (ladder.getSquareStart().getValue())) {
+		            game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
+	                currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(),(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(lastpos); 
 	                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
 	                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
@@ -685,7 +683,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	        }
 
 	        for (Square q : game.getBoard().getQuestions()) {
-	            if (pos== Integer.parseInt(q.getValue())) {
+	            if (pos== (q.getValue())) {
 	            	System.out.println("square question here");///question
 	            	SysData sysdata=new SysData();
 	    	        sysdata.LoadQuestions();
@@ -869,26 +867,26 @@ public class BoardEasyViewPlayers extends JFrame {
 	public boolean checkForSnakesAndLadders(int pos, int roll) {
 		int lastpos=pos;
 		for (Snake snake : game.getBoard().getSnakes()) {
-			if (pos == Integer.parseInt(snake.getSquareStart().getValue())) {
-				game.getCurrentPlayer().setPosition(Integer.parseInt(snake.getSquareEnd().getValue()));
-				game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(snake.getSquareEnd().getValue()));
+			if (pos == (snake.getSquareStart().getValue())) {
+				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 				showSnakePopup(lastpos); 
 				return true;
 			}
 		}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
-			if (pos == Integer.parseInt(ladder.getSquareStart().getValue())) {
-				game.getCurrentPlayer().setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-				currentPlayer.setPosition(Integer.parseInt(ladder.getSquareEnd().getValue()));
-				game.updatePlayerPositionInList(currentPlayer.getName(), Integer.parseInt(ladder.getSquareEnd().getValue()));
+			if (pos == (ladder.getSquareStart().getValue())) {
+				game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
+				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (ladder.getSquareEnd().getValue()));
 				showLadderPopup(lastpos); 
 				return true;
 			}
 		}
 
 		for (Square q : game.getBoard().getQuestions()) {
-			if (pos== Integer.parseInt(q.getValue())) {
+			if (pos== (q.getValue())) {
 				System.out.println("square question here");///question
 				SysData sysdata=new SysData();
 				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);

@@ -44,7 +44,7 @@ public class MediumGameBoard extends JFrame{
     private Dice dice = new Dice("medium"); 
     private Snake[] snakes = new Snake[6];
     private Ladder[] ladders = new Ladder[6];
-    private Square[] quastionSquares = new Square[3];
+    private Square[] quastionSquares = new Square[6];
     private Board meduimboard = new Board(GRID_SIZE);
     private  Game gameInstance;
     private MediumController controller ; 
@@ -79,6 +79,7 @@ public class MediumGameBoard extends JFrame{
         game.setBoard(meduimboard);
         game.setDice(dice);
         controller = new MediumController(game);
+        controller.CallQuestionDataFunc();
         // create game instance and set the board and the dice >> BACKEND . 
         CurrentPlayer = controller.getGame().getCurrentPlayer();
         
@@ -98,6 +99,9 @@ public class MediumGameBoard extends JFrame{
                 System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1]+" val: " +controller.getGame().getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue() );
                 controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
                 System.out.println("\n Position: " +controller.getGame().getCurrentPlayer().getPosition());
+                }
+                else {
+                	controller.DiceQuestion(result, frame);
                 }
         	}
         });
@@ -297,7 +301,7 @@ public class MediumGameBoard extends JFrame{
     }
            
     private void setLadders(JPanel panel, int num, int random_i, int random_j, int boundX, int boundY, String imagePath, int width, int height) {
-        int i, j, length = 0;
+        int i, j;
         boolean coincide,conflictedWithSnake;        
         do {
             i = random_i;
@@ -305,7 +309,7 @@ public class MediumGameBoard extends JFrame{
             JLabel ladderLabel = new JLabel();
             ladderLabel.setBounds(boundX, boundY, width, height);
             Square startSquare = findStartSquare_ladder(squares[i][j], num);
-            Square endSquare = findEndSquare_ladder(squares[i][j], length, num, width);
+            Square endSquare = findEndSquare_ladder(squares[i][j], num, width);
             // Check if the start or end of the new ladder coincides with any existing ladder 
              coincide = isLadderCoincide(i,j); 
              conflictedWithSnake =isLadderStartSquareCoincideWithSnakes(startSquare);
@@ -335,8 +339,8 @@ public class MediumGameBoard extends JFrame{
             }           
             System.out.println(endSquare.getValue() + "end ladder" + num +"i= "+random_i);
             Ladder ladder = new Ladder(startSquare, endSquare);
-            ladders[length] = ladder;
-            length++;            
+            ladders[num-1] = ladder;
+            System.out.println(num-1);
             ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource(imagePath)));
             panel.add(ladderLabel);
         } while (coincide || conflictedWithSnake);
@@ -362,12 +366,12 @@ public class MediumGameBoard extends JFrame{
     private void setladder4(JPanel panel) {
     	int i = rand.nextInt(6); //0-5
         int j = rand.nextInt(8)+1; //1 to 9
-    	setLadders(panel,4 , i, j, squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), "/images/ladder4.png",115,275);
+    	setLadders(panel,4, i, j, squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), "/images/ladder4.png",115,275);
     }
     private void setladder5(JPanel panel) {
     	int i = rand.nextInt(5); //0-4
     	int j = rand.nextInt(8); //0-7
-    	setLadders(panel,5 ,i ,j ,squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(),"/images/ladder5.png" ,165,330);
+    	setLadders(panel,5,i ,j ,squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(),"/images/ladder5.png" ,165,330);
     }
     private void setladder6(JPanel panel) {
 		 int i = rand.nextInt(4);//0-3
@@ -528,12 +532,12 @@ public class MediumGameBoard extends JFrame{
     	return null;
     }
     
-    private Square findEndSquare_ladder(Square startSquare, int ladderLength, int laddernum, int width) {
+    private Square findEndSquare_ladder(Square startSquare, int laddernum, int width) {
         int startBoundsX = startSquare.getBoundsX();
         int startBoundsY = startSquare.getBoundsY();
         
         if(laddernum == 3 || laddernum == 2 || laddernum == 1) {
-        	int endBoundsX = startBoundsX - (ladderLength * width); //Because ladder 4 is extended to i+1 in j column
+        	int endBoundsX = startBoundsX; //Because ladder 4 is extended to i+1 in j column
  	        int endBoundsY = startBoundsY;
  	        // Find the corresponding end square based on bounds
  	        for (int i = 0; i < 10; i++) {
@@ -546,7 +550,7 @@ public class MediumGameBoard extends JFrame{
         }
         
         if(laddernum == 4) {
-	        int endBoundsX = startBoundsX - (ladderLength * width) + 55; //Because ladder 4 is extended to i+1 in j column
+	        int endBoundsX = startBoundsX + 55; //Because ladder 4 is extended to i+1 in j column
 	        int endBoundsY = startBoundsY;
 	        // Find the corresponding end square based on bounds
 	        for (int i = 0; i < 10; i++) {
@@ -560,7 +564,7 @@ public class MediumGameBoard extends JFrame{
         
         if(laddernum == 5) {
         	int extendedSquares = 2; // Number of squares the ladder is extended to the right
-            int endBoundsX = startBoundsX + (ladderLength * width) + (extendedSquares * 55); // Adjust for ladder 5 extending to i+2 in the j column
+            int endBoundsX = startBoundsX  + (extendedSquares * 55); // Adjust for ladder 5 extending to i+2 in the j column
 	        int endBoundsY = startBoundsY;
 	        // Find the corresponding end square based on bounds
 	        for (int i = 0; i < 10; i++) {
@@ -572,7 +576,7 @@ public class MediumGameBoard extends JFrame{
 	        }
         }
         if(laddernum == 6) {
-            int endBoundsX = startBoundsX + (ladderLength * width); 
+            int endBoundsX = startBoundsX; 
 	        int endBoundsY = startBoundsY;
 	        // Find the corresponding end square based on bounds
 	        for (int i = 0; i < 10; i++) {
