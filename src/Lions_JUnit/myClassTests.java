@@ -115,20 +115,6 @@ public class myClassTests {
 		        assertEquals(7, player1.getPosition());//in all the random easy board there is no ladder or snake or question in square 7 so no need to chick this
 		    }
 
-	/*  @Test
-	    public void testMediumDifficultyInitialization() {
-	    	Player player1 = new Player("TestPlayer1", Color.GREEN);
-	    	Player player2 = new Player("TestPlayer", Color.BLUE);	   
-		    Game game = new Game("Easy", new ArrayList<>(Arrays.asList(player1,player2)));
-	        assertEquals( 10, game.getBoard().getSize());
-
-	        game.getPlayers().forEach(player ->
-	            assertEquals( 1, player.getPosition())
-	        );
-	    }
-	 */
-	
-	
 	/*Black box tests*/
 
 	/*ID:BB1 tests if the addNewQuestion method in the SysData class successfully add a new question,answers,difficulty
