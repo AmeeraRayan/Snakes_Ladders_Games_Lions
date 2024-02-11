@@ -93,7 +93,7 @@ public class MediumGameBoard extends JFrame{
         		System.out.println(result);
         		String path = "/images/dice " + result + ".jpg";
                 diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                if(result != 7 ) {
+                if(result < 7 ) {
                 int[] IAndJ = new int[2];
                 IAndJ = controller.updatePlayerPosition(CurrentPlayer, result , "Dice" );
                 System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1]+" val: " +controller.getGame().getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue() );
@@ -101,6 +101,7 @@ public class MediumGameBoard extends JFrame{
                 System.out.println("\n Position: " +controller.getGame().getCurrentPlayer().getPosition());
                 }
                 else {
+                	System.out.println("from result ");
                 	controller.DiceQuestion(result, frame);
                 }
         	}
@@ -241,9 +242,10 @@ public class MediumGameBoard extends JFrame{
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
-        System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
+        //System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
+        System.out.println("start: "+squares[i][j].getValue() + " End : "+EndSquare.getValue());
         snakes[2] = yellowSnake;
         yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/rightYellow.png")));
         panel.add(yellowSnakeLabel);
