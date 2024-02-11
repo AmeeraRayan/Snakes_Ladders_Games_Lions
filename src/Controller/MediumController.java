@@ -3,8 +3,12 @@ package Controller;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import Model.Game;
@@ -35,7 +39,6 @@ public class MediumController {
 	}
 	
 	public int[] updatePlayerPosition(Player currentPlayer , int result , String type) { // update player position by dice result or by the type of the square 
-		int i , j  ; 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
 		if(type.equals("Dice")) {
@@ -43,7 +46,7 @@ public class MediumController {
 		}
 		if(type.equals("Snake") || type.equals("Ladder")) {
 		     newPosition = result;
-			}
+		}
 		if(newPosition<100) {
 			currentPlayer.setPosition(newPosition);
 			IAndJ = FindSquareByValue(newPosition);
@@ -63,14 +66,14 @@ public class MediumController {
 				}
 			}
 			if(index == 0 ) {
-				question = SysData.getInstance().getQuestionLevel("Easy");
+				question = SysData.getInstance().getQuestionLevel("easy");
 			}
 			if(index == 1 ) {
-				question = SysData.getInstance().getQuestionLevel("Medium");
+				question = SysData.getInstance().getQuestionLevel("medium");
 
 			}
 			if(index == 2 ) {
-				question = SysData.getInstance().getQuestionLevel("Hard");
+				question = SysData.getInstance().getQuestionLevel("hard");
 
 			}
 			showAddQuestionPopup(question ,frame );
@@ -95,8 +98,20 @@ public class MediumController {
 		
 	}
 	
-	
-	
+	public void DiceQuestion(int result , JFrame frame) {
+		Questions question =null;
+		if(result == 7) {
+			 question = SysData.getQuestionLevel("easy");
+		}
+		else if(result == 8) {
+			 question = SysData.getQuestionLevel("medium");
+		}
+		else {
+			 question = SysData.getQuestionLevel("hard");
+		}
+		showAddQuestionPopup(question, frame);
+		
+	}
 	
 	private int[] FindSquareByValue(int val) {
 		int[] IAndJ = new int[2];
@@ -111,26 +126,66 @@ public class MediumController {
 	        }
 		 return IAndJ;
 	}
+	
 	  public void showAddQuestionPopup(Questions question , JFrame frame) {
-	        JTextField questionField = new JTextField(question.getQuestionText());
-	        JTextField answer1Field = new JTextField(question.getOptions()[0]);
-	        JTextField answer2Field = new JTextField(question.getOptions()[1]);
-	        JTextField answer3Field = new JTextField(question.getOptions()[2]);
-	        JTextField answer4Field = new JTextField(question.getOptions()[3]);
-	        JTextField correctAnswerField = new JTextField(String.valueOf(question.getCorrectOption() + 1)); // Adjusting because your user input is 1-based
-	        JTextField difficultyField = new JTextField(String.valueOf(question.getDiffculty()));
+		  JRadioButton answer1Button = new JRadioButton();
+		  JRadioButton answer2Button = new JRadioButton();
+		  JRadioButton answer3Button = new JRadioButton();
+		  JRadioButton answer4Button = new JRadioButton();
 
-	        Object[] fields = {
-	            "Question:", questionField,
-	            "Answer 1:", answer1Field,
-	            "Answer 2:", answer2Field,
-	            "Answer 3:", answer3Field,
-	            "Answer 4:", answer4Field,
-	            "Correct Answer (1-4):", correctAnswerField,
-	            "Difficulty:", difficultyField
-	        };
+		  JLabel questionField = new JLabel(question.getQuestionText());
+		  JLabel answer1Field = new JLabel(question.getOptions()[0]);
+		  JLabel answer2Field = new JLabel(question.getOptions()[1]);
+		  JLabel answer3Field = new JLabel(question.getOptions()[2]);
+		  JLabel answer4Field = new JLabel(question.getOptions()[3]);
+		  JLabel difficultyField = new JLabel(String.valueOf(question.getDiffculty()));
 
-	        JOptionPane.showConfirmDialog(frame, fields, "Edit Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		  // Create JPanel for each answer option to include both the label and radio button
+		  JPanel answer1Panel = new JPanel();
+		  JPanel answer2Panel = new JPanel();
+		  JPanel answer3Panel = new JPanel();
+		  JPanel answer4Panel = new JPanel();
+
+		  answer1Panel.add(answer1Button);
+		  answer1Panel.add(answer1Field);
+		  answer2Panel.add(answer2Button);
+		  answer2Panel.add(answer2Field);
+		  answer3Panel.add(answer3Button);
+		  answer3Panel.add(answer3Field);
+		  answer4Panel.add(answer4Button);
+		  answer4Panel.add(answer4Field);
+
+		  // Add radio buttons to button group
+		  ButtonGroup buttonGroup = new ButtonGroup();
+		  buttonGroup.add(answer1Button);
+		  buttonGroup.add(answer2Button);
+		  buttonGroup.add(answer3Button);
+		  buttonGroup.add(answer4Button);
+
+		  Object[] fields = {
+		      "Question:", questionField,
+		      "Answer 1:", answer1Panel,
+		      "Answer 2:", answer2Panel,
+		      "Answer 3:", answer3Panel,
+		      "Answer 4:", answer4Panel,
+		      "Difficulty:", difficultyField
+		  };
+
+		  int result = JOptionPane.showConfirmDialog(frame, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+		  // Get the selected answer option
+		  int selectedOption = -1;
+		  if (result == JOptionPane.OK_OPTION) {
+		      if (answer1Button.isSelected()) {
+		          selectedOption = 0;
+		      } else if (answer2Button.isSelected()) {
+		          selectedOption = 1;
+		      } else if (answer3Button.isSelected()) {
+		          selectedOption = 2;
+		      } else if (answer4Button.isSelected()) {
+		          selectedOption = 3;
+		      }
+		  }
 
 	       
 	    }

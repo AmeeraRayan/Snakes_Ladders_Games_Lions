@@ -207,34 +207,32 @@ public class BoardEasyViewPlayers extends JFrame {
 		startGameTimer(); 
 
 	}
-	
-	public void initializeBoard() {
-	    // Randomly select a board configuration
-	    lblNewLabel = new JLabel("");
-	    lblNewLabel.setForeground(new Color(0, 0, 0));
-  		lblNewLabel.setBounds(10, 10, 1095, 772);
-	    // Call the corresponding initialization method
-	    switch (3) {
-	        case 1:
-	            Board.initializeSnakesAndLaddersForEasy1();
-	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
-	            path= new String("board1");
-	            break;
-	        case 2:
-	            Board.initializeSnakesAndLaddersForEasy();
-	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
-	            path= new String("board2");
-	            break;
-	        case 3:
+ void initializeBoard() {
+		// Randomly select a board configuration
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setForeground(new Color(0, 0, 0));
+		lblNewLabel.setBounds(10, 10, 1095, 772);
+		switch (3) {
+		case 1:
+			Board.initializeSnakesAndLaddersForEasy1();
+			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
+			path =new String("board1");
+			break;
+		case 2:
+			Board.initializeSnakesAndLaddersForEasy();
+			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
+			path =new String("board2");
+			break;
+		case 3:
 
-	            Board.initializeSnakesAndLaddersForEasy3();
-	            lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
-	            path= new String("board3");
-	            break;
-	    }
-  		contentPane.add(lblNewLabel);
- 
+			Board.initializeSnakesAndLaddersForEasy3();
+			lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
+			path =new String("board3");
+			break;
+		}
+		contentPane.add(lblNewLabel);
 	}
+
 	private void startGameTimer() {
 		startTime = System.currentTimeMillis();
 		gameTimer = new Timer(1000, new ActionListener() {
@@ -547,12 +545,13 @@ public class BoardEasyViewPlayers extends JFrame {
 		int lastpos=pos;
 		for (Snake snake : game.getBoard().getSnakes()) {
 			if (pos ==(snake.getSquareStart().getValue())) {
+			if (pos == (snake.getSquareStart().getValue())) {
 				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 				showSnakePopup(lastpos); 
 				return true;
 			}
-		}
+		}}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
 			if (pos == (ladder.getSquareStart().getValue())) {
@@ -566,7 +565,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		return false;
 
 	}
-
+	
 	//for a question on dice 
 	private void movePlayer(int pos) {
 
@@ -626,7 +625,6 @@ public class BoardEasyViewPlayers extends JFrame {
 			return null; 
 		}
 	}
-	
 
 	    public boolean checkForSnakesAndLadders(int pos) {
         	int lastpos=pos;
@@ -634,6 +632,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	            if (pos == (snake.getSquareStart().getValue())) {
 		            game.getCurrentPlayer().setPosition(snake.getSquareEnd().getValue());
 		    	    game.updatePlayerPositionInList(currentPlayer.getName(),snake.getSquareEnd().getValue());
+		            game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 		            showSnakePopup(lastpos); 
 	                System.out.println("ladder.getSquareEnd()"+snake.getSquareEnd());
 	                return true;
@@ -645,6 +645,9 @@ public class BoardEasyViewPlayers extends JFrame {
 		            game.getCurrentPlayer().setPosition(ladder.getSquareEnd().getValue());
 	                currentPlayer.setPosition(ladder.getSquareEnd().getValue());
 		    	    game.updatePlayerPositionInList(currentPlayer.getName(), ladder.getSquareEnd().getValue());
+		            game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
+	                currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
+		    	    game.updatePlayerPositionInList(currentPlayer.getName(),(ladder.getSquareEnd().getValue()));
 	                showLadderPopup(lastpos); 
 	                System.out.println("ladder.getSquareEnd()"+ladder.getSquareEnd());
 	                System.out.println("ladder.getSquareEnd()"+currentPlayer.getPosition());
@@ -840,16 +843,22 @@ public class BoardEasyViewPlayers extends JFrame {
 			if (pos == snake.getSquareStart().getValue()) {
 				game.getCurrentPlayer().setPosition(snake.getSquareEnd().getValue());
 				game.updatePlayerPositionInList(currentPlayer.getName(), snake.getSquareEnd().getValue());
+			if (pos == (snake.getSquareStart().getValue())) {
+				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
 				showSnakePopup(lastpos); 
 				return true;
 			}
-		}
+		}}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
 			if (pos == (ladder.getSquareStart().getValue())) {
 				game.getCurrentPlayer().setPosition(ladder.getSquareEnd().getValue());
 				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), ladder.getSquareEnd().getValue());
+				game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
+				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
+				game.updatePlayerPositionInList(currentPlayer.getName(), (ladder.getSquareEnd().getValue()));
 				showLadderPopup(lastpos); 
 				return true;
 			}
@@ -880,7 +889,6 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 		return false;
-
 	}
 	public void handleAnswer(int selectedAnswer ) {
 		boolean isCorrectAnswer=true;
