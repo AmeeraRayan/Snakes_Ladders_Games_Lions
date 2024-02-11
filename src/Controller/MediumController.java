@@ -208,7 +208,7 @@ public class MediumController {
 					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
 				  }
 		  } 
-		  System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
+		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	  
 }
