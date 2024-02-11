@@ -52,7 +52,7 @@ public class MangQuestionControl {
 
 	public void addNewQuestion(Questions q) { // add question to the arrayList of questions and call function that write the question to Json file 
 
-		if (q != null) {
+		if (q != null && !(getQuestions().contains(q))) {
 			int size = sysData.getQuestions().size();
 			q.setId(size);
 			sysData.LoadQuestions();

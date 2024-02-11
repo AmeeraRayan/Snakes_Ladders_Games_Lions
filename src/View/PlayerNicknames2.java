@@ -23,15 +23,18 @@ public class PlayerNicknames2 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField2;
-	private JTextField textField1;
+	public JTextField textField2;
+	public JTextField textField1;
 	private final JLabel lblNewLabel_1 = new JLabel("Player 1");
-
-
+	private JButton Next;
+	private int numberOfPlayers;
+	private String difficultyLevel;
 	/**
 	 * Create the frame.
 	 */
 	public PlayerNicknames2(int numberOfPlayers, String difficultyLevel) {
+		this.numberOfPlayers=numberOfPlayers;
+		this.difficultyLevel=difficultyLevel;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1019, 616);
 		contentPane = new JPanel();
@@ -40,7 +43,7 @@ public class PlayerNicknames2 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton Next = new JButton("Next");
+		 Next = new JButton("Next");
 		
 		Next.setBounds(680, 493, 183, 47);
 		contentPane.add(Next);
@@ -93,27 +96,8 @@ public class PlayerNicknames2 extends JFrame {
 		            e.consume();  // ignore the event if it's not a letter or a control character
 		        }}
 		});
+        initializeNextButtonAction(); 
 
-		Next.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String[] Playersname = new String[numberOfPlayers];
-        		Playersname[0]=textField1.getText().trim();;
-        		Playersname[1]=textField2.getText().trim();;
-        		if(isValidString(Playersname[0]) && isValidString(Playersname[1])&& !(Playersname[0].equals(Playersname[1]))){
-        			 Color[] color = new Color[numberOfPlayers];
-                     color[0] = Color.GREEN;
-                     color[1] = Color.BLUE;
-                     PlayerNicknames2.this.setVisible(false);
-     				new PlayerTurn(numberOfPlayers ,difficultyLevel , Playersname , color).setVisible(true);
-        		}else {
-        			showMessage("Please enter a valid name or an unique nicknames ");
-                    return;
-        		}
-        		
-        		
-			}
-		});
-		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/Nicknames2.png")));
 		lblNewLabel.setBounds(0, -76, 1005, 737);
@@ -125,5 +109,53 @@ public class PlayerNicknames2 extends JFrame {
 	 private void showMessage(String message) {//show message if the name is unvalid
 	        JOptionPane.showMessageDialog(PlayerNicknames2.this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
 	    }
+	 private void initializeNextButtonAction() {
+	        Next.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                handleNextAction();
+	            }
+	        });
+	    }
+
+	    public boolean handleNextAction() {
+	        String[] playerNames = getPlayerNames();
+	        if (validatePlayerNames(playerNames)) {
+	            Color[] colors = assignColorsToPlayers(playerNames.length);
+	            navigateToPlayerTurnView(playerNames, colors);
+	        } else {
+	            showMessage("Please enter valid and unique nicknames.");
+				return false;
+	        }
+			return true;
+	    }
+
+	    private String[] getPlayerNames() {
+	        String[] playerNames = new String[numberOfPlayers];
+	        playerNames[0] = textField1.getText().trim();
+	        playerNames[1] = textField2.getText().trim();
+	        return playerNames;
+	    }
+
+	    private boolean validatePlayerNames(String[] playerNames) {
+	        for (String name : playerNames) {
+	            if (!isValidString(name) || name.isEmpty()) return false;
+	        }
+	        return !playerNames[0].equals(playerNames[1]);
+	    }
+
+	    private Color[] assignColorsToPlayers(int numberOfPlayers) {
+	        Color[] colors = new Color[numberOfPlayers];
+	        colors[0] = Color.GREEN;
+	        colors[1] = Color.BLUE;
+	        return colors;
+	    }
+
+	    private void navigateToPlayerTurnView(String[] playerNames, Color[] colors) {
+	        this.setVisible(false);
+	        new PlayerTurn(numberOfPlayers, difficultyLevel, playerNames, colors).setVisible(true);
+	    }
+
+	
+
 
 }
