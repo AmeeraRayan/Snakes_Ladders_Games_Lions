@@ -60,9 +60,16 @@ public class BounusResults4 extends JFrame {
 		JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Game game = new Game(difficultyLevel, playersSortedByOrder); 
-                new BoardEasyViewPlayers(game).setVisible(true);
-                BounusResults4.this.setVisible(false); // Hide the current window
+            	 Game game = new Game(difficultyLevel, playersSortedByOrder);
+
+          	   if(difficultyLevel.equals("Easy")) {   
+                     new BoardEasyViewPlayers(game).setVisible(true);
+                     BounusResults4.this.setVisible(false); 
+                     }
+                     if(difficultyLevel.equals("Medium")) {
+                         new MediumGameBoard(game).setVisible(true);
+                         BounusResults4.this.setVisible(false); 
+                         }
             }
         });
         btnNewButton_1.setBounds(556, 434, 105, 34);

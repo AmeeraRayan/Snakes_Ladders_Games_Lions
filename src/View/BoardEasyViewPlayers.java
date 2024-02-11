@@ -206,7 +206,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		startGameTimer(); 
 
 	}
-<<<<<<< Updated upstream
 
 	public void initializeBoard() {
 		// Randomly select a board configuration
@@ -868,7 +867,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	               handleAnswer(selectedAnswer);
 	           }
 	       }
->>>>>>> Stashed changes
 
 
 
