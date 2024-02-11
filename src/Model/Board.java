@@ -8,7 +8,7 @@ import java.util.Random;
 public class Board {
 	private static Board instance = null;
 	private int size;
-    private Square[][] cells;
+    private static Square[][] cells;
     private static Snake[] snakes;
     private static Ladder[] ladders;
     private static Square[] questions;
@@ -31,7 +31,7 @@ public class Board {
         	this.cells = new Square[10][10];
             this.snakes = new Snake[6];
             this.ladders = new Ladder[6];
-            //initializeSnakesAndLaddersForMedium();
+            this.questions = new Square[3];
         }else {
         	this.cells = new Square[13][13];
             this.snakes = new Snake[8];
@@ -41,6 +41,14 @@ public class Board {
     }
     
     
+	public void initializeSnakesAndLaddersForMedium(Square[][] cellsformeduim,Snake[] snakesformeduim,Ladder[] laddersformeduim,Square[] questionSquares) {
+		// TODO Auto-generated method stub
+		cells = cellsformeduim;
+		snakes = snakesformeduim;
+		ladders = laddersformeduim;
+		questions = questionSquares;
+	}
+
 	public static void initializeSnakesAndLaddersForEasy1() {//easybord1
 	    // Initialize 4 snakes	
 	   snakes[0] = new Snake(new Square(5, 3, 45),new Square(6, 0, 1));//RED
@@ -110,18 +118,31 @@ public class Board {
 	public void setSize(int size) {
 		this.size = size;
 	}
-
-	public Snake[] getSnakes() {
+	
+	public static Snake[] getSnakes() {
 		return snakes;
 	}
 
-	public Ladder[] getLadders() {
+	public static void setSnakes(Snake[] snakes) {
+		Board.snakes = snakes;
+	}
+
+	public static Ladder[] getLadders() {
 		return ladders;
 	}
-	public Square[] getQuestions() {
+
+	public static void setLadders(Ladder[] ladders) {
+		Board.ladders = ladders;
+	}
+
+	public static Square[] getQuestions() {
 		return questions;
 	}
-	
+
+	public static void setQuestions(Square[] questions) {
+		Board.questions = questions;
+	}
+
 	public Square[][] getCells() {
 		return cells;
 	}
@@ -129,8 +150,10 @@ public class Board {
 	public void setCells(Square[][] cells) {
 		this.cells = cells;
 	}
+
 	@Override
 	public String toString() {
 		return "Board [size=" + size + "]";
 	}
+	
 }

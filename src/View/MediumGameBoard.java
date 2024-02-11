@@ -22,6 +22,7 @@ import javax.swing.plaf.PanelUI;
 import Model.Ladder;
 import Model.Snake;
 import Model.Square;
+import Model.Board;
 import Model.Dice;
 import Model.SquareType;
 
@@ -41,6 +42,7 @@ public class MediumGameBoard extends JFrame {
     private Snake[] snakes = new Snake[6];
     private Ladder[] ladders = new Ladder[6];
     private Square[] quastionSquares = new Square[3];
+    private Board meduimboard = new Board(GRID_SIZE);
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     public MediumGameBoard() {
@@ -126,21 +128,23 @@ public class MediumGameBoard extends JFrame {
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
                 boardlabels[i][j] = label;
-                
+               
                 //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
             }
         }
+ 
+        setRedSnakes(outerPanel);
+        setYellowSnake(outerPanel);
+        setBlueSnakes(outerPanel);
+        setGreenSnakes(outerPanel);
         setladder1(outerPanel);
         setladder2(outerPanel);
         setladder3(outerPanel);
         setladder4(outerPanel);
         setladder5(outerPanel);
         setladder6(outerPanel);
-        setRedSnakes(outerPanel);
-        setYellowSnake(outerPanel);
-        setBlueSnakes(outerPanel);
-        setGreenSnakes(outerPanel);
-       
+        meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+              
     }
 
     // Get a color that is different from the adjacent cell
