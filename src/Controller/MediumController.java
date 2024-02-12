@@ -1,6 +1,7 @@
 package Controller;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -10,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.Timer;
 
 import Model.Game;
 import Model.Player;
@@ -17,6 +20,7 @@ import Model.Questions;
 import Model.Square;
 import Model.SquareType;
 import Model.SysData;
+import javafx.event.ActionEvent;
 
 public class MediumController {
 	private Game game;
@@ -116,7 +120,7 @@ public class MediumController {
 		
 	}
 	
-	private int[] FindSquareByValue(int val) {
+	public int[] FindSquareByValue(int val) {
 		int[] IAndJ = new int[2];
 		 for (int i = 0; i < game.getBoard().getCells().length; i++) {
 	            for (int j = 0; j < game.getBoard().getCells().length; j++) {
@@ -225,4 +229,57 @@ public class MediumController {
 		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	  
+	  public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+		    final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
+		    final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
+		    final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
+		    timer.addActionListener(new ActionListener() {
+		       
+
+				@Override
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					// TODO Auto-generated method stub
+					 // Current position
+		            int currentX = j.getX();
+		            int currentY = j.getY();
+
+		            // Determine the direction of movement
+		            int dx = targetX - currentX;
+		            int dy = targetY - currentY;
+
+		            // Determine the step size for each timer tick (adjust for speed/smoothness)
+		            int stepX = (int)Math.signum(dx);
+		            int stepY = (int)Math.signum(dy);
+
+		            // Move the JLabel towards the target location
+		            if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
+		                j.setLocation(currentX + stepX, currentY + stepY);
+		            } else {
+		                // Stop the timer when the target location is reached
+		                timer.stop();
+		            }
+				}
+		    });
+		    timer.start();
+		}
+	  
+	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
+	        switch (color.toString()) {
+	        case "BLUE":
+	            txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
+	            break;
+	        case "GREEN":
+	            txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
+	            break;
+	        case "RED":
+	            txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+	            break;
+	        case "YELLOW":
+	            txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+	            break;
+	        default:
+	            // Default color for other players
+	            txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
+	            break;
+	        } };
 }
