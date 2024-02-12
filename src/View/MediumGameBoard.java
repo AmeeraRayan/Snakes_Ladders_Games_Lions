@@ -1,5 +1,5 @@
 package View; 
-import java.io.Console;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,9 +46,8 @@ public class MediumGameBoard extends JFrame{
     private Ladder[] ladders = new Ladder[6];
     private Square[] quastionSquares = new Square[6];
     private Board meduimboard = new Board(GRID_SIZE);
-    private static  Game gameInstance;
     private MediumController controller ; 
-     JFrame frame;
+    JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
@@ -56,7 +55,7 @@ public class MediumGameBoard extends JFrame{
         // Setting up the main frame
     	frame = new JFrame();
         frame.setTitle("Game Board");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setSize(985, 748);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
@@ -69,9 +68,7 @@ public class MediumGameBoard extends JFrame{
         JButton diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(857, 421, 78, 81);
-        outerPanel.add(diceButton);
-        
-        
+        outerPanel.add(diceButton);        
         
         // Creating the inner panel
         JPanel innerPanel = new JPanel();
@@ -86,8 +83,6 @@ public class MediumGameBoard extends JFrame{
         diceButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		//System.out.println(game.getBoard().getLadders()[0].toString());
-        		//System.out.println(game.getBoard().getLadders()[1].toString());
 
         		int result = dice.DiceForMediumGame();
         		System.out.println(result);
@@ -113,12 +108,13 @@ public class MediumGameBoard extends JFrame{
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
      
-        // Adding the outer panel to the frame
-        frame.add(outerPanel);        
+              
         JTextPane textPane_1 = new JTextPane();
         textPane_1.setBounds(28, 175, 106, 140);
         outerPanel.add(textPane_1);
-        this.frame.setVisible(true);
+        // Adding the outer panel to the frame
+        frame.add(outerPanel); 
+        frame.setVisible(true);
         
     }
     private void initializeBoard(JPanel panel, JPanel outerPanel) { 
@@ -302,18 +298,18 @@ public class MediumGameBoard extends JFrame{
             i = random_i;
             j = random_j;
             ladderLabel = new JLabel();
-	        ladderLabel.setBounds(boundX, boundY, width, height);
-	        startSquare = findStartSquare_ladder(squares[i][j], num);
-	        endSquare = findEndSquare_ladder(squares[i][j], num, width);
-            System.out.println(endSquare.getValue() + "end ladder" + num +"i= "+random_i);
-            // Check if the start or end of the new ladder coincides with any existing ladder 
-             coincide = isLadderCoincide(i,j); 
-             conflictedWithSnake =isLadderStartSquareCoincideWithSnakes(startSquare); 
+            ladderLabel.setBounds(boundX, boundY, width, height);
+            startSquare = findStartSquare_ladder(squares[i][j], num);
+            endSquare = findEndSquare_ladder(squares[i][j], num, width);
+            // Check if the start or end of the new ladder coincides with any existing ladder
+            coincide = isLadderCoincide(i, j, endSquare.getRow(), endSquare.getCol());
+            conflictedWithSnake = isLadderStartSquareCoincideWithSnakes(startSquare,endSquare);
             Ladder ladder = new Ladder(startSquare, endSquare);
-            ladders[num-1] = ladder;
+            ladders[num - 1] = ladder;
             ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource(imagePath)));
             panel.add(ladderLabel);
-        } while (coincide || conflictedWithSnake);  
+        } while (coincide || conflictedWithSnake);
+
     } 
 
     private void setladder1(JPanel panel) {
@@ -393,20 +389,25 @@ public class MediumGameBoard extends JFrame{
     }
     
  // Method to check if the start or end of the new ladder coincides with any existing ladder
-    private boolean isLadderCoincide(int i, int j) {
+    private boolean isLadderCoincide(int startI, int startJ, int endI, int endJ) {
         // Check if the start or end coincides with any existing ladder
         for (Ladder ladder : ladders) {
-                if (ladder!=null && ladder.getSquareStart().getRow() == i && ladder.getSquareStart().getCol() == j) {
-                    return true; // If the start or end coincides with an existing ladder, return true
-                }
-        	}
+            if (ladder != null && 
+                ((ladder.getSquareStart().getRow() == startI && ladder.getSquareStart().getCol() == startJ) ||
+                 (ladder.getSquareStart().getRow() == endI && ladder.getSquareStart().getCol() == endJ && 
+                 ladder.getSquareStart().getRow() == startI && ladder.getSquareStart().getCol() == startJ))) {
+                return true; // If the start or end coincides with an existing ladder, return true
+            }
+        }
         return false;
     }
+
     
  // Function to check if a ladder's start square coincides with any of the snake's start squares
-    private boolean isLadderStartSquareCoincideWithSnakes(Square ladderStartSquare) {
+    private boolean isLadderStartSquareCoincideWithSnakes(Square ladderStartSquare, Square ladderEndSquare) {
         for (Snake snake : snakes) {
-            if (snake != null && snake.getSquareStart().equals(ladderStartSquare)) {
+            if (snake != null && snake.getSquareStart().equals(ladderStartSquare) || 
+            		(snake.getSquareEnd().equals(ladderStartSquare) && snake.getSquareStart().equals(ladderEndSquare))) {
                 return true;
             }
         }
