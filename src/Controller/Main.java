@@ -13,7 +13,7 @@ public class Main {
 		 MainScreen mainScreen = new MainScreen();
 	        mainScreen.setVisible(true);
     
-	        
+	    
 	}
 
 }

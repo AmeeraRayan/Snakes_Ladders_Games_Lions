@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.PanelUI;
@@ -32,6 +33,8 @@ import Model.SquareType;
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import javax.swing.OverlayLayout;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
  
@@ -48,6 +51,8 @@ public class MediumGameBoard extends JFrame{
     private Board meduimboard = new Board(GRID_SIZE);
     private  Game gameInstance;
     private MediumController controller ; 
+    private int index = 0 ;
+    public static JLabel[] playersLable;
      JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
@@ -65,6 +70,7 @@ public class MediumGameBoard extends JFrame{
         JTextPane textPane = new JTextPane();
         textPane.setBounds(411, 23, 251, 55);
         outerPanel.add(textPane);
+
         
         JButton diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
@@ -80,31 +86,77 @@ public class MediumGameBoard extends JFrame{
         game.setDice(dice);
         controller = new MediumController(game);
         controller.CallQuestionDataFunc();
-        // create game instance and set the board and the dice >> BACKEND . 
-        CurrentPlayer = controller.getGame().getCurrentPlayer();
-        
-        diceButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		System.out.println(game.getBoard().getLadders()[0].toString());
-        		System.out.println(game.getBoard().getLadders()[1].toString());
+        IntilaizePlayerPositionView(game , controller , outerPanel);
+        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+        textPane.setAlignmentX(0.2f);
+        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
-        		int result = dice.DiceForMediumGame();
-        		System.out.println(result);
-        		String path = "/images/dice " + result + ".jpg";
-                diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                if(result != 7 ) {
-                int[] IAndJ = new int[2];
-                IAndJ = controller.updatePlayerPosition(CurrentPlayer, result , "Dice" );
-                System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1]+" val: " +controller.getGame().getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue() );
-                controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
-                System.out.println("\n Position: " +controller.getGame().getCurrentPlayer().getPosition());
-                }
-                else {
-                	controller.DiceQuestion(result, frame);
-                }
-        	}
+         
+        // create game instance and set the board and the dice >> BACKEND . 
+        //CurrentPlayer = controller.getGame().getCurrentPlayer();
+        diceButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                index = game.getCurrentPlayerIndex();
+                Player CurrentPlayer = game.getPlayers().get(index);
+                System.out.println("Player turn: " + CurrentPlayer.getName());
+
+                // Start dice roll animation
+                final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+                final Timer timer = new Timer(100, null);
+                final int[] currentNumber = {1};
+                final int numberOfFaces = 6;
+                int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
+
+                ActionListener listener = new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (count < animationCycle[0]) {
+                            String path = "/images/dice " + currentNumber[0] + ".jpg";
+                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                            currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+                            count++;
+                        } else {
+                            // Animation ends, show final result
+                            String path = "/images/dice " + result + ".jpg";
+                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                            timer.stop();
+
+                            // After animation logic
+                            System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
+                       //     controller.displayAnimatedMessage(frame,"Dice result for player " + result );
+                            if(result < 7) {
+                                int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice");
+                                controller.animatePlayerMovement(playersLable[index], IAndJ, game);
+                                System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
+                                controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
+                                
+                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
+                            } else {
+                                System.out.println("from result");
+                                controller.DiceQuestion(result, frame);
+                            }
+
+                            // Prepare for next player
+                            index++;
+                            if(index >= game.getPlayers().size()) {
+                                index = 0;
+                            }
+                            game.setCurrentPlayerIndex(index);
+                            game.setCurrentPlayer(game.getPlayers().get(index));
+                            textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+                        }
+                    }
+                };
+                timer.addActionListener(listener);
+                timer.start();
+            }
         });
+
      
         innerPanel.setBounds(224, 118, 550, 550);
         innerPanel.setBackground(Color.WHITE);
@@ -114,7 +166,7 @@ public class MediumGameBoard extends JFrame{
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
      
         // Adding the outer panel to the frame
-        frame.add(outerPanel);        
+        frame.getContentPane().add(outerPanel);
         JTextPane textPane_1 = new JTextPane();
         textPane_1.setBounds(28, 175, 106, 140);
         outerPanel.add(textPane_1);
@@ -178,6 +230,7 @@ public class MediumGameBoard extends JFrame{
         	System.out.println(ladders[i].toString());
         }
         meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+        
     }
     
 
@@ -241,9 +294,10 @@ public class MediumGameBoard extends JFrame{
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
-        System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
+        //System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
+        //System.out.println("start: "+squares[i][j].getValue() + " End : "+EndSquare.getValue());
         snakes[2] = yellowSnake;
         yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/rightYellow.png")));
         panel.add(yellowSnakeLabel);
@@ -414,6 +468,54 @@ public class MediumGameBoard extends JFrame{
         return num_j; 
     }
     
+    private static void IntilaizePlayerPositionView(Game g , MediumController control,JPanel panel) { //intilaize player position FrontEnd
+    	playersLable = new JLabel[g.getPlayers().size()];
+    	int[] indexes = new int[2];
+		indexes = control.FindSquareByValue(1);   
+		int spaceX = 0;          
+		int spaceY = 0;          
+		
+
+    	for(int i = 0 ; i < playersLable.length ; i++) {
+    		if(i>1) {
+    			spaceX = 0;
+    			spaceY = 30;
+    		}
+    		playersLable[i] = new JLabel();
+    		playersLable[i].setBounds(g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsX()+spaceX,g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsY()-15 + spaceY , 37, 35);
+    		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
+    			String path = "/images/greenPlayer.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    			
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
+    			String path = "/images/yellowPlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
+    			String path = "/images/RedPlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
+
+    			String path = "/images/BluePlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                
+
+    		}
+    		
+    		spaceX= spaceX + 25;
+            panel.add(playersLable[i]);
+    		panel.setComponentZOrder(playersLable[i], 0);
+
+    	}
+        System.out.println(playersLable.length);
+
+    }
+    
       
  // Function to check if the start square is taken by another snake
     private boolean isSnakeStartSquareTaken(int i, int j) {
@@ -461,20 +563,20 @@ public class MediumGameBoard extends JFrame{
     	  for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares[i].length; j++) {
             if(color == Color.YELLOW) {
-              if(squares[i][j].getBoundsX() == StartSquare.getBoundsX()+ 55 &&squares[i][j].getBoundsY() == StartSquare.getBoundsX()+ 55) {
-            	  System.out.println(squares[i][j].getValue()+ " end yellow");
+              if(squares[i][j].getBoundsX() == StartSquare.getBoundsX()+ 55 &&squares[i][j].getBoundsY() == StartSquare.getBoundsY()+ 55) {
+            	  System.out.println(squares[i][j].getValue()+ " End yellow");
             	  return squares[i][j];
               }
             }
             if(color == Color.BLUE) {
-            	if(squares[i][j].getBoundsX()+110 == StartSquare.getBoundsX() &&squares[i][j].getBoundsY()-165 == StartSquare.getBoundsX()) {
+            	if(squares[i][j].getBoundsX()+110 == StartSquare.getBoundsX() &&squares[i][j].getBoundsY()-165 == StartSquare.getBoundsY()) {
               	  System.out.println(squares[i][j].getValue()+ " EndBlue");
               	  return squares[i][j];
                 }
             	
             }
             if(color == Color.GREEN) {
-            	if(squares[i][j].getBoundsX() == StartSquare.getBoundsX()+55 &&squares[i][j].getBoundsY() == StartSquare.getBoundsX()+110) {
+            	if(squares[i][j].getBoundsX() == StartSquare.getBoundsX()+55 &&squares[i][j].getBoundsY() == StartSquare.getBoundsY()+110) {
               	  System.out.println(squares[i][j].getValue()+" EndSquare");
               	  return squares[i][j];
                 }
@@ -484,7 +586,7 @@ public class MediumGameBoard extends JFrame{
         }
     	return null;
     }
- 
+    
 
     private Square findStartSquare_ladder(Square startSquare,int number) {
     	  for (int i = 0; i < squares.length; i++) {
@@ -590,10 +692,4 @@ public class MediumGameBoard extends JFrame{
         
         return null; // Handle case where start square is not found
     }
- 
-// 
-//    public static void main(String[] args) {
-//        // Running the application
-//        SwingUtilities.invokeLater(() -> new MediumGameBoard());
-//    }
 }

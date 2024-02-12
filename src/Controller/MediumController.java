@@ -47,10 +47,12 @@ public class MediumController {
 		if(type.equals("Snake") || type.equals("Ladder")) {
 		     newPosition = result;
 		}
-		if(newPosition<100) {
-			currentPlayer.setPosition(newPosition);
-			IAndJ = FindSquareByValue(newPosition);
+	
+		if(newPosition >=100) {
+			newPosition = 100;
 		}
+		currentPlayer.setPosition(newPosition);
+		IAndJ = FindSquareByValue(newPosition);
 		return IAndJ;
 	}
 	
@@ -99,6 +101,7 @@ public class MediumController {
 	}
 	
 	public void DiceQuestion(int result , JFrame frame) {
+		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
 			 question = SysData.getQuestionLevel("easy");
@@ -185,9 +188,41 @@ public class MediumController {
 		      } else if (answer4Button.isSelected()) {
 		          selectedOption = 3;
 		      }
+		
 		  }
-
+		  updateplayerbyAnswer(question, selectedOption);
 	       
 	    }
-
+	  public void updateplayerbyAnswer(Questions question,int result) {
+		  if(question.getDiffculty() == 1 ) {
+			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
+				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+			  }
+			  else {
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
+			  }
+		  }
+		  if(question.getDiffculty() == 2) {
+			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
+				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+				  }
+			  else {
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
+			  }
+		  }
+		  if(question.getDiffculty() == 3) {
+			  if(result == question.getCorrectOption()) {
+				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
+				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+			  }
+			  else if(result == question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
+					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
+					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+				  }
+		  } 
+		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
+	}
+	  
 }
