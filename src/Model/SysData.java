@@ -256,6 +256,21 @@ public class SysData {
 		    }
 		    return null;
 		}
+		public static Questions getQuestionForPosition(String difficulty) {
+			  if (difficulty != null) {
+			        switch (difficulty) {
+			            case "easy":
+			                return getRandomQuestion(easyQuestions);
+			            case "medium":
+			                return getRandomQuestion(mediumQuestions);
+			            case "hard":
+			                return getRandomQuestion(HardQuestions);
+			            default:
+			                return null; // No question for this position
+			        }
+			    }
+			    return null;
+			}
 
 		public static Questions getQuestionLevel(String difficulty) {		    
 		    if (difficulty != null) {

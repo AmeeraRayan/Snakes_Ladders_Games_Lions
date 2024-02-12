@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Questions {
 	    private String questionText;
@@ -65,6 +66,23 @@ public class Questions {
 		public String toString() {
 			return "Questions [questionText=" + questionText + ", options=" + Arrays.toString(options)
 					+ ", correctOption=" + correctOption + ", id=" + id + ", diffculty=" + diffculty + "]";
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(questionText);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Questions other = (Questions) obj;
+			return Objects.equals(questionText, other.questionText);
 		}
 	 
 	 

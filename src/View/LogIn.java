@@ -21,10 +21,35 @@ public class LogIn extends JFrame implements ActionListener{
 
     private JFrame frame;
     private JTextField txtuser;
+	public JTextField getTxtuser() {
+		return txtuser;
+	}
+
+	public void setTxtuser(JTextField txtuser) {
+		this.txtuser = txtuser;
+	}
+
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+
+
 	private JButton btnNewButton;
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
-    private JPasswordField passwordField;
+    public JPasswordField passwordField;
 
     public LogIn() {
         initialize();

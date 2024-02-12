@@ -42,6 +42,7 @@ import java.awt.FlowLayout;
 public class MainScreen extends JFrame{
 
     private MainScreen frame ;
+    public JButton btnNewButton_1;
 
     public MainScreen() {
     	frame=this;
@@ -61,7 +62,7 @@ public class MainScreen extends JFrame{
         frame.getContentPane().add(btnNewButton);
 
 
-        JButton btnNewButton_1 = new JButton("Management Question");
+         btnNewButton_1 = new JButton("Management Question");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showQuestionDialog();
