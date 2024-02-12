@@ -288,4 +288,9 @@ public class MediumController {
 	            timer.start(); // Begin animation
 	        });
 	    }
+//	  public void movePlayerAndCheckSquare(Player currentPlayer, int diceResult) {
+//		    int[] newSquare = updatePlayerPosition(currentPlayer, diceResult, "Dice");
+//		    checkTheTypeOfTheSquare(newSquare[0], newSquare[1], someFrame); // Assuming you pass the correct JFrame
+//		}
+
 }

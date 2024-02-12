@@ -133,6 +133,7 @@ public class MediumGameBoard extends JFrame{
                                 controller.animatePlayerMovement(playersLable[index], IAndJ, game);
                                 System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
                                 controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
+                                
                                 System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
                             } else {
                                 System.out.println("from result");
