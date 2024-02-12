@@ -136,7 +136,7 @@ public class SysData {
 		JsonReader reader = null;
 		try {
 			
-			reader = new JsonReader(new FileReader("Model/QuestionsAndAnswers.json"));
+			reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
