@@ -188,27 +188,38 @@ public class MediumController {
 		      } else if (answer4Button.isSelected()) {
 		          selectedOption = 3;
 		      }
+		
 		  }
 		  updateplayerbyAnswer(question, selectedOption);
 	       
 	    }
 	  public void updateplayerbyAnswer(Questions question,int result) {
 		  if(question.getDiffculty() == 1 ) {
-			  if(result != question.getCorrectOption()) {
+			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
 				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+			  }
+			  else {
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
 			  }
 		  }
 		  if(question.getDiffculty() == 2) {
-			  if(result != question.getCorrectOption()) {
+			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
 				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
 				  }
+			  else {
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
 			  }
+		  }
 		  if(question.getDiffculty() == 3) {
 			  if(result == question.getCorrectOption()) {
 				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
+				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
 			  }
-			  else {
+			  else if(result == question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
 					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
+					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
 				  }
 		  } 
 		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
