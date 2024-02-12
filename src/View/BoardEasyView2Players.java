@@ -250,21 +250,9 @@ public class BoardEasyView2Players extends JFrame {
 
 
 	private void animatePlayerTurnTitle() {
-		final int delay = 200;
-		ActionListener taskPerformer = new ActionListener() {
-			private boolean flag = false;
-			public void actionPerformed(ActionEvent evt) {
-				if (currentPlayer != null) {
-					if (flag) {
-						currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
-					} else {
-						currentPlayerLabel.setText(">> Player Turn: " + currentPlayer.getName() + " <<");
-					}
-					flag = !flag; 
-				}
-			}
-		};
-		new Timer(delay, taskPerformer).start();
+	    if (currentPlayer != null) {
+	        currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
+	    }
 	}
 
 
