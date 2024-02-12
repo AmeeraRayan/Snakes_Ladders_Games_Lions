@@ -1,6 +1,8 @@
 package Controller;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -9,7 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import Model.Game;
 import Model.Player;
@@ -53,8 +59,11 @@ public class MediumController {
 		}
 		currentPlayer.setPosition(newPosition);
 		IAndJ = FindSquareByValue(newPosition);
+		
 		return IAndJ;
 	}
+	
+	
 	
 	public void checkTheTypeOfTheSquare(int i , int j , JFrame frame) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
@@ -86,6 +95,7 @@ public class MediumController {
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
                 	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake");
+
                 	 break;
                  }
 			}
@@ -116,7 +126,7 @@ public class MediumController {
 		
 	}
 	
-	private int[] FindSquareByValue(int val) {
+	public int[] FindSquareByValue(int val) {
 		int[] IAndJ = new int[2];
 		 for (int i = 0; i < game.getBoard().getCells().length; i++) {
 	            for (int j = 0; j < game.getBoard().getCells().length; j++) {
@@ -129,6 +139,25 @@ public class MediumController {
 	        }
 		 return IAndJ;
 	}
+    public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
+        switch (color.toString()) {
+        case "BLUE":
+            txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
+            break;
+        case "GREEN": 
+            txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
+            break;
+        case "RED":
+            txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+            break;
+        case "YELLOW":
+            txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+            break;
+        default:
+            // Default color for other players
+            txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
+            break;
+        } }
 	
 	  public void showAddQuestionPopup(Questions question , JFrame frame) {
 		  JRadioButton answer1Button = new JRadioButton();
@@ -193,4 +222,70 @@ public class MediumController {
 	       
 	    }
 
+//	public void PlayerMovment(JLabel j, int[] iAndJ, Game g) {
+//		// TODO Auto-generated method stub
+//		j.setBounds(g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX(),g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY()-15, 37, 35);	
+//	}
+	  public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+		    final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
+		    final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
+		    final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
+		    timer.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Current position
+		            int currentX = j.getX();
+		            int currentY = j.getY();
+		            
+		            // Determine the direction of movement
+		            int dx = targetX - currentX;
+		            int dy = targetY - currentY;
+		            
+		            // Determine the step size for each timer tick (adjust for speed/smoothness)
+		            int stepX = (int)Math.signum(dx);
+		            int stepY = (int)Math.signum(dy);
+		            
+		            // Move the JLabel towards the target location
+		            if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
+		                j.setLocation(currentX + stepX, currentY + stepY);
+		            } else {
+		                // Stop the timer when the target location is reached
+		                timer.stop();
+		            }
+		        }
+		    });
+		    timer.start();
+		}
+	  
+	  public static void displayAnimatedMessage(JFrame frame, String message) {
+	        SwingUtilities.invokeLater(() -> {
+	            // Create the label with the provided message
+	            JLabel messageLabel = new JLabel(message);
+	            messageLabel.setSize(messageLabel.getPreferredSize()); // Adjust label size to fit message
+	            int startY = frame.getHeight() / 2; // Start position for the message (vertically centered)
+	            messageLabel.setBounds(-messageLabel.getWidth(), startY, messageLabel.getWidth(), messageLabel.getHeight());
+	            frame.getContentPane().add(messageLabel);
+
+	            // Create a timer to animate the label
+	            Timer timer = new Timer(20, new ActionListener() {
+	                int deltaX = 2; // Speed of movement (pixels per timer tick)
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    // Move the label horizontally
+	                    int x = messageLabel.getBounds().x + deltaX;
+	                    int y = messageLabel.getBounds().y;
+
+	                    // Reset the label to the left side after it moves off the frame's right edge
+	                    if (x > frame.getWidth()) {
+	                        x = -messageLabel.getWidth();
+	                    }
+
+	                    // Update label position
+	                    messageLabel.setBounds(x, y, messageLabel.getWidth(), messageLabel.getHeight());
+	                    frame.getContentPane().repaint(); // Ensure the content pane repaints to reflect label movement
+	                }
+	            });
+	            timer.start(); // Begin animation
+	        });
+	    }
 }
