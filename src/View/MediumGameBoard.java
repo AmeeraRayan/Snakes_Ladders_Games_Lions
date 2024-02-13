@@ -68,13 +68,13 @@ public class MediumGameBoard extends JFrame{
         outerPanel.setLayout(null);
         
         JTextPane textPane = new JTextPane();
-        textPane.setBounds(411, 23, 251, 55);
+        textPane.setBounds(330, 23, 332, 65);
         outerPanel.add(textPane);
 
         
         JButton diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(857, 421, 78, 81);
+        diceButton.setBounds(847, 354, 78, 81);
         outerPanel.add(diceButton);
         
         
@@ -129,10 +129,9 @@ public class MediumGameBoard extends JFrame{
                             System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
                        //     controller.displayAnimatedMessage(frame,"Dice result for player " + result );
                             if(result < 7) {
-                                int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice");
-                                controller.animatePlayerMovement(playersLable[index], IAndJ, game);
+                                int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice", frame,playersLable[index]);
+                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
                                 System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
-                                controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], frame);
                                 
                                 System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
                             } else {
@@ -225,12 +224,8 @@ public class MediumGameBoard extends JFrame{
         setladder4(outerPanel);
         setladder5(outerPanel);
         setladder6(outerPanel);
-        for(int i = 0; i < ladders.length ; i++) {
-        	System.out.println("\n");
-        	System.out.println(ladders[i].toString());
-        }
         meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
-        
+             
     }
     
 
@@ -250,6 +245,8 @@ public class MediumGameBoard extends JFrame{
         double luminance = (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue()) / 255;
         return luminance > 0.5 ? Color.BLACK : Color.WHITE;  
     }
+    
+    
     
     
     private void setRedSnakes(JPanel panel) {
@@ -397,7 +394,7 @@ public class MediumGameBoard extends JFrame{
             System.out.println(num-1);
             ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource(imagePath)));
             panel.add(ladderLabel);
-        } while (coincide || conflictedWithSnake);
+        } while (coincide || conflictedWithSnake|| isQuestionSquare(i,j));
     }
 
     private void setladder1(JPanel panel) {
@@ -550,12 +547,13 @@ public class MediumGameBoard extends JFrame{
     
  // Function to check if a given position coincides with question squares
     private boolean isQuestionSquare(int i, int j) {
+    	boolean flag = false;
         for (Square questionSquare : quastionSquares) {
             if (questionSquare != null && questionSquare.getRow() == i && questionSquare.getCol() == j) {
-                return true;
+                flag = true;
             }
         }
-        return false; // No coincidence found
+        return flag; // No coincidence found
     }
 
     
