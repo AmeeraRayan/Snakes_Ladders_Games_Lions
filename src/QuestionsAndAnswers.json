@@ -8,7 +8,7 @@
         "3. To completely rewrite the system",
         "4. To document the software for new developers"
       ],
-      "correct_ans": "5",
+      "correct_ans": "1",
       "difficulty": "2"
     },
     {
@@ -19,29 +19,18 @@
         "3. Using the most advanced programming languages",
         "4. Finding enough software to copy from"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
-    },
-    {
-      "question": "Software engineering is an engineering discipline that is concerned with:",
-      "answers": [
-        "1. Early stages of the system",
-        "2. the problems of the system after its use",
-        "3. User interface design of the system",
-        "4. all aspects of software production from the early stages of system specification through to maintaining "
-      ],
-      "correct_ans": "7",
-      "difficulty": "1"
     },
     {
       "question": "Why did the software fail in 2005?",
       "answers": [
         "1. The customers would always press the developers about the time",
-        "2. Inaccurate estimates of needed resources ",
-        "3. Unmanaged risks ",
+        "2. Inaccurate estimates of needed resources",
+        "3. Unmanaged risks",
         "4. Answers 2 and 3 are correct"
       ],
-      "correct_ans": "7",
+      "correct_ans": "4",
       "difficulty": "2"
     },
     {
@@ -52,7 +41,7 @@
         "3. Name of the last stage in production",
         "4. all answers is uncorrect"
       ],
-      "correct_ans": "4",
+      "correct_ans": "1",
       "difficulty": "1"
     },
     {
@@ -63,7 +52,7 @@
         "3. Customer collaboration over contract negotiation",
         "4. Process and tools over individuals and interactions"
       ],
-      "correct_ans": "6",
+      "correct_ans": "3",
       "difficulty": "1"
     },
     {
@@ -74,7 +63,7 @@
         "3. Fixing bugs",
         "4. Changing software functionality"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -85,7 +74,7 @@
         "3. The size of the software",
         "4. The cost of the software"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -96,7 +85,7 @@
         "3. To facilitate Agile practices and remove impediments",
         "4. To design the software\u0027s user interface"
       ],
-      "correct_ans": "6",
+      "correct_ans": "3",
       "difficulty": "2"
     },
     {
@@ -107,7 +96,7 @@
         "3. Constant communication with the client",
         "4. Uninterrupted software development"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -118,7 +107,7 @@
         "3. A programming competition between two developers",
         "4. A mentoring session between a senior and junior programmer"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "1"
     },
     {
@@ -129,7 +118,7 @@
         "3. To determine the salary of the programmer",
         "4. To measure the speed of coding"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "1"
     },
     {
@@ -140,18 +129,18 @@
         "3. The cost of not fixing bugs in a software",
         "4. The future cost incurred due to earlier quick fixes instead of proper solutions"
       ],
-      "correct_ans": "7",
+      "correct_ans": "4",
       "difficulty": "2"
     },
     {
-      "question": "Development Testing is  :",
+      "question": "Development Testing is:",
       "answers": [
         "where the system is tested during development to discover bugs and defects",
         "where a separate testing team test a complete version of the system before it is released to users",
         "where users or potential users of a system test the system in their own environment",
         "4. Answers 1 and 2 are correct"
       ],
-      "correct_ans": "4",
+      "correct_ans": "1",
       "difficulty": "3"
     },
     {
@@ -162,7 +151,7 @@
         "3. evolution",
         "4. All the answers are correct"
       ],
-      "correct_ans": "7",
+      "correct_ans": "4",
       "difficulty": "3"
     },
     {
@@ -173,7 +162,7 @@
         "3. How to increase the number of employees in the team",
         "4. How will the skills of the project team members be developed"
       ],
-      "correct_ans": "7",
+      "correct_ans": "4",
       "difficulty": "1"
     },
     {
@@ -184,7 +173,7 @@
         "3. Shows the sequence of interactions only of the players",
         "4. Show the sequence of interactions only of the objects"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -195,7 +184,7 @@
         "3. Is the same as computer science engineering",
         "4. An approach to software development in which the main products of the development process is models"
       ],
-      "correct_ans": "7",
+      "correct_ans": "4",
       "difficulty": "3"
     },
     {
@@ -206,7 +195,7 @@
         "3. use case",
         "4. all answers is uncorrect"
       ],
-      "correct_ans": "6",
+      "correct_ans": "3",
       "difficulty": "1"
     },
     {
@@ -217,7 +206,7 @@
         "3. To finalize the software design",
         "4. To estimate the cost of the project"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -228,7 +217,7 @@
         "3. Requirements that are related to specific functionalities",
         "4. Requirements that change during the project lifecycle"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -239,7 +228,7 @@
         "3. To design the user interface of the software",
         "4. To assess the scalability of the software"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "3"
     },
     {
@@ -250,7 +239,7 @@
         "3. Because they are always changing",
         "4. Because developers do not understand them correctly"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -261,7 +250,7 @@
         "3. To define the software\u0027s database structure",
         "4. To decide on the software\u0027s coding standards"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "2"
     },
     {
@@ -272,7 +261,7 @@
         "3. The method of testing software requirements",
         "4. The practice of updating software documentation"
       ],
-      "correct_ans": "5",
+      "correct_ans": "2",
       "difficulty": "3"
     },
     {
@@ -283,7 +272,7 @@
         "3. Internal and External Requirements",
         "4. Mandatory and Optional Requirements"
       ],
-      "correct_ans": "4",
+      "correct_ans": "1",
       "difficulty": "1"
     },
     {
@@ -294,7 +283,7 @@
         "3. User requirements are general needs from the customer\u0027s perspective, while system requirements are detailed technical specifications",
         "4. There is no difference; they are the same"
       ],
-      "correct_ans": "6",
+      "correct_ans": "3",
       "difficulty": "2"
     },
     {
@@ -305,40 +294,7 @@
         "3. Too many requirements to analyze",
         "4. Developers\u0027 reluctance to follow requirements"
       ],
-      "correct_ans": "4",
-      "difficulty": "2"
-    },
-    {
-      "question": "Why is Agile methodology considered effective in managing changing requirements?",
-      "answers": [
-        "1. Because it follows a strict plan with no changes allowed",
-        "2. Because it emphasizes on comprehensive documentation",
-        "3. Because it accommodates changes rapidly and focuses on incremental development",
-        "4. Because it completely eliminates the need for requirements"
-      ],
-      "correct_ans": "6",
-      "difficulty": "2"
-    },
-    {
-      "question": "q",
-      "answers": [
-        "qq",
-        "q",
-        "q",
-        "q"
-      ],
-      "correct_ans": "5",
-      "difficulty": "1"
-    },
-    {
-      "question": "a",
-      "answers": [
-        "q",
-        "q",
-        "q",
-        "q"
-      ],
-      "correct_ans": "4",
+      "correct_ans": "1",
       "difficulty": "2"
     }
   ]

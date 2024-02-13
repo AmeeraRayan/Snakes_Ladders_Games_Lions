@@ -1,3 +1,4 @@
+package Model;
 
 
 import java.awt.EventQueue;
@@ -22,8 +23,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import Controller.MangQuestionControl;
-import Model.Questions;
-import Model.SysData;
 
 public class QuestionManagment extends JFrame   {
 

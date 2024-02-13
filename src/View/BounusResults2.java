@@ -62,6 +62,10 @@ public class BounusResults2 extends JFrame {
                     new MediumGameBoard(game).setVisible(true);
                     BounusResults2.this.setVisible(false); 
                     }
+                if(difficultyLevel.equals("Hard")) {
+                    new HardGameBoard(game).setVisible(true);
+                    BounusResults2.this.setVisible(false); 
+                    }
             }
         });
 
