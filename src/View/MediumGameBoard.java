@@ -113,7 +113,7 @@ public class MediumGameBoard extends JFrame{
                     int count = 0;
 
                     @Override
-                    public void actionPerformed(ActionEvent evt) {
+                    public void actionPerformed(ActionEvent evt) {                                    
                         if (count < animationCycle[0]) {
                             String path = "/images/dice " + currentNumber[0] + ".jpg";
                             diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
