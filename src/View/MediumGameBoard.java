@@ -47,7 +47,8 @@ public class MediumGameBoard extends JFrame{
     private Dice dice = new Dice("medium"); 
     private Snake[] snakes = new Snake[6];
     private Ladder[] ladders = new Ladder[6];
-    private Square[] quastionSquares = new Square[6];
+    private Square[] quastionSquares = new Square[3];
+    private Square[] surpriseSquares = new Square[2];
     private Board meduimboard = new Board(GRID_SIZE);
     private MediumController controller ; 
     private int index = 0 ;
@@ -175,10 +176,19 @@ public class MediumGameBoard extends JFrame{
     private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
         int count=0;
+        int surpriseCount=0;
         Set<Integer> chosenCells = new HashSet<>(); // Track chosen cell numbers
+        Set<Integer> chosenSurpriseCells = new HashSet<>(); // Track chosen cell numbers for surprise squares
         while (chosenCells.size() < 3) {
             int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
             chosenCells.add(cellNumber); // Add the chosen cell number to the set
+        }
+     // Add surprise squares
+        while (chosenSurpriseCells.size() < 2) {
+            int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
+            if (!chosenCells.contains(cellNumber) && !chosenSurpriseCells.contains(cellNumber)) {
+                chosenSurpriseCells.add(cellNumber); // Add the chosen cell number to the set
+            }
         }
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
@@ -205,6 +215,12 @@ public class MediumGameBoard extends JFrame{
                     squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                     quastionSquares[count] = squares[i][j];
                     count++;
+                } else if (chosenSurpriseCells.contains(cellNumber)) {
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/!.png")));
+                    label.setText(""); // Set empty string for text
+                    squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
+                    surpriseSquares[surpriseCount] = squares[i][j];
+                    surpriseCount++; // Increment the surprise count
                 } else {
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
@@ -247,21 +263,19 @@ public class MediumGameBoard extends JFrame{
     }
     
     
-    
-    
     private void setRedSnakes(JPanel panel) {
         int i1, j1, i2, j2; 
         // Place the first red snake
         do {
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
-        } while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));
+        } while(isSnakeStartSquareTaken(i1, j1) || isQuestionOrSurpriseSquare(i1,j1));
 
         // Place the second red snake
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
-        } while (isSnakeStartSquareTaken(i2, j2) || isQuestionSquare(i2,j2) || (i2 == i1 && j2 == j1));
+        } while (isSnakeStartSquareTaken(i2, j2) || isQuestionOrSurpriseSquare(i2,j2) || (i2 == i1 && j2 == j1));
 
         JLabel label_1 = new JLabel();
 		label_1 .setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 55, 55);
@@ -287,7 +301,7 @@ public class MediumGameBoard extends JFrame{
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
             System.out.println(i+" returned value for yellow");
-        } while(isSnakeStartSquareTaken(i, j) || isQuestionSquare(i,j));       
+        } while(isSnakeStartSquareTaken(i, j) || isQuestionOrSurpriseSquare(i,j));       
 
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
@@ -306,7 +320,7 @@ public class MediumGameBoard extends JFrame{
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
             System.out.println(i+" returned value for blue ");
-        } while(isSnakeStartSquareTaken(i, j) || isQuestionSquare(i,j));
+        } while(isSnakeStartSquareTaken(i, j) || isQuestionOrSurpriseSquare(i,j));
 
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getBoundsX() - 110, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
@@ -325,13 +339,13 @@ public class MediumGameBoard extends JFrame{
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i1+"returned value i for green1");
             j1 = generateRandomNumber_J(Color.GREEN);
-        }while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));
+        }while(isSnakeStartSquareTaken(i1, j1) || isQuestionOrSurpriseSquare(i1,j1));
         
         do {             
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             System.out.println(i2 +"returned values for green 2");
             j2 = generateRandomNumber_J(Color.GREEN);
-        }while(isSnakeStartSquareTaken(i2, j2) || isQuestionSquare(i2,j2) || (i2 == i1 && j2 == j1) );
+        }while(isSnakeStartSquareTaken(i2, j2) || isQuestionOrSurpriseSquare(i2,j2) || (i2 == i1 && j2 == j1) );
              
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -353,15 +367,17 @@ public class MediumGameBoard extends JFrame{
 
     private void setladder1(JPanel panel) {
     	int i,j,num=1;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
     	i = rand.nextInt(9); //0-8
     	j = rand.nextInt(9); //0-8
-    	}while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) || (i==9 && j==9));
+    	 ladderLabel = new JLabel();
+    	 ladderLabel.setBounds(squares[i][j].getBoundsX(),squares[i][j].getBoundsY(), 110, 110);
+         startSquare = findStartSquare_ladder(squares[i][j], num);
+         endSquare = findEndSquare_ladder(squares[i][j], num, 110);
+    	}while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j) || (i==9 && j==9) || isSnakeStartSquareTaken( i, j));
     	
-    	JLabel ladderLabel = new JLabel();
-        ladderLabel.setBounds(squares[i][j].getBoundsX(),squares[i][j].getBoundsY(), 110, 110);
-        Square startSquare = findStartSquare_ladder(squares[i][j], num);
-        Square endSquare = findEndSquare_ladder(squares[i][j], num, 110);
          System.out.println(endSquare.getValue() + "end ladder" + num);
          Ladder ladder = new Ladder(startSquare, endSquare);
          ladders[num-1] = ladder;
@@ -372,15 +388,17 @@ public class MediumGameBoard extends JFrame{
     
     private void setladder2(JPanel panel) {
     	int i,j,num=2;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
     	i = rand.nextInt(8);//0-7
     	j = rand.nextInt(9);//0-8
-	    }while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) || (i==9 && j==9));
-		
-		JLabel ladderLabel = new JLabel();
+    	ladderLabel = new JLabel();
 	    ladderLabel.setBounds(squares[i][j].getBoundsX()-10, squares[i][j].getBoundsY(), 110, 165);
-	    Square startSquare = findStartSquare_ladder(squares[i][j], num);
-	    Square endSquare = findEndSquare_ladder(squares[i][j], num, 110);
+	    startSquare = findStartSquare_ladder(squares[i][j], num);
+	    endSquare = findEndSquare_ladder(squares[i][j], num, 110);
+	    }while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j)  || (i==9 && j==9) || isSnakeStartSquareTaken( i, j));
+		
 	     System.out.println(endSquare.getValue() + "end ladder" + num);
 	     Ladder ladder = new Ladder(startSquare, endSquare);
 	     ladders[num-1] = ladder;
@@ -391,15 +409,17 @@ public class MediumGameBoard extends JFrame{
     
     private void setladder3(JPanel panel) {
     	int i,j,num=3;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
     	i = rand.nextInt(7);//0-6
     	j = rand.nextInt(10);//0-9
-	    }while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) || (i==9 && j==9));
-		
-		JLabel ladderLabel = new JLabel();
+    	ladderLabel = new JLabel();
 	    ladderLabel.setBounds(squares[i][j].getBoundsX()-20,squares[i][j].getBoundsY()+25, 55, 160);
-	    Square startSquare = findStartSquare_ladder(squares[i][j], num);
-	    Square endSquare = findEndSquare_ladder(squares[i][j], num, 55);
+	    startSquare = findStartSquare_ladder(squares[i][j], num);
+	    endSquare = findEndSquare_ladder(squares[i][j], num, 55);
+	    }while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j) ||  (i==9 && j==9) ||isSnakeStartSquareTaken( i, j));
+		
 	     System.out.println(endSquare.getValue() + "end ladder" + num);
 	     Ladder ladder = new Ladder(startSquare, endSquare);
 	     ladders[num-1] = ladder;
@@ -409,15 +429,17 @@ public class MediumGameBoard extends JFrame{
     }
     private void setladder4(JPanel panel) {
     	int i,j,num=4;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
     		i = rand.nextInt(6); //0-5
     		j = rand.nextInt(8)+1; //1 to 9
-	    }while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) ||(i==9 && j==9));
+    		ladderLabel = new JLabel();
+    	    ladderLabel.setBounds(squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), 115,275);
+    	    startSquare = findStartSquare_ladder(squares[i][j], num);
+    	    endSquare = findEndSquare_ladder(squares[i][j], num, 115);
+	    }while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j) ||  (i==9 && j==9) || isSnakeStartSquareTaken( i, j));
 		
-		JLabel ladderLabel = new JLabel();
-	    ladderLabel.setBounds(squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), 115,275);
-	    Square startSquare = findStartSquare_ladder(squares[i][j], num);
-	    Square endSquare = findEndSquare_ladder(squares[i][j], num, 115);
 	    System.out.println(endSquare.getValue() + "end ladder" + num);
 	    Ladder ladder = new Ladder(startSquare, endSquare);
 	    ladders[num-1] = ladder;
@@ -428,15 +450,17 @@ public class MediumGameBoard extends JFrame{
     }
     private void setladder5(JPanel panel) {
     	int i,j,num=5;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
     		i = rand.nextInt(5); //0-4
     		j = rand.nextInt(8); //0-7
-	    }while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) || (i==9 && j==9));
+    		ladderLabel = new JLabel();
+    	    ladderLabel.setBounds(squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), 165,330);
+    	    startSquare = findStartSquare_ladder(squares[i][j], num);
+    	    endSquare = findEndSquare_ladder(squares[i][j], num, 165);
+	    }while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j) || (i==9 && j==9) || isSnakeStartSquareTaken( i, j));
 		
-		JLabel ladderLabel = new JLabel();
-	    ladderLabel.setBounds(squares[i][j].getBoundsX()-10,squares[i][j].getBoundsY(), 165,330);
-	    Square startSquare = findStartSquare_ladder(squares[i][j], num);
-	    Square endSquare = findEndSquare_ladder(squares[i][j], num, 165);
 	    System.out.println(endSquare.getValue() + "end ladder" + num);
 	    Ladder ladder = new Ladder(startSquare, endSquare);
 	    ladders[num-1] = ladder;
@@ -446,15 +470,17 @@ public class MediumGameBoard extends JFrame{
     }
     private void setladder6(JPanel panel) {
     	int i,j,num=6;
+    	Square startSquare,endSquare;
+    	JLabel ladderLabel;
     	do {
 		  i = rand.nextInt(4);//0-3
 		  j = rand.nextInt(8);//0-7
-	    }while (isLadderCoincide(i,j) ||  isQuestionSquare(i,j) || (i==9 && j==9));
+		  ladderLabel = new JLabel();
+	  	  ladderLabel.setBounds(squares[i][j].getBoundsX()-15,squares[i][j].getBoundsY(), 165,385);
+	  	  startSquare = findStartSquare_ladder(squares[i][j], num);
+	  	  endSquare = findEndSquare_ladder(squares[i][j], num, 165);
+	    }while (isLadderCoincide(i,j) ||  isQuestionOrSurpriseSquare(i,j) || (i==9 && j==9) || isSnakeStartSquareTaken( i, j));
 		
-	  		JLabel ladderLabel = new JLabel();
-	  	    ladderLabel.setBounds(squares[i][j].getBoundsX()-15,squares[i][j].getBoundsY(), 165,385);
-	  	    Square startSquare = findStartSquare_ladder(squares[i][j], num);
-	  	    Square endSquare = findEndSquare_ladder(squares[i][j], num, 165);
 	  	    System.out.println(endSquare.getValue() + "end ladder" + num);
 	  	    Ladder ladder = new Ladder(startSquare, endSquare);
 	  	    ladders[num-1] = ladder;
@@ -568,26 +594,36 @@ public class MediumGameBoard extends JFrame{
         return false;
     }
     
- // Function to check if a ladder's start square coincides with any of the snake's start squares
-    private boolean isLadderStartSquareCoincideWithSnakes(Square ladderStartSquare) {
+ // Function to check if the start square or end square of a ladder coincides with a snake
+    private boolean SnakeLadderCoincide(int i, int j, int i1, int j1) {
         for (Snake snake : snakes) {
-            if (snake != null && snake.getSquareStart().equals(ladderStartSquare)) {
+            // Check if the start or end square of the ladder coincides with any square occupied by the snake
+            if (snake != null && 
+                ((snake.getSquareStart().getRow() == i && snake.getSquareStart().getCol() == j) ||
+                ((snake.getSquareEnd().getRow() == i && snake.getSquareEnd().getCol() == j) &&
+                 (snake.getSquareStart().getRow() == i1 && snake.getSquareStart().getCol() == j1)))) {
                 return true;
             }
         }
         return false;
     }
+
     
- // Function to check if a given position coincides with question squares
-    private boolean isQuestionSquare(int i, int j) {
-    	boolean flag = false;
+ // Function to check if a given position coincides with question or surprise squares
+    private boolean isQuestionOrSurpriseSquare(int i, int j) {
         for (Square questionSquare : quastionSquares) {
             if (questionSquare != null && questionSquare.getRow() == i && questionSquare.getCol() == j) {
-                flag = true;
+                return true; // Found a question square at the given position
             }
         }
-        return flag; // No coincidence found
+        for (Square surpriseSquare : surpriseSquares) {
+            if (surpriseSquare != null && surpriseSquare.getRow() == i && surpriseSquare.getCol() == j) {
+                return true; // Found a surprise square at the given position
+            }
+        }
+        return false; // No coincidence found
     }
+
 
     
     private Square findSquare(Square StartSquare,Color color) {
