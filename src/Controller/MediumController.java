@@ -235,6 +235,29 @@ public class MediumController {
 		  } 
 		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
+	 
+	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
+	        switch (color.toString()) {
+	        case "BLUE":
+	            txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
+	            break;
+	        case "GREEN": 
+	            txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
+	            break;
+	        case "RED":
+	            txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+	            break;
+	        case "YELLOW":
+	            txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+	            break;
+	        default:
+	            // Default color for other players
+	            txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
+	            break;
+	        } };
+	        
+	    
+	
 	  
 	  public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
 		    final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
@@ -270,25 +293,6 @@ public class MediumController {
 		    timer.start();
 		}
 	  
-	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
-	        switch (color.toString()) {
-	        case "BLUE":
-	            txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
-	            break;
-	        case "GREEN":
-	            txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
-	            break;
-	        case "RED":
-	            txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
-	            break;
-	        case "YELLOW":
-	            txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
-	            break;
-	        default:
-	            // Default color for other players
-	            txtrPlayer.setBackground(new java.awt.Color(192, 192, 192));
-	            break;
-	        } }
-
+	 
 	
 }
