@@ -25,10 +25,12 @@ import javafx.event.ActionEvent;
 
 public class MediumController {
 	private Game game;
+    private MediumGameBoard mediumGameBoard; // Add this attribute to store the instance of MediumGameBoard
 
-	public MediumController(Game game) {
+	public MediumController(Game game , MediumGameBoard mediumGameBoard) {
 		super();
 		this.game = game;
+		this.mediumGameBoard = mediumGameBoard;
 	}
 
 	public Game getGame() {
@@ -43,7 +45,7 @@ public class MediumController {
 		SysData.getInstance().putQuestions(SysData.getInstance().questionsPOPUP);
 	}
 	
-	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JFrame frame, JLabel playerLabel) { // update player position by dice result or by the type of the square 
+	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		//MeduimFrame = frame;
 		int[] IAndJ = new int[2];
@@ -59,12 +61,12 @@ public class MediumController {
 		}
 		currentPlayer.setPosition(newPosition);
 		IAndJ = FindSquareByValue(newPosition);
-		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],frame,playerLabel);
+		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],playerLabel);
 		animatePlayerMovement(playerLabel, IAndJ, game);
 		return IAndJ;
 	}
 	
-	public void checkTheTypeOfTheSquare(int i , int j , JFrame frame, JLabel playerLabel) { // call the show pop up if the square is a question 
+	public void checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
 		Questions question = null ; 
 		if(s.getType() ==  SquareType.QUESTION) {
@@ -86,7 +88,7 @@ public class MediumController {
 				question = SysData.getInstance().getQuestionLevel("hard");
 
 			}
-			showAddQuestionPopup(question ,frame );
+			showAddQuestionPopup(question);
 			System.out.println("its a Question ");
 
 		}
@@ -94,13 +96,13 @@ public class MediumController {
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
-                	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",frame,playerLabel);
+                	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
                 	 break;
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
                	 System.out.println("its a Ladder !");
-               	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",frame,playerLabel);
+               	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
                	 break;
                 }
 			}
@@ -108,7 +110,7 @@ public class MediumController {
 		
 	}
 	
-	public void DiceQuestion(int result , JFrame frame) {
+	public void DiceQuestion(int result) {
 		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
@@ -120,7 +122,7 @@ public class MediumController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		showAddQuestionPopup(question, frame);
+		showAddQuestionPopup(question);
 		
 	}
 	
@@ -138,7 +140,7 @@ public class MediumController {
 		 return IAndJ;
 	}
 	
-	  public void showAddQuestionPopup(Questions question , JFrame frame) {
+	  public void showAddQuestionPopup(Questions question) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -182,7 +184,7 @@ public class MediumController {
 		      "Difficulty:", difficultyField
 		  };
 
-		  int result = JOptionPane.showConfirmDialog(frame, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		  int result = JOptionPane.showConfirmDialog(this.mediumGameBoard, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		  // Get the selected answer option
 		  int selectedOption = -1;
