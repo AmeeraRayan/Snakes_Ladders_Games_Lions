@@ -70,6 +70,10 @@ public class BounusResults4 extends JFrame {
                          new MediumGameBoard(game).setVisible(true);
                          BounusResults4.this.setVisible(false); 
                          }
+                     if(difficultyLevel.equals("Hard")) {
+                         new HardGameBoard(game).setVisible(true);
+                         BounusResults4.this.setVisible(false); 
+                         }
             }
         });
         btnNewButton_1.setBounds(556, 434, 105, 34);
