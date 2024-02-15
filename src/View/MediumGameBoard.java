@@ -145,7 +145,8 @@ public class MediumGameBoard extends JFrame{
                                 System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
                             } else {
                                 System.out.println("from result");
-                                controller.DiceQuestion(result);
+                                int[] IandJ = controller.DiceQuestion(result);
+                                controller.animatePlayerMovement( playersLable[index], IandJ , game);
                             }
 
                             // Prepare for next player
@@ -233,14 +234,19 @@ public class MediumGameBoard extends JFrame{
                     takenCells.put(i, j);
                     count++;
                 } else if (chosenSurpriseCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/!.png")));
-                    label.setText(""); // Set empty string for text
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMarkM.png")));
+                    label.setText(""); // Set empty string for text 
                     squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
                     surpriseSquares[surpriseCount] = squares[i][j];
                     takenCells.put(i, j);
                     surpriseCount++; // Increment the surprise count
                 } else {
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
+                }
+                if(cellNumber == 100) {
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StarWin.png")));
+                    label.setText(""); // Set empty string for text
+
                 }
                 boardlabels[i][j] = label;
                
@@ -392,10 +398,10 @@ public class MediumGameBoard extends JFrame{
             j = generateRandomIJ(num)[1]; // Generate random column index
         } while (takenCells.containsKey(i) && takenCells.get(i) == j || (i==0 && j==0));
         takenCells.put(i, j);
-
+ 
         startSquare = findStartSquare_ladder(squares[i][j], num);
         endSquare = squares[i][j];
-        //System.out.println(endSquare.getValue()+"end ladder "+num +" j=" +endSquare.getCol());
+        System.out.println(endSquare.getValue()+"end ladder "+num +" j=" +endSquare.getCol());
         ladderLabel = new JLabel();
         Ladder ladder = new Ladder(startSquare, endSquare);
         ladders[num - 1] = ladder;
