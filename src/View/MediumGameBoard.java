@@ -175,6 +175,19 @@ public class MediumGameBoard extends JFrame{
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedPlayer1.png")));
+        lblNewLabel.setBounds(138, 595, 30, 39);
+        outerPanel.add(lblNewLabel);
+        
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(138, 625, 30, 39);
+        outerPanel.add(lblNewLabel_1);
+        
+        JLabel lblNewLabel_1_1 = new JLabel("");
+        lblNewLabel_1_1.setBounds(178, 595, 30, 39);
+        outerPanel.add(lblNewLabel_1_1);
         this.setVisible(true);
         
     }
@@ -551,10 +564,14 @@ public class MediumGameBoard extends JFrame{
 		
 
     	for(int i = 0 ; i < playersLable.length ; i++) {
-    		if(i>1) {
-    			spaceX = 0;
-    			spaceY = 30;
-    		}
+    		if(i==1 || i ==3) {
+        		spaceX= spaceX + 25;
+        		spaceY = 0 ; 
+        		}
+        		else {
+        		spaceX=0;
+        		spaceY = spaceY + 10;
+        		}
     		playersLable[i] = new JLabel();
     		playersLable[i].setBounds(g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsX()+spaceX,g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsY()-15 + spaceY , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
@@ -580,8 +597,7 @@ public class MediumGameBoard extends JFrame{
                 
 
     		}
-    		
-    		spaceX= spaceX + 25;
+    	
             panel.add(playersLable[i]);
     		panel.setComponentZOrder(playersLable[i], 0);
 
