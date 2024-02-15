@@ -48,6 +48,8 @@ public class HardGameBoard extends JFrame{
     private Snake[] snakes = new Snake[8];
     private Ladder[] ladders = new Ladder[8];
     private Square[] quastionSquares = new Square[6];
+    private Square[] surpriseSquares = new Square[2];
+
     private Board meduimboard = new Board(GRID_SIZE);
      JFrame frame;
     Random rand = new Random();
@@ -62,13 +64,8 @@ public class HardGameBoard extends JFrame{
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
-        JTextPane textPane = new JTextPane();
-        textPane.setBackground(new Color(255, 255, 204));
-        textPane.setBounds(241, 793, 15, 19);
-        outerPanel.add(textPane);
-        
         JLabel playerName = new JLabel("");
-        playerName.setBounds(853, 31, 300, 100);
+        playerName.setBounds(853, 51, 300, 100);
         outerPanel.add(playerName);
 
         
@@ -99,49 +96,65 @@ public class HardGameBoard extends JFrame{
         lblNewLabel.setBounds(0, 0, 1210, 850);
         outerPanel.add(lblNewLabel);
         this.frame.setVisible(true);
-        
+        //81 51
     }
     private void initializeBoard(JPanel panel, JPanel outerPanel) { 
-        int cellSize = 715 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
-        int count=0;
-        Set<Integer> chosenCells = new HashSet<>(); // Track chosen cell numbers
-        while (chosenCells.size() < 3) {
-            int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
-            chosenCells.add(cellNumber); // Add the chosen cell number to the set
-        }
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
-                int cellNumber = i * GRID_SIZE + (i % 2 == 0 ? j : GRID_SIZE - 1 - j);
-                cellNumber = GRID_SIZE * GRID_SIZE - cellNumber;
-                JPanel cell = new JPanel(new BorderLayout());
-                cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                JLabel label = new JLabel(String.valueOf(cellNumber), SwingConstants.CENTER);
-                cell.add(label, BorderLayout.CENTER);
-                // Get a color for the cell that is not equal to the adjacent cells
-                cell.setBackground(getUniqueColor(i, j));
-                // Update the board colors array with the new color for reference
-                boardColors[i][j] = cell.getBackground();
-                // Make the text color contrast with the background
-                label.setForeground(getContrastColor(cell.getBackground()));
-                panel.add(cell);
-                // Calculate the bounds for each label
-                int x = j * cellSize + panel.getBounds().x + 81; // Adjust for the actual position of the panel
-                int y = i * cellSize + panel.getBounds().y + 51;
-                // Initialize square type based on cellNumber
-                if (chosenCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMark.png")));
-                    label.setText(""); // Set empty string for text
-                    squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
-                    quastionSquares[count] = squares[i][j];
-                    count++;
-                } else {
-                    squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
-                }
-                boardlabels[i][j] = label;
-               
-                //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
-            }
-        }
+    	 int cellSize = 715 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
+         int count=0;
+         int surpriseCount=0;
+         Set<Integer> chosenCells = new HashSet<>(); // Track chosen cell numbers
+         Set<Integer> chosenSurpriseCells = new HashSet<>(); // Track chosen cell numbers for surprise squares
+         while (chosenCells.size() < 3) {
+             int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
+             chosenCells.add(cellNumber); // Add the chosen cell number to the set
+         }
+      // Add surprise squares
+         while (chosenSurpriseCells.size() < 2) {
+             int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
+             if (!chosenCells.contains(cellNumber) && !chosenSurpriseCells.contains(cellNumber)) {
+                 chosenSurpriseCells.add(cellNumber); // Add the chosen cell number to the set
+             }
+         }
+         for (int i = 0; i < GRID_SIZE; i++) {
+             for (int j = 0; j < GRID_SIZE; j++) {
+                 int cellNumber = i * GRID_SIZE + (i % 2 == 0 ? j : GRID_SIZE - 1 - j);
+                 cellNumber = GRID_SIZE * GRID_SIZE - cellNumber;
+                 JPanel cell = new JPanel(new BorderLayout());
+                 cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                 JLabel label = new JLabel(String.valueOf(cellNumber), SwingConstants.CENTER);
+                 cell.add(label, BorderLayout.CENTER);
+                 // Get a color for the cell that is not equal to the adjacent cells
+                 cell.setBackground(getUniqueColor(i, j));
+                 // Update the board colors array with the new color for reference
+                 boardColors[i][j] = cell.getBackground();
+                 // Make the text color contrast with the background
+                 label.setForeground(getContrastColor(cell.getBackground()));
+                 panel.add(cell);
+                 // Calculate the bounds for each label
+                 int x = j * cellSize + panel.getBounds().x + 81; // Adjust for the actual position of the panel
+                 int y = i * cellSize + panel.getBounds().y + 51;
+                 // Initialize square type based on cellNumber
+                 if (chosenCells.contains(cellNumber)) {
+                     label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
+                     label.setText(""); // Set empty string for text
+                     squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
+                     quastionSquares[count] = squares[i][j];
+                     count++;
+                 } else if (chosenSurpriseCells.contains(cellNumber)) {
+                     label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/!.png")));
+                     label.setText(""); // Set empty string for text
+                     squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
+                     surpriseSquares[surpriseCount] = squares[i][j];
+                     surpriseCount++; // Increment the surprise count
+                 } else {
+                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
+                 }
+                 boardlabels[i][j] = label;
+                
+                 //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
+             }
+         }
+  
  
         setRedSnakes(outerPanel);
         setYellowSnake(outerPanel);
@@ -537,6 +550,22 @@ public class HardGameBoard extends JFrame{
         }
     	return null;
     }
+    
+    // Function to check if a given position coincides with question or surprise squares
+    private boolean isQuestionOrSurpriseSquare(int i, int j) {
+        for (Square questionSquare : quastionSquares) {
+            if (questionSquare != null && questionSquare.getRow() == i && questionSquare.getCol() == j) {
+                return true; // Found a question square at the given position
+            }
+        }
+        for (Square surpriseSquare : surpriseSquares) {
+            if (surpriseSquare != null && surpriseSquare.getRow() == i && surpriseSquare.getCol() == j) {
+                return true; // Found a surprise square at the given position
+            }
+        }
+        return false; // No coincidence found
+    }
+
     
     private Square findEndSquare_ladder(Square startSquare, int laddernum, int width) {
         int startBoundsX = startSquare.getBoundsX();
