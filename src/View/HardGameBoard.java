@@ -40,7 +40,7 @@ import java.awt.event.ActionEvent;
  
 public class HardGameBoard extends JFrame{
 	private static final int GRID_SIZE = 13;
-	private static final Color[] COLORS = new Color[]{Color.BLUE, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN};
+	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
     private Square[][] squares = new Square[GRID_SIZE][GRID_SIZE];
     private JLabel[][] boardlabels = new JLabel[GRID_SIZE][GRID_SIZE];
@@ -63,30 +63,28 @@ public class HardGameBoard extends JFrame{
         outerPanel.setLayout(null);
         
         JTextPane textPane = new JTextPane();
-        textPane.setBounds(390, 10, 332, 65);
+        textPane.setBackground(new Color(255, 255, 204));
+        textPane.setBounds(241, 793, 15, 19);
         outerPanel.add(textPane);
+        
+        JLabel playerName = new JLabel("");
+        playerName.setBounds(853, 31, 300, 100);
+        outerPanel.add(playerName);
 
         
         JButton diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(1013, 354, 78, 81);
+        diceButton.setBounds(1012, 640, 78, 81);
         outerPanel.add(diceButton);
-        
-        
+  
         
         // Creating the inner panel
         JPanel innerPanel = new JPanel();
         initializeBoard(innerPanel,outerPanel);
         game.setBoard(meduimboard);
         game.setDice(dice);
-        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
 
- 
-     
-        innerPanel.setBounds(202, 85, 700, 700);
+        innerPanel.setBounds(81, 51, 715, 715);
         innerPanel.setBackground(Color.WHITE);
  
         // Adding the inner panel to the center of the outer panel
@@ -95,9 +93,11 @@ public class HardGameBoard extends JFrame{
      
         // Adding the outer panel to the frame
         frame.getContentPane().add(outerPanel);
-        JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(28, 120, 106, 140);
-        outerPanel.add(textPane_1);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/HardGame .png")));
+        lblNewLabel.setBounds(0, 0, 1210, 850);
+        outerPanel.add(lblNewLabel);
         this.frame.setVisible(true);
         
     }
@@ -125,8 +125,8 @@ public class HardGameBoard extends JFrame{
                 label.setForeground(getContrastColor(cell.getBackground()));
                 panel.add(cell);
                 // Calculate the bounds for each label
-                int x = j * cellSize + panel.getBounds().x + 202; // Adjust for the actual position of the panel
-                int y = i * cellSize + panel.getBounds().y + 85;
+                int x = j * cellSize + panel.getBounds().x + 81; // Adjust for the actual position of the panel
+                int y = i * cellSize + panel.getBounds().y + 51;
                 // Initialize square type based on cellNumber
                 if (chosenCells.contains(cellNumber)) {
                     label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMark.png")));
@@ -146,6 +146,8 @@ public class HardGameBoard extends JFrame{
         setRedSnakes(outerPanel);
         setYellowSnake(outerPanel);
         setBlueSnakes(outerPanel);
+        setGreenSnakes(outerPanel);
+
              
     }
     
@@ -185,14 +187,14 @@ public class HardGameBoard extends JFrame{
         } while (isSnakeStartSquareTaken(i2, j2) || isQuestionSquare(i2,j2) || (i2 == i1 && j2 == j1));
 
         JLabel label_1 = new JLabel();
-		label_1 .setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 55, 55);
+		label_1 .setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         System.out.println(squares[i1][j1].getValue()+"redsnake1");
         snakes[0] = redSnake1;
         panel.add(label_1);
         label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
-        label_2.setBounds(squares[i2][j2].getBoundsX(), squares[i2][j2].getBoundsY(), 50, 50);
+        label_2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY(), 50, 50);
         //object red snake 2 
         Snake redSnake2 = new Snake(squares[i2][j2], squares[9][0]);
         System.out.println(squares[i2][j2].getValue()+"redsanke2");
@@ -211,7 +213,7 @@ public class HardGameBoard extends JFrame{
         } while(isSnakeStartSquareTaken(i, j) || isQuestionSquare(i,j));       
 
         JLabel yellowSnakeLabel = new JLabel();
-        yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
+        yellowSnakeLabel.setBounds(squares[i][j].getBoundsX()+10, squares[i][j].getBoundsY(), 100, 100);// Yellow
         System.out.println(squares[i][j].getValue()+"start yellow" + squares[i][j].getRow()+ "i="+i);
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
@@ -225,7 +227,7 @@ public class HardGameBoard extends JFrame{
         } while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));       
 
         JLabel yellowSnakeLabel2 = new JLabel();
-        yellowSnakeLabel2.setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 100, 100);// Yellow
+        yellowSnakeLabel2.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 100, 100);// Yellow
         System.out.println(squares[i1][j1].getValue()+"start yellow" + squares[i1][j1].getRow()+ "i1="+i1);
         Square EndSquare2 = findSquare(squares[i1][j1], Color.YELLOW);
         Snake yellowSnake2 = new Snake(squares[i1][j1], EndSquare2);
@@ -253,7 +255,7 @@ public class HardGameBoard extends JFrame{
         } while(isSnakeStartSquareTaken(i1, j1) || isQuestionSquare(i1,j1));
         
         JLabel labelBlue1 = new JLabel();
-        labelBlue1.setBounds(squares[i][j].getBoundsX() - 110, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
+        labelBlue1.setBounds(squares[i][j].getBoundsX() - 100, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
         Square EndSquare = findSquare(squares[i][j], Color.BLUE);
         System.out.println(squares[i][j].getValue()+"start blue"+" row="+squares[i][j].getRow()+ "i="+i);
         Snake BlueSnake1 = new Snake(squares[i][j], EndSquare);
@@ -262,7 +264,7 @@ public class HardGameBoard extends JFrame{
         panel.add(labelBlue1);
         
         JLabel labelBlue2 = new JLabel();
-        labelBlue2.setBounds(squares[i1][j1].getBoundsX() - 110, squares[i1][j1].getBoundsY() + 15, 140, 170);// BLUE
+        labelBlue2.setBounds(squares[i1][j1].getBoundsX() - 100, squares[i1][j1].getBoundsY() + 15, 140, 170);// BLUE
         Square EndSquare2 = findSquare(squares[i1][j1], Color.BLUE);
         System.out.println(squares[i1][j1].getValue()+"start blue"+" row="+squares[i1][j1].getRow()+ "i1="+i1);
         Snake BlueSnake2 = new Snake(squares[i1][j1], EndSquare2);
@@ -288,8 +290,8 @@ public class HardGameBoard extends JFrame{
              
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
-        label1.setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY() + 15, 170, 140);// Green
-        label2.setBounds(squares[i2][j2].getBoundsX(), squares[i2][j2].getBoundsY() + 15, 170, 140);// Green
+        label1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY() + 15, 170, 140);// Green
+        label2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY() + 15, 170, 140);// Green
         System.out.println(squares[i1][j1].getValue() + "start Green1"+" i="+squares[i1][j1].getRow());
         Square EndSquare1 = findSquare(squares[i1][j1], Color.GREEN);
         System.out.println(squares[i2][j2].getValue() + "start Green2"+" i="+squares[i2][j2].getRow());
