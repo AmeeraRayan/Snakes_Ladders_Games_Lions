@@ -239,16 +239,16 @@ public class GameController {
 	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
 	        switch (color.toString()) {
 	        case "BLUE":
-	            txtrPlayer.setBackground(new java.awt.Color(0, 200, 220)); // Blue
+	            txtrPlayer.setBackground(new java.awt.Color(175, 238, 238)); // Blue
 	            break;
 	        case "GREEN": 
-	            txtrPlayer.setBackground(new java.awt.Color(0, 120, 30)); // Green
+	            txtrPlayer.setBackground(new java.awt.Color(152, 251, 152)); // Green
 	            break;
 	        case "RED":
-	            txtrPlayer.setBackground(new java.awt.Color(255, 102, 102)); // Red
+	            txtrPlayer.setBackground(new java.awt.Color(255, 51, 102)); // Red
 	            break;
 	        case "YELLOW":
-	            txtrPlayer.setBackground(new java.awt.Color(255, 255, 153)); // Yellow
+	            txtrPlayer.setBackground(new java.awt.Color(255, 255, 204)); // Yellow
 	            break;
 	        default:
 	            // Default color for other players

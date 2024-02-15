@@ -42,7 +42,7 @@ import java.awt.event.ActionEvent;
  
 public class MediumGameBoard extends JFrame{
 	private static final int GRID_SIZE = 10;
-	private static final Color[] COLORS = new Color[]{Color.BLUE, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN};
+	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
     private Square[][] squares = new Square[10][10];
     private JLabel[][] boardlabels = new JLabel[GRID_SIZE][GRID_SIZE];
@@ -70,6 +70,11 @@ public class MediumGameBoard extends JFrame{
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
+        
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setBackground(SystemColor.desktop);
+        lblNewLabel_2.setBounds(304, 15, 373, 81);
+        outerPanel.add(lblNewLabel_2);
         
         JTextPane textPane = new JTextPane();
         textPane.setBounds(330, 23, 332, 65);
@@ -170,23 +175,17 @@ public class MediumGameBoard extends JFrame{
      
        
         JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(28, 175, 106, 140);
+        textPane_1.setBounds(40, 179, 106, 140);
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
         
+       
+        
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedPlayer1.png")));
-        lblNewLabel.setBounds(138, 595, 30, 39);
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/HardGame .png")));
+        lblNewLabel.setBounds(0, 0, 1009, 711);
         outerPanel.add(lblNewLabel);
-        
-        JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBounds(138, 625, 30, 39);
-        outerPanel.add(lblNewLabel_1);
-        
-        JLabel lblNewLabel_1_1 = new JLabel("");
-        lblNewLabel_1_1.setBounds(178, 595, 30, 39);
-        outerPanel.add(lblNewLabel_1_1);
         this.setVisible(true);
         
     }
@@ -717,77 +716,4 @@ public class MediumGameBoard extends JFrame{
       }
   	return null;
   }
-  
-    
-  /*  private Square findEndSquare_ladder(Square startSquare, int laddernum, int width) {
-        int startBoundsX = startSquare.getBoundsX();
-        int startBoundsY = startSquare.getBoundsY();
-        
-        if(laddernum == 2 || laddernum == 1) {
-        	int endBoundsX = startBoundsX; //Because ladder 4 is extended to i+1 in j column
- 	        int endBoundsY = startBoundsY +110;
- 	        // Find the corresponding end square based on bounds
- 	        for (int i = 0; i < 10; i++) {
- 	            for (int j = 0; j < 10; j++) {
- 	                if (squares[i][j].getBoundsX() == endBoundsX && squares[i][j].getBoundsY() == endBoundsY) {
- 	                    return squares[i][j];
- 	                }
- 	            }
- 	        }
-        }
-        
-        if(laddernum == 3) {
-	        int endBoundsX = startBoundsX ; 
-	        int endBoundsY = startBoundsY + 55;
-	        // Find the corresponding end square based on bounds
-	        for (int i = 0; i < 10; i++) {
-	            for (int j = 0; j < 10; j++) {
-	                if (squares[i][j].getBoundsX() == endBoundsX && squares[i][j].getBoundsY() == endBoundsY) {
-	                    return squares[i][j];
-	                }
-	            }
-	        }
-        }
-        
-        if(laddernum == 4) {
-	        int endBoundsX = startBoundsX + 55; //Because ladder 4 is extended to i+1 in j column
-	        int endBoundsY = startBoundsY ;
-	        // Find the corresponding end square based on bounds
-	        for (int i = 0; i < 10; i++) {
-	            for (int j = 0; j < 10; j++) {
-	                if (squares[i][j].getBoundsX() == endBoundsX && squares[i][j].getBoundsY()-55 == endBoundsY) {
-	                    return squares[i][j];
-	                }
-	            }
-	        }
-        }
-        
-        if(laddernum == 5) {
-        	int extendedSquares = 2; // Number of squares the ladder is extended to the right
-            int endBoundsX = startBoundsX  + (extendedSquares * 55); // Adjust for ladder 5 extending to i+2 in the j column
-	        int endBoundsY = startBoundsY;
-	        // Find the corresponding end square based on bounds
-	        for (int i = 0; i < 10; i++) {
-	            for (int j = 0; j < 10; j++) {
-	                if (squares[i][j].getBoundsX() == endBoundsX && squares[i][j].getBoundsY() == endBoundsY) {
-	                    return squares[i][j];
-	                }
-	            }
-	        }
-        }
-        if(laddernum == 6) {
-            int endBoundsX = startBoundsX; 
-	        int endBoundsY = startBoundsY;
-	        // Find the corresponding end square based on bounds
-	        for (int i = 0; i < 10; i++) {
-	            for (int j = 0; j < 10; j++) {
-	                if (squares[i][j].getBoundsX() == endBoundsX && squares[i][j].getBoundsY() == endBoundsY) {	         
-	                    return squares[i][j];
-	                }
-	            }
-	        }
-        }
-        
-        return null; // Handle case where start square is not found
-    }*/
 }
