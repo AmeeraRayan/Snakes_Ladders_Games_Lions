@@ -68,22 +68,6 @@ public class Questions {
 					+ ", correctOption=" + correctOption + ", id=" + id + ", diffculty=" + diffculty + "]";
 		}
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(questionText);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Questions other = (Questions) obj;
-			return Objects.equals(questionText, other.questionText);
-		}
 	 
 	 
 
