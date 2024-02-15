@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.PanelUI;
 
-import Controller.MediumController;
+import Controller.GameController;
 import Model.Ladder;
 import Model.Player;
 import Model.Snake;

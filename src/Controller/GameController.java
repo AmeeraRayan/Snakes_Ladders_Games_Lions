@@ -23,11 +23,11 @@ import Model.SysData;
 import View.MediumGameBoard;
 import javafx.event.ActionEvent;
 
-public class MediumController {
+public class GameController {
 	private Game game;
     private MediumGameBoard mediumGameBoard; // Add this attribute to store the instance of MediumGameBoard
 
-	public MediumController(Game game , MediumGameBoard mediumGameBoard) {
+	public GameController(Game game , MediumGameBoard mediumGameBoard) {
 		super();
 		this.game = game;
 		this.mediumGameBoard = mediumGameBoard;
