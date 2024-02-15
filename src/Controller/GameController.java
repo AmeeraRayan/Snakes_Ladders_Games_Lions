@@ -47,7 +47,6 @@ public class GameController {
 	
 	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
-		//MeduimFrame = frame;
 		int[] IAndJ = new int[2];
 		if(type.equals("Dice")) {
 	     newPosition = currentPlayer.getPosition()+result;
@@ -61,14 +60,15 @@ public class GameController {
 		}
 		currentPlayer.setPosition(newPosition);
 		IAndJ = FindSquareByValue(newPosition);
-		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],playerLabel);
 		animatePlayerMovement(playerLabel, IAndJ, game);
+		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],playerLabel);
 		return IAndJ;
 	}
 	
 	public void checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
 		Questions question = null ; 
+		System.out.println(s);
 		if(s.getType() ==  SquareType.QUESTION) {
 			int index = -1 ;
 			Square[] q = game.getBoard().getQuestions();
@@ -110,7 +110,7 @@ public class GameController {
 		
 	}
 	
-	public void DiceQuestion(int result) {
+	public int[] DiceQuestion(int result) {
 		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
@@ -122,7 +122,8 @@ public class GameController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		showAddQuestionPopup(question);
+		int[] IandJ = showAddQuestionPopup(question);
+		return IandJ;
 		
 	}
 	
@@ -140,7 +141,7 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public void showAddQuestionPopup(Questions question) {
+	  public int[] showAddQuestionPopup(Questions question) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -200,40 +201,47 @@ public class GameController {
 		      }
 		
 		  }
-		  updateplayerbyAnswer(question, selectedOption);
+		  int[] IandJ = updateplayerbyAnswer(question, selectedOption);
+		  return IandJ;
 	       
 	    }
-	  public void updateplayerbyAnswer(Questions question,int result) {
+	  public int[] updateplayerbyAnswer(Questions question,int result) {
+			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
 				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
-				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward." );
 			  }
 			  else {
-					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
 				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
-				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
 				  }
 			  else {
-					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position" );
+					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
 		  }
 		  if(question.getDiffculty() == 3) {
 			  System.out.println("hii , question diffculty 3 ");
 			  if(result == question.getCorrectOption()) {
 				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
-				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd." );
 			  }
-			  else if(result == question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
+			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
 					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
-					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to "+game.getCurrentPlayer().getPosition()+" position" );
+					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
 				  }
+			  else {
+				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will stay at your position" );
+			  }
 		  } 
-		  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
+		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());
+		  return IAndJ;
+			  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	 
 	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
@@ -259,40 +267,46 @@ public class GameController {
 	    
 	
 	  
-	  public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
-		    final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
-		    final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
-		    final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
-		    timer.addActionListener(new ActionListener() {
-		       
+	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
+	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
+	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
 
-				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					// TODO Auto-generated method stub
-					 // Current position
-		            int currentX = j.getX();
-		            int currentY = j.getY();
+	            timer.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(java.awt.event.ActionEvent e) {
+	                    // Current position
+	                    int currentX = j.getX();
+	                    int currentY = j.getY();
 
-		            // Determine the direction of movement
-		            int dx = targetX - currentX;
-		            int dy = targetY - currentY;
+	                    // Determine the direction of movement
+	                    int dx = targetX - currentX;
+	                    int dy = targetY - currentY;
 
-		            // Determine the step size for each timer tick (adjust for speed/smoothness)
-		            int stepX = (int)Math.signum(dx);
-		            int stepY = (int)Math.signum(dy);
+	                    // Determine the step size for each timer tick (adjust for speed/smoothness)
+	                    int stepX = 0;
+	                    int stepY = 0;
+	                    
+	                    if (dx != 0) {
+	                        stepX = (int) Math.signum(dx);
+	                    }
+	                    if (dy != 0) {
+	                        stepY = (int) Math.signum(dy);
+	                    }
 
-		            // Move the JLabel towards the target location
-		            if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
-		                j.setLocation(currentX + stepX, currentY + stepY);
-		            } else {
-		                // Stop the timer when the target location is reached
-		                timer.stop();
-		            }
-				}
-		    });
-		    timer.start();
-		}
-	  
+	                    // Move the JLabel towards the target location
+	                    if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
+	                        j.setLocation(currentX + stepX, currentY + stepY);
+	                    } else {
+	                        // Stop the timer when the target location is reached
+	                        timer.stop();
+	                    }
+	                }
+	            });
+
+	            timer.start();
+	        }
+
 	 
 	
 }
