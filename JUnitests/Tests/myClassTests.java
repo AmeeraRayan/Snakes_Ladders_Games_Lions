@@ -39,9 +39,7 @@ import View.QuestionManagment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-//myClassTest
 public class myClassTests {
-	/*White box tests*/
 
 	/*ID=WB1 tests if the easy game correctly initializes the board size and sets players's first positions at 1*/
 	/*test for board class*/
@@ -119,8 +117,6 @@ public class myClassTests {
 
 		        assertEquals(7, player1.getPosition());//in all the random easy board there is no ladder or snake or question in square 7 so no need to chick this
 		    }
-
-	/*Black box tests*/
 
 	/*ID:BB1 tests if the addNewQuestion method in the SysData class successfully add a new question,answers,difficulty
 	     to a JSON file.
