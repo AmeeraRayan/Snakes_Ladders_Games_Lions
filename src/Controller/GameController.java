@@ -42,7 +42,7 @@ public class GameController {
 	}
 	public void CallQuestionDataFunc() {
 		SysData.getInstance().LoadQuestions();
-		SysData.getInstance().putQuestions(SysData.getInstance().questionsPOPUP);
+		SysData.putQuestions(SysData.questionsPOPUP);
 	}
 	
 	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
@@ -50,25 +50,21 @@ public class GameController {
 		int[] IAndJ = new int[2];
 		if(type.equals("Dice")) {
 	     newPosition = currentPlayer.getPosition()+result;
+		 currentPlayer.setPosition(newPosition);
 		}
-		if(type.equals("Snake") || type.equals("Ladder")) {
+		if(type.equals("Snake") || type.equals("Ladder") || type.equals("surprise")) {
 		     newPosition = result;
-		}
-	
-		if(newPosition >=100) {
-			newPosition = 100;
-		}
-		currentPlayer.setPosition(newPosition);
+			 currentPlayer.setPosition(newPosition);
+		}	
 		IAndJ = FindSquareByValue(newPosition);
-		animatePlayerMovement(playerLabel, IAndJ, game);
-		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],playerLabel);
+		System.out.println(currentPlayer.getPosition());
 		return IAndJ;
 	}
 	
 	public void checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
 		Questions question = null ; 
-		System.out.println(s);
+		int[] Iandj = new int[2];
 		if(s.getType() ==  SquareType.QUESTION) {
 			int index = -1 ;
 			Square[] q = game.getBoard().getQuestions();
@@ -78,35 +74,55 @@ public class GameController {
 				}
 			}
 			if(index == 0 ) {
-				question = SysData.getInstance().getQuestionLevel("easy");
+				question = SysData.getQuestionLevel("easy");
 			}
 			if(index == 1 ) {
-				question = SysData.getInstance().getQuestionLevel("medium");
+				question = SysData.getQuestionLevel("medium");
 
 			}
 			if(index == 2 ) {
-				question = SysData.getInstance().getQuestionLevel("hard");
+				question = SysData.getQuestionLevel("hard");
 
 			}
-			showAddQuestionPopup(question);
+			Iandj = showAddQuestionPopup(question);
 			System.out.println("its a Question ");
-
+			animatePlayerMovement(playerLabel, Iandj, game);
+			
 		}
+		
+		if(s.getType() ==  SquareType.SURPRISE) {
+			System.out.println("its surprise!!!!");
+			if(game.getCurrentPlayer().getPosition()>=10) {
+				Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getCurrentPlayer().getPosition()-10,"surprise",playerLabel);
+				System.out.println("val: "+Iandj);
+				animatePlayerMovement(playerLabel, Iandj, game);
+			}
+			else {
+				Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getCurrentPlayer().getPosition()+10,"surprise",playerLabel);
+				System.out.println("val: "+Iandj);
+				animatePlayerMovement(playerLabel, Iandj, game);
+			}
+		}
+		
 		else {
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
-                	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
-                	 break;
+                	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
+                	 System.out.println("val: "+Iandj[0] +Iandj[1]);
+         			 animatePlayerMovement(playerLabel, Iandj, game);
+                 }
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
                	 System.out.println("its a Ladder !");
-               	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
-               	 break;
+               	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
+               	 System.out.println("val: "+Iandj[0] + Iandj[1]);
+               	 animatePlayerMovement(playerLabel, Iandj, game);
                 }
 			}
-			}}
+			
+			}
 		
 	}
 	
@@ -215,18 +231,23 @@ public class GameController {
 			  else {
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
+		
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
 				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
 				  }
-			  else {
+			  else if(result == question.getCorrectOption()){
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
+			  }
+			  else {
+				  game.getCurrentPlayer().setPosition(1);
+				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  }
 		  if(question.getDiffculty() == 3) {
-			  System.out.println("hii , question diffculty 3 ");
+
 			  if(result == question.getCorrectOption()) {
 				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
 				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd." );
@@ -236,7 +257,8 @@ public class GameController {
 					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
 				  }
 			  else {
-				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will stay at your position" );
+				  game.getCurrentPlayer().setPosition(1); 
+				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  } 
 		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());

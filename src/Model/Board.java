@@ -103,11 +103,11 @@ public class Board {
     }
     	
 
-	public static Board getInstance() {
+	public Board getInstance() {
 		return instance;
 	}
 
-	public static void setInstance(Board instance) {
+	public  void setInstance(Board instance) {
 		Board.instance = instance;
 	}
 
@@ -119,27 +119,27 @@ public class Board {
 		this.size = size;
 	}
 	
-	public static Snake[] getSnakes() {
+	public  Snake[] getSnakes() {
 		return snakes;
 	}
 
-	public static void setSnakes(Snake[] snakes) {
+	public  void setSnakes(Snake[] snakes) {
 		Board.snakes = snakes;
 	}
 
-	public static Ladder[] getLadders() {
+	public  Ladder[] getLadders() {
 		return ladders;
 	}
 
-	public static void setLadders(Ladder[] ladders) {
+	public  void setLadders(Ladder[] ladders) {
 		Board.ladders = ladders;
 	}
 
-	public static Square[] getQuestions() {
+	public  Square[] getQuestions() {
 		return questions;
 	}
 
-	public static void setQuestions(Square[] questions) {
+	public  void setQuestions(Square[] questions) {
 		Board.questions = questions;
 	}
 
