@@ -39,9 +39,11 @@ import View.QuestionManagment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-//myClassTest
 public class myClassTests {
-	/*White box tests*/
+
+	/*In the tests, there are some tests that their result from calling some functions /test functions can
+	 * open popups or  windows ,when run the test u can press okay on each frame that open or x
+	 */
 
 	/*ID=WB1 tests if the easy game correctly initializes the board size and sets players's first positions at 1*/
 	/*test for board class*/
@@ -120,8 +122,6 @@ public class myClassTests {
 		        assertEquals(7, player1.getPosition());//in all the random easy board there is no ladder or snake or question in square 7 so no need to chick this
 		    }
 
-	/*Black box tests*/
-
 	/*ID:BB1 tests if the addNewQuestion method in the SysData class successfully add a new question,answers,difficulty
 	     to a JSON file.
 	 */
@@ -154,7 +154,6 @@ public class myClassTests {
 			BoardEasyViewPlayers board2= new BoardEasyViewPlayers(game);
 	       player1.setPosition(49);
 		     Class<?> popupClass = board2.getWinPopupClassForWinner(player1);
-		     board2.endGame(player1);
 		     
 		     assertEquals(GreenWin.class, popupClass);
 		 }
@@ -240,19 +239,4 @@ public class myClassTests {
 
 	}
 	
-    ///
-	 /*ID= 
-	 @Test
-	    public void testQuestionRetrieval() {
-	        MangQuestionControl questionManager = new MangQuestionControl();
-	        
-	        List<Questions> retrievedQuestions = questionManager.getQuestions();
-	        	        
-	       //The list should contain the known question.
-	        assertTrue(retrievedQuestions.contains(new Questions("What is a key principle of Agile software development?", new String[]{"1.Extensive planning at the beginning of a project to ensure there are no changes in the requirements."
-	        		,"2.Strong documentation is more important than working software.",
-	        		"3.Regular adaptation to changing circumstances and user feedback.",
-	        		"4.Complete each project phase before starting the next one without any overlap."}, 3, 1)));
-	    }
-	 */
 }

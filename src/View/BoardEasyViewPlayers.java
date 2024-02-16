@@ -112,8 +112,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		txtpnHi.setEditable(false);
 		txtpnHi.setBounds(10, 10, 325, 145);
 		txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
-		txtpnHi.setForeground(SystemColor.desktop);
-		txtpnHi.setBackground(new Color(60, 179, 113));
+		txtpnHi.setForeground(new Color(0, 0, 0));
+		txtpnHi.setBackground(new Color(255, 255, 153));
 		contentPane.add(txtpnHi);
 
 		diceButton = new JButton("");
@@ -250,21 +250,11 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 	private void animatePlayerTurnTitle() {
-		final int delay = 200;
 		ActionListener taskPerformer = new ActionListener() {
-			private boolean flag = false;
 			public void actionPerformed(ActionEvent evt) {
-				if (currentPlayer != null) {
-					if (flag) {
-						currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
-					} else {
-						currentPlayerLabel.setText(">> Player Turn: " + currentPlayer.getName() + " <<");
-					}
-					flag = !flag; 
-				}
+						currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());					
 			}
 		};
-		new Timer(delay, taskPerformer).start();
 	}
 
 

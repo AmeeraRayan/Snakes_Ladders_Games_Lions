@@ -598,16 +598,27 @@ public class MediumGameBoard extends JFrame{
 		
 
     	for(int i = 0 ; i < playersLable.length ; i++) {
-    		if(i==1 || i ==3) {
-        		spaceX= spaceX + 25;
-        		spaceY = 0 ; 
-        		}
-        		else {
-        		spaceX=0;
-        		spaceY = spaceY + 10;
-        		}
+    	
+    		if(i == 1) {
+    			spaceX= 20;	
+    		}
+
+    		if(i == 0 || i == 2 ) {
+    			spaceX = 0;
+    		}
+    		if(i == 2 || i == 3) {
+    			spaceY =20;
+    		}
+    		if(i == 1 || i == 3) {
+    			spaceX = 20;
+    		}
+    		
+    		
+            int x = g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsX()+spaceX;
+            int y = g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsY()-15 + spaceY ; 
+            System.out.println(g.getPlayers().get(i).getName() + " - " + x +" - " + y + " - " + i);
     		playersLable[i] = new JLabel();
-    		playersLable[i].setBounds(g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsX()+spaceX,g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsY()-15 + spaceY , 37, 35);
+    		playersLable[i].setBounds(x,y , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
     			String path = "/images/greenPlayer.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
