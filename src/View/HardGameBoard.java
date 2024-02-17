@@ -39,6 +39,7 @@ import javax.swing.OverlayLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
  
 public class HardGameBoard extends JFrame{
 	private static final int GRID_SIZE = 13;
@@ -52,11 +53,15 @@ public class HardGameBoard extends JFrame{
     private Square[] quastionSquares = new Square[6];
     private Square[] surpriseSquares = new Square[2];
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
-
+    private int index = 0 ;
+    public static JLabel[] playersLable;
+    private GameController controller ; 
+    private JLabel messageLabel;
     private Board HardBoard = new Board(GRID_SIZE);
     //JFrame frame;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6 , 7 , 8 };
+    private JTextField playernames;
     public HardGameBoard(Game game) {
         // Setting up the main frame
     	//frame = new JFrame();
@@ -67,12 +72,71 @@ public class HardGameBoard extends JFrame{
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
-        JLabel playerName = new JLabel("");
-        playerName.setBounds(853, 51, 300, 100);
-        outerPanel.add(playerName);
-
+        playernames = new JTextField();
+        playernames.setBounds(853, 51, 250, 70);
+        outerPanel.add(playernames);
+        playernames.setColumns(10);
+        
+        JLabel resultLabel  = new JLabel("", SwingConstants.CENTER);
+        resultLabel.setBounds(0, getHeight() / 2 - 10, 100, 20); // Initial position of the label
+        add(resultLabel);
+        controller = new GameController(game,this);
+        controller.CallQuestionDataFunc();
+        IntilaizePlayerPositionView(game , controller , outerPanel);
         
         JButton diceButton = new JButton("");
+        diceButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		index = game.getCurrentPlayerIndex();
+                Player CurrentPlayer = game.getPlayers().get(index);
+                System.out.println("Player turn: " + CurrentPlayer.getName());
+
+                // Start dice roll animation
+                final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+                final Timer timer = new Timer(100, null);
+                final int[] currentNumber = {1};
+                final int numberOfFaces = 6;
+                int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
+
+                ActionListener listener = new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {                                    
+                        if (count < animationCycle[0]) {
+                            String path = "/images/dice " + currentNumber[0] + ".jpg";
+                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                            currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+                            count++;
+                        } else {
+                            // Animation ends, show final result
+                            String path = "/images/dice " + result + ".jpg";
+                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                            timer.stop();
+                           
+                            
+                            if(result < 7) {
+                            	int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice",playersLable[index]);
+                            } else {
+                                                             
+                            }
+
+                            // Prepare for next player
+                            index++;
+                            if(index >= game.getPlayers().size()) {
+                                index = 0;
+                            }
+                            game.setCurrentPlayerIndex(index);
+                            game.setCurrentPlayer(game.getPlayers().get(index));
+                            playernames.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                        //    controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), playernames);
+                        }
+                    }
+                };
+                timer.addActionListener(listener);
+                timer.start();
+        	}
+        });
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(1012, 640, 78, 81);
         outerPanel.add(diceButton);
@@ -167,17 +231,17 @@ public class HardGameBoard extends JFrame{
          }
   
  
-        setRedSnakes(outerPanel);
-        setYellowSnake(outerPanel);
-        setBlueSnakes(outerPanel);
-        setGreenSnakes(outerPanel);
-        setLadders(outerPanel);
+       setRedSnakes(outerPanel);
+       setYellowSnake(outerPanel);
+       setBlueSnakes(outerPanel);
+       setGreenSnakes(outerPanel);
+       setLadders(outerPanel);
         for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
         	ArrayList<Integer>  key = entry.getKey();
             String value = entry.getValue();
             System.out.println("Key: " + key + ", Value: " + value);
         }
-        HardBoard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+      HardBoard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
              
     }
     
@@ -648,4 +712,66 @@ public class HardGameBoard extends JFrame{
     	return null;
     }
     
+    private static void IntilaizePlayerPositionView(Game g , GameController control,JPanel panel) { //intilaize player position FrontEnd
+    	playersLable = new JLabel[g.getPlayers().size()];
+    	int[] indexes = new int[2];
+		indexes = control.FindSquareByValue(1);   
+		int spaceX = 0;          
+		int spaceY = 0;          
+		
+
+    	for(int i = 0 ; i < playersLable.length ; i++) {
+    	
+    		if(i == 1) {
+    			spaceX= 20;	
+    		}
+
+    		if(i == 0 || i == 2 ) {
+    			spaceX = 0;
+    		}
+    		if(i == 2 || i == 3) {
+    			spaceY =20;
+    		}
+    		if(i == 1 || i == 3) {
+    			spaceX = 20;
+    		}
+    		
+    		
+            int x = g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsX()+spaceX;
+            int y = g.getBoard().getCells()[indexes[0]][indexes[1]].getBoundsY()-15 + spaceY ; 
+            System.out.println(g.getPlayers().get(i).getName() + " - " + x +" - " + y + " - " + i);
+    		playersLable[i] = new JLabel();
+    		playersLable[i].setBounds(x,y , 37, 35);
+    		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
+    			String path = "/images/greenPlayer.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    			
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
+    			String path = "/images/yellowPlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
+    			String path = "/images/RedPlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+
+    		}
+    		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
+
+    			String path = "/images/BluePlayer1.png";
+                playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                
+
+    		}
+    	
+            panel.add(playersLable[i]);
+    		panel.setComponentZOrder(playersLable[i], 0);
+
+    	}
+        System.out.println(playersLable.length);
+
+    }
 }
+

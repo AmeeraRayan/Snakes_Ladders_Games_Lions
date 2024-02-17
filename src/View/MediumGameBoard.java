@@ -9,12 +9,15 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -56,6 +59,11 @@ public class MediumGameBoard extends JFrame{
     private int index = 0 ;
     public static JLabel[] playersLable;
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
+	private long startTime;
+	private Timer gameTimer;
+	private JLabel timerLabel;
+	private JButton diceButton;
+
 
     //JFrame frame;
     Player CurrentPlayer ;
@@ -76,12 +84,12 @@ public class MediumGameBoard extends JFrame{
         lblNewLabel_2.setBounds(304, 15, 373, 81);
         outerPanel.add(lblNewLabel_2);
         
-        JTextPane textPane = new JTextPane();
-        textPane.setBounds(330, 23, 332, 65);
-        outerPanel.add(textPane);
+        JTextField PlayerName = new JTextField();
+        PlayerName.setBounds(330, 23, 332, 65);
+        outerPanel.add(PlayerName);
 
         
-        JButton diceButton = new JButton("");
+        diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(847, 354, 78, 81);
         outerPanel.add(diceButton);
@@ -96,17 +104,23 @@ public class MediumGameBoard extends JFrame{
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
         IntilaizePlayerPositionView(game , controller , outerPanel);
-        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+        PlayerName.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+        PlayerName.setAlignmentX(0.2f);
+        PlayerName.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+        PlayerName.setAlignmentY(Component.TOP_ALIGNMENT);
+        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), PlayerName);
+
+		timerLabel = new JLabel("00:00");
+		timerLabel.setBounds(920, 50, 100, 50);
+		timerLabel.setFont(new Font("Snap ITC", Font.BOLD, 25));
+		outerPanel.add(timerLabel);
 
          
         // create game instance and set the board and the dice >> BACKEND . 
         //CurrentPlayer = controller.getGame().getCurrentPlayer();
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                diceButton.setEnabled(false);
                 index = game.getCurrentPlayerIndex();
                 Player CurrentPlayer = game.getPlayers().get(index);
                 System.out.println("Player turn: " + CurrentPlayer.getName());
@@ -138,18 +152,16 @@ public class MediumGameBoard extends JFrame{
                             //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
                             //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
                             if(result < 7) {
-                                int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice",playersLable[index]);
-                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
-                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
-                                controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
+                                controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
+                             //   System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
+                              //  controller.animatePlayerMovement(playersLable[index], IAndJ, game);
+                               // controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
                                 
                             } else {
                                 System.out.println("from result");
                                 int[] IandJ = controller.DiceQuestion(result);
-                                controller.animatePlayerMovement( playersLable[index], IandJ , game);
-                                controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]);
+                              //  controller.animatePlayerMovement( playersLable[index], IandJ , game);
+                                //controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]);
                                
                             }
 
@@ -158,10 +170,11 @@ public class MediumGameBoard extends JFrame{
                             if(index >= game.getPlayers().size()) {
                                 index = 0;
                             }
+                            diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
-                            textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+                            PlayerName.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), PlayerName);
                         }
                     }
                 };
@@ -180,7 +193,7 @@ public class MediumGameBoard extends JFrame{
      
        
         JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(40, 179, 106, 140);
+        textPane_1.setBounds(40, 279, 130, 140);
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
@@ -203,6 +216,8 @@ public class MediumGameBoard extends JFrame{
         while (chosenCells.size() < 3) {
             int cellNumber = rand.nextInt(98) + 2; // Generate a random cell number between 2 and 99
             chosenCells.add(cellNumber); // Add the chosen cell number to the set
+            System.out.println(chosenCells.size());
+
         }
      // Add surprise squares
         while (chosenSurpriseCells.size() < 2) {
@@ -314,9 +329,10 @@ public class MediumGameBoard extends JFrame{
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
-            arr2.add(i2);
-            arr2.add(j2);
+            
         } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==0 && j2==0));
+        arr2.add(i2);
+        arr2.add(j2);
         takenCells.put(arr2,"redsnake2");
         JLabel label_1 = new JLabel();
 		label_1 .setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 55, 55);
@@ -342,9 +358,10 @@ public class MediumGameBoard extends JFrame{
         do {
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
-            arr.add(i);
-            arr.add(j);
+            
         } while(takenCells.containsKey(arr) || (i==0 && j==0));       
+        arr.add(i);
+        arr.add(j);
         takenCells.put(arr,"yellowSnake");
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
@@ -362,9 +379,10 @@ public class MediumGameBoard extends JFrame{
         do {
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
-            arr.add(i);
-            arr.add(j);
+            
         } while(takenCells.containsKey(arr)  || (i==0 && j==0));
+        arr.add(i);
+        arr.add(j);
         takenCells.put(arr,"blueSnake");
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getBoundsX() - 110, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
@@ -384,16 +402,18 @@ public class MediumGameBoard extends JFrame{
         do {
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j1 = generateRandomNumber_J(Color.GREEN);
-            arr1.add(i1);
-            arr1.add(j1);
+          
         }while(takenCells.containsKey(arr1) || (i1==0 && j1==0));
+        arr1.add(i1);
+        arr1.add(j1);
         takenCells.put(arr1,"greensnake1");
         do {             
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j2 = generateRandomNumber_J(Color.GREEN);
-            arr2.add(i2);
-            arr2.add(j2);
+           
         }while(takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1) || (i2==0 && j2==0));
+        arr2.add(i2);
+        arr2.add(j2);
         takenCells.put(arr2,"greensnake2");
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -418,7 +438,7 @@ public class MediumGameBoard extends JFrame{
             setLadder(panel, num);
         }
     }
-    
+    //check the snake start function 
     private void setLadder(JPanel panel, int num) {
         int i, j;
         Square startSquare, endSquare;
@@ -427,11 +447,12 @@ public class MediumGameBoard extends JFrame{
         do {
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
-            arr1.clear();
-            startSquare = findStartSquare_ladder(squares[i][j], num);
-            arr1.add(startSquare.getRow());
-            arr1.add(startSquare.getCol());
+           
         } while (takenCells.containsKey(arr1) || (i==0 && j==0));
+        arr1.clear();
+        startSquare = findStartSquare_ladder(squares[i][j], num);
+        arr1.add(startSquare.getRow());
+        arr1.add(startSquare.getCol());
         takenCells.put(arr1,"ladder"+num);
  
         //startSquare = findStartSquare_ladder(squares[i][j], num);
@@ -726,4 +747,21 @@ public class MediumGameBoard extends JFrame{
       }
   	return null;
   }
+	private void startGameTimer() {
+		startTime = System.currentTimeMillis();
+		gameTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				long now = System.currentTimeMillis();
+				long elapsed = now - startTime;
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
+				timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+			}
+		});
+		gameTimer.start();
+	}
+    
+
+
 }

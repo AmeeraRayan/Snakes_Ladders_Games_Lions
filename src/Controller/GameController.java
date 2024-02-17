@@ -3,6 +3,8 @@ package Controller;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import Model.Game;
@@ -25,12 +28,13 @@ import javafx.event.ActionEvent;
 
 public class GameController {
 	private Game game;
-    private MediumGameBoard mediumGameBoard; // Add this attribute to store the instance of MediumGameBoard
+    private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
+    private Queue<Runnable> actionQueue = new LinkedList<>();
 
-	public GameController(Game game , MediumGameBoard mediumGameBoard) {
+	public GameController(Game game , JFrame frame ) {
 		super();
 		this.game = game;
-		this.mediumGameBoard = mediumGameBoard;
+		this.frame = frame;
 	}
 
 	public Game getGame() {
@@ -45,27 +49,72 @@ public class GameController {
 		SysData.putQuestions(SysData.questionsPOPUP);
 	}
 	
-	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
+	
+	public void updatePlayerPosition(int index , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
 		if(type.equals("Dice")) {
-	     newPosition = currentPlayer.getPosition()+result;
-		 currentPlayer.setPosition(newPosition);
+	     newPosition = game.getPlayers().get(index).getPosition()+result;
+	     game.getPlayers().get(index).setPosition(newPosition);
 		}
-		if(type.equals("Snake") || type.equals("Ladder") || type.equals("surprise")) {
-		     newPosition = result;
-			 currentPlayer.setPosition(newPosition);
-		}	
+//		if(type.equals("Snake") || type.equals("Ladder") || type.equals("surprise")) {
+//		     newPosition = result;
+//		     game.getPlayers().get(index).setPosition(newPosition);
+//		}	
 		IAndJ = FindSquareByValue(newPosition);
-		System.out.println(currentPlayer.getPosition());
-		return IAndJ;
+	    	System.out.println(game.getPlayers().get(index).getPosition());	
+	    	int count = 0 ; 
+	    	
+	    	 do {
+	    		 if(count == 0 ) {
+	    		     animatePlayerMovement(index , playerLabel, game, new Runnable() {
+	   		             @Override
+	   		             public void run() {
+	   		                 // Code to execute after the animation ends
+	   		                 System.out.println("Animation ended. Perform next action here.");
+	   		             }
+	   		         });
+	    		     count ++ ;
+	    		 }else {
+	    			 int val = game.getPlayers().get(index).getPosition();
+	                 IAndJ = FindSquareByValue(val);
+		    		    Timer waitTimer = new Timer(2000, e -> {
+		                    animatePlayerMovement(index , playerLabel, game, new Runnable() {
+		   		             @Override
+		   		             public void run() {
+		   		                 // Code to execute after the animation ends
+		   		                 System.out.println("Animation ended. Perform next action here.");
+		   		             }
+		   		         });	
+		                });
+		                waitTimer.setRepeats(false); // Ensure the timer only triggers once
+		                waitTimer.start();
+	    		 }
+	    		 
+	    		
+	          
+		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel)  );
 	}
 	
-	public void checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
+	  private void enqueueAction(Runnable action) {
+	        actionQueue.add(action);
+	        if (actionQueue.size() == 1) {
+	            processNextAction();
+	        }
+	    }
+	   private void processNextAction() {
+	        if (!actionQueue.isEmpty()) {
+	            SwingUtilities.invokeLater(actionQueue.peek());
+	        }
+	    }
+	
+	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
+		Boolean flag = false ; 
 		Questions question = null ; 
 		int[] Iandj = new int[2];
 		if(s.getType() ==  SquareType.QUESTION) {
+			flag = true ; 
 			int index = -1 ;
 			Square[] q = game.getBoard().getQuestions();
 			for (int k = 0 ; k < q.length ; k ++ ) {
@@ -86,43 +135,55 @@ public class GameController {
 			}
 			Iandj = showAddQuestionPopup(question);
 			System.out.println("its a Question ");
-			animatePlayerMovement(playerLabel, Iandj, game);
+			//animatePlayerMovement(playerLabel, Iandj, game);
 			
 		}
 		
 		else if(s.getType() ==  SquareType.SURPRISE) {
+			flag = true ; 
 			System.out.println("its surprise!!!!");
-			if(game.getCurrentPlayer().getPosition()>=10) {
-				Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getCurrentPlayer().getPosition()-10,"surprise",playerLabel);
+			if(game.getCurrentPlayer().getPosition()>10) {
+				int  val =game.getCurrentPlayer().getPosition()-10;
+            	game.getCurrentPlayer().setPosition(val);
 				System.out.println("val: "+Iandj);
-				animatePlayerMovement(playerLabel, Iandj, game);
+				
+				//animatePlayerMovement(playerLabel, Iandj, game);
 			}
 			else {
-				Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getCurrentPlayer().getPosition()+10,"surprise",playerLabel);
-				System.out.println("val: "+Iandj);
-				animatePlayerMovement(playerLabel, Iandj, game);
+				int  val =game.getCurrentPlayer().getPosition()+10;
+            	game.getCurrentPlayer().setPosition(val);
+				//animatePlayerMovement(playerLabel, Iandj, game);
 			}
 		}
 		
 		else {
+		
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
-                	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
-                	 System.out.println("val: "+Iandj[0] +Iandj[1]);
-         			 animatePlayerMovement(playerLabel, Iandj, game);
+                	int  val =game.getBoard().getSnakes()[l].getSquareEnd().getValue();
+                	game.getCurrentPlayer().setPosition(val);
+                	 flag = true ; 
+                	 System.out.println("X : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsX());
+                	 System.out.println("\n Y : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsY());
+
+         			// animatePlayerMovement(playerLabel, Iandj, game);
                  }
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
                	 System.out.println("its a Ladder !");
-               	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
-               	 System.out.println("val: "+Iandj[0] + Iandj[1]);
-               	 animatePlayerMovement(playerLabel, Iandj, game);
+               	int  val =game.getBoard().getLadders()[t].getSquareEnd().getValue();
+            	game.getCurrentPlayer().setPosition(val);
+               	 flag = true ; 
+               
+
+               //	 animatePlayerMovement(playerLabel, Iandj, game);
                 }
 			}
 			
 			}
+		return flag ; 
 		
 	}
 	
@@ -201,7 +262,7 @@ public class GameController {
 		      "Difficulty:", difficultyField
 		  };
 
-		  int result = JOptionPane.showConfirmDialog(this.mediumGameBoard, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		  int result = JOptionPane.showConfirmDialog(this.frame, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		  // Get the selected answer option
 		  int selectedOption = -1;
@@ -266,7 +327,7 @@ public class GameController {
 			  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	 
-	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
+	  public void setPlayerBackgroundColor(Model.Color color , JTextField txtrPlayer) {//change the jtext background - by the player color
 	        switch (color.toString()) {
 	        case "BLUE":
 	            txtrPlayer.setBackground(new java.awt.Color(175, 238, 238)); // Blue
@@ -289,47 +350,53 @@ public class GameController {
 	    
 	
 	  
-	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
-	        	System.out.println("hii");
+	        public void animatePlayerMovement(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	            int[] iAndJ = FindSquareByValue(game.getPlayers().get(index).getPosition());
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
-	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
-	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
-	            System.out.println("i= "+iAndJ[0]+"j= "+iAndJ[1]);
+	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15;
+	            final int delay = 50; // Milliseconds between updates
+	            final int steps = 15; // Number of steps to reach the target
+	            final int startX = playerLabel.getX();
+	            final int startY = playerLabel.getY();
+	            final double dx = (double) (targetX - startX) / steps; // Incremental change per step
+	            final double dy = (double) (targetY - startY) / steps;
+	            
+	            final Timer timer = new Timer(delay, null);
 	            timer.addActionListener(new ActionListener() {
-	                @Override
-	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	                    // Current position
-	                    int currentX = j.getX();
-	                    int currentY = j.getY();
+	                private int currentStep = 0;
 
-	                    // Determine the direction of movement
-	                    int dx = targetX - currentX;
-	                    int dy = targetY - currentY;
-
-	                    // Determine the step size for each timer tick (adjust for speed/smoothness)
-	                    int stepX = 0;
-	                    int stepY = 0;
-	                    
-	                    if (dx != 0) {
-	                        stepX = (int) Math.signum(dx);
-	                    }
-	                    if (dy != 0) {
-	                        stepY = (int) Math.signum(dy);
-	                    }
-
-	                    // Move the JLabel towards the target location
-	                    if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
-	                        j.setLocation(currentX + stepX, currentY + stepY);
-	                    } else {
-	                        // Stop the timer when the target location is reached
-	                        timer.stop();
-	                    }
-	                }
-	            });
-
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						   if (currentStep < steps) {
+		                        playerLabel.setLocation((int) (startX + dx * currentStep), (int) (startY + dy * currentStep));
+		                        currentStep++;
+		                    } else {
+		                        playerLabel.setLocation(targetX, targetY); // Ensure it ends exactly at the target
+		                        SwingUtilities.invokeLater(onAnimationEnd);
+		                        timer.stop();
+		                        // If you have any actions to perform after animation ends, place them here
+		                        // For example:
+		                        // onAnimationComplete();
+		                    }
+		                }						
+					});
 	            timer.start();
 	        }
-
 	 
 	
 }
+
+//Model.Color color = currentPlayer.getColor();
+//if (color.equals(Model.Color.BLUE)) {
+//    x = 290;
+//    y = 630;
+//} else if (color.equals(Model.Color.GREEN)) {
+//    x = 320;
+//    y = 630;
+//} else if (color.equals(Model.Color.RED)) {
+//    x = 290;
+//    y = 660;
+//} else if (color.equals(Model.Color.YELLOW)) {
+//    x = 320;
+//    y = 660;
+//}

@@ -33,8 +33,9 @@ public class Dice {
 	        Random rand = new Random();
 	        int index = rand.nextInt(numbers.length);
 	        int result = numbers[index];
-	        System.out.println(result);
-	        return result;
+	    //    System.out.println(result);
+	       // return result;
+	        return random.nextInt(7) ;
 	        
 	}
 	
