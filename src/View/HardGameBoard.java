@@ -1,8 +1,10 @@
 package View; 
 import java.io.Console;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -49,6 +51,9 @@ public class HardGameBoard extends JFrame{
     private Ladder[] ladders = new Ladder[8];
     private Square[] quastionSquares = new Square[6];
     private Square[] surpriseSquares = new Square[2];
+    private int index = 0 ;
+	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
+
 
     private Board meduimboard = new Board(GRID_SIZE);
      JFrame frame;
@@ -70,6 +75,59 @@ public class HardGameBoard extends JFrame{
 
         
         JButton diceButton = new JButton("");
+        diceButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		   final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+                   final Timer timer = new Timer(100, null);
+                   final int[] currentNumber = {1};
+                   final int numberOfFaces = 6;
+                   int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
+                   index = game.getCurrentPlayerIndex();
+                   Player CurrentPlayer = game.getPlayers().get(index);
+                   System.out.println("Player turn: " + CurrentPlayer.getName());
+
+
+                   ActionListener listener = new ActionListener() {
+                       int count = 0;
+                        
+                       @Override
+                       public void actionPerformed(ActionEvent evt) {                                    
+                           if (count < animationCycle[0]) {
+                               String path = "/images/dice " + currentNumber[0] + ".jpg";
+                               diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                               currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+                               count++;
+                           } else {
+                               // Animation ends, show final result
+                               String path = "/images/dice " + result + ".jpg";
+                               diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+                               timer.stop();
+
+                               // After animation logic
+                               //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
+                               //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
+                               if(result < 7) {
+                                   
+                                   
+                               } else {
+                                
+                               }
+
+                               // Prepare for next player
+                               index++;
+                               if(index >= game.getPlayers().size()) {
+                                   index = 0;
+                               }
+                               game.setCurrentPlayerIndex(index);
+                               game.setCurrentPlayer(game.getPlayers().get(index));
+                           }
+                       }
+                   };
+                   timer.addActionListener(listener);
+                   timer.start();
+               }
+           });	
+        	
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(1012, 640, 78, 81);
         outerPanel.add(diceButton);
@@ -139,6 +197,11 @@ public class HardGameBoard extends JFrame{
                      label.setText(""); // Set empty string for text
                      squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                      quastionSquares[count] = squares[i][j];
+                     ArrayList<Integer> arrayList= new ArrayList<Integer>();
+                     arrayList.add(i);
+                     arrayList.add(j);
+                     takenCells.put(arrayList,"question"+count);
+                  
                      count++;
                  } else if (chosenSurpriseCells.contains(cellNumber)) {
                      label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/!.png")));
