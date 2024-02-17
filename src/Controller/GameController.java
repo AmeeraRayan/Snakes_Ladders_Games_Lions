@@ -90,7 +90,7 @@ public class GameController {
 			
 		}
 		
-		if(s.getType() ==  SquareType.SURPRISE) {
+		else if(s.getType() ==  SquareType.SURPRISE) {
 			System.out.println("its surprise!!!!");
 			if(game.getCurrentPlayer().getPosition()>=10) {
 				Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getCurrentPlayer().getPosition()-10,"surprise",playerLabel);
@@ -290,10 +290,11 @@ public class GameController {
 	
 	  
 	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+	        	System.out.println("hii");
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
 	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
 	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
-
+	            System.out.println("i= "+iAndJ[0]+"j= "+iAndJ[1]);
 	            timer.addActionListener(new ActionListener() {
 	                @Override
 	                public void actionPerformed(java.awt.event.ActionEvent e) {
