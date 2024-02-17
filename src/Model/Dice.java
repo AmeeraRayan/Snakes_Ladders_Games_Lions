@@ -38,7 +38,16 @@ public class Dice {
 	        return result;
 	        
 	}
-	
+	public int DiceForHardGame() {
+		 int[] numbers = {0, 1, 2, 3, 4, 5, 6, 7, 7 , 8, 8 , 9 , 9, 9 , 9};
+	        Random rand = new Random();
+	        int index = rand.nextInt(numbers.length);
+	        int result = numbers[index];
+	        System.out.println(result);
+	        
+	        return result;
+	        
+	}
 
 
     public int rollForTurn() {

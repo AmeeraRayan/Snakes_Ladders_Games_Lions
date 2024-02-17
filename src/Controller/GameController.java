@@ -292,11 +292,8 @@ public class GameController {
 	
 	  
 	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
-<<<<<<< Updated upstream
-	        	
-=======
+
 	        	boolean flag = CheckifThereISAPlayerAtTheSquare(iAndJ , g);
->>>>>>> Stashed changes
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
 	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15;
 	            
