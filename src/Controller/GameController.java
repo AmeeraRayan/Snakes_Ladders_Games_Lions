@@ -292,9 +292,14 @@ public class GameController {
 	
 	  
 	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+<<<<<<< Updated upstream
 	        	
+=======
+	        	boolean flag = CheckifThereISAPlayerAtTheSquare(iAndJ , g);
+>>>>>>> Stashed changes
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
-	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
+	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15;
+	            
 	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
 
 	            timer.addActionListener(new ActionListener() {
@@ -330,6 +335,17 @@ public class GameController {
 	            });
 
 	            timer.start();
+	        }
+	        
+	        private boolean CheckifThereISAPlayerAtTheSquare(int[] iAndJ, Game g) {
+	        	boolean flag = false ; 
+
+	        	for (int i = 0 ; i < g.getPlayers().size() ; i ++ ) {
+	        		if(g.getPlayers().get(i).getPosition() == g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getValue()) {
+	        			flag = true;
+	        		}
+	        	}
+	        	return flag ; 
 	        }
 
 	 
