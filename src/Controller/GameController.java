@@ -55,9 +55,11 @@ public class GameController {
 		if(type.equals("Snake") || type.equals("Ladder") || type.equals("surprise")) {
 		     newPosition = result;
 			 currentPlayer.setPosition(newPosition);
+
 		}	
 		IAndJ = FindSquareByValue(newPosition);
 		System.out.println(currentPlayer.getPosition());
+        
 		return IAndJ;
 	}
 	
@@ -106,18 +108,18 @@ public class GameController {
 		
 		else {
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
-                 if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
+                 if(s.equals(game.getBoard().getLadders()[l].getSquareStart())) {
                 	 System.out.println("its a snakeeeee");
                 	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
-                	 System.out.println("val: "+Iandj[0] +Iandj[1]);
+                	 System.out.println("val: "+Iandj[0] +" "+Iandj[1]);
          			 animatePlayerMovement(playerLabel, Iandj, game);
                  }
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
-                if(s == game.getBoard().getLadders()[t].getSquareStart()) {
+                if(s.equals(game.getBoard().getLadders()[t].getSquareStart()) ) {
                	 System.out.println("its a Ladder !");
                	 Iandj = updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
-               	 System.out.println("val: "+Iandj[0] + Iandj[1]);
+               	 System.out.println("val: "+Iandj[0] +" "+ Iandj[1]);
                	 animatePlayerMovement(playerLabel, Iandj, game);
                 }
 			}
@@ -290,6 +292,7 @@ public class GameController {
 	
 	  
 	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+	        	
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
 	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
 	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
