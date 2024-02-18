@@ -1,22 +1,17 @@
 package View; 
 import java.io.Console;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -476,7 +471,7 @@ public class MediumGameBoard extends JFrame{
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
             }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0) );
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
