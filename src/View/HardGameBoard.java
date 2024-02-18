@@ -126,6 +126,7 @@ public class HardGameBoard extends JFrame{
    
                   // Start dice roll animation
                   final int result = dice.DiceForHardGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+                 System.out.println(result +" >>>>>>>>>>>>>>");
                   final Timer timer = new Timer(100, null);
                   final int[] currentNumber = {1};
                   final int numberOfFaces = 6;
