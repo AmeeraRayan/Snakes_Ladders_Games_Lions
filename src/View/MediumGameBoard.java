@@ -48,7 +48,8 @@ import javax.swing.OverlayLayout;
  
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class MediumGameBoard extends JFrame{
+public class MediumGameBoard extends JFrame
+{
 	
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
