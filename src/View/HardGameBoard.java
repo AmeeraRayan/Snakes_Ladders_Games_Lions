@@ -161,7 +161,7 @@ public class HardGameBoard extends JFrame{
                               }
                               if(flag == true) {
                              	 new WinnerPage(index , game).setVisible(true);
-                             	HardGameBoard.this.setVisible(false); 
+                             	HardGameBoard.this.setVisible(false);  
                              }else {
                           	   
                           	     index++;
@@ -180,6 +180,7 @@ public class HardGameBoard extends JFrame{
                               game.setCurrentPlayerIndex(index);
                               game.setCurrentPlayer(game.getPlayers().get(index));
                               textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                              textPane.setEditable(false);
                               controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
                           }
@@ -526,7 +527,7 @@ public class HardGameBoard extends JFrame{
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
             }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0) );
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
