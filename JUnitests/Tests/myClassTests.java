@@ -42,7 +42,7 @@ import static org.junit.Assert.assertTrue;
 public class myClassTests {
 
 	/*In the tests, there are some tests that their result from calling some functions /test functions can
-	 * open popups or  windows ,when run the test u can press okay on each frame that open or x
+	 * open popups or  windows ,when run the test u can press okay/enter on each frame that open or x
 	 */
 
 	/*ID=WB1 tests if the easy game correctly initializes the board size and sets players's first positions at 1*/
