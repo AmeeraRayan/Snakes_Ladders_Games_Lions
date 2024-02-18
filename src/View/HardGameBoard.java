@@ -116,7 +116,7 @@ public class HardGameBoard extends JFrame{
                            
                             
                             if(result < 7) {
-                            	int[] IAndJ = controller.updatePlayerPosition(CurrentPlayer, result, "Dice",playersLable[index]);
+                            	controller.updatePlayerPosition(CurrentPlayer, result, "Dice",playersLable[index]);
                             } else {
                                                              
                             }
@@ -436,15 +436,20 @@ public class HardGameBoard extends JFrame{
         Square startSquare, endSquare;
         JLabel ladderLabel;
         ArrayList<Integer> arr1= new ArrayList<Integer>();
+        ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr1.clear();
+            arr2.clear();
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-        } while (takenCells.containsKey(arr1) || (i==0 && j==0));
-        takenCells.put(arr1,"ladder"+num);
+            arr2.add(i);
+            arr2.add(j);
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0));
+        takenCells.put(arr1,"startladder"+num);
+        takenCells.put(arr2,"endladder"+num);
  
         //startSquare = findStartSquare_ladder(squares[i][j], num);
         endSquare = squares[i][j];

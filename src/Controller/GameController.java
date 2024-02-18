@@ -74,7 +74,7 @@ public class GameController {
 	   		                 System.out.println("Animation ended. Perform next action here.");
 	   		             }
 	   		         });
-	    		     count ++ ;
+	    		     count ++;
 	    		 }else {
 	    			 int val = game.getPlayers().get(index).getPosition();
 	                 IAndJ = FindSquareByValue(val);
@@ -93,20 +93,9 @@ public class GameController {
 	    		 
 	    		
 	          
-		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel)  );
+		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel));
 	}
 	
-	  private void enqueueAction(Runnable action) {
-	        actionQueue.add(action);
-	        if (actionQueue.size() == 1) {
-	            processNextAction();
-	        }
-	    }
-	   private void processNextAction() {
-	        if (!actionQueue.isEmpty()) {
-	            SwingUtilities.invokeLater(actionQueue.peek());
-	        }
-	    }
 	
 	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];

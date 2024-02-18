@@ -1,14 +1,20 @@
 package View; 
 import java.io.Console;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -34,6 +40,7 @@ import Model.Game;
 import Model.SquareType;
  
 import java.awt.*;
+import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.OverlayLayout;
@@ -56,6 +63,9 @@ public class MediumGameBoard extends JFrame{
     private int index = 0 ;
     public static JLabel[] playersLable;
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
+    private long startTime;
+	private Timer gameTimer;
+    
  
     //JFrame frame;
     Player CurrentPlayer ;
@@ -77,7 +87,29 @@ public class MediumGameBoard extends JFrame{
         JTextField textPane = new JTextField();
         textPane.setBounds(330, 23, 332, 65);
         outerPanel.add(textPane);
- 
+       
+     
+        final JLabel jl = new JLabel("00:00", SwingConstants.CENTER);
+        jl.setLocation(0, 362);
+        outerPanel.add(jl);
+        jl.setVisible(true);
+        jl.setSize(219, 146);
+        Font labelFont = jl.getFont();
+        jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+        startTime = System.currentTimeMillis();
+		gameTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				long now = System.currentTimeMillis();
+				long elapsed = now - startTime;
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
+				jl.setText(String.format("%02d:%02d", minutes, seconds));
+			}
+		});
+		gameTimer.start();
+
+   
         
         JButton diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
@@ -120,6 +152,7 @@ public class MediumGameBoard extends JFrame{
                     @Override
                     public void actionPerformed(ActionEvent evt) {                                    
                         if (count < animationCycle[0]) {
+                        	diceButton.setEnabled(false);
                             String path = "/images/dice " + currentNumber[0] + ".jpg";
                             diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
                             currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
@@ -142,9 +175,34 @@ public class MediumGameBoard extends JFrame{
                                 //controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
                             } else {
                                 System.out.println("from result");
-                                controller.DiceQuestion(result);
-                                //controller.animatePlayerMovement( playersLable[index], IandJ , game);
-                               // controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]);
+                                int[] IandJ = controller.DiceQuestion(result);
+                                int count = 0 ; 
+                    	    	
+                   	    	 do {
+                   	    		 if(count == 0 ) {
+                   	    		     controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
+                   	   		             @Override
+                   	   		             public void run() {
+                   	   		                 // Code to execute after the animation ends
+                   	   		                 System.out.println("Animation ended. Perform next action here.");
+                   	   		             }
+                   	   		         });
+                   	    		     count ++;
+                   	    		 }else {
+                   		    		    Timer waitTimer = new Timer(2000, e -> {
+                   		                    controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
+                   		   		             @Override
+                   		   		             public void run() {
+                   		   		                 // Code to execute after the animation ends
+                   		   		                 System.out.println("Animation ended. Perform next action here.");
+                   		   		             }
+                   		   		         });	
+                   		                });
+                   		                waitTimer.setRepeats(false); // Ensure the timer only triggers once
+                   		                waitTimer.start();
+                   	    		 }
+                   	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
+                   	    	 
                             }
  
                             // Prepare for next player
@@ -152,6 +210,7 @@ public class MediumGameBoard extends JFrame{
                             if(index >= game.getPlayers().size()) {
                                 index = 0;
                             }
+                            diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
                             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
@@ -404,15 +463,20 @@ public class MediumGameBoard extends JFrame{
         Square startSquare, endSquare;
         JLabel ladderLabel;
         ArrayList<Integer> arr1= new ArrayList<Integer>();
+        ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr1.clear();
+            arr2.clear();
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-        } while (takenCells.containsKey(arr1) || (i==0 && j==0));
-        takenCells.put(arr1,"ladder"+num);
+            arr2.add(i);
+            arr2.add(j);
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0));
+        takenCells.put(arr1,"startladder"+num);
+        takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
         endSquare = squares[i][j];
         System.out.println(endSquare.getValue()+"end ladder "+num +" j=" +endSquare.getCol());
