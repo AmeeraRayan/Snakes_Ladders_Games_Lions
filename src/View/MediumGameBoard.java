@@ -176,33 +176,7 @@ public class MediumGameBoard extends JFrame{
                                 //controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
                             } else {
                                 System.out.println("from result");
-                                int[] IandJ = controller.DiceQuestion(result);
-                                int count = 0 ; 
-                    	    	
-                   	    	 do {
-                   	    		 if(count == 0 ) {
-                   	    		     controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
-                   	   		             @Override
-                   	   		             public void run() {
-                   	   		                 // Code to execute after the animation ends
-                   	   		                 System.out.println("Animation ended. Perform next action here.");
-                   	   		             }
-                   	   		         });
-                   	    		     count ++;
-                   	    		 }else {
-                   		    		    Timer waitTimer = new Timer(2000, e -> {
-                   		                    controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
-                   		   		             @Override
-                   		   		             public void run() {
-                   		   		                 // Code to execute after the animation ends
-                   		   		                 System.out.println("Animation ended. Perform next action here.");
-                   		   		             }
-                   		   		         });	
-                   		                });
-                   		                waitTimer.setRepeats(false); // Ensure the timer only triggers once
-                   		                waitTimer.start();
-                   	    		 }
-                   	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
+                                controller.DiceQuestion(result,playersLable[index]);
                    	    	 
                             }
                             if(flag == true) {
@@ -220,12 +194,7 @@ public class MediumGameBoard extends JFrame{
                                  textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                                  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                            }
- 
-                            // Prepare for next player
-                            index++;
-                            if(index >= game.getPlayers().size()) {
-                                index = 0;
-                            }
+            
                             diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
@@ -477,21 +446,24 @@ public class MediumGameBoard extends JFrame{
     }
     private void setLadder(JPanel panel, int num) {
         int i, j;
-        Square startSquare, endSquare;
+        Square startSquare=null, endSquare;
         JLabel ladderLabel;
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
+        	arr1.clear(); // Clear the list before adding new values
+            arr2.clear(); // Clear the list before adding new values
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
-            arr1.clear();
-            arr2.clear();
-            startSquare = findStartSquare_ladder(squares[i][j], num);
-            arr1.add(startSquare.getRow());
-            arr1.add(startSquare.getCol());
             arr2.add(i);
             arr2.add(j);
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0));
+            if(!takenCells.containsKey(arr2)) {
+            startSquare = findStartSquare_ladder(squares[i][j], num);
+            System.out.println("end ladder i= "+i +"j= "+j);
+            arr1.add(startSquare.getRow());
+            arr1.add(startSquare.getCol());
+            }
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
@@ -624,7 +596,7 @@ public class MediumGameBoard extends JFrame{
     	}
     	if(num ==4) {
     		i = random.nextInt(6); //0-5
-    		j = random.nextInt(8)+1; //1-9
+    		j = random.nextInt(9)+1; //1-9
         	IANDJ[0] = i;
         	IANDJ[1] = j;
     	}
@@ -746,6 +718,7 @@ public class MediumGameBoard extends JFrame{
           if(number == 3) {
           	if(squares[i][j].getBoundsX() == square.getBoundsX() &&squares[i][j].getBoundsY()-165 == square.getBoundsY()) {
             	  System.out.println(squares[i][j].getValue()+"start ladder "+number);
+            	  
             	  return squares[i][j];
               }
           }

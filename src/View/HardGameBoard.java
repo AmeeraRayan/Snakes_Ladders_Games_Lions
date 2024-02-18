@@ -47,7 +47,7 @@ public class HardGameBoard extends JFrame{
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
     private Square[][] squares = new Square[GRID_SIZE][GRID_SIZE];
     private JLabel[][] boardlabels = new JLabel[GRID_SIZE][GRID_SIZE];
-    private Dice dice = new Dice("medium"); 
+    private Dice dice = new Dice("hard"); 
     private Snake[] snakes = new Snake[8];
     private Ladder[] ladders = new Ladder[8];
     private Square[] quastionSquares = new Square[6];
@@ -56,7 +56,7 @@ public class HardGameBoard extends JFrame{
     private int index = 0 ;
     public static JLabel[] playersLable;
     private GameController controller ; 
-    private JLabel messageLabel;
+    //private JLabel messageLabel;
     private Board HardBoard = new Board(GRID_SIZE);
     //JFrame frame;
     Random rand = new Random();
@@ -83,7 +83,7 @@ public class HardGameBoard extends JFrame{
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
         IntilaizePlayerPositionView(game , controller , outerPanel);
-        
+      
         JButton diceButton = new JButton("");
         diceButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -447,7 +447,7 @@ public class HardGameBoard extends JFrame{
             arr1.add(startSquare.getCol());
             arr2.add(i);
             arr2.add(j);
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==0 && j==0));
+        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || findStartSquare_ladder(startSquare, num)==null || (i==0 && j==0));
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
  

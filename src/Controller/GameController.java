@@ -54,16 +54,18 @@ public class GameController {
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
 		Boolean flag = false  ; 
+		int count = 0 ; 
 		if(type.equals("Dice")) {
 	     newPosition = game.getPlayers().get(index).getPosition()+result;
-	     
 	     game.getPlayers().get(index).setPosition(newPosition);
 		}
-
+		if(type.equals("Dice Question")) {
+		     game.getPlayers().get(index).setPosition(result);
+		     count++;
+		}
+			
 		IAndJ = FindSquareByValue(newPosition);
-	    	System.out.println(game.getPlayers().get(index).getPosition());	
-	    	int count = 0 ; 
-	    	
+	    System.out.println(game.getPlayers().get(index).getPosition());
 	    	 do {
 	    		 if(count == 0 ) {
 	    		     animatePlayerMovement(index , playerLabel, game, new Runnable() {
@@ -125,7 +127,7 @@ public class GameController {
 				question = SysData.getQuestionLevel("hard");
 
 			}
-			Iandj = showAddQuestionPopup(question);
+			Iandj = showAddQuestionPopup(question,playerLabel);
 			System.out.println("its a Question ");
 			//animatePlayerMovement(playerLabel, Iandj, game);
 			
@@ -179,7 +181,7 @@ public class GameController {
 		
 	}
 	
-	public int[] DiceQuestion(int result) {
+	public int[] DiceQuestion(int result,JLabel playerJLabel) {
 		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
@@ -191,7 +193,7 @@ public class GameController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		int[] IandJ = showAddQuestionPopup(question);
+		int[] IandJ = showAddQuestionPopup(question, playerJLabel);
 		return IandJ;
 		
 	}
@@ -210,7 +212,7 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public int[] showAddQuestionPopup(Questions question) {
+	  public int[] showAddQuestionPopup(Questions question, JLabel playerJLabel) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -270,15 +272,15 @@ public class GameController {
 		      }
 		
 		  }
-		  int[] IandJ = updateplayerbyAnswer(question, selectedOption);
+		  int[] IandJ = updateplayerbyAnswer(question, selectedOption, playerJLabel);
 		  return IandJ;
 	       
 	    }
-	  public int[] updateplayerbyAnswer(Questions question,int result) {
+	  public int[] updateplayerbyAnswer(Questions question,int result, JLabel playerLabel) {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
-				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
+				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward." );
 			  }
 			  else {
@@ -288,29 +290,29 @@ public class GameController {
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
-				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
+				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
 				  }
 			  else if(result == question.getCorrectOption()){
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
 			  else {
-				  game.getCurrentPlayer().setPosition(1);
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel );
 				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  }
 		  if(question.getDiffculty() == 3) {
 
 			  if(result == question.getCorrectOption()) {
-				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel );
 				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd." );
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
-					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
+					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel );
 					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
 				  }
 			  else {
-				  game.getCurrentPlayer().setPosition(1); 
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel );
 				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  } 
