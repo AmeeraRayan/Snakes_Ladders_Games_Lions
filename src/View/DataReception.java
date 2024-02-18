@@ -21,7 +21,6 @@ public class DataReception extends JFrame {
     private  JButton btnNewButton;
     private int numberOfPlayers;
     private String difficultyLevel;
- // Flags to track whether a difficulty level or number of players has been selected
     private boolean difficultySelected = false;
     private boolean playersSelected = false;
     private  JButton easyButton;

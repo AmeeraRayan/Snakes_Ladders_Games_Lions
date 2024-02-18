@@ -60,10 +60,8 @@ public class EasyController {
 	  public void updatePlayerPosition(int steps,Player currentPlayer) {
 	        int currentPosition = currentPlayer.getPosition();
 	        int newPosition = currentPosition + steps;
-	        System.out.println("new"+newPosition);
 	        if (newPosition <= 0) {
 	            newPosition = 1; // Prevent moving beyond the start
-	          	 System.out.println("Prevent moving beyond the start ");
 	        }
 
 	        currentPlayer.setPosition(newPosition);

@@ -72,14 +72,11 @@ public class GameController {
 		}
 			
 		IAndJ = FindSquareByValue(newPosition);
-	    System.out.println(game.getPlayers().get(index).getPosition());
 	    	 do {
 	    		 if(count == 0 ) {
 	    		     animatePlayerMovement(index , playerLabel, game, new Runnable() {
 	   		             @Override
 	   		             public void run() {
-	   		                 // Code to execute after the animation ends
-	   		                 System.out.println("Animation ended. Perform next action here.");
 	   		             }
 	   		         }); 
 	    		     count ++;
@@ -93,8 +90,6 @@ public class GameController {
 		                    animatePlayerMovement(index , playerLabel, game, new Runnable() {
 		   		             @Override
 		   		             public void run() {
-		   		                 // Code to execute after the animation ends
-		   		                 System.out.println("Animation ended. Perform next action here.");
 		   		             }
 		   		         });	
 		                });
@@ -138,23 +133,18 @@ public class GameController {
 
 			}
 			Iandj = showAddQuestionPopup(question,playerLabel,Win);
-			System.out.println("its a Question ");
-			//animatePlayerMovement(playerLabel, Iandj, game);
 			
 		}
 		
 		else if(s.getType() ==  SquareType.SURPRISE) {
 			flag = true ; 
-			System.out.println("its surprise!!!!");
 			if(game.getCurrentPlayer().getPosition()>10) {
 				int  val =game.getCurrentPlayer().getPosition()-10;
 				if(Win <=val ) {
 					val = Win;
 				}
             	game.getCurrentPlayer().setPosition(val);
-				System.out.println("val: "+Iandj);
 				
-				//animatePlayerMovement(playerLabel, Iandj, game);
 			}
 			else {
 				int  val =game.getCurrentPlayer().getPosition()+10;
@@ -162,7 +152,6 @@ public class GameController {
 					val = Win;
 				}
             	game.getCurrentPlayer().setPosition(val);
-				//animatePlayerMovement(playerLabel, Iandj, game);
 			}
 		}
 		
@@ -170,22 +159,17 @@ public class GameController {
 		
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
-                	 System.out.println("its a snakeeeee");
                 	int  val =game.getBoard().getSnakes()[l].getSquareEnd().getValue();
                 	if(Win <=val ) {
     					val = Win;
     				}
                 	game.getCurrentPlayer().setPosition(val);
                 	 flag = true ; 
-                	 System.out.println("X : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsX());
-                	 System.out.println("\n Y : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsY());
 
-         			// animatePlayerMovement(playerLabel, Iandj, game);
                  }
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
-               	 System.out.println("its a Ladder !");
                	int  val =game.getBoard().getLadders()[t].getSquareEnd().getValue();
                	if(Win <=val ) {
 					val = Win;
@@ -194,7 +178,6 @@ public class GameController {
                	 flag = true ; 
                
 
-               //	 animatePlayerMovement(playerLabel, Iandj, game);
                 }
 			}
 			
@@ -204,7 +187,6 @@ public class GameController {
 	}
 	
 	public int[] DiceQuestion(int result,JLabel playerJLabel , int Win) {
-		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
 			 question = SysData.getQuestionLevel("easy");
@@ -340,7 +322,6 @@ public class GameController {
 		  } 
 		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());
 		  return IAndJ;
-			  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	 
 	  public void setPlayerBackgroundColor(Model.Color color , JTextField txtrPlayer) {//change the jtext background - by the player color
