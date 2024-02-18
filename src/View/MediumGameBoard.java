@@ -48,6 +48,7 @@ import javax.swing.OverlayLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class MediumGameBoard extends JFrame{
+	
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -164,20 +165,14 @@ public class MediumGameBoard extends JFrame{
                             diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
                             timer.stop();
  
-                            // After animation logic
-                            //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
-                            //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
                             if(result < 7) {
                                flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
-                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                //System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
-                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
-                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                //controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
+                               System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
+                               
                             } else {
                                 System.out.println("from result");
                                 controller.DiceQuestion(result,playersLable[index]);
-                   	    	 
+                               
                             }
                             if(flag == true) {
                            	 new WinnerPage(index , game).setVisible(true);
@@ -228,6 +223,7 @@ public class MediumGameBoard extends JFrame{
         outerPanel.add(lblNewLabel);
         this.setVisible(true);
     }
+    
     private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
         int count=0;
@@ -293,7 +289,6 @@ public class MediumGameBoard extends JFrame{
  
                 }
                 boardlabels[i][j] = label;
-                //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
             }
         }
         setRedSnakes(outerPanel);
