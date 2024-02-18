@@ -155,7 +155,7 @@ public class HardGameBoard extends JFrame{
                                 
                              } else {
                                  System.out.println("from result");
-                                 int[] IandJ = controller.DiceQuestion(result);
+                                 int[] IandJ = controller.DiceQuestion(result,playersLable[index]);
                                  int count = 0 ; 
                      	    	
                     	    	 do {
@@ -183,7 +183,7 @@ public class HardGameBoard extends JFrame{
                     	    		 }
                     	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
                     	    	 
-                                 controller.DiceQuestion(result);
+                                 controller.DiceQuestion(result,playersLable[index]);
                                 
                              }
                              if(flag == true) {
