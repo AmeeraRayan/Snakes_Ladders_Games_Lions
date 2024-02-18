@@ -65,6 +65,8 @@ public class MediumGameBoard extends JFrame{
     public static JLabel[] playersLable;
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
     private long startTime;
+    private int WinValue = 100 ; 
+
 	private Timer gameTimer;
     
  
@@ -166,12 +168,12 @@ public class MediumGameBoard extends JFrame{
                             timer.stop();
  
                             if(result < 7) {
-                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
+                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index],WinValue);
                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
                                
                             } else {
                                 System.out.println("from result");
-                                controller.DiceQuestion(result,playersLable[index]);
+                                controller.DiceQuestion(result,playersLable[index],WinValue);
                                
                             }
                             if(flag == true) {

@@ -50,7 +50,7 @@ public class GameController {
 	}
 	
 	
-	public boolean updatePlayerPosition(int index , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
+	public boolean updatePlayerPosition(int index , int result , String type , JLabel playerLabel , int WinValue) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
 		Boolean flag = false  ; 
@@ -93,16 +93,16 @@ public class GameController {
 	    		 }
 	    		 
 	    	
-		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel));
+		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel , WinValue));
 	    	 
-	   if(game.getPlayers().get(index).getPosition() == 100 ) {
+	   if(game.getPlayers().get(index).getPosition() == WinValue ) {
 		   flag = true ; 
 	   }
 	   return flag ; 
 	}
 	
 	
-	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
+	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel , int Win) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
 		Boolean flag = false ; 
 		Questions question = null ; 
@@ -127,7 +127,7 @@ public class GameController {
 				question = SysData.getQuestionLevel("hard");
 
 			}
-			Iandj = showAddQuestionPopup(question,playerLabel);
+			Iandj = showAddQuestionPopup(question,playerLabel,Win);
 			System.out.println("its a Question ");
 			//animatePlayerMovement(playerLabel, Iandj, game);
 			
@@ -181,7 +181,7 @@ public class GameController {
 		
 	}
 	
-	public int[] DiceQuestion(int result,JLabel playerJLabel) {
+	public int[] DiceQuestion(int result,JLabel playerJLabel , int Win) {
 		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
@@ -193,7 +193,7 @@ public class GameController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		int[] IandJ = showAddQuestionPopup(question, playerJLabel);
+		int[] IandJ = showAddQuestionPopup(question, playerJLabel ,Win);
 		return IandJ;
 		
 	}
@@ -212,7 +212,7 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public int[] showAddQuestionPopup(Questions question, JLabel playerJLabel) {
+	  public int[] showAddQuestionPopup(Questions question, JLabel playerJLabel , int Win) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -272,15 +272,15 @@ public class GameController {
 		      }
 		
 		  }
-		  int[] IandJ = updateplayerbyAnswer(question, selectedOption, playerJLabel);
+		  int[] IandJ = updateplayerbyAnswer(question, selectedOption, playerJLabel , Win);
 		  return IandJ;
 	       
 	    }
-	  public int[] updateplayerbyAnswer(Questions question,int result, JLabel playerLabel) {
+	  public int[] updateplayerbyAnswer(Questions question,int result, JLabel playerLabel , int Win) {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
-				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel );
+				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward." );
 			  }
 			  else {
@@ -290,29 +290,29 @@ public class GameController {
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
-				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel );
+				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
 				  }
 			  else if(result == question.getCorrectOption()){
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
 			  else {
-				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel );
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
 				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  }
 		  if(question.getDiffculty() == 3) {
 
 			  if(result == question.getCorrectOption()) {
-				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel );
-				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd." );
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel ,Win );
+				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd."  );
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
-					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel );
+					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
 					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
 				  }
 			  else {
-				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel );
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel , Win );
 				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  } 

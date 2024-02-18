@@ -13,9 +13,6 @@ public class Player {
 		this.name = name;
 	}
 	public void setPosition(int newPosition) {
-		if(newPosition > 100) {
-			newPosition = 100;
-		}
         this.position = newPosition; 
     }
 
