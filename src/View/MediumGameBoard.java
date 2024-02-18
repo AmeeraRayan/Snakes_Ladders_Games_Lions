@@ -48,6 +48,7 @@ import javax.swing.OverlayLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class MediumGameBoard extends JFrame{
+	
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -259,6 +260,7 @@ public class MediumGameBoard extends JFrame{
         outerPanel.add(lblNewLabel);
         this.setVisible(true);
     }
+    
     private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 550 / GRID_SIZE; // the innerPanel is 550x550 and each cell is 55x55 pixels
         int count=0;

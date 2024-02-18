@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -42,12 +44,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
  
 public class HardGameBoard extends JFrame{
+	
 	private static final int GRID_SIZE = 13;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
     private Square[][] squares = new Square[GRID_SIZE][GRID_SIZE];
     private JLabel[][] boardlabels = new JLabel[GRID_SIZE][GRID_SIZE];
-    private Dice dice = new Dice("medium"); 
+    private Dice dice = new Dice("hard"); 
     private Snake[] snakes = new Snake[8];
     private Ladder[] ladders = new Ladder[8];
     private Square[] quastionSquares = new Square[6];
@@ -58,13 +61,17 @@ public class HardGameBoard extends JFrame{
     private GameController controller ; 
     private JLabel messageLabel;
     private Board HardBoard = new Board(GRID_SIZE);
+
+    private long startTime;
+	private Timer gameTimer;
     //JFrame frame;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6 , 7 , 8 };
     private JTextField playernames;
+    Player CurrentPlayer ;
+    
     public HardGameBoard(Game game) {
-        // Setting up the main frame
-    	//frame = new JFrame();
+       
         setTitle("Game Board");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 900);
@@ -72,10 +79,16 @@ public class HardGameBoard extends JFrame{
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
-        playernames = new JTextField();
-        playernames.setBounds(853, 51, 250, 70);
-        outerPanel.add(playernames);
-        playernames.setColumns(10);
+        game.setBoard(HardBoard);
+        game.setDice(dice);
+        JTextField textPane = new JTextField();
+        textPane.setBounds(853, 51, 250, 70);
+        outerPanel.add(textPane);
+        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+        textPane.setAlignmentX(0.2f);
+        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         
         JLabel resultLabel  = new JLabel("", SwingConstants.CENTER);
         resultLabel.setBounds(0, getHeight() / 2 - 10, 100, 20); // Initial position of the label
@@ -83,60 +96,137 @@ public class HardGameBoard extends JFrame{
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
         IntilaizePlayerPositionView(game , controller , outerPanel);
-        
+        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+
         JButton diceButton = new JButton("");
-        diceButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		index = game.getCurrentPlayerIndex();
-                Player CurrentPlayer = game.getPlayers().get(index);
-                System.out.println("Player turn: " + CurrentPlayer.getName());
 
-                // Start dice roll animation
-                final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
-                final Timer timer = new Timer(100, null);
-                final int[] currentNumber = {1};
-                final int numberOfFaces = 6;
-                int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
+        final JLabel jl = new JLabel("00:00", SwingConstants.CENTER);
+        jl.setLocation(0, 362);
+        outerPanel.add(jl);
+        jl.setVisible(true);
+        jl.setSize(219, 146);
+        Font labelFont = jl.getFont();
+        jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+        startTime = System.currentTimeMillis();
+		gameTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				long now = System.currentTimeMillis();
+				long elapsed = now - startTime;
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
+				jl.setText(String.format("%02d:%02d", minutes, seconds));
+			}
+		});
+		gameTimer.start();
+		
+		 diceButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                index = game.getCurrentPlayerIndex();
+	                Player CurrentPlayer = game.getPlayers().get(index);
+	                System.out.println("Player turn: " + CurrentPlayer.getName());
+	 
+	                // Start dice roll animation
+	                final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+	                final Timer timer = new Timer(100, null);
+	                final int[] currentNumber = {1};
+	                final int numberOfFaces = 6;
+	                int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
+	                ActionListener listener = new ActionListener() {
+	                    int count = 0;
+	 
+	                    @Override
+	                    public void actionPerformed(ActionEvent evt) {      
+	                        boolean flag = false ; 
 
-                ActionListener listener = new ActionListener() {
-                    int count = 0;
+	                        if (count < animationCycle[0]) {
+	                        	diceButton.setEnabled(false);
+	                            String path = "/images/dice " + currentNumber[0] + ".jpg";
+	                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+	                            currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+	                            count++;
+	                        } else {
+	                            // Animation ends, show final result
+	                            String path = "/images/dice " + result + ".jpg";
+	                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
+	                            timer.stop();
+	 
+	                            // After animation logic
+	                            //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
+	                            //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
+	                            if(result < 7) {
+	                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
+	                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
+	                                //System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
+	                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
+	                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
+	                                //controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
+	                            } else {
+	                                System.out.println("from result");
+	                                int[] IandJ = controller.DiceQuestion(result);
+	                                int count = 0 ; 
+	                    	    	
+	                   	    	 do {
+	                   	    		 if(count == 0 ) {
+	                   	    		     controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
+	                   	   		             @Override
+	                   	   		             public void run() {
+	                   	   		                 // Code to execute after the animation ends
+	                   	   		                 System.out.println("Animation ended. Perform next action here.");
+	                   	   		             }
+	                   	   		         });
+	                   	    		     count ++;
+	                   	    		 }else {
+	                   		    		    Timer waitTimer = new Timer(2000, e -> {
+	                   		                    controller.animatePlayerMovement(index , playersLable[index], game, new Runnable() {
+	                   		   		             @Override
+	                   		   		             public void run() {
+	                   		   		                 // Code to execute after the animation ends
+	                   		   		                 System.out.println("Animation ended. Perform next action here.");
+	                   		   		             }
+	                   		   		         });	
+	                   		                });
+	                   		                waitTimer.setRepeats(false); // Ensure the timer only triggers once
+	                   		                waitTimer.start();
+	                   	    		 }
+	                   	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
+	                   	    	 
+	                            }
+	                            if(flag == true) {
+	                           	 new WinnerPage(index , game).setVisible(true);
+	                           	HardGameBoard.this.setVisible(false); 
+	                           }else {
+	                        	   
+	                        	     index++;
+	                                 if(index >= game.getPlayers().size()) {
+	                                     index = 0;
+	                                 }
+	                             
+	                                 game.setCurrentPlayerIndex(index);
+	                                 game.setCurrentPlayer(game.getPlayers().get(index));
+	                                 textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+	                                 controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+	                           }
+	 
+	                            // Prepare for next player
+	                            index++;
+	                            if(index >= game.getPlayers().size()) {
+	                                index = 0;
+	                            }
+	                            diceButton.setEnabled(true);
+	                            game.setCurrentPlayerIndex(index);
+	                            game.setCurrentPlayer(game.getPlayers().get(index));
+	                            textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+	                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {                                    
-                        if (count < animationCycle[0]) {
-                            String path = "/images/dice " + currentNumber[0] + ".jpg";
-                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                            currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
-                            count++;
-                        } else {
-                            // Animation ends, show final result
-                            String path = "/images/dice " + result + ".jpg";
-                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                            timer.stop();
-                           
-                            
-                            if(result < 7) {
-                            	controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
-                            } else {
-                                                             
-                            }
-
-                            // Prepare for next player
-                            index++;
-                            if(index >= game.getPlayers().size()) {
-                                index = 0;
-                            }
-                            game.setCurrentPlayerIndex(index);
-                            game.setCurrentPlayer(game.getPlayers().get(index));
-                            playernames.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                        //    controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), playernames);
-                        }
-                    }
-                };
-                timer.addActionListener(listener);
-                timer.start();
-        	}
-        });
+	                        }
+	                    }
+	                };
+	                timer.addActionListener(listener);
+	                timer.start();
+	            }
+	        });
+        
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(1012, 640, 78, 81);
         outerPanel.add(diceButton);
@@ -147,16 +237,20 @@ public class HardGameBoard extends JFrame{
         initializeBoard(innerPanel,outerPanel);
         game.setBoard(HardBoard);
         game.setDice(dice);
+        IntilaizePlayerPositionView(game , controller , outerPanel);
 
         innerPanel.setBounds(81, 51, 715, 715);
         innerPanel.setBackground(Color.WHITE);
- 
+        controller = new GameController(game,this);
+        controller.CallQuestionDataFunc();
+        
         // Adding the inner panel to the center of the outer panel
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
-
+        
+      
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/HardGame .png")));
@@ -202,7 +296,7 @@ public class HardGameBoard extends JFrame{
                  int y = i * cellSize + panel.getBounds().y + 51;
                  // Initialize square type based on cellNumber
                  if (chosenCells.contains(cellNumber)) {
-                     label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
+                     label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMark.png")));
                      label.setText(""); // Set empty string for text
                      squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                      quastionSquares[count] = squares[i][j];
@@ -212,7 +306,7 @@ public class HardGameBoard extends JFrame{
                      takenCells.put(arrayList,"question"+count);
                      count++;
                  } else if (chosenSurpriseCells.contains(cellNumber)) {
-                     label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/!.png")));
+                     label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/!.png")));
                      label.setText(""); // Set empty string for text
                      squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
                      surpriseSquares[surpriseCount] = squares[i][j];
@@ -223,6 +317,11 @@ public class HardGameBoard extends JFrame{
                      surpriseCount++; // Increment the surprise count
                  } else {
                      squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
+                 }
+                 if(cellNumber == 100) {
+                     label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/StarWin.png")));
+                     label.setText(""); // Set empty string for text
+  
                  }
                  boardlabels[i][j] = label;
                 
