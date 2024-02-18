@@ -3,6 +3,8 @@ package Controller;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import Model.Game;
@@ -25,12 +28,13 @@ import javafx.event.ActionEvent;
 
 public class GameController {
 	private Game game;
-    private MediumGameBoard mediumGameBoard; // Add this attribute to store the instance of MediumGameBoard
+    private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
+    private Queue<Runnable> actionQueue = new LinkedList<>();
 
-	public GameController(Game game , MediumGameBoard mediumGameBoard) {
+	public GameController(Game game , JFrame frame ) {
 		super();
 		this.game = game;
-		this.mediumGameBoard = mediumGameBoard;
+		this.frame = frame;
 	}
 
 	public Game getGame() {
@@ -42,34 +46,79 @@ public class GameController {
 	}
 	public void CallQuestionDataFunc() {
 		SysData.getInstance().LoadQuestions();
-		SysData.getInstance().putQuestions(SysData.getInstance().questionsPOPUP);
+		SysData.putQuestions(SysData.questionsPOPUP);
 	}
 	
-	public int[] updatePlayerPosition(Player currentPlayer , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
+	
+	public boolean updatePlayerPosition(int index , int result , String type , JLabel playerLabel , int WinValue) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
+		Boolean flag = false  ; 
+		int count = 0 ; 
+		
 		if(type.equals("Dice")) {
-	     newPosition = currentPlayer.getPosition()+result;
+	     newPosition = game.getPlayers().get(index).getPosition()+result;
+	     if(newPosition >= WinValue ) {
+	    	 newPosition = WinValue;
+	     }
+	     game.getPlayers().get(index).setPosition(newPosition);
 		}
-		if(type.equals("Snake") || type.equals("Ladder")) {
-		     newPosition = result;
+		if(type.equals("Dice Question")) {
+			if(result >= WinValue ) {
+				result = WinValue;
+		     }
+		     game.getPlayers().get(index).setPosition(result);
+		     count++;
 		}
-	
-		if(newPosition >=100) {
-			newPosition = 100;
-		}
-		currentPlayer.setPosition(newPosition);
+			
 		IAndJ = FindSquareByValue(newPosition);
-		animatePlayerMovement(playerLabel, IAndJ, game);
-		checkTheTypeOfTheSquare(IAndJ[0],IAndJ[1],playerLabel);
-		return IAndJ;
+	    System.out.println(game.getPlayers().get(index).getPosition());
+	    	 do {
+	    		 if(count == 0 ) {
+	    		     animatePlayerMovement(index , playerLabel, game, new Runnable() {
+	   		             @Override
+	   		             public void run() {
+	   		                 // Code to execute after the animation ends
+	   		                 System.out.println("Animation ended. Perform next action here.");
+	   		             }
+	   		         }); 
+	    		     count ++;
+	    		 }else {
+	    			 int val = game.getPlayers().get(index).getPosition();
+	    				if(val >= WinValue ) {
+	    					val = WinValue;
+	    			     }
+	                 IAndJ = FindSquareByValue(val);
+		    		    Timer waitTimer = new Timer(2000, e -> {
+		                    animatePlayerMovement(index , playerLabel, game, new Runnable() {
+		   		             @Override
+		   		             public void run() {
+		   		                 // Code to execute after the animation ends
+		   		                 System.out.println("Animation ended. Perform next action here.");
+		   		             }
+		   		         });	
+		                });
+		                waitTimer.setRepeats(false); // Ensure the timer only triggers once
+		                waitTimer.start();
+	    		 }
+	    		 
+	    	
+		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel , WinValue));
+	    	 
+	   if(game.getPlayers().get(index).getPosition() == WinValue ) {
+		   flag = true ; 
+	   }
+	   return flag ; 
 	}
 	
-	public void checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel) { // call the show pop up if the square is a question 
+	
+	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel , int Win) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
+		Boolean flag = false ; 
 		Questions question = null ; 
-		System.out.println(s);
+		int[] Iandj = new int[2];
 		if(s.getType() ==  SquareType.QUESTION) {
+			flag = true ; 
 			int index = -1 ;
 			Square[] q = game.getBoard().getQuestions();
 			for (int k = 0 ; k < q.length ; k ++ ) {
@@ -78,39 +127,83 @@ public class GameController {
 				}
 			}
 			if(index == 0 ) {
-				question = SysData.getInstance().getQuestionLevel("easy");
+				question = SysData.getQuestionLevel("easy");
 			}
 			if(index == 1 ) {
-				question = SysData.getInstance().getQuestionLevel("medium");
+				question = SysData.getQuestionLevel("medium");
 
 			}
 			if(index == 2 ) {
-				question = SysData.getInstance().getQuestionLevel("hard");
+				question = SysData.getQuestionLevel("hard");
 
 			}
-			showAddQuestionPopup(question);
+			Iandj = showAddQuestionPopup(question,playerLabel,Win);
 			System.out.println("its a Question ");
-
+			//animatePlayerMovement(playerLabel, Iandj, game);
+			
 		}
+		
+		else if(s.getType() ==  SquareType.SURPRISE) {
+			flag = true ; 
+			System.out.println("its surprise!!!!");
+			if(game.getCurrentPlayer().getPosition()>10) {
+				int  val =game.getCurrentPlayer().getPosition()-10;
+				if(Win <=val ) {
+					val = Win;
+				}
+            	game.getCurrentPlayer().setPosition(val);
+				System.out.println("val: "+Iandj);
+				
+				//animatePlayerMovement(playerLabel, Iandj, game);
+			}
+			else {
+				int  val =game.getCurrentPlayer().getPosition()+10;
+				if(Win <=val ) {
+					val = Win;
+				}
+            	game.getCurrentPlayer().setPosition(val);
+				//animatePlayerMovement(playerLabel, Iandj, game);
+			}
+		}
+		
 		else {
+		
 			for(int l = 0 ; l < game.getBoard().getSnakes().length ; l ++ ) {//check if the player in snake square 
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
-                	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getSnakes()[l].getSquareEnd().getValue(),"Snake",playerLabel);
-                	 break;
+                	int  val =game.getBoard().getSnakes()[l].getSquareEnd().getValue();
+                	if(Win <=val ) {
+    					val = Win;
+    				}
+                	game.getCurrentPlayer().setPosition(val);
+                	 flag = true ; 
+                	 System.out.println("X : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsX());
+                	 System.out.println("\n Y : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsY());
+
+         			// animatePlayerMovement(playerLabel, Iandj, game);
+                 }
 			}
 			for(int t = 0 ; t < game.getBoard().getLadders().length ; t ++ ) {//check if the player in snake square 
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
                	 System.out.println("its a Ladder !");
-               	 updatePlayerPosition(game.getCurrentPlayer(),game.getBoard().getLadders()[t].getSquareEnd().getValue(),"Ladder",playerLabel);
-               	 break;
+               	int  val =game.getBoard().getLadders()[t].getSquareEnd().getValue();
+               	if(Win <=val ) {
+					val = Win;
+				}
+            	game.getCurrentPlayer().setPosition(val);
+               	 flag = true ; 
+               
+
+               //	 animatePlayerMovement(playerLabel, Iandj, game);
                 }
 			}
-			}}
+			
+			}
+		return flag ; 
 		
 	}
 	
-	public int[] DiceQuestion(int result) {
+	public int[] DiceQuestion(int result,JLabel playerJLabel , int Win) {
 		System.out.println(result);
 		Questions question =null;
 		if(result == 7) {
@@ -122,7 +215,7 @@ public class GameController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		int[] IandJ = showAddQuestionPopup(question);
+		int[] IandJ = showAddQuestionPopup(question, playerJLabel ,Win);
 		return IandJ;
 		
 	}
@@ -141,7 +234,7 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public int[] showAddQuestionPopup(Questions question) {
+	  public int[] showAddQuestionPopup(Questions question, JLabel playerJLabel , int Win) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -185,7 +278,7 @@ public class GameController {
 		      "Difficulty:", difficultyField
 		  };
 
-		  int result = JOptionPane.showConfirmDialog(this.mediumGameBoard, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		  int result = JOptionPane.showConfirmDialog(this.frame, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		  // Get the selected answer option
 		  int selectedOption = -1;
@@ -201,42 +294,48 @@ public class GameController {
 		      }
 		
 		  }
-		  int[] IandJ = updateplayerbyAnswer(question, selectedOption);
+		  int[] IandJ = updateplayerbyAnswer(question, selectedOption, playerJLabel , Win);
 		  return IandJ;
 	       
 	    }
-	  public int[] updateplayerbyAnswer(Questions question,int result) {
+	  public int[] updateplayerbyAnswer(Questions question,int result, JLabel playerLabel , int Win) {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
-				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-1); 
+				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward." );
 			  }
 			  else {
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
+		
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
-				 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-2); 
+				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
 				  }
-			  else {
+			  else if(result == question.getCorrectOption()){
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
+			  }
+			  else {
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
+				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  }
 		  if(question.getDiffculty() == 3) {
-			  System.out.println("hii , question diffculty 3 ");
+
 			  if(result == question.getCorrectOption()) {
-				  game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()+1); 
-				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd." );
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel ,Win );
+				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd."  );
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
-					 game.getCurrentPlayer().setPosition(game.getCurrentPlayer().getPosition()-3); 
+					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
 					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
 				  }
 			  else {
-				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will stay at your position" );
+				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel , Win );
+				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
 			  }
 		  } 
 		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());
@@ -244,7 +343,7 @@ public class GameController {
 			  //System.out.println("val: "+ game.getCurrentPlayer().getPosition()+"correct answer: "+question.getCorrectOption());
 	}
 	 
-	  public void setPlayerBackgroundColor(Model.Color color , JTextPane txtrPlayer) {//change the jtext background - by the player color
+	  public void setPlayerBackgroundColor(Model.Color color , JTextField txtrPlayer) {//change the jtext background - by the player color
 	        switch (color.toString()) {
 	        case "BLUE":
 	            txtrPlayer.setBackground(new java.awt.Color(175, 238, 238)); // Blue
@@ -267,46 +366,53 @@ public class GameController {
 	    
 	
 	  
-	        public void animatePlayerMovement(JLabel j, int[] iAndJ, Game g) {
+	        public void animatePlayerMovement(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	            int[] iAndJ = FindSquareByValue(game.getPlayers().get(index).getPosition());
 	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
-	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15; // Adjusting Y as in your method
-	            final Timer timer = new Timer(10, null); // Adjust timing as needed for smoothness
-
+	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15;
+	            final int delay = 50; // Milliseconds between updates
+	            final int steps = 15; // Number of steps to reach the target
+	            final int startX = playerLabel.getX();
+	            final int startY = playerLabel.getY();
+	            final double dx = (double) (targetX - startX) / steps; // Incremental change per step
+	            final double dy = (double) (targetY - startY) / steps;
+	            
+	            final Timer timer = new Timer(delay, null);
 	            timer.addActionListener(new ActionListener() {
-	                @Override
-	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	                    // Current position
-	                    int currentX = j.getX();
-	                    int currentY = j.getY();
+	                private int currentStep = 0;
 
-	                    // Determine the direction of movement
-	                    int dx = targetX - currentX;
-	                    int dy = targetY - currentY;
-
-	                    // Determine the step size for each timer tick (adjust for speed/smoothness)
-	                    int stepX = 0;
-	                    int stepY = 0;
-	                    
-	                    if (dx != 0) {
-	                        stepX = (int) Math.signum(dx);
-	                    }
-	                    if (dy != 0) {
-	                        stepY = (int) Math.signum(dy);
-	                    }
-
-	                    // Move the JLabel towards the target location
-	                    if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
-	                        j.setLocation(currentX + stepX, currentY + stepY);
-	                    } else {
-	                        // Stop the timer when the target location is reached
-	                        timer.stop();
-	                    }
-	                }
-	            });
-
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						   if (currentStep < steps) {
+		                        playerLabel.setLocation((int) (startX + dx * currentStep), (int) (startY + dy * currentStep));
+		                        currentStep++;
+		                    } else {
+		                        playerLabel.setLocation(targetX, targetY); // Ensure it ends exactly at the target
+		                        SwingUtilities.invokeLater(onAnimationEnd);
+		                        timer.stop();
+		                        // If you have any actions to perform after animation ends, place them here
+		                        // For example:
+		                        // onAnimationComplete();
+		                    }
+		                }						
+					});
 	            timer.start();
 	        }
-
 	 
 	
 }
+
+//Model.Color color = currentPlayer.getColor();
+//if (color.equals(Model.Color.BLUE)) {
+//    x = 290;
+//    y = 630;
+//} else if (color.equals(Model.Color.GREEN)) {
+//    x = 320;
+//    y = 630;
+//} else if (color.equals(Model.Color.RED)) {
+//    x = 290;
+//    y = 660;
+//} else if (color.equals(Model.Color.YELLOW)) {
+//    x = 320;
+//    y = 660;
+//}

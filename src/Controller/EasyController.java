@@ -56,6 +56,7 @@ public class EasyController {
 
 	    return new Point(x, y);
 	}
+	
 	  public void updatePlayerPosition(int steps,Player currentPlayer) {
 	        int currentPosition = currentPlayer.getPosition();
 	        int newPosition = currentPosition + steps;
