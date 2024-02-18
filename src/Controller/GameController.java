@@ -81,7 +81,7 @@ public class GameController {
 	   		                 // Code to execute after the animation ends
 	   		                 System.out.println("Animation ended. Perform next action here.");
 	   		             }
-	   		         });
+	   		         }); 
 	    		     count ++;
 	    		 }else {
 	    			 int val = game.getPlayers().get(index).getPosition();

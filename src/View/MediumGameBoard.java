@@ -196,6 +196,7 @@ public class MediumGameBoard extends JFrame{
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
                             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                            textPane.setEditable(false);
                             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
                         }
