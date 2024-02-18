@@ -234,7 +234,7 @@ public class MediumGameBoard extends JFrame{
          textPane_1 = new JTextPane();
         
         textPane_1.setBackground(new Color(153, 204, 153));
-        textPane_1.setBounds(40, 179, 116, 173);
+        textPane_1.setBounds(40, 179, 117, 125);
         textPane_1.setContentType("text/html"); // Set content type to text/html
         textPane_1.setText(htmlString);
         outerPanel.add(textPane_1);
