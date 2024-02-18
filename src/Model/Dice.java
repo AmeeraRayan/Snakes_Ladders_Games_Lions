@@ -35,8 +35,6 @@ public class Dice {
 	        int result = numbers[index];
 
 	        return result;
-
-	        
 	}
 	
 	public int DiceForHardGame() {

@@ -58,7 +58,7 @@ public class HardGameBoard extends JFrame{
     private GameController controller ; 
     private int index = 0 ;
 
-
+   private List<Player> arraylistOrderByPosition ; 
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
 
@@ -71,6 +71,9 @@ public class HardGameBoard extends JFrame{
     int[] ladderLengths = {1, 2, 3, 4, 5, 6 , 7 , 8 };
     private JTextField playernames;
     Player CurrentPlayer ;
+	private StringBuilder htmlBuilder ;
+    private JTextPane textPane_1 ;
+ 
     
     public HardGameBoard(Game game) {
     	setTitle("Game Board");
@@ -79,13 +82,9 @@ public class HardGameBoard extends JFrame{
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
-        JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setBackground(SystemColor.desktop);
-        lblNewLabel_2.setBounds(642, 81, 292, 65);
-        outerPanel.add(lblNewLabel_2);
         
         JTextField textPane = new JTextField();
-        textPane.setBounds(852, 81, 254, 65);
+        textPane.setBounds(792, 81, 350, 65);
         outerPanel.add(textPane);
         
         controller = new GameController(game,this);
@@ -116,6 +115,7 @@ public class HardGameBoard extends JFrame{
         textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         textPane.setAlignmentY(Component.TOP_ALIGNMENT);
         controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+        arraylistOrderByPosition = game.getPlayers();
 
         JButton diceButton = new JButton("");
         diceButton.addActionListener(new ActionListener() {
@@ -182,6 +182,8 @@ public class HardGameBoard extends JFrame{
                               textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                               textPane.setEditable(false);
                               controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+                              updateTextPane(arraylistOrderByPosition);
+
 
                           }
                       }
@@ -215,9 +217,24 @@ public class HardGameBoard extends JFrame{
         // Adding the inner panel to the center of the outer panel
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
+        htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<html><body><ul>");
+        for (Player p : arraylistOrderByPosition) {
+            htmlBuilder.append("<li>").append(p.getName() + " " + p.getPosition()).append("</li>");
+        }
+        htmlBuilder.append("</ul></body></html>");
+        String htmlString = htmlBuilder.toString();
+        
+        
+
+         textPane_1 = new JTextPane();
+        
+        textPane_1.setBackground(new Color(153, 204, 153));
+        textPane_1.setContentType("text/html"); // Set content type to text/html
+        textPane_1.setText(htmlString);
+        outerPanel.add(textPane_1);
          
-        JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(941, 232, 165, 201);
+        textPane_1.setBounds(941, 232, 165, 150);
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
@@ -875,6 +892,15 @@ public class HardGameBoard extends JFrame{
     	}
         System.out.println(playersLable.length);
 
+    }
+    
+    private void updateTextPane(List<Player> arraylistOrderByPosition2) {
+        StringBuilder sb = new StringBuilder("<html><body><ul>");
+        for (Player p : arraylistOrderByPosition2) {
+            sb.append("<li>").append(p.getName() + " - " + p.getPosition()).append("</li>");
+        }
+        sb.append("</ul></body></html>");
+        textPane_1.setText(sb.toString()); // Update the JTextPane content
     }
 }
 
