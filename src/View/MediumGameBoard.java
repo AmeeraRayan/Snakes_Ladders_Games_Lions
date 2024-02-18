@@ -1,22 +1,16 @@
 package View; 
-import java.io.Console;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.TimerTask;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,12 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.PanelUI;
- 
+
 import Controller.GameController;
 import Model.Ladder;
 import Model.Player;
@@ -41,10 +31,8 @@ import Model.Game;
 import Model.SquareType;
  
 import java.awt.*;
-import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
-import javax.swing.OverlayLayout;
  
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
