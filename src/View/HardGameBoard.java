@@ -172,6 +172,7 @@ public class HardGameBoard extends JFrame{
                                    game.setCurrentPlayer(game.getPlayers().get(index));
                                    textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                                    controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+
                              }
               
                               diceButton.setEnabled(true);

@@ -452,9 +452,10 @@ public class MediumGameBoard extends JFrame{
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(!takenCells.containsKey(arr2)) {
+            System.out.println("i= "+i +"j= "+j);
+            if(j!=0) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
-            System.out.println("end ladder i= "+i +"j= "+j);
+            System.out.println("end ladder i= "+i +"j= "+j + squares[i][j]);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
             }
@@ -594,6 +595,7 @@ public class MediumGameBoard extends JFrame{
     		j = random.nextInt(9)+1; //1-9
         	IANDJ[0] = i;
         	IANDJ[1] = j;
+        	System.out.println("random"+j);
     	}
     	if(num ==5) {
     		i = random.nextInt(5); //0-4
@@ -601,7 +603,7 @@ public class MediumGameBoard extends JFrame{
         	IANDJ[0] = i;
         	IANDJ[1] = j;
     	}
-    	else {
+    	else if(num == 6) {
     		 i = random.nextInt(4);//0-3
    		  	 j = random.nextInt(8);//0-7
              IANDJ[0] = i;
