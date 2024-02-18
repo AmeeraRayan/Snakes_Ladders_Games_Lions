@@ -165,16 +165,10 @@ public class MediumGameBoard extends JFrame{
                             diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
                             timer.stop();
  
-                            // After animation logic
-                            //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
-                            //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
                             if(result < 7) {
                                flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
-                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                //System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
-                                System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
-                                //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
-                                //controller.checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playersLable[index]);
+                               System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
+                               
                             } else {
                                 System.out.println("from result");
                                 int[] IandJ = controller.DiceQuestion(result);
@@ -205,6 +199,8 @@ public class MediumGameBoard extends JFrame{
                    	    		 }
                    	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
                    	    	 
+                                controller.DiceQuestion(result);
+                               
                             }
                             if(flag == true) {
                            	 new WinnerPage(index , game).setVisible(true);
@@ -222,16 +218,6 @@ public class MediumGameBoard extends JFrame{
                                  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                            }
  
-                            // Prepare for next player
-                            index++;
-                            if(index >= game.getPlayers().size()) {
-                                index = 0;
-                            }
-                            diceButton.setEnabled(true);
-                            game.setCurrentPlayerIndex(index);
-                            game.setCurrentPlayer(game.getPlayers().get(index));
-                            textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
                         }
                     }
@@ -326,7 +312,6 @@ public class MediumGameBoard extends JFrame{
  
                 }
                 boardlabels[i][j] = label;
-                //System.out.println("Label " + cellNumber + " bounds: x=" + x + ", y=" + y + ", i=" + squares[i][j].getRow() + ", j=" + j);
             }
         }
         setRedSnakes(outerPanel);
