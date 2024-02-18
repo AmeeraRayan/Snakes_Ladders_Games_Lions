@@ -145,12 +145,13 @@ public class MediumGameBoard extends JFrame{
                 final int[] currentNumber = {1};
                 final int numberOfFaces = 6;
                 int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
- 
                 ActionListener listener = new ActionListener() {
                     int count = 0;
  
                     @Override
-                    public void actionPerformed(ActionEvent evt) {                                    
+                    public void actionPerformed(ActionEvent evt) {      
+                        boolean flag = false ; 
+
                         if (count < animationCycle[0]) {
                         	diceButton.setEnabled(false);
                             String path = "/images/dice " + currentNumber[0] + ".jpg";
@@ -167,7 +168,7 @@ public class MediumGameBoard extends JFrame{
                             //System.out.println("Dice result for player " + CurrentPlayer.getName() + " is: " + result);
                             //controller.displayAnimatedMessage(frame,"Dice result for player " + result );
                             if(result < 7) {
-                                controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
+                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
                                 //controller.animatePlayerMovement(playersLable[index], IAndJ, game);
                                 //System.out.println("i = " + IAndJ[0] + " j= " + IAndJ[1] + " val: " + game.getBoard().getCells()[IAndJ[0]][IAndJ[1]].getValue());
                                 System.out.println("\nPosition: " + game.getCurrentPlayer().getPosition());
@@ -204,6 +205,21 @@ public class MediumGameBoard extends JFrame{
                    	    	 }while (controller.checkTheTypeOfTheSquare(IandJ[0], IandJ[1], playersLable[index]));
                    	    	 
                             }
+                            if(flag == true) {
+                           	 new WinnerPage(index , game).setVisible(true);
+                           	MediumGameBoard.this.setVisible(false); 
+                           }else {
+                        	   
+                        	     index++;
+                                 if(index >= game.getPlayers().size()) {
+                                     index = 0;
+                                 }
+                             
+                                 game.setCurrentPlayerIndex(index);
+                                 game.setCurrentPlayer(game.getPlayers().get(index));
+                                 textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                                 controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+                           }
  
                             // Prepare for next player
                             index++;
@@ -215,6 +231,7 @@ public class MediumGameBoard extends JFrame{
                             game.setCurrentPlayer(game.getPlayers().get(index));
                             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+
                         }
                     }
                 };

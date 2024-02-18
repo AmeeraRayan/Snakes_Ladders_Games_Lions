@@ -50,17 +50,16 @@ public class GameController {
 	}
 	
 	
-	public void updatePlayerPosition(int index , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
+	public boolean updatePlayerPosition(int index , int result , String type , JLabel playerLabel) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
+		Boolean flag = false  ; 
 		if(type.equals("Dice")) {
 	     newPosition = game.getPlayers().get(index).getPosition()+result;
+	     
 	     game.getPlayers().get(index).setPosition(newPosition);
 		}
-//		if(type.equals("Snake") || type.equals("Ladder") || type.equals("surprise")) {
-//		     newPosition = result;
-//		     game.getPlayers().get(index).setPosition(newPosition);
-//		}	
+
 		IAndJ = FindSquareByValue(newPosition);
 	    	System.out.println(game.getPlayers().get(index).getPosition());	
 	    	int count = 0 ; 
@@ -91,9 +90,13 @@ public class GameController {
 		                waitTimer.start();
 	    		 }
 	    		 
-	    		
-	          
+	    	
 		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel));
+	    	 
+	   if(game.getPlayers().get(index).getPosition() == 100 ) {
+		   flag = true ; 
+	   }
+	   return flag ; 
 	}
 	
 	
