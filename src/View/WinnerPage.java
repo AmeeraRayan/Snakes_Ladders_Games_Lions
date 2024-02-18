@@ -32,9 +32,9 @@ public class WinnerPage extends JFrame {
 		Player winner = g.getPlayers().get(i);
 		
 		JLabel PlayerName = new JLabel("");
-		PlayerName.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 59));
+		PlayerName.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 35));
 		PlayerName.setForeground(new java.awt.Color(153, 0, 102));
-		PlayerName.setBounds(240, 413, 394, 84);
+		PlayerName.setBounds(66, 414, 845, 170);
 		contentPane.add(PlayerName);
 		
 		
@@ -75,7 +75,7 @@ public class WinnerPage extends JFrame {
 		 }
 		 
 		PlayerObject.setIcon(new ImageIcon(WinnerPage.class.getResource(path)));
-		PlayerName.setText(winner.getName());
+		PlayerName.setText("The Winner of the game is : " + winner.getName());
 
 
 	 }

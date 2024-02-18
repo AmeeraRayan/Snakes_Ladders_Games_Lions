@@ -633,15 +633,15 @@ public class HardGameBoard extends JFrame{
         Random random = new Random();
         int num_i = 0;
         if(color == Color.GREEN ) { 
-             num_i = random.nextInt(10); //0-7
+             num_i = random.nextInt(10); //0-9
              System.out.println(num_i+"random i in func");
         }
         if(color == Color.BLUE ){ 
-            num_i = random.nextInt(10); //0-6
+            num_i = random.nextInt(10); //0-9
             System.out.println(num_i+"random i in func blue");
         }
         if(color == Color.YELLOW ){ 
-        	num_i = random.nextInt(12);//0-8
+        	num_i = random.nextInt(12);//0-11
         	System.out.println(num_i+"random i in func");
         }
        
@@ -652,13 +652,13 @@ public class HardGameBoard extends JFrame{
         Random random = new Random();
         int num_j = 0;
         if(color == Color.GREEN ) { 
-             num_j = random.nextInt(12);  //0-8
+             num_j = random.nextInt(12);  //0-11
         }
         if(color == Color.BLUE ){ 
-            num_j = random.nextInt(10)+3; //3-9
+            num_j = random.nextInt(10)+3; //3-12
         }
         if(color == Color.YELLOW ){ 
-            num_j = random.nextInt(12); //0-8
+            num_j = random.nextInt(12); //0-11
         }
         
         return num_j; 

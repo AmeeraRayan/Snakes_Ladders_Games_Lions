@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
@@ -66,9 +67,10 @@ public class MediumGameBoard extends JFrame{
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
     private long startTime;
     private int WinValue = 100 ; 
-
+    private List<Player> arraylistOrderByPosition ;
 	private Timer gameTimer;
-    
+	private StringBuilder htmlBuilder ;
+    private JTextPane textPane_1 ;
  
     //JFrame frame;
     Player CurrentPlayer ;
@@ -132,8 +134,7 @@ public class MediumGameBoard extends JFrame{
         textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         textPane.setAlignmentY(Component.TOP_ALIGNMENT);
         controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
- 
-         
+        arraylistOrderByPosition = game.getPlayers();
         // create game instance and set the board and the dice >> BACKEND . 
         //CurrentPlayer = controller.getGame().getCurrentPlayer();
         diceButton.addActionListener(new ActionListener() {
@@ -191,12 +192,18 @@ public class MediumGameBoard extends JFrame{
                                  textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                                  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                            }
-            
+                            
+
+                            
+                        
+                            
                             diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
                             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+                            updateTextPane(arraylistOrderByPosition);
+
 
                         }
                     }
@@ -212,9 +219,23 @@ public class MediumGameBoard extends JFrame{
         // Adding the inner panel to the center of the outer panel
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
+        
+         htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<html><body><ul>");
+        for (Player p : arraylistOrderByPosition) {
+            htmlBuilder.append("<li>").append(p.getName() + " " + p.getPosition()).append("</li>");
+        }
+        htmlBuilder.append("</ul></body></html>");
+        String htmlString = htmlBuilder.toString();
+        
+        
 
-        JTextPane textPane_1 = new JTextPane();
-        textPane_1.setBounds(40, 179, 106, 140);
+         textPane_1 = new JTextPane();
+        
+        textPane_1.setBackground(new Color(153, 204, 153));
+        textPane_1.setBounds(40, 179, 116, 173);
+        textPane_1.setContentType("text/html"); // Set content type to text/html
+        textPane_1.setText(htmlString);
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
@@ -743,4 +764,15 @@ public class MediumGameBoard extends JFrame{
       }
   	return null;
   }
+    
+    
+    private void updateTextPane(List<Player> arraylistOrderByPosition2) {
+        StringBuilder sb = new StringBuilder("<html><body><ul>");
+        for (Player p : arraylistOrderByPosition2) {
+            sb.append("<li>").append(p.getName() + " - " + p.getPosition()).append("</li>");
+        }
+        sb.append("</ul></body></html>");
+        textPane_1.setText(sb.toString()); // Update the JTextPane content
+    }
+
 }

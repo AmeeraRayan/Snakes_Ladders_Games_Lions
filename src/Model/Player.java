@@ -60,5 +60,5 @@ public class Player {
 		Player other = (Player) obj;
 		return Objects.equals(name, other.name);
 	}
-	
+
 }
