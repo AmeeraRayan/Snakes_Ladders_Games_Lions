@@ -55,11 +55,18 @@ public class GameController {
 		int[] IAndJ = new int[2];
 		Boolean flag = false  ; 
 		int count = 0 ; 
+		
 		if(type.equals("Dice")) {
 	     newPosition = game.getPlayers().get(index).getPosition()+result;
+	     if(newPosition >= WinValue ) {
+	    	 newPosition = WinValue;
+	     }
 	     game.getPlayers().get(index).setPosition(newPosition);
 		}
 		if(type.equals("Dice Question")) {
+			if(result >= WinValue ) {
+				result = WinValue;
+		     }
 		     game.getPlayers().get(index).setPosition(result);
 		     count++;
 		}
@@ -78,6 +85,9 @@ public class GameController {
 	    		     count ++;
 	    		 }else {
 	    			 int val = game.getPlayers().get(index).getPosition();
+	    				if(val >= WinValue ) {
+	    					val = WinValue;
+	    			     }
 	                 IAndJ = FindSquareByValue(val);
 		    		    Timer waitTimer = new Timer(2000, e -> {
 		                    animatePlayerMovement(index , playerLabel, game, new Runnable() {
@@ -138,6 +148,9 @@ public class GameController {
 			System.out.println("its surprise!!!!");
 			if(game.getCurrentPlayer().getPosition()>10) {
 				int  val =game.getCurrentPlayer().getPosition()-10;
+				if(Win <=val ) {
+					val = Win;
+				}
             	game.getCurrentPlayer().setPosition(val);
 				System.out.println("val: "+Iandj);
 				
@@ -145,6 +158,9 @@ public class GameController {
 			}
 			else {
 				int  val =game.getCurrentPlayer().getPosition()+10;
+				if(Win <=val ) {
+					val = Win;
+				}
             	game.getCurrentPlayer().setPosition(val);
 				//animatePlayerMovement(playerLabel, Iandj, game);
 			}
@@ -156,6 +172,9 @@ public class GameController {
                  if(s == game.getBoard().getSnakes()[l].getSquareStart()) {
                 	 System.out.println("its a snakeeeee");
                 	int  val =game.getBoard().getSnakes()[l].getSquareEnd().getValue();
+                	if(Win <=val ) {
+    					val = Win;
+    				}
                 	game.getCurrentPlayer().setPosition(val);
                 	 flag = true ; 
                 	 System.out.println("X : "+ game.getBoard().getSnakes()[l].getSquareEnd().getBoundsX());
@@ -168,6 +187,9 @@ public class GameController {
                 if(s == game.getBoard().getLadders()[t].getSquareStart()) {
                	 System.out.println("its a Ladder !");
                	int  val =game.getBoard().getLadders()[t].getSquareEnd().getValue();
+               	if(Win <=val ) {
+					val = Win;
+				}
             	game.getCurrentPlayer().setPosition(val);
                	 flag = true ; 
                
