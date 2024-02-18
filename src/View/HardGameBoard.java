@@ -116,7 +116,7 @@ public class HardGameBoard extends JFrame{
                            
                             
                             if(result < 7) {
-                            	controller.updatePlayerPosition(CurrentPlayer, result, "Dice",playersLable[index]);
+                            	controller.updatePlayerPosition(index, result, "Dice",playersLable[index]);
                             } else {
                                                              
                             }
