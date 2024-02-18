@@ -328,6 +328,7 @@ public class MediumGameBoard extends JFrame{
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         // Place the first red snake
         do {
+        	arr.clear();
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
             arr.add(i1);
@@ -364,6 +365,7 @@ public class MediumGameBoard extends JFrame{
         int i, j;
         ArrayList<Integer> arr= new ArrayList<Integer>();
         do {
+        	arr.clear();
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
             arr.add(i);
@@ -384,6 +386,7 @@ public class MediumGameBoard extends JFrame{
         int i, j;
         ArrayList<Integer> arr= new ArrayList<Integer>();
         do {
+        	arr.clear();
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
             arr.add(i);
@@ -406,13 +409,15 @@ public class MediumGameBoard extends JFrame{
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
+        	arr1.clear();
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j1 = generateRandomNumber_J(Color.GREEN);
             arr1.add(i1);
             arr1.add(j1);
         }while(takenCells.containsKey(arr1) || (i1==0 && j1==0));
         takenCells.put(arr1,"greensnake1");
-        do {             
+        do {  
+        	arr2.clear();
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j2 = generateRandomNumber_J(Color.GREEN);
             arr2.add(i2);
@@ -455,7 +460,7 @@ public class MediumGameBoard extends JFrame{
             arr2.add(i);
             arr2.add(j);
             System.out.println("i= "+i +"j= "+j);
-            if(j!=0) {
+            if(j!=0 || i!=0) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             System.out.println("end ladder i= "+i +"j= "+j + squares[i][j]);
             arr1.add(startSquare.getRow());
@@ -588,7 +593,7 @@ public class MediumGameBoard extends JFrame{
     	}
     	if(num ==3) {
     		i = random.nextInt(7);//0-6
-        	j = random.nextInt(10);//0-9
+        	j = random.nextInt(9)+1;//1-9
         	IANDJ[0] = i;
         	IANDJ[1] = j;
     	}
