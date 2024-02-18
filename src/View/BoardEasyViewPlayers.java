@@ -650,7 +650,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    	        sysdata.LoadQuestions();
 					questionsPOPUP=SysData.getQuestionsPOPUP();
 	    	        SysData.putQuestions(questionsPOPUP);
-	    	        quesTemp= SysData.getQuestionForPosition(pos);
+	    	        quesTemp= SysData.getQuestionForPosition(currentPlayer.getPosition());
 	    	        currentPlayer.setPosition(pos);
 		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 	    	        showEditQuestionDialog(pos);
@@ -679,10 +679,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos =  new Point(295,610); 
-	        Point greenPlayerStartPos = new Point(320,610); 
-	        Point redPlayerStartPos = new Point(290,640); 
-	        Point yellowPlayerStartPos = new Point(320,640); 
+	        Point bluePlayerStartPos =  new Point(295,620); 
+	        Point greenPlayerStartPos = new Point(320,620); 
+	        Point redPlayerStartPos = new Point(290,650); 
+	        Point yellowPlayerStartPos = new Point(320,650); 
 	        if (game.getPlayers().size()==2)
 	        {
 	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
@@ -749,7 +749,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    	    Dimension preferredSize = new Dimension(700, 400);
 	    	    questionPanel.setPreferredSize(preferredSize);
 	    	  // Create and add the position label to the panel
-
 	    	  String message;
 	    	    switch (this.quesTemp.getDiffculty()) {
 	    	        case 1: // Easy
@@ -941,4 +940,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		// Apply the movement to the player's position
 		controller.updatePlayerPosition(steps,currentPlayer);
 	}
+
+
 }
