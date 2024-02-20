@@ -4,6 +4,8 @@ package View;
 import javax.swing.JFrame;
 
 
+
+
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -71,6 +73,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.io.File;
 public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -459,11 +462,21 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 	public void saveGameDetails(Player winner) {
 	    Gson gson = new Gson();
+	    System.out.println("akskahsbkagvu");
 	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
 	    List<GameDetails> gameList;
+	    File gameHistory = new File("src/game_history.json");
+	    if (!gameHistory.exists()) {
+	        try {
+				gameHistory.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // This will throw IOException if the file cannot be created
+	    }
 
 	    // Load existing game details
-	    try (FileReader reader = new FileReader("game_history.json")) {
+	    try (FileReader reader = new FileReader("src/game_history.json")) {
 	        gameList = gson.fromJson(reader, gameListType);
 	        if (gameList == null) {
 	            gameList = new ArrayList<>();
@@ -480,7 +493,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    gameList.add(details);
 
 	    // Save updated game details
-	    try (FileWriter writer = new FileWriter("game_history.json")) {
+	    try (FileWriter writer = new FileWriter("src/game_history.json")) {
 	        gson.toJson(gameList, writer);
 	    } catch (IOException e) {
 	        e.printStackTrace();
@@ -600,8 +613,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	//for a question on dice 
 	private void movePlayer(int pos) {
-
-
 		Point startPoint = controller.boardPositionToPixel(pos,currentPlayer);
 		Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
 
@@ -901,7 +912,7 @@ public class BoardEasyViewPlayers extends JFrame {
 				sysdata.LoadQuestions();
 				questionsPOPUP=SysData.getQuestionsPOPUP();
 				SysData.putQuestions(questionsPOPUP);
-				quesTemp= SysData.getQuestionForPosition(pos);
+				quesTemp= SysData.getQuestionForPosition(currentPlayer.getPosition());
 				currentPlayer.setPosition(pos);
 				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 				showEditQuestionDialog(pos);

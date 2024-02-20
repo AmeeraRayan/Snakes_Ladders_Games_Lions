@@ -1,6 +1,9 @@
 package View; 
 import java.io.Console;
-
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -24,7 +27,10 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.PanelUI;
- 
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import Controller.GameController;
 import Model.Ladder;
 import Model.MediumBoard;
@@ -34,6 +40,7 @@ import Model.Square;
 import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
+import Model.GameDetails;
 import Model.SquareType;
  
 import java.awt.*;
@@ -41,12 +48,13 @@ import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.OverlayLayout;
- 
+import javax.swing.Timer;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class MediumGameBoard extends JFrame
 {
-	
+	final JLabel jl ;
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -68,13 +76,18 @@ public class MediumGameBoard extends JFrame
 	private Timer gameTimer;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
+<<<<<<< HEAD
     private BoardLevelTemplate mediumBoard;
  
+=======
+    private Game game;
+>>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
     //JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     public MediumGameBoard(Game game) {
+    	this.game=game;
         // Setting up the main frame
     	//frame = new JFrame();
         setTitle("Game Board");
@@ -93,7 +106,7 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(textPane);
        
      
-        final JLabel jl = new JLabel("00:00", SwingConstants.CENTER);
+         jl = new JLabel("00:00", SwingConstants.CENTER);
         jl.setLocation(0, 362);
         outerPanel.add(jl);
         jl.setVisible(true);
@@ -174,7 +187,12 @@ public class MediumGameBoard extends JFrame
                                
                             }
                             if(flag == true) {
+<<<<<<< HEAD
                           	  mediumBoard.endGame(index,game); 
+=======
+                           	 new WinnerPage(index , game).setVisible(true);
+                           	saveGameDetails(game.getPlayers().get(index));
+>>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
                            	MediumGameBoard.this.setVisible(false); 
                            }else {
                         	   
@@ -416,7 +434,46 @@ public class MediumGameBoard extends JFrame
         panel.add(labelBlue);
     }
  
-    
+    public void saveGameDetails(Player winner) {
+	    Gson gson = new Gson();
+	    System.out.println("akskahsbkagvu");
+	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
+	    List<GameDetails> gameList;
+	    File gameHistory = new File("src/game_history.json");
+	    if (!gameHistory.exists()) {
+	        try {
+				gameHistory.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // This will throw IOException if the file cannot be created
+	    }
+
+	    // Load existing game details
+	    try (FileReader reader = new FileReader("src/game_history.json")) {
+	        gameList = gson.fromJson(reader, gameListType);
+	        if (gameList == null) {
+	            gameList = new ArrayList<>();
+	        }
+	    } catch (IOException e) {
+	        gameList = new ArrayList<>();
+	    }
+
+	    // Add new game details
+	    GameDetails details = new GameDetails();
+	    details.winnerName = winner.getName();
+	    details.difficulty = game.getDifficulty();
+	    details.time = jl.getText();
+	    gameList.add(details);
+
+	    // Save updated game details
+	    try (FileWriter writer = new FileWriter("src/game_history.json")) {
+	        gson.toJson(gameList, writer);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
     private void setGreenSnakes(JPanel panel) {
         int i1, j1,i2,j2;
         ArrayList<Integer> arr1= new ArrayList<Integer>();
