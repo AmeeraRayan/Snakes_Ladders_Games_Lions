@@ -614,8 +614,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	//for a question on dice 
 	private void movePlayer(int pos) {
-
-
 		Point startPoint = controller.boardPositionToPixel(pos,currentPlayer);
 		Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
 
