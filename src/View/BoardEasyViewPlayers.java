@@ -653,7 +653,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    	        quesTemp= SysData.getQuestionForPosition(currentPlayer.getPosition());
 	    	        currentPlayer.setPosition(pos);
 		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
-	    	        showEditQuestionDialog(pos);
+	    	        showEditQuestionDialog(currentPlayer.getPosition());
 	    	        movePlayer1(currentPlayer,0);
 	                return true;
 
