@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 
 
+
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -463,7 +464,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 	public void saveGameDetails(Player winner) {
 	    Gson gson = new Gson();
-	    System.out.println("akskahsbkagvu");
 	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
 	    List<GameDetails> gameList;
 	    File gameHistory = new File("src/game_history.json");

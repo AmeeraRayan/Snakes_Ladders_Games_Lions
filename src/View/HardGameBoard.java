@@ -476,7 +476,6 @@ public class HardGameBoard extends JFrame{
 
     public void saveGameDetails(Player winner) {
 	    Gson gson = new Gson();
-	    System.out.println("akskahsbkagvu");
 	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
 	    List<GameDetails> gameList;
 	    File gameHistory = new File("src/game_history.json");
