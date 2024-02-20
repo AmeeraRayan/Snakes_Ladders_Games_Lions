@@ -19,6 +19,7 @@ import javax.swing.border.LineBorder;
 
 import Model.Board;
 import Model.Game;
+import Model.GameDetails;
 import Model.Ladder;
 import Model.Player;
 import Model.Questions;
@@ -58,8 +59,17 @@ import java.util.concurrent.TimeUnit;
 import java.awt.Dimension;
 import javax.swing.JCheckBox;
 import java.awt.SystemColor;
-
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -405,7 +415,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		enableDiceRollForCurrentPlayer();
 	}
 
-
+	
+	
 	public Class<?> getWinPopupClassForWinner(Player winner) {
 	    switch (winner.getColor()) {
 	        case RED:
@@ -444,9 +455,38 @@ public class BoardEasyViewPlayers extends JFrame {
 			break;
 
 		}
+		saveGameDetails(winner);
 
 	}
+	public void saveGameDetails(Player winner) {
+	    Gson gson = new Gson();
+	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
+	    List<GameDetails> gameList;
 
+	    // Load existing game details
+	    try (FileReader reader = new FileReader("game_history.json")) {
+	        gameList = gson.fromJson(reader, gameListType);
+	        if (gameList == null) {
+	            gameList = new ArrayList<>();
+	        }
+	    } catch (IOException e) {
+	        gameList = new ArrayList<>();
+	    }
+
+	    // Add new game details
+	    GameDetails details = new GameDetails();
+	    details.winnerName = winner.getName();
+	    details.difficulty = game.getDifficulty();
+	    details.time = timerLabel.getText();
+	    gameList.add(details);
+
+	    // Save updated game details
+	    try (FileWriter writer = new FileWriter("game_history.json")) {
+	        gson.toJson(gameList, writer);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 	public void movePlayer(Player player, int roll) {
 		int oldPosition = currentPlayer.getPosition();
