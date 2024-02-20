@@ -33,10 +33,11 @@ import com.google.gson.reflect.TypeToken;
 
 import Controller.GameController;
 import Model.Ladder;
+import Model.MediumBoard;
 import Model.Player;
 import Model.Snake;
 import Model.Square;
-import Model.Board;
+import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
 import Model.GameDetails;
@@ -64,7 +65,7 @@ public class MediumGameBoard extends JFrame
     private Ladder[] ladders = new Ladder[6];
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
-    private Board meduimboard = new Board(GRID_SIZE);
+    private BoardLevelTemplate meduimboard = new MediumBoard();
     private GameController controller ; 
     private int index = 0 ;
     public static JLabel[] playersLable;
@@ -75,7 +76,12 @@ public class MediumGameBoard extends JFrame
 	private Timer gameTimer;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
+<<<<<<< HEAD
+    private BoardLevelTemplate mediumBoard;
+ 
+=======
     private Game game;
+>>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
     //JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
@@ -85,6 +91,7 @@ public class MediumGameBoard extends JFrame
         // Setting up the main frame
     	//frame = new JFrame();
         setTitle("Game Board");
+        this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(985, 748);
         // Creating the outer panel with BorderLayout
@@ -180,8 +187,12 @@ public class MediumGameBoard extends JFrame
                                
                             }
                             if(flag == true) {
+<<<<<<< HEAD
+                          	  mediumBoard.endGame(index,game); 
+=======
                            	 new WinnerPage(index , game).setVisible(true);
                            	saveGameDetails(game.getPlayers().get(index));
+>>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
                            	MediumGameBoard.this.setVisible(false); 
                            }else {
                         	   
@@ -328,7 +339,7 @@ public class MediumGameBoard extends JFrame
             String value = entry.getValue();
         }
  
-        meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+        meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
     }
 
  
