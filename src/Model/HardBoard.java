@@ -16,7 +16,7 @@ public class HardBoard extends BoardLevelTemplate{
 //  Singleton Instance
 	public static HardBoard getInstance(int size) {
 		if (instance == null) {
-			instance = new HardBoard(13);
+			instance = new HardBoard();
 		}
 		return instance;
 	}
@@ -24,6 +24,7 @@ public class HardBoard extends BoardLevelTemplate{
 	@Override
 	public boolean endGame(int index,Game game) {
 		new WinnerPage(index , game).setVisible(true);
+     	saveGameDetails(game.getPlayers().get(index));
 		return true;
 	}
 

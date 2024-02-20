@@ -76,12 +76,9 @@ public class MediumGameBoard extends JFrame
 	private Timer gameTimer;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
-<<<<<<< HEAD
     private BoardLevelTemplate mediumBoard;
  
-=======
     private Game game;
->>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
     //JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
@@ -187,12 +184,8 @@ public class MediumGameBoard extends JFrame
                                
                             }
                             if(flag == true) {
-<<<<<<< HEAD
                           	  mediumBoard.endGame(index,game); 
-=======
-                           	 new WinnerPage(index , game).setVisible(true);
                            	saveGameDetails(game.getPlayers().get(index));
->>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
                            	MediumGameBoard.this.setVisible(false); 
                            }else {
                         	   

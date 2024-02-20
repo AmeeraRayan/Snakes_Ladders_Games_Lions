@@ -17,28 +17,28 @@ public abstract class BoardLevelTemplate  {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	public static Square[][] getCells() {
+	public  Square[][] getCells() {
 		return cells;
 	}
-	public static void setCells(Square[][] cells) {
+	public  void setCells(Square[][] cells) {
 		BoardLevelTemplate.cells = cells;
 	}
-	public static Snake[] getSnakes() {
+	public  Snake[] getSnakes() {
 		return snakes;
 	}
 	public static void setSnakes(Snake[] snakes) {
 		BoardLevelTemplate.snakes = snakes;
 	}
-	public static Ladder[] getLadders() {
+	public Ladder[] getLadders() {
 		return ladders;
 	}
-	public static void setLadders(Ladder[] ladders) {
+	public void setLadders(Ladder[] ladders) {
 		BoardLevelTemplate.ladders = ladders;
 	}
-	public static Square[] getQuestions() {
+	public  Square[] getQuestions() {
 		return questions;
 	}
-	public static void setQuestions(Square[] questions) {
+	public  void setQuestions(Square[] questions) {
 		BoardLevelTemplate.questions = questions;
 	}
 	public final void playGame()
@@ -46,6 +46,7 @@ public abstract class BoardLevelTemplate  {
 		startGame(null, null, null, null,1);
 		endGame(0,null);
 	}
+	
 	
 
 
