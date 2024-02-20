@@ -17,7 +17,8 @@ import javax.swing.text.StyledDocument;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
-import Model.Board;
+import Model.BoardLevelTemplate;
+import Model.EasyBoard;
 import Model.Game;
 import Model.GameDetails;
 import Model.Ladder;
@@ -102,10 +103,12 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_4;
 	public String path ;
 	private EasyController controller; 
+	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
 
 	public BoardEasyViewPlayers(Game game ) {
+		this.easyBoard=new EasyBoard();
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
 		this.controller=new EasyController(game);
@@ -201,8 +204,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		});
 		btnNewButtonBack.setBounds(45, 700, 160, 50);
 		contentPane.add(btnNewButtonBack);
-
-
 		startGame();
 
 
@@ -228,21 +229,19 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    switch (randomNumber) {
 	    case 1:
-	        Board.initializeSnakesAndLaddersForEasy1();
 	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
 	        path = new String("board1");
 	        break;
 	    case 2:
-	        Board.initializeSnakesAndLaddersForEasy();
 	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
 	        path = new String("board2");
 	        break;
 	    case 3:
-	        Board.initializeSnakesAndLaddersForEasy3();
 	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
 	        path = new String("board3");
 	        break;
 	    }
+	    easyBoard.startGame(null, null, null, null, randomNumber);
 	    contentPane.add(lblNewLabel);
 	}
 
@@ -391,7 +390,7 @@ public class BoardEasyViewPlayers extends JFrame {
 			updateBoardView();
 			displayPlayerPositions();
 		}
-		if (controller.hasPlayerWon(currentPlayer)) {
+		if (easyBoard.endGame(0,game)) {
 			endGame(currentPlayer);
 		} else {
 			advanceToNextPlayer();

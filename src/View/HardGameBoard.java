@@ -29,9 +29,10 @@ import Model.Ladder;
 import Model.Player;
 import Model.Snake;
 import Model.Square;
-import Model.Board;
+import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
+import Model.HardBoard;
 import Model.SquareType;
 
 import java.awt.*;
@@ -62,7 +63,6 @@ public class HardGameBoard extends JFrame{
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
 
-    private Board HardBoard = new Board(GRID_SIZE);
     private int WinValue = 169 ; 
     private long startTime;
 	private Timer gameTimer;
@@ -73,10 +73,11 @@ public class HardGameBoard extends JFrame{
     Player CurrentPlayer ;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
- 
+    private BoardLevelTemplate hardBoard;
     
     public HardGameBoard(Game game) {
     	setTitle("Game Board");
+    	this.hardBoard=new HardBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1166, 816);
         // Creating the outer panel with BorderLayout
@@ -155,8 +156,8 @@ public class HardGameBoard extends JFrame{
                                  
                               }
                               if(flag == true) {
-                             	 new WinnerPage(index , game).setVisible(true);
-                             	HardGameBoard.this.setVisible(false);  
+                            	  hardBoard.endGame(index,game); 
+                               	HardGameBoard.this.setVisible(false); 
                              }else {
                           	   
                           	     index++;
@@ -196,7 +197,7 @@ public class HardGameBoard extends JFrame{
         JPanel innerPanel = new JPanel();
         initializeBoard(innerPanel,outerPanel);
         
-        game.setBoard(HardBoard);
+        game.setBoard(hardBoard);
         game.setDice(dice);
         textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
         textPane.setAlignmentX(0.2f);
@@ -240,8 +241,10 @@ public class HardGameBoard extends JFrame{
         outerPanel.add(lblNewLabel);
         this.setVisible(true);
     }
-		 
-    private void initializeBoard(JPanel panel, JPanel outerPanel) { 
+   
+
+
+	private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 715 / GRID_SIZE; // the innerPanel is 715*715 and each cell is 55x55 pixels
         int count=0;
         int surpriseCount=0;
@@ -321,7 +324,7 @@ public class HardGameBoard extends JFrame{
             String value = entry.getValue();
         }
  
-        HardBoard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+        hardBoard.startGame(squares,snakes,ladders,quastionSquares, 0);
        
      
  

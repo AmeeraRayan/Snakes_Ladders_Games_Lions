@@ -9,7 +9,7 @@ public class Game {
 	private static Game instance = null;
     private List<Player> players;
     private Player currentPlayer;
-    private Board board;
+    private BoardLevelTemplate board;
     private String difficulty;
     private Dice dice;
     public int OnwhichQuestionland = 0;
@@ -27,7 +27,20 @@ public class Game {
         this.currentPlayer = players.get(0); 
         this.difficulty=difficulty;
         int boardSize = difficulty.equals("Easy") ? 7 : difficulty.equals("Medium") ? 10 : 13;
-         this.board = new Board(boardSize);
+        if (boardSize==7)
+        {
+          this.board = new EasyBoard();
+
+        }
+        if (boardSize==10)
+        {
+          this.board = new MediumBoard();
+
+        }if (boardSize==13)
+        {
+            this.board = new HardBoard();
+
+          }
         this.dice = new Dice(difficulty);
         
     }
@@ -54,11 +67,11 @@ public class Game {
 		this.difficulty = difficulty;
 	}
 
-	public Board getBoard() {
+	public BoardLevelTemplate getBoard() {
 		return board;
 	}
 
-	public void setBoard(Board board) {
+	public void setBoard(BoardLevelTemplate board) {
 		this.board = board;
 	}
 

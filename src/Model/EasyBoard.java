@@ -1,53 +1,14 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
-
-public class Board {
-	private static Board instance = null;
-	private int size;
-    private static Square[][] cells;
-    private static Snake[] snakes;
-    private static Ladder[] ladders;
-    private static Square[] questions;
-//  Singleton Instance
-	public static Board getInstance(int size) {
-		if (instance == null) {
-			instance = new Board(size);
-		}
-		return instance;
-	}
-
-    public Board(int size) {
-        this.size = size;  
-        if (size==7) {
-            this.snakes = new Snake[4];
-            this.ladders = new Ladder[4];
-            this.questions=new Square[3];
-            }
-        else if (size==10) {
-        	this.cells = new Square[10][10];
-            this.snakes = new Snake[6];
-            this.ladders = new Ladder[6];
-            this.questions = new Square[3];
-        }else {
-        	this.cells = new Square[13][13];
-            this.snakes = new Snake[8];
-            this.ladders = new Ladder[8];
-           // initializeSnakesAndLaddersForHard();
+public class EasyBoard extends BoardLevelTemplate{
+	public EasyBoard() {
+		super(7);
+		BoardLevelTemplate.snakes = new Snake[4];
+        BoardLevelTemplate.ladders = new Ladder[4];
+        BoardLevelTemplate.questions=new Square[3];
         }
-    }
-    
-    
-	public void initializeSnakesAndLaddersForMedium(Square[][] cellsformeduim,Snake[] snakesformeduim,Ladder[] laddersformeduim,Square[] questionSquares) {
-		// TODO Auto-generated method stub
-		cells = cellsformeduim;
-		snakes = snakesformeduim;
-		ladders = laddersformeduim;
-		questions = questionSquares;
-	}
+	
 
 	public static void initializeSnakesAndLaddersForEasy1() {//easybord1
 	    // Initialize 4 snakes	
@@ -102,58 +63,32 @@ public class Board {
 
     }
     	
-
-	public Board getInstance() {
-		return instance;
-	}
-
-	public  void setInstance(Board instance) {
-		Board.instance = instance;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
 	
-	public  Snake[] getSnakes() {
-		return snakes;
+	
+	
+	@Override
+	public boolean endGame(int index, Game game) {
+	    return game.getCurrentPlayer().getPosition() == size;
+		
 	}
 
-	public  void setSnakes(Snake[] snakes) {
-		Board.snakes = snakes;
-	}
-
-	public  Ladder[] getLadders() {
-		return ladders;
-	}
-
-	public  void setLadders(Ladder[] ladders) {
-		Board.ladders = ladders;
-	}
-
-	public  Square[] getQuestions() {
-		return questions;
-	}
-
-	public  void setQuestions(Square[] questions) {
-		Board.questions = questions;
-	}
-
-	public Square[][] getCells() {
-		return cells;
-	}
-
-	public void setCells(Square[][] cells) {
-		this.cells = cells;
-	}
 
 	@Override
-	public String toString() {
-		return "Board [size=" + size + "]";
-	}
+	public void startGame(Square[][] cellsformeduim, Snake[] snakesformeduim, Ladder[] laddersformeduim,
+			Square[] questionSquares,int number) {
+		 switch (number) {
+		    case 1:
+		        initializeSnakesAndLaddersForEasy1();
+		        break;
+		    case 2:
+		        initializeSnakesAndLaddersForEasy();
+		        break;
+		    case 3:
+		        initializeSnakesAndLaddersForEasy3();
+		        break;
+		    }
+		}		
 	
+
+
 }

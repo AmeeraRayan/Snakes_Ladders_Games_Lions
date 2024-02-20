@@ -71,8 +71,5 @@ public class EasyController {
   	    
 
 	    }
-	  public boolean hasPlayerWon(Player player) {
-		    //int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
-		    return game.getCurrentPlayer().getPosition() == 49;
-		}
+	
 }
