@@ -28,6 +28,7 @@ public class Player {
 	}
 
 	public int getPosition() {
+		
 	    return position;
 	}
 	

@@ -1,6 +1,9 @@
 package Model;
 
-import View.WinnerPage;
+import javax.swing.JLabel;
+
+import Controller.GameController;
+import View.BoardEasyViewPlayers;
 
 public class MediumBoard extends BoardLevelTemplate{
 	public MediumBoard() {
@@ -11,12 +14,6 @@ public class MediumBoard extends BoardLevelTemplate{
     	BoardLevelTemplate.questions = new Square[3];
 	}
 
-	@Override
-	protected boolean endGame(int index, Game game) {
-      	 new WinnerPage(index , game).setVisible(true);
-		return true;
-	}
-
 
 	@Override
 	public void startGame(Square[][] cellsformeduim, Snake[] snakesformeduim, Ladder[] laddersformeduim,
@@ -25,6 +22,38 @@ public class MediumBoard extends BoardLevelTemplate{
 		snakes = snakesformeduim;
 		ladders = laddersformeduim;
 		questions = questionSquares;		
+	}
+
+	@Override
+	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
+			GameController controller) {
+		boolean flag=false;
+        flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
+		return flag;
+	}
+	
+	public void openFrameForWinner(Player winner,String time,Game game)
+	{
+		WinFrameFactory winframe=new WinFrameFactory();
+		switch (winner.getColor()) {
+		case RED:
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
+			redFrame.createWinFrame(winner.getName(), time, game);
+			break;
+		case GREEN:
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
+			greenFrame.createWinFrame(winner.getName(), time, game);
+			break;
+		case BLUE:
+			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
+			blueFrame.createWinFrame(winner.getName(),time, game);
+			break;
+		case YELLOW:
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
+			yellowFrame.createWinFrame(winner.getName(),time, game);
+			break;
+
+		}
 	}
 
 }

@@ -30,6 +30,8 @@ import Model.Questions;
 import Model.Snake;
 import Model.Square;
 import Model.SysData;
+import Model.WinFrame;
+import Model.WinFrameFactory;
 import Controller.EasyController;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -358,7 +360,7 @@ public class BoardEasyViewPlayers extends JFrame {
 			quesTemp= SysData.getQuestionLevel(temp);
 			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
 			int pos=currentPlayer.getPosition();
-			showEditQuestionDialog(pos);
+			showEditQuestionDialog(currentPlayer.getPosition());
 			checkForSnakesAndLadders(currentPlayer.getPosition(),0);
 			movePlayer(pos);
 			updateBoardView();
@@ -374,7 +376,6 @@ public class BoardEasyViewPlayers extends JFrame {
 			diceButton.setIcon(diceIcon);
 
 			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult +" , so will keep you on place", "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
-
 			movePlayer(currentPlayer, rollResult);
 			updateBoardView();
 			displayPlayerPositions(); // Update the display of player positions
@@ -394,7 +395,7 @@ public class BoardEasyViewPlayers extends JFrame {
 			updateBoardView();
 			displayPlayerPositions();
 		}
-		if (easyBoard.endGame(0,game)) {
+		if (easyBoard.endGame(0,0, null, null, 0, game, null)) {
 			endGame(currentPlayer);
 		} else {
 			advanceToNextPlayer();
@@ -439,22 +440,24 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	public void endGame(Player winner) {
 		gameTimer.stop(); // Stop the timer
+		WinFrameFactory winframe=new WinFrameFactory();
+		BoardEasyViewPlayers.this.setVisible(false);
 		switch (winner.getColor()) {
 		case RED:
-			BoardEasyViewPlayers.this.setVisible(false);	
-			new RedWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
+			redFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case GREEN:
-			BoardEasyViewPlayers.this.setVisible(false);
-			new GreenWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
+			greenFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case BLUE:
-			BoardEasyViewPlayers.this.setVisible(false);
-			new BlueWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
+			blueFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case YELLOW:
-			BoardEasyViewPlayers.this.setVisible(false);
-			new YellowWin(winner.getName(),timerLabel.getText(),game).setVisible(true);
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
+			yellowFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 
 		}
