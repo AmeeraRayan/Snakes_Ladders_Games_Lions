@@ -11,7 +11,31 @@ public class EasyBoard extends BoardLevelTemplate{
         BoardLevelTemplate.ladders = new Ladder[4];
         BoardLevelTemplate.questions=new Square[3];
         }
+
+	@Override
+	public void startGame(Square[][] cells, Snake[] snakes, Ladder[] ladders,
+			Square[] questionSquares,int number) {
+		 switch (number) {
+		    case 1:
+		        initializeSnakesAndLaddersForEasy1();
+		        break;
+		    case 2:
+		        initializeSnakesAndLaddersForEasy();
+		        break;
+		    case 3:
+		        initializeSnakesAndLaddersForEasy3();
+		        break;
+		    }
+		}
+
+
+	@Override
+	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
+			GameController controller) {
+	    return game.getCurrentPlayer().getPosition() == size*size;
+	}		
 	
+
 
 	public static void initializeSnakesAndLaddersForEasy1() {//easybord1
 	    // Initialize 4 snakes	
@@ -67,30 +91,6 @@ public class EasyBoard extends BoardLevelTemplate{
     }
     	
 
-
-	@Override
-	public void startGame(Square[][] cellsformeduim, Snake[] snakesformeduim, Ladder[] laddersformeduim,
-			Square[] questionSquares,int number) {
-		 switch (number) {
-		    case 1:
-		        initializeSnakesAndLaddersForEasy1();
-		        break;
-		    case 2:
-		        initializeSnakesAndLaddersForEasy();
-		        break;
-		    case 3:
-		        initializeSnakesAndLaddersForEasy3();
-		        break;
-		    }
-		}
-
-
-	@Override
-	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
-			GameController controller) {
-	    return game.getCurrentPlayer().getPosition() == size;
-	}		
-	
 
 
 }

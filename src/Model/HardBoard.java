@@ -3,7 +3,6 @@ package Model;
 import javax.swing.JLabel;
 
 import Controller.GameController;
-import View.WinnerPage;
 
 public class HardBoard extends BoardLevelTemplate{
 	public HardBoard() {
@@ -12,7 +11,22 @@ public class HardBoard extends BoardLevelTemplate{
     	BoardLevelTemplate.snakes = new Snake[8];
     	BoardLevelTemplate.ladders = new Ladder[8];
 	}
+	@Override
+	public boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller) {
+		boolean flag=false;
+        flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
+		return flag;
+	}
 
+	@Override
+	public void startGame(Square[][] cells, Snake[] snakes, Ladder[] ladders,
+			Square[] questionSquares, int number) {
+		BoardLevelTemplate.cells = cells;
+		BoardLevelTemplate.snakes = snakes;
+		BoardLevelTemplate.ladders = ladders;
+		questions = questionSquares;
+		
+	}
 
 	protected static HardBoard instance = null;
     
@@ -24,22 +38,6 @@ public class HardBoard extends BoardLevelTemplate{
 		return instance;
 	}
 	
-	@Override
-	public boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller) {
-		boolean flag=false;
-        flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
-		return flag;
-	}
-
-	@Override
-	public void startGame(Square[][] cellsformeduim, Snake[] snakesformeduim, Ladder[] laddersformeduim,
-			Square[] questionSquares, int number) {
-		cells = cellsformeduim;
-		snakes = snakesformeduim;
-		ladders = laddersformeduim;
-		questions = questionSquares;
-		
-	}
 
 	public void openFrameForWinner(Player winner,String time,Game game)
 	{

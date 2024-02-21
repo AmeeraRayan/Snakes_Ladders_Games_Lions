@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 
 import Controller.GameController;
 import View.BoardEasyViewPlayers;
-import View.WinnerPage;
 
 public class MediumBoard extends BoardLevelTemplate{
 	public MediumBoard() {

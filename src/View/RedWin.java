@@ -24,7 +24,6 @@ public class RedWin extends JFrame  implements WinFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	private JLabel lblNewLabel_2;
 	private String plyerNickname;
 	private String time;
 	private Game game;
