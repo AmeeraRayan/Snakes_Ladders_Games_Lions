@@ -38,13 +38,6 @@ public class GreenWin extends JFrame  implements WinFrame{
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-
-		
-		
-		
-		
-		
 		JLabel playerWin = new JLabel(plyerNickname);
 		playerWin.setBounds(415, 321, 215, 36);
 		playerWin.setForeground(new Color(255, 255, 255));
