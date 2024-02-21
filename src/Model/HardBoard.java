@@ -1,5 +1,8 @@
 package Model;
 
+import javax.swing.JLabel;
+
+import Controller.GameController;
 import View.WinnerPage;
 
 public class HardBoard extends BoardLevelTemplate{
@@ -22,10 +25,10 @@ public class HardBoard extends BoardLevelTemplate{
 	}
 	
 	@Override
-	public boolean endGame(int index,Game game) {
-		new WinnerPage(index , game).setVisible(true);
-     	saveGameDetails(game.getPlayers().get(index));
-		return true;
+	public boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller) {
+		boolean flag=false;
+        flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
+		return flag;
 	}
 
 	@Override
@@ -37,5 +40,28 @@ public class HardBoard extends BoardLevelTemplate{
 		questions = questionSquares;
 		
 	}
+
+	public void openFrameForWinner(Player winner,String time,Game game)
+	{
+		WinFrameFactory winframe=new WinFrameFactory();
+		switch (winner.getColor()) {
+		case RED:
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
+			redFrame.createWinFrame(winner.getName(), time, game);
+			break;
+		case GREEN:
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
+			greenFrame.createWinFrame(winner.getName(), time, game);
+			break;
+		case BLUE:
+			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
+			blueFrame.createWinFrame(winner.getName(),time, game);
+			break;
+		case YELLOW:
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
+			yellowFrame.createWinFrame(winner.getName(),time, game);
+			break;
+
+		}}
 
 }

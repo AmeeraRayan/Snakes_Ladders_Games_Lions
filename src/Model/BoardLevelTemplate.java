@@ -1,5 +1,9 @@
 package Model;
 
+import javax.swing.JLabel;
+
+import Controller.GameController;
+
 public abstract class BoardLevelTemplate  {
 	protected int size;
 	protected static Square[][] cells;
@@ -7,10 +11,16 @@ public abstract class BoardLevelTemplate  {
 	protected static Ladder[] ladders;
 	protected static Square[] questions;
 	public abstract void startGame(Square[][] cellsformeduim,Snake[] snakesformeduim,Ladder[] laddersformeduim,Square[] questionSquares,int number);
-	public abstract boolean endGame(int index,Game game);	
+	public abstract boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller);	
 	 public BoardLevelTemplate(int size) {
 	        this.size = size;  
 	    }
+	 public final void playGame()
+		{
+			startGame(null, null, null, null,1);
+			endGame(0,0, null, null, 0, null, null);
+		}
+		
 	public int getSize() {
 		return size;
 	}
@@ -40,11 +50,6 @@ public abstract class BoardLevelTemplate  {
 	}
 	public  void setQuestions(Square[] questions) {
 		BoardLevelTemplate.questions = questions;
-	}
-	public final void playGame()
-	{
-		startGame(null, null, null, null,1);
-		endGame(0,null);
 	}
 	
 	

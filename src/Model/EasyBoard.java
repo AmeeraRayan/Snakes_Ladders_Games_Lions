@@ -1,5 +1,8 @@
 package Model;
 
+import javax.swing.JLabel;
+
+import Controller.GameController;
 
 public class EasyBoard extends BoardLevelTemplate{
 	public EasyBoard() {
@@ -63,14 +66,6 @@ public class EasyBoard extends BoardLevelTemplate{
 
     }
     	
-	
-	
-	
-	@Override
-	public boolean endGame(int index, Game game) {
-	    return game.getCurrentPlayer().getPosition() == size;
-		
-	}
 
 
 	@Override
@@ -87,7 +82,14 @@ public class EasyBoard extends BoardLevelTemplate{
 		        initializeSnakesAndLaddersForEasy3();
 		        break;
 		    }
-		}		
+		}
+
+
+	@Override
+	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
+			GameController controller) {
+	    return game.getCurrentPlayer().getPosition() == size;
+	}		
 	
 
 

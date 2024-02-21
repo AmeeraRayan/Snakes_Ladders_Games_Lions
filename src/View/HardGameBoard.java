@@ -33,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 
 import Controller.GameController;
 import Model.Ladder;
+import Model.MediumBoard;
 import Model.Player;
 import Model.Snake;
 import Model.Square;
@@ -141,11 +142,9 @@ public class HardGameBoard extends JFrame{
                   int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
                   ActionListener listener = new ActionListener() {
                       int count = 0;
-   
                       @Override
                       public void actionPerformed(ActionEvent evt) {      
                           boolean flag = false ; 
-
                           if (count < animationCycle[0]) {
                           	diceButton.setEnabled(false);
                               String path = "/images/dice " + currentNumber[0] + ".jpg";
@@ -159,16 +158,16 @@ public class HardGameBoard extends JFrame{
                               timer.stop();
    
                               if(result < 7) {
-                                 flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index],WinValue);
-                                 
+                            	  flag=hardBoard.endGame(index, result, "Dice",playersLable[index],WinValue,null,controller);                                  
                               } else {
                                   controller.DiceQuestion(result,playersLable[index],WinValue);
                                  
                               }
                               if(flag == true) {
-                            	  hardBoard.endGame(index,game); 
                              	saveGameDetails(game.getPlayers().get(index));
-                             	HardGameBoard.this.setVisible(false);  
+                             	HardGameBoard.this.setVisible(false); 
+                             	Player winner = game.getPlayers().get(index);
+                        		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
                              }else {
                           	   
                           	     index++;

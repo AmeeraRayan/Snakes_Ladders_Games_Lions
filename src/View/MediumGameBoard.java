@@ -1,5 +1,4 @@
 package View; 
-import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,9 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,11 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.PanelUI;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -79,7 +72,6 @@ public class MediumGameBoard extends JFrame
     private BoardLevelTemplate mediumBoard;
  
     private Game game;
-    //JFrame frame;
     Player CurrentPlayer ;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
@@ -177,16 +169,16 @@ public class MediumGameBoard extends JFrame
                             timer.stop();
  
                             if(result < 7) {
-                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index],WinValue);
-                               
+                          	  flag=mediumBoard.endGame(index, result, "Dice",playersLable[index],WinValue,null,controller);                                                                 
                             } else {
                                 controller.DiceQuestion(result,playersLable[index],WinValue);
                                
                             }
                             if(flag == true) {
-                          	  mediumBoard.endGame(index,game); 
                            	saveGameDetails(game.getPlayers().get(index));
                            	MediumGameBoard.this.setVisible(false); 
+                           	Player winner = game.getPlayers().get(index);
+                    		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
                            }else {
                         	   
                         	     index++;
@@ -199,10 +191,7 @@ public class MediumGameBoard extends JFrame
                                  textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                                  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                            }
-                            
-
-                            
-                        
+                           
                             
                             diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
