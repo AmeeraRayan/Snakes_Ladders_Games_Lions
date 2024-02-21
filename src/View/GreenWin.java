@@ -20,19 +20,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class GreenWin extends JFrame  implements WinFrame{
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	private JLabel lblNewLabel_2;
 	private String plyerNickname;
 	private String time;
 	private Game game;
 
-
-	/**
-	 * Create the frame.
-	 */
 	public GreenWin() {
 		
 		setBackground(new Color(255, 255, 255));

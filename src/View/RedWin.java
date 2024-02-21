@@ -23,15 +23,10 @@ public class RedWin extends JFrame  implements WinFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	private String plyerNickname;
 	private String time;
 	private Game game;
 
-
-	/**
-	 * Create the frame.
-	 */
 	public RedWin() {
 		
 		setBackground(new Color(255, 255, 255));
