@@ -1,5 +1,6 @@
 package View; 
 import java.io.Console;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -39,11 +40,8 @@ import Model.Square;
 import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
-<<<<<<< HEAD
 import Model.HardBoard;
-=======
 import Model.GameDetails;
->>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
 import Model.SquareType;
 
 import java.awt.*;
@@ -169,14 +167,11 @@ public class HardGameBoard extends JFrame{
                                  
                               }
                               if(flag == true) {
-<<<<<<< HEAD
                             	  hardBoard.endGame(index,game); 
                                	HardGameBoard.this.setVisible(false); 
-=======
                              	 new WinnerPage(index , game).setVisible(true);
                              	saveGameDetails(game.getPlayers().get(index));
                              	HardGameBoard.this.setVisible(false);  
->>>>>>> 354a18c174c92284cd2f957b79dd6c888b3618ff
                              }else {
                           	   
                           	     index++;
