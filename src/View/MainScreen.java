@@ -99,7 +99,7 @@ public class MainScreen extends JFrame{
         btnNewButton_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	MainScreen.this.setVisible(false);
-                GameHistory gameHistoryScreen = new GameHistory();
+                Game_History gameHistoryScreen = new Game_History();
                 gameHistoryScreen.setVisible(true);           	
             }
         });
