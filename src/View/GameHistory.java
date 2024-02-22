@@ -45,6 +45,7 @@ public class GameHistory extends JFrame {
                 return false; // Make all cells non-editable
             }
         };
+        
         // Create the JTable with the data and column names
         tableModel.addColumn("Winner");
         tableModel.addColumn("Difficulty");
