@@ -14,6 +14,7 @@ import Model.Questions;
 import Model.SysData;
 
 import java.lang.reflect.Type;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class GameHistory extends JFrame {
     private JTable table;
@@ -41,7 +42,8 @@ public class GameHistory extends JFrame {
 
         tableModel = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(int row, int column)
+            {	
                 return false; // Make all cells non-editable
             }
         };
@@ -52,11 +54,45 @@ public class GameHistory extends JFrame {
         tableModel.addColumn("Time");
         
         table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
         
-        // Add the JTable to the JFrame
+     // Center text in table cells
+     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+     centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+     table.setDefaultRenderer(Object.class, centerRenderer);
+     table.getTableHeader().setReorderingAllowed(false); // Prevent column reordering
+     table.setFont(new Font("Serif", Font.BOLD, 20)); // Set the table font size
+
+     DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+     headerRenderer.setHorizontalAlignment(JLabel.CENTER); // Center text
+     headerRenderer.setForeground(Color.BLACK);
+  // Apply the renderer to each column header
+     for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+         table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+     }
+
+     // Custom renderer for table cells
+     DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+     cellRenderer.setHorizontalAlignment(JLabel.CENTER); // Center text
+     cellRenderer.setBackground(Color.blue);
+     cellRenderer.setFont(new Font("Serif", Font.BOLD, 30)); // Set font
+
+
+     // Apply the renderer to each column
+     for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+         table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
+     }
+     // Set row height and remove grid lines for a cleaner look
+     table.setRowHeight(30); // Adjust row height as needed
+     table.setShowGrid(false);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
+     // Add the JScrollPane to the JFrame and center it
+        setLayout(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
+        table.setFillsViewportHeight(true);
+        table.setForeground(Color.WHITE);
+      
      // Add rows to the table model
         if (gameList != null) {
             for (GameDetails details : gameList) {
@@ -64,6 +100,7 @@ public class GameHistory extends JFrame {
                 tableModel.addRow(row);
             }
         }
+        
   
     }
 
@@ -82,4 +119,7 @@ public class GameHistory extends JFrame {
 	public void setTableModel(DefaultTableModel tableModel) {
 		this.tableModel = tableModel;
 	}
+	
+
+	
 }

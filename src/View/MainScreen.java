@@ -105,11 +105,29 @@ public class MainScreen extends JFrame{
         });
         btnNewButton_2.setBounds(587, 211, 178, 54); // Reduced width and height
         frame.getContentPane().add(btnNewButton_2);
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setIcon(new ImageIcon(MainScreen.class.getResource("/images/inst.png")));
+        lblNewLabel_1.setBounds(720, 30, 70, 40);
+        getContentPane().add(lblNewLabel_1);
+        lblNewLabel_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Create the new JFrame you want to open
+                Instructions instructionsFrame = new Instructions();
+                instructionsFrame.setVisible(true);
+                MainScreen.this.setVisible(false); //
+            }
+        });
+
+        
+        
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/Start.png")));
         lblNewLabel.setBounds(-188, -21, 1184, 481);
         getContentPane().add(lblNewLabel);
+        
+        
     }
  // Method to parse JSON file and return a list of GameDetails
     public List<GameDetails> getGameHistory() {
