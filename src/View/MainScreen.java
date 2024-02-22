@@ -112,7 +112,6 @@ public class MainScreen extends JFrame{
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Create the new JFrame you want to open
                 Instructions instructionsFrame = new Instructions();
                 instructionsFrame.setVisible(true);
                 MainScreen.this.setVisible(false); //

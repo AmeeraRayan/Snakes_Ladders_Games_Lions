@@ -33,7 +33,7 @@ public class EasyGame extends JFrame {
     private void roll(int dice_result) {
     	switch (dice_result) {
 		case 1:
-			currentPlayer
+			//currentPlayer
 			break;
 
 		default:
