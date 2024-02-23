@@ -292,16 +292,29 @@ public class BoardEasyViewPlayers extends JFrame {
 		for (ActionListener al : diceButton.getActionListeners()) {
 			diceButton.removeActionListener(al);
 		}
-
+		// Create a timer that will call performDiceRollAndMove() after 10 seconds
+	    Timer autoRollTimer = new Timer(10000, new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            // This will be called after 10 seconds
+	            JOptionPane.showMessageDialog(BoardEasyViewPlayers.this,
+	                "Time is up! Rolling the dice automatically for " + currentPlayer.getName(), 
+	                "Auto Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	            performDiceRollAndMove();
+	        }
+	    });
 		diceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				diceButton.setEnabled(false);
+	            autoRollTimer.stop(); // Stop the timer because the user has rolled the dice
 				performDiceRollAndMove();
 			}
 		});
 
 		diceButton.setEnabled(true);
+		autoRollTimer.setRepeats(false); // Ensure the timer only runs once
+	    autoRollTimer.start(); // Start the countdown for auto rolling the dice
 	}
 	public void updatePlayerPosition( int x, int y) {
 		contentPane.revalidate();
