@@ -923,7 +923,6 @@ public class BoardEasyViewPlayers extends JFrame {
 				Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition() + roll,currentPlayer); 
 				JLabel playerLabel = getPlayerLabel(currentPlayer);
 				animateMovement(playerLabel, startPoint, endPoint);
-				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 				displayPlayerPositions();
 				sysdata.LoadQuestions();
 				questionsPOPUP=SysData.getQuestionsPOPUP();
