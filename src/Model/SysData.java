@@ -24,7 +24,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 
 
-import java.util.Random;
 
 
 public class SysData {

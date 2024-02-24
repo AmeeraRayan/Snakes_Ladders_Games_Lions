@@ -2,7 +2,10 @@ package Model;
 
 import java.util.List;
 
-//Observer interface
 public interface GameObserver {
- void updateGameHistory();
+void updateGameHistory(String name, String difficulty, String time);
 }
+
+
+
+

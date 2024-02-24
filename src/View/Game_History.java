@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import Model.GameDetails;
 import Model.GameObserver;
 
-public class Game_History extends JFrame implements GameObserver{
+public class Game_History extends JFrame {
 	private JTable table;
     private DefaultTableModel tableModel;
 	private static final long serialVersionUID = 1L;
@@ -156,8 +156,5 @@ public class Game_History extends JFrame implements GameObserver{
 	public void setTableModel(DefaultTableModel tableModel) {
 		this.tableModel = tableModel;
 	}
-	@Override
-	public void updateGameHistory() {
-		
-	}
+	
 }

@@ -458,7 +458,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 		}
-		saveGameDetails(winner);
+		game.endGame(winner.getName(),game.getDifficulty(),timerLabel.getText());
 
 	}
 	public void saveGameDetails(Player winner) {
@@ -498,7 +498,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-	    game.endGame();
 	}
 
 	public void movePlayer(Player player, int roll) {

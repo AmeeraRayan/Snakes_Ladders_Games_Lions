@@ -15,7 +15,7 @@ public class Game implements GameSubject {
     private String difficulty;
     private Dice dice;
     public int OnwhichQuestionland = 0;
-    private int currentPlayerIndex = 0; // Add this variable to track the current player index
+    private int currentPlayerIndex = 0; 
 //  Singleton Instance
 	public static Game getInstance(List<Player> players,String difficulty) {
 		if (instance == null) {
@@ -124,17 +124,18 @@ public class Game implements GameSubject {
 	    }
 	    
 	    @Override
-	    public void notifyObservers() {
+	    public void notifyObservers(String name,String difficulty,String time) {
 	        for (GameObserver observer : observers) {
-	            observer.updateGameHistory();
+	            observer.updateGameHistory(name, difficulty, time);
 	        }
 	    }
 	    
 	    // Method to call notifyObservers when a game ends
-	    public void endGame() {
-	        notifyObservers();
+	    public void endGame(String name,String difficulty,String time) {
+	        notifyObservers( name, difficulty, time);
 	    }
-   }
+
+}
 
 
 
