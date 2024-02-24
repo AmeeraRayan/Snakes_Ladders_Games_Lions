@@ -32,7 +32,8 @@ import Model.Square;
 import Model.SysData;
 import Model.WinFrame;
 import Model.WinFrameFactory;
-import Controller.EasyController;
+import Controller.GameController;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -108,7 +109,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	public String path ;
-	private EasyController controller; 
+	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
@@ -117,7 +118,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		this.easyBoard=new EasyBoard();
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
-		this.controller=new EasyController(game);
+		this.controller=new GameController(game);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 810);
 		contentPane = new JPanel();
