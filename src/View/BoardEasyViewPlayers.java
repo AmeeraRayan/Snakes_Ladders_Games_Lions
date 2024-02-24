@@ -446,19 +446,16 @@ public class BoardEasyViewPlayers extends JFrame {
 		case RED:
 			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
 			redFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case GREEN:
 			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
 			greenFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case BLUE:
 			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
 			blueFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case YELLOW:
 			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
 			yellowFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
+
 
 		}
 		saveGameDetails(winner);

@@ -1,11 +1,13 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 
 
-public class Game {
+public class Game implements GameSubject {
+    private List<GameObserver> observers = new ArrayList<>();
 	private static Game instance = null;
     private List<Player> players;
     private Player currentPlayer;
@@ -111,7 +113,27 @@ public class Game {
 	        }
 	    }
 	}
-	
+	 @Override
+	    public void registerObserver(GameObserver observer) {
+	        observers.add(observer);
+	    }
+	    
+	    @Override
+	    public void removeObserver(GameObserver observer) {
+	        observers.remove(observer);
+	    }
+	    
+	    @Override
+	    public void notifyObservers() {
+	        for (GameObserver observer : observers) {
+	            observer.updateGameHistory(/* pass the latest game details */);
+	        }
+	    }
+	    
+	    // Method to call notifyObservers when a game ends
+	    public void endGame() {
+	        notifyObservers();
+	    }
    }
 
 

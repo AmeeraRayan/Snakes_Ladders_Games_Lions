@@ -1,6 +1,16 @@
 package Model;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JLabel;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import Controller.GameController;
 
@@ -12,7 +22,8 @@ public abstract class BoardLevelTemplate  {
 	protected static Square[] questions;
 	public abstract void startGame(Square[][] cellsformeduim,Snake[] snakes,Ladder[] ladders,Square[] questionSquares,int number);
 	public abstract boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller);	
-	 public BoardLevelTemplate(int size) {
+	/*public abstract void saveGameDetails(Player winner) ;*/
+	public BoardLevelTemplate(int size) {
 	        this.size = size;  
 	    }
 	 public final void playGame()
@@ -53,6 +64,5 @@ public abstract class BoardLevelTemplate  {
 	}
 	
 	
-
 
 }
