@@ -498,6 +498,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
+	    game.endGame();
 	}
 
 	public void movePlayer(Player player, int roll) {

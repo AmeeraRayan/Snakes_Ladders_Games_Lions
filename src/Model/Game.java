@@ -126,7 +126,7 @@ public class Game implements GameSubject {
 	    @Override
 	    public void notifyObservers() {
 	        for (GameObserver observer : observers) {
-	            observer.updateGameHistory(/* pass the latest game details */);
+	            observer.updateGameHistory();
 	        }
 	    }
 	    
