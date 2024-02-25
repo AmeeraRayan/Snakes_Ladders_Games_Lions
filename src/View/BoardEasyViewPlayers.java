@@ -373,10 +373,9 @@ public class BoardEasyViewPlayers extends JFrame {
 			String temp=SysData.getRandomQuestion(difficulty_levels);
 			quesTemp= SysData.getQuestionLevel(temp);
 			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
-			int pos=currentPlayer.getPosition();
 			showEditQuestionDialog(currentPlayer.getPosition());
 			checkForSnakesAndLadders(currentPlayer.getPosition(),0);
-			movePlayer(pos);
+			movePlayer(currentPlayer.getPosition());
 			updateBoardView();
 			displayPlayerPositions();     
 		}
