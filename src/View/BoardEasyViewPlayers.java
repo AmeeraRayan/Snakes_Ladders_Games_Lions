@@ -368,7 +368,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		if(rollResult==5)
 		{
 
-			diceIcon = new ImageIcon(getClass().getResource("/images/question.png"));
+			diceIcon = new ImageIcon(getClass().getResource("/images/dice 8.jpg"));
 			diceButton.setIcon(diceIcon);
 			SysData sysdata=new SysData();
 			sysdata.LoadQuestions();
