@@ -9,15 +9,20 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
+import java.util.Comparator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +58,18 @@ public class Game_History extends JFrame {
         List<GameDetails> gameList = null;
         try (FileReader reader = new FileReader("src/game_history.json")) {
             gameList = gson.fromJson(reader, gameListType);
+            // Sort the list by time
+            Collections.sort(gameList, new Comparator<GameDetails>() {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss");
+                @Override
+                public int compare(GameDetails o1, GameDetails o2) {
+                    try {
+                        return dateFormat.parse(o1.time).compareTo(dateFormat.parse(o2.time));
+                    } catch (ParseException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,6 +124,14 @@ public class Game_History extends JFrame {
            table.setShowVerticalLines(false);
         // Add the JScrollPane to the JFrame and center it
            setLayout(new BorderLayout());
+           // Create a JLabel to display the sorting note
+           JLabel lblSortingNote = new JLabel("Note: The table is sorted by time in ascending order. Quickest wins are at the top.");
+           lblSortingNote.setHorizontalAlignment(SwingConstants.CENTER); // Center the label text
+           lblSortingNote.setFont(new Font("Tahoma", Font.PLAIN, 14)); // Set the desired font
+           lblSortingNote.setForeground(new Color(128, 128, 128)); // Set a grey color for the note text
+
+           // Add the note label to the content pane at the top (NORTH)
+           contentPane.add(lblSortingNote, BorderLayout.NORTH);
            JScrollPane scrollPane = new JScrollPane(table);
            contentPane.add(scrollPane, BorderLayout.CENTER);
            table.setFillsViewportHeight(true);
