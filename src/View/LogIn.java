@@ -1,9 +1,7 @@
 package View;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -15,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 
 public class LogIn extends JFrame implements ActionListener{
 

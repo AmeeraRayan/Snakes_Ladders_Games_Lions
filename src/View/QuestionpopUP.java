@@ -1,20 +1,13 @@
 package View;
 
-import java.awt.AWTException;
 
 
 import java.awt.Component;
-import java.awt.EventQueue;
+
 import java.awt.LayoutManager;
-import java.awt.Robot;
+
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Set;
+
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -24,25 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+
+
 
 import Model.Game;
 import Model.Player;
 import Model.Questions;
-import Model.Questions;
-import Model.SysData;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 
 public class QuestionpopUP extends JFrame {
 

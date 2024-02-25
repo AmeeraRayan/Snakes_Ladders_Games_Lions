@@ -1,12 +1,6 @@
 package Controller;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.Timer;
-
 import Model.Game;
 import Model.Player;
 

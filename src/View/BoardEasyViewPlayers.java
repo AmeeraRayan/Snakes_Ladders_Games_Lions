@@ -9,16 +9,8 @@ import javax.swing.JFrame;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
 
 import Model.BoardLevelTemplate;
 import Model.EasyBoard;
@@ -37,20 +29,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -60,23 +43,19 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.UIManager;
 import java.util.concurrent.TimeUnit;
 import java.awt.Dimension;
-import javax.swing.JCheckBox;
-import java.awt.SystemColor;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.io.File;
+
+
 public class BoardEasyViewPlayers extends JFrame {
 
 	private static final long serialVersionUID = 1L;

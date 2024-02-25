@@ -11,7 +11,7 @@ public abstract class BoardLevelTemplate  {
 	protected static Ladder[] ladders;
 	protected static Square[] questions;
 	public abstract void startGame(Square[][] cellsformeduim,Snake[] snakes,Ladder[] ladders,Square[] questionSquares,int number);
-	public abstract boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller);	
+	public abstract boolean endGame(int index , int result , String type , JLabel[] playerLabel , int WinValue,Game game,GameController controller);	
 	 public BoardLevelTemplate(int size) {
 	        this.size = size;  
 	    }

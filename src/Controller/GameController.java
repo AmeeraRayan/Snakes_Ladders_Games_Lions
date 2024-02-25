@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -24,8 +23,6 @@ import Model.Questions;
 import Model.Square;
 import Model.SquareType;
 import Model.SysData;
-import View.MediumGameBoard;
-import javafx.event.ActionEvent;
 
 public class GameController {
 	private Game game;
@@ -51,7 +48,7 @@ public class GameController {
 	}
 	
 	
-	public boolean updatePlayerPosition(int index , int result , String type , JLabel playerLabel , int WinValue) { // update player position by dice result or by the type of the square 
+	public boolean updatePlayerPosition(int index , int result , String type , JLabel[] playerLabel , int WinValue) { // update player position by dice result or by the type of the square 
 		int newPosition = 0;
 		int[] IAndJ = new int[2];
 		Boolean flag = false  ; 
@@ -99,7 +96,7 @@ public class GameController {
 	    		 }
 	    		 
 	    	
-		 }while (checkTheTypeOfTheSquare(IAndJ[0], IAndJ[1], playerLabel , WinValue));
+		 }while (checkTheTypeOfTheSquare(index ,IAndJ[0], IAndJ[1], playerLabel , WinValue));
 	    	 
 	   if(game.getPlayers().get(index).getPosition() == WinValue ) {
 		   flag = true ; 
@@ -108,7 +105,7 @@ public class GameController {
 	}
 	
 	
-	public Boolean checkTheTypeOfTheSquare(int i , int j , JLabel playerLabel , int Win) { // call the show pop up if the square is a question 
+	public Boolean checkTheTypeOfTheSquare(int playerindex , int i , int j , JLabel[] playerLabel , int Win) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];
 		Boolean flag = false ; 
 		Questions question = null ; 
@@ -133,7 +130,7 @@ public class GameController {
 				question = SysData.getQuestionLevel("hard");
 
 			}
-			Iandj = showAddQuestionPopup(question,playerLabel,Win);
+			Iandj = showAddQuestionPopup(playerindex , question,playerLabel,Win);
 			
 		}
 		
@@ -187,7 +184,7 @@ public class GameController {
 		
 	}
 	
-	public int[] DiceQuestion(int result,JLabel playerJLabel , int Win) {
+	public int[] DiceQuestion(int index ,int result,JLabel[] playerJLabel , int Win) {
 		Questions question =null;
 		if(result == 7) {
 			 question = SysData.getQuestionLevel("easy");
@@ -198,7 +195,7 @@ public class GameController {
 		else {
 			 question = SysData.getQuestionLevel("hard");
 		}
-		int[] IandJ = showAddQuestionPopup(question, playerJLabel ,Win);
+		int[] IandJ = showAddQuestionPopup(index , question, playerJLabel ,Win);
 		return IandJ;
 		
 	}
@@ -217,7 +214,7 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public int[] showAddQuestionPopup(Questions question, JLabel playerJLabel , int Win) {
+	  public int[] showAddQuestionPopup(int index , Questions question, JLabel[] playerJLabel , int Win) {
 		  JRadioButton answer1Button = new JRadioButton();
 		  JRadioButton answer2Button = new JRadioButton();
 		  JRadioButton answer3Button = new JRadioButton();
@@ -277,11 +274,11 @@ public class GameController {
 		      }
 		
 		  }
-		  int[] IandJ = updateplayerbyAnswer(question, selectedOption, playerJLabel , Win);
+		  int[] IandJ = updateplayerbyAnswer(index , question, selectedOption, playerJLabel , Win);
 		  return IandJ;
 	       
 	    }
-	  public int[] updateplayerbyAnswer(Questions question,int result, JLabel playerLabel , int Win) {
+	  public int[] updateplayerbyAnswer(int index ,Questions question,int result, JLabel[] playerLabel , int Win) {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
@@ -348,11 +345,93 @@ public class GameController {
 	    
 	
 	  
-	        public void animatePlayerMovement(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	        public void animatePlayerMovement(int index , JLabel[] playerLabel, Game g, Runnable onAnimationEnd) {
 	            int[] iAndJ = FindSquareByValue(game.getPlayers().get(index).getPosition());
-	            final int targetX = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX();
-	            final int targetY = g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY() - 15;
+	             int targetX= g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX() +10 ;
+	             int targetY= g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY()+10 ; 
+	             int spaceX = 0 ;
+	             int spaceY = 0;
+	            int count = 0 ; 
+	            for (int i = 0 ; i < game.getPlayers().size() ; i ++ ) {
+	            	if(game.getPlayers().get(i).getPosition() ==game.getPlayers().get(index).getPosition() ) {
+	            		count ++;
+	            	}
+	            }
+	            
+	           if(count >1 ) { // find the player that stay in the same square 
+		           JLabel[] newLabels = new JLabel[count] ; 
+	        	   ArrayList<Player> players = new ArrayList<Player>();
+	        	   int j = 0 ; 
+	        	   for (int i = 0 ; i < game.getPlayers().size() ; i ++ ) {
+		            	if(game.getPlayers().get(i).getPosition() == game.getPlayers().get(index).getPosition() ) {
+		            		newLabels[j] = playerLabel[i];
+		            		CorrectPositions(i ,newLabels[j] , g , new Runnable() {
+		   		             @Override
+		   		             public void run() {
+		   		             }
+		   		         });	 
+		            		if(count > j) {
+		            			j++ ; 
+		            		}
+		            	}
+		            }
+	        	   
+	        	
+	           }
+	           else {
+	            System.out.println("Count :  " + count);
 	            final int delay = 50; // Milliseconds between updates
+	            final int steps = 15; // Number of steps to reach the target
+	            final int startX = playerLabel[index].getX();
+	            final int startY = playerLabel[index].getY();
+	            final double dx = (double) (targetX - startX) / steps; // Incremental change per step
+	            final double dy = (double) (targetY - startY) / steps;
+	            
+	            final Timer timer = new Timer(delay, null);
+	            timer.addActionListener(new ActionListener() {
+	                private int currentStep = 0;
+
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						   if (currentStep < steps) {
+		                        playerLabel[index].setLocation((int) (startX + dx * currentStep), (int) (startY + dy * currentStep));
+		                        currentStep++;
+		                    } else {
+		                        playerLabel[index].setLocation(targetX, targetY); // Ensure it ends exactly at the target
+		                        SwingUtilities.invokeLater(onAnimationEnd);
+		                        timer.stop();
+		                        // If you have any actions to perform after animation ends, place them here
+		                        // For example:
+		                        // onAnimationComplete();
+		                    }
+		                }						
+					});
+	            timer.start();
+	           }
+	        }
+	        
+
+	        public void CorrectPositions(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	            int[] iAndJ = FindSquareByValue(game.getPlayers().get(index).getPosition());
+	            int spaceX = 0 ; 
+	            int spaceY = 0 ; 
+	        	if(index == 1) {
+	    			spaceX= 20;	
+	    		}
+	 
+	    		if(index == 0 || index == 2 ) {
+	    			spaceX = 0;
+	    		}
+	    		if(index == 2 || index == 3) {
+	    			spaceY =20;
+	    		}
+	    		if(index == 1 || index == 3) {
+	    			spaceX = 20;
+	    		}
+	             int targetX= g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsX() + spaceX ;
+	             int targetY= g.getBoard().getCells()[iAndJ[0]][iAndJ[1]].getBoundsY()-15+ spaceY ; 
+	        
+	            final int delay = 15; // Milliseconds between updates
 	            final int steps = 15; // Number of steps to reach the target
 	            final int startX = playerLabel.getX();
 	            final int startY = playerLabel.getY();
@@ -372,17 +451,26 @@ public class GameController {
 		                        playerLabel.setLocation(targetX, targetY); // Ensure it ends exactly at the target
 		                        SwingUtilities.invokeLater(onAnimationEnd);
 		                        timer.stop();
-		                        // If you have any actions to perform after animation ends, place them here
-		                        // For example:
-		                        // onAnimationComplete();
 		                    }
 		                }						
 					});
 	            timer.start();
+	            
 	        }
+	        
+
+	
+
 	 
 	
 }
+
+
+
+
+
+
+
 
 //Model.Color color = currentPlayer.getColor();
 //if (color.equals(Model.Color.BLUE)) {

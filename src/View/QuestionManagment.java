@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -11,8 +10,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
-import javax.swing.event.AncestorListener;
-import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;

@@ -12,7 +12,7 @@ public class HardBoard extends BoardLevelTemplate{
     	BoardLevelTemplate.ladders = new Ladder[8];
 	}
 	@Override
-	public boolean endGame(int index , int result , String type , JLabel playerLabel , int WinValue,Game game,GameController controller) {
+	public boolean endGame(int index , int result , String type , JLabel[] playerLabel , int WinValue,Game game,GameController controller) {
 		boolean flag=false;
         flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
 		return flag;

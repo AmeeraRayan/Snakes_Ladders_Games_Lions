@@ -1,5 +1,6 @@
 package View;
 
+
 import java.awt.EventQueue;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,26 +15,15 @@ import javax.swing.JTable;
 
 
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import java.awt.BorderLayout;
 
-import java.awt.EventQueue;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -54,6 +44,7 @@ import java.awt.FlowLayout;
 //Add this import to handle JSON parsing
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
+
 
 //Import for file handling
 import java.io.FileReader;

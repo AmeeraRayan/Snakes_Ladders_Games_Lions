@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -12,21 +13,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.PanelUI;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,7 +42,6 @@ import Model.SquareType;
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
-import javax.swing.OverlayLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -158,9 +152,9 @@ public class HardGameBoard extends JFrame{
                               timer.stop();
    
                               if(result < 7) {
-                            	  flag=hardBoard.endGame(index, result, "Dice",playersLable[index],WinValue,null,controller);                                  
+                              	  flag=hardBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
                               } else {
-                                  controller.DiceQuestion(result,playersLable[index],WinValue);
+                                  controller.DiceQuestion(index ,result,playersLable,WinValue);
                                  
                               }
                               if(flag == true) {

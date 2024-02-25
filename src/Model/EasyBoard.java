@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 
 import Controller.GameController;
 
+
 public class EasyBoard extends BoardLevelTemplate{
 	public EasyBoard() {
 		super(7);
@@ -30,7 +31,7 @@ public class EasyBoard extends BoardLevelTemplate{
 
 
 	@Override
-	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
+	public boolean endGame(int index, int result, String type, JLabel[] playerLabel, int WinValue, Game game,
 			GameController controller) {
 	    return game.getCurrentPlayer().getPosition() == size*size;
 	}		

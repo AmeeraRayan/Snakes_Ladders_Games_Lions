@@ -25,7 +25,7 @@ public class MediumBoard extends BoardLevelTemplate{
 	}
 
 	@Override
-	public boolean endGame(int index, int result, String type, JLabel playerLabel, int WinValue, Game game,
+	public boolean endGame(int index, int result, String type, JLabel[] playerLabel, int WinValue, Game game,
 			GameController controller) {
 		boolean flag=false;
         flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
