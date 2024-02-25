@@ -403,7 +403,6 @@ public class BoardEasyViewPlayers extends JFrame {
 
 			diceButton.setIcon(diceIcon);
 
-			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " land on question square !");
 			movePlayer(currentPlayer, rollResult);
 			updateBoardView();
 			displayPlayerPositions();
