@@ -1,23 +1,4 @@
 package View;
-
-import java.awt.EventQueue;
-import java.io.FileReader;
-import java.io.IOException;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-// ... other necessary imports
-
-
-
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
