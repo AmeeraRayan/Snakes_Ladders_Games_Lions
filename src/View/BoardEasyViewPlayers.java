@@ -24,7 +24,8 @@ import Model.Square;
 import Model.SysData;
 import Model.WinFrame;
 import Model.WinFrameFactory;
-import Controller.EasyController;
+import Controller.GameController;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -87,7 +88,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	public String path ;
-	private EasyController controller; 
+	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 
@@ -96,7 +97,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		this.easyBoard=new EasyBoard();
 		this.currentPlayer=game.getCurrentPlayer();
 		this.game=game;
-		this.controller=new EasyController(game);
+		this.controller=new GameController(game);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 810);
 		contentPane = new JPanel();
@@ -368,8 +369,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 			diceButton.setIcon(diceIcon);
 
-			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a " + rollResult, "Dice Roll", JOptionPane.INFORMATION_MESSAGE);
-
+			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " land on question square !");
 			movePlayer(currentPlayer, rollResult);
 			updateBoardView();
 			displayPlayerPositions();
@@ -425,22 +425,19 @@ public class BoardEasyViewPlayers extends JFrame {
 		case RED:
 			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
 			redFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case GREEN:
 			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
 			greenFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case BLUE:
 			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
 			blueFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
 		case YELLOW:
 			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
 			yellowFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-			break;
+
 
 		}
-		saveGameDetails(winner);
+		game.endGame(winner.getName(),game.getDifficulty(),timerLabel.getText());
 
 	}
 	public void saveGameDetails(Player winner) {
@@ -889,12 +886,11 @@ public class BoardEasyViewPlayers extends JFrame {
 				Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition() + roll,currentPlayer); 
 				JLabel playerLabel = getPlayerLabel(currentPlayer);
 				animateMovement(playerLabel, startPoint, endPoint);
-				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 				displayPlayerPositions();
 				sysdata.LoadQuestions();
 				questionsPOPUP=SysData.getQuestionsPOPUP();
 				SysData.putQuestions(questionsPOPUP);
-				quesTemp= SysData.getQuestionForPosition(currentPlayer.getPosition());
+				quesTemp= SysData.getQuestionForPosition(pos);
 				currentPlayer.setPosition(pos);
 				game.updatePlayerPositionInList(currentPlayer.getName(), pos);
 				showEditQuestionDialog(pos);

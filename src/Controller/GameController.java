@@ -1,7 +1,7 @@
 package Controller;
 
 import java.awt.Color;
-
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -34,7 +34,10 @@ public class GameController {
 		this.game = game;
 		this.frame = frame;
 	}
-
+	public GameController(Game game  ) {
+		super();
+		this.game = game;
+	}
 	public Game getGame() {
 		return game;
 	}
@@ -103,7 +106,51 @@ public class GameController {
 	   }
 	   return flag ; 
 	}
+	public Point boardPositionToPixel(int boardPosition,Player currentPlayer) {
+	    int xDiff = 80; // the horizontal distance between squares
+	    int yDiff = 75; // vertical distance between squares
+
+	    int row = (boardPosition - 1) / 7;
+	    int col = (boardPosition - 1) % 7;
+
+	    int x = 0;
+	    int y = 0;
+	    Model.Color color = currentPlayer.getColor();
+	    if (color.equals(Model.Color.BLUE)) {
+	        x = 290;
+	        y = 630;
+	    } else if (color.equals(Model.Color.GREEN)) {
+	        x = 320;
+	        y = 630;
+	    } else if (color.equals(Model.Color.RED)) {
+	        x = 290;
+	        y = 660;
+	    } else if (color.equals(Model.Color.YELLOW)) {
+	        x = 320;
+	        y = 660;
+	    }
+
+
+	    x += col * xDiff;
+	    y -= row * yDiff;
+
+	    return new Point(x, y);
+	}
 	
+	  public void updatePlayerPosition(int steps,Player currentPlayer) {
+	        int currentPosition = currentPlayer.getPosition();
+	        int newPosition = currentPosition + steps;
+	        if (newPosition <= 0) {
+	            newPosition = 1; // Prevent moving beyond the start
+	        }
+
+	        currentPlayer.setPosition(newPosition);
+          game.getCurrentPlayer().setPosition(newPosition);
+  	    currentPlayer.setPosition(newPosition);
+  	    game.updatePlayerPositionInList(currentPlayer.getName(), newPosition);
+  	    
+
+	    }
 	
 	public Boolean checkTheTypeOfTheSquare(int playerindex , int i , int j , JLabel[] playerLabel , int Win) { // call the show pop up if the square is a question 
 		Square s = game.getBoard().getCells()[i][j];

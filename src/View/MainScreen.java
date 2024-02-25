@@ -62,61 +62,66 @@ public class MainScreen extends JFrame{
     public MainScreen() {
     	frame=this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 845, 486);
+		setBounds(100, 100, 860, 486);
+        getContentPane().setLayout(null);
 
-        JButton btnNewButton = new JButton("Start Game");
-
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-				MainScreen.this.setVisible(false);
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(755, 25, 25, 15);
+        getContentPane().add(lblNewLabel_1);
+        
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setBounds(547, 131, 200, 30);
+        getContentPane().add(lblNewLabel_2);
+        lblNewLabel_2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	MainScreen.this.setVisible(false);
 				new DataReception().setVisible(true);
             }
         });
-        getContentPane().setLayout(null);
-        btnNewButton.setBounds(587, 113, 178, 54);
-        frame.getContentPane().add(btnNewButton);
-
-
-         btnNewButton_1 = new JButton("Management Question");
-        btnNewButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        
+        
+        lblNewLabel_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Instructions instructionsFrame = new Instructions();
+                instructionsFrame.setVisible(true);
+                MainScreen.this.setVisible(false); //
+            }
+        });
+       
+        JLabel lblNewLabel_2_1 = new JLabel("");
+        lblNewLabel_2_1.setBounds(547, 222, 200, 35);
+        getContentPane().add(lblNewLabel_2_1);
+        lblNewLabel_2_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 showQuestionDialog();
-            }
-        });
-        btnNewButton_1.setBounds(587, 303, 178, 54);
-        frame.getContentPane().add(btnNewButton_1);
 
-        JButton btnNewButton_2 = new JButton("Game History");
-        btnNewButton_2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	MainScreen.this.setVisible(false);
-                GameHistory gameHistoryScreen = new GameHistory();
-                gameHistoryScreen.setVisible(true);           	
             }
         });
-        btnNewButton_2.setBounds(587, 211, 178, 54); // Reduced width and height
-        frame.getContentPane().add(btnNewButton_2);
+        
+        
+        
+        JLabel lblNewLabel_3 = new JLabel("");
+        lblNewLabel_3.setBounds(545, 309, 200, 40);
+        getContentPane().add(lblNewLabel_3);
+        lblNewLabel_3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	MainScreen.this.setVisible(false);
+                Game_History gameHistoryScreen = new Game_History();
+                gameHistoryScreen.setVisible(true);  
+            }
+        });
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/Start.png")));
-        lblNewLabel.setBounds(-188, -21, 1184, 481);
+        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/MainScreen.png")));
+        lblNewLabel.setBounds(0,0, 856, 465);
         getContentPane().add(lblNewLabel);
+          
     }
- // Method to parse JSON file and return a list of GameDetails
-    public List<GameDetails> getGameHistory() {
-        Gson gson = new Gson();
-        java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
-        List<GameDetails> gameList = new ArrayList<GameDetails>();
-
-        // Try to read from the file
-        try (FileReader reader = new FileReader("src/game_history.json")) {
-            gameList = gson.fromJson(reader, gameListType);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the error or return an empty list
-        }
-        return gameList;
-    }
+ 
 
 
     private void showQuestionDialog() {
