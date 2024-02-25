@@ -138,7 +138,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		contentPane.add(txtpnHi);
 
 		diceButton = new JButton("");
-		diceButton.setBounds(920, 360, 160, 145);
+		diceButton.setBounds(920, 360, 100, 100);
 		diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
 		contentPane.add(diceButton);
 
@@ -297,11 +297,16 @@ public class BoardEasyViewPlayers extends JFrame {
 	    Timer autoRollTimer = new Timer(10000, new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
+	        	
 	            // This will be called after 10 seconds
-	            JOptionPane.showMessageDialog(BoardEasyViewPlayers.this,
-	                "Time is up! Rolling the dice automatically for " + currentPlayer.getName(), 
-	                "Auto Dice Roll", JOptionPane.INFORMATION_MESSAGE);
-	            performDiceRollAndMove();
+	        	 // Check if BoardEasyViewPlayers.this is visible
+	            if (BoardEasyViewPlayers.this.isVisible()) {
+	                // This will be called after 10 seconds only if the frame is visible
+	                JOptionPane.showMessageDialog(BoardEasyViewPlayers.this,
+	                    "Time is up! Rolling the dice automatically for " + currentPlayer.getName(), 
+	                    "Auto Dice Roll", JOptionPane.INFORMATION_MESSAGE);
+	                performDiceRollAndMove();
+	            }
 	        }
 	    });
 		diceButton.addActionListener(new ActionListener() {
@@ -373,10 +378,9 @@ public class BoardEasyViewPlayers extends JFrame {
 			String temp=SysData.getRandomQuestion(difficulty_levels);
 			quesTemp= SysData.getQuestionLevel(temp);
 			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled a question!");
-			int pos=currentPlayer.getPosition();
 			showEditQuestionDialog(currentPlayer.getPosition());
 			checkForSnakesAndLadders(currentPlayer.getPosition(),0);
-			movePlayer(pos);
+			movePlayer(currentPlayer.getPosition());
 			updateBoardView();
 			displayPlayerPositions();     
 		}
@@ -397,6 +401,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		else 
 		{
+			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled " + rollResult);
 
 			diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
 
@@ -407,11 +412,11 @@ public class BoardEasyViewPlayers extends JFrame {
 			updateBoardView();
 			displayPlayerPositions();
 		}
-		if (easyBoard.endGame(0,0, null, null, 0, game, null)) {
+
+		if (easyBoard.endGame(0,0, null, null,currentPlayer.getPosition(), game, null)) {
 			endGame(currentPlayer);
 		} else {
 			advanceToNextPlayer();
-
 		}
 	}
 	private void displayPlayerPositions() {
@@ -456,22 +461,25 @@ public class BoardEasyViewPlayers extends JFrame {
 		BoardEasyViewPlayers.this.setVisible(false);
 		switch (winner.getColor()) {
 		case RED:
-			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(), timerLabel.getText());
 			redFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
+			break;
 		case GREEN:
-			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
 			greenFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
+			break;
 		case BLUE:
-			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
 			blueFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
+			break;
 		case YELLOW:
-			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
 			yellowFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
-
+			break;
 
 		}
 		game.endGame(winner.getName(),game.getDifficulty(),timerLabel.getText());
-
+		saveGameDetails(currentPlayer);
 	}
 	public void saveGameDetails(Player winner) {
 	    Gson gson = new Gson();
@@ -519,8 +527,11 @@ public class BoardEasyViewPlayers extends JFrame {
 		Point startPoint=null;
 		Point endPoint =null;
 		// Ensure the player does not go past the last square
-		if (newPosition > totalSquaresOnBoard) {
+		if (newPosition >= totalSquaresOnBoard) {
 			newPosition = totalSquaresOnBoard;
+		}
+		if (newPosition <= 0) {
+			newPosition = 1;
 		}
 		boolean temp=false;
 		temp=checkForSnakesAndLadders(newPosition,roll);
@@ -681,52 +692,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 	}
 
-	    public boolean checkForSnakesAndLadders(int pos) {
-        	int lastpos=pos;
-	        for (Snake snake : game.getBoard().getSnakes()) {
-	            if (pos == (snake.getSquareStart().getValue())) {
-		            game.getCurrentPlayer().setPosition(snake.getSquareEnd().getValue());
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(),snake.getSquareEnd().getValue());
-		            game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
-		            showSnakePopup(lastpos); 
-	                return true;
-	            }
-	        }
-
-	        for (Ladder ladder : game.getBoard().getLadders()) {
-	            if (pos == (ladder.getSquareStart().getValue())) {
-		            game.getCurrentPlayer().setPosition(ladder.getSquareEnd().getValue());
-	                currentPlayer.setPosition(ladder.getSquareEnd().getValue());
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(), ladder.getSquareEnd().getValue());
-		            game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
-	                currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(),(ladder.getSquareEnd().getValue()));
-	                showLadderPopup(lastpos); 
-	                return true;
-	            }
-	        }
-
-	        for (Square q : game.getBoard().getQuestions()) {
-	            if (pos== (q.getValue())) {
-	            	SysData sysdata=new SysData();
-	    	        sysdata.LoadQuestions();
-					questionsPOPUP=SysData.getQuestionsPOPUP();
-	    	        SysData.putQuestions(questionsPOPUP);
-	    	        quesTemp= SysData.getQuestionForPosition(currentPlayer.getPosition());
-	    	        currentPlayer.setPosition(pos);
-		    	    game.updatePlayerPositionInList(currentPlayer.getName(), pos);
-	    	        showEditQuestionDialog(currentPlayer.getPosition());
-	    	        movePlayer1(currentPlayer,0);
-	                return true;
-
-	            }
-	        
-	            
-	            }
-			return false;
-	        
-	    }
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
 	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());

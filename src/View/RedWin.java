@@ -27,8 +27,9 @@ public class RedWin extends JFrame  implements WinFrame{
 	private String time;
 	private Game game;
 
-	public RedWin() {
-		
+	public RedWin(String winnerName, String time) {
+		this.plyerNickname=winnerName;
+		this.time=time;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -102,6 +103,7 @@ public class RedWin extends JFrame  implements WinFrame{
 		this.plyerNickname=winnerName;
 		this.game=game;
 		this.time=time;	
-		RedWin.this.setVisible(true);
+		new RedWin(winnerName,time).setVisible(true);
+
 	}
 }
