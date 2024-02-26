@@ -47,12 +47,14 @@ public class SysData {
         adminCredentials.put("admin2", "111");
         adminCredentials.put("admin3", "222");
 
-		// Initialize the map somewhere in your Game class constructor or an initialization block
-		questionPositions = new HashMap<>();
-		questionPositions.put(3, "easy"); // position for easy question
-		questionPositions.put(14, "medium"); // position for medium question
-		questionPositions.put(46, "hard"); // position for hard question
-
+     // Initialize the map somewhere in your Game class constructor or an initialization block
+     		questionPositions = new HashMap<>();
+     		questionPositions.put(3, "easy"); 
+     		questionPositions.put(14, "medium"); 
+     		questionPositions.put(46, "hard"); 
+     		questionPositions.put(17, "medium"); 
+     		questionPositions.put(29, "hard"); 
+     		questionPositions.put(22, "hard"); 
         
     }
 
@@ -243,7 +245,6 @@ public class SysData {
 		// Method to get a random question based on the player's position
 		public static Questions getQuestionForPosition(int position) {
 		    String difficulty = questionPositions.get(position);
-		    
 		    if (difficulty != null) {
 		        switch (difficulty) {
 		            case "easy":

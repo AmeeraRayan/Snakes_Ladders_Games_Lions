@@ -33,8 +33,9 @@ public class YellowWin extends JFrame  implements WinFrame{
 	/**
 	 * Create the frame.
 	 */
-	public YellowWin() {
-		
+	public YellowWin(String winnerName, String time) {
+		this.plyerNickname=winnerName;
+		this.time=time;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -105,7 +106,8 @@ public class YellowWin extends JFrame  implements WinFrame{
 		this.plyerNickname=winnerName;
 		this.game=game;
 		this.time=time;	
-		YellowWin.this.setVisible(true);
+		new YellowWin(winnerName,time).setVisible(true);
+
 	}
 	
 }

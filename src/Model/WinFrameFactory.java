@@ -6,17 +6,17 @@ import View.RedWin;
 import View.YellowWin;
 
 public class WinFrameFactory {
-	public WinFrame getFrame(Color color)
+	public WinFrame getFrame(Color color, String winner,String time)
 	{
 		switch (color) {
 		case RED:
-			return new RedWin();
+			return new RedWin(winner,time);
 		case GREEN:
-			return new GreenWin();
+			return new GreenWin(winner,time);
 		case BLUE:
-			return new BlueWin();
+			return new BlueWin(winner,time);
 		case YELLOW:
-			return new YellowWin();
+		return new YellowWin(winner,time);
 
 		} 
 		return null;

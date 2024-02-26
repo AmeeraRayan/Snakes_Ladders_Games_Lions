@@ -37,19 +37,19 @@ public class MediumBoard extends BoardLevelTemplate{
 		WinFrameFactory winframe=new WinFrameFactory();
 		switch (winner.getColor()) {
 		case RED:
-			WinFrame redFrame= winframe.getFrame(Model.Color.RED);
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(),time);
 			redFrame.createWinFrame(winner.getName(), time, game);
 			break;
 		case GREEN:
-			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(),time);
 			greenFrame.createWinFrame(winner.getName(), time, game);
 			break;
 		case BLUE:
-			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame blueFrame= winframe.getFrame(Model.Color.BLUE,winner.getName(),time);
 			blueFrame.createWinFrame(winner.getName(),time, game);
 			break;
 		case YELLOW:
-			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN);
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.YELLOW,winner.getName(),time);
 			yellowFrame.createWinFrame(winner.getName(),time, game);
 			break;
 

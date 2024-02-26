@@ -34,8 +34,9 @@ public class BlueWin extends JFrame implements WinFrame{
 	/**
 	 * Create the frame.
 	 */
-	public BlueWin() {
-		
+	public BlueWin(String winnerName, String time) {
+		this.plyerNickname=winnerName;
+		this.time=time;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -109,6 +110,6 @@ public class BlueWin extends JFrame implements WinFrame{
 		this.plyerNickname=winnerName;
 		this.game=game;
 		this.time=time;	
-		BlueWin.this.setVisible(true);
+		new BlueWin(winnerName,time).setVisible(true);
 	}
 }

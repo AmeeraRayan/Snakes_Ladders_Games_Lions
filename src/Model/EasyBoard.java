@@ -33,7 +33,7 @@ public class EasyBoard extends BoardLevelTemplate{
 	@Override
 	public boolean endGame(int index, int result, String type, JLabel[] playerLabel, int WinValue, Game game,
 			GameController controller) {
-	    return game.getCurrentPlayer().getPosition() == size*size;
+	    return WinValue == size*size;
 	}		
 	
 
@@ -50,8 +50,8 @@ public class EasyBoard extends BoardLevelTemplate{
 	    ladders[2] = new Ladder(new Square(6,1 , 2),new Square(3,1 , 23 ));//3
 	    ladders[3] = new Ladder(new Square(5, 4,12 ),new Square(1,5 ,41));//4
 	    //Initialize 3 questions 
-	    questions[0]=new Square(4, 2, 3);
-	    questions[1]=new Square(6, 4, 5);
+	    questions[0]=new Square(6, 2, 3);
+	    questions[1]=new Square(6, 4, 17);
 	    questions[2]=new Square(2, 0, 29);
 }
 	
@@ -87,7 +87,7 @@ public class EasyBoard extends BoardLevelTemplate{
     	    //initialize 3 questions
     	    questions[0]=new Square(6, 2, 3);
     	    questions[1]=new Square(5, 6, 14);
-    	    questions[2]=new Square(0, 3, 46);
+    	    questions[2]=new Square(0, 3, 22);
 
     }
     	
