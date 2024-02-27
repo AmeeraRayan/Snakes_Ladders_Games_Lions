@@ -25,3 +25,10 @@
 /TypeSquare.class
 /QuestionManagment$1.class
 /QuestionManagment.class
+/BoardLevelTemplate.class
+/EasyBoard.class
+/GameDetails.class
+/HardBoard.class
+/MediumBoard.class
+/WinFrame.class
+/WinFrameFactory.class

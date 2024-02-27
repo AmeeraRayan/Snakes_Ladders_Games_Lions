@@ -1,12 +1,6 @@
 package Controller;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.Timer;
-
 import Model.Game;
 import Model.Player;
 
@@ -71,8 +65,5 @@ public class EasyController {
   	    
 
 	    }
-	  public boolean hasPlayerWon(Player player) {
-		    //int maxPosition = game.getBoard().getSize() * game.getBoard().getSize();
-		    return game.getCurrentPlayer().getPosition() == 49;
-		}
+	
 }

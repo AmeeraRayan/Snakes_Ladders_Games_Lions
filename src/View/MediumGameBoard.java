@@ -1,5 +1,10 @@
 package View; 
-import java.io.Console;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,33 +22,38 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.PanelUI;
- 
+
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+
+
 import Controller.GameController;
 import Model.Ladder;
+import Model.MediumBoard;
 import Model.Player;
 import Model.Snake;
 import Model.Square;
-import Model.Board;
+import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
+import Model.GameDetails;
 import Model.SquareType;
  
 import java.awt.*;
-import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.OverlayLayout;
- 
+import javax.swing.Timer;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 public class MediumGameBoard extends JFrame
 {
-	
+	final JLabel jl ;
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -56,7 +64,7 @@ public class MediumGameBoard extends JFrame
     private Ladder[] ladders = new Ladder[6];
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
-    private Board meduimboard = new Board(GRID_SIZE);
+    private BoardLevelTemplate meduimboard = new MediumBoard();
     private GameController controller ; 
     private int index = 0 ;
     public static JLabel[] playersLable;
@@ -67,20 +75,34 @@ public class MediumGameBoard extends JFrame
 	private Timer gameTimer;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
+    private BoardLevelTemplate mediumBoard;
  
-    //JFrame frame;
+    private Game game;
     Player CurrentPlayer ;
     Random rand = new Random();
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     public MediumGameBoard(Game game) {
+    	this.game=game;
         // Setting up the main frame
     	//frame = new JFrame();
         setTitle("Game Board");
+        this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(985, 748);
+        setSize(1072, 800);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
+        
+                // Creating the inner panel
+                JPanel innerPanel = new JPanel();
+                initializeBoard(innerPanel,outerPanel);
+                
+                    
+                       innerPanel.setBounds(224, 118, 550, 550);
+                       innerPanel.setBackground(Color.WHITE);
+                       // Adding the inner panel to the center of the outer panel
+                       outerPanel.add(innerPanel);
+                       innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         JLabel lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setBackground(SystemColor.desktop);
         lblNewLabel_2.setBounds(304, 15, 373, 81);
@@ -88,13 +110,12 @@ public class MediumGameBoard extends JFrame
         JTextField textPane = new JTextField();
         textPane.setBounds(330, 23, 332, 65);
         outerPanel.add(textPane);
-       
      
-        final JLabel jl = new JLabel("00:00", SwingConstants.CENTER);
-        jl.setLocation(0, 362);
+         jl = new JLabel("00:00", SwingConstants.CENTER);
+        jl.setLocation(28, 454);
         outerPanel.add(jl);
         jl.setVisible(true);
-        jl.setSize(219, 146);
+        jl.setSize(160, 86);
         Font labelFont = jl.getFont();
         jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
         startTime = System.currentTimeMillis();
@@ -116,10 +137,6 @@ public class MediumGameBoard extends JFrame
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(847, 354, 78, 81);
         outerPanel.add(diceButton);
-
-        // Creating the inner panel
-        JPanel innerPanel = new JPanel();
-        initializeBoard(innerPanel,outerPanel);
         game.setBoard(meduimboard);
         game.setDice(dice);
         controller = new GameController(game,this);
@@ -164,15 +181,16 @@ public class MediumGameBoard extends JFrame
                             timer.stop();
  
                             if(result < 7) {
-                               flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index],WinValue);
-                               
+                          	  flag=mediumBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
                             } else {
-                                controller.DiceQuestion(result,playersLable[index],WinValue);
+                                controller.DiceQuestion(index ,result,playersLable,WinValue);
                                
                             }
                             if(flag == true) {
-                           	 new WinnerPage(index , game).setVisible(true);
+                           	saveGameDetails(game.getPlayers().get(index));
                            	MediumGameBoard.this.setVisible(false); 
+                           	Player winner = game.getPlayers().get(index);
+                    		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
                            }else {
                         	   
                         	     index++;
@@ -185,10 +203,7 @@ public class MediumGameBoard extends JFrame
                                  textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                                  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                            }
-                            
-
-                            
-                        
+                           
                             
                             diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
@@ -206,13 +221,6 @@ public class MediumGameBoard extends JFrame
                 timer.start();
             }
         });
- 
-     
-        innerPanel.setBounds(224, 118, 550, 550);
-        innerPanel.setBackground(Color.WHITE);
-        // Adding the inner panel to the center of the outer panel
-        outerPanel.add(innerPanel);
-        innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         
          htmlBuilder = new StringBuilder();
         htmlBuilder.append("<html><body><ul>");
@@ -233,11 +241,8 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
+        setResizable(false); 
 
-        JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/HardGame .png")));
-        lblNewLabel.setBounds(0, 0, 1009, 711);
-        outerPanel.add(lblNewLabel);
         this.setVisible(true);
     }
     
@@ -318,7 +323,7 @@ public class MediumGameBoard extends JFrame
             String value = entry.getValue();
         }
  
-        meduimboard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+        meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
     }
 
  
@@ -413,7 +418,45 @@ public class MediumGameBoard extends JFrame
         panel.add(labelBlue);
     }
  
-    
+    public void saveGameDetails(Player winner) {
+	    Gson gson = new Gson();
+	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
+	    List<GameDetails> gameList;
+	    File gameHistory = new File("src/game_history.json");
+	    if (!gameHistory.exists()) {
+	        try {
+				gameHistory.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // This will throw IOException if the file cannot be created
+	    }
+
+	    // Load existing game details
+	    try (FileReader reader = new FileReader("src/game_history.json")) {
+	        gameList = gson.fromJson(reader, gameListType);
+	        if (gameList == null) {
+	            gameList = new ArrayList<>();
+	        }
+	    } catch (IOException e) {
+	        gameList = new ArrayList<>();
+	    }
+
+	    // Add new game details
+	    GameDetails details = new GameDetails();
+	    details.winnerName = winner.getName();
+	    details.difficulty = game.getDifficulty();
+	    details.time = jl.getText();
+	    gameList.add(details);
+
+	    // Save updated game details
+	    try (FileWriter writer = new FileWriter("src/game_history.json")) {
+	        gson.toJson(gameList, writer);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
     private void setGreenSnakes(JPanel panel) {
         int i1, j1,i2,j2;
         ArrayList<Integer> arr1= new ArrayList<Integer>();
@@ -580,6 +623,7 @@ public class MediumGameBoard extends JFrame
         }
         return num_j; 
     }
+    
     private static int[] generateRandomIJ(int num) {
     	Random random = new Random();
     	int i,j;
@@ -751,5 +795,4 @@ public class MediumGameBoard extends JFrame
         sb.append("</ul></body></html>");
         textPane_1.setText(sb.toString()); // Update the JTextPane content
     }
-
 }

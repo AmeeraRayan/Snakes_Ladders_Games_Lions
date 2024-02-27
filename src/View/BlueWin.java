@@ -14,24 +14,29 @@ import javax.swing.border.EmptyBorder;
 
 import Model.Game;
 import Model.Player;
+import Model.WinFrame;
+import Model.WinFrameFactory;
 
 import javax.swing.JLabel;
 import java.awt.Color;
 
-public class BlueWin extends JFrame {
+public class BlueWin extends JFrame implements WinFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_1;
-
+	private String plyerNickname;
+	private String time;
+	private Game game;
 
 	/**
 	 * Create the frame.
 	 */
-	public BlueWin(String plyerNickname,String time,Game game) {
-		
+	public BlueWin(String winnerName, String time) {
+		this.plyerNickname=winnerName;
+		this.time=time;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -98,5 +103,13 @@ public class BlueWin extends JFrame {
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
 		contentPane.add(lblNewLabel_1);
 		
+	}
+
+	@Override
+	public void createWinFrame(String winnerName, String time, Game game) {
+		this.plyerNickname=winnerName;
+		this.game=game;
+		this.time=time;	
+		new BlueWin(winnerName,time).setVisible(true);
 	}
 }

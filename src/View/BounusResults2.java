@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.EventQueue;
 
 
 import javax.swing.JFrame;
@@ -16,7 +15,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import java.awt.Color;

@@ -23,19 +23,19 @@ public class Board {
     public Board(int size) {
         this.size = size;  
         if (size==7) {
-            this.snakes = new Snake[4];
-            this.ladders = new Ladder[4];
-            this.questions=new Square[3];
+        	Board.snakes = new Snake[4];
+        	Board.ladders = new Ladder[4];
+        	Board.questions=new Square[3];
             }
         else if (size==10) {
-        	this.cells = new Square[10][10];
-            this.snakes = new Snake[6];
-            this.ladders = new Ladder[6];
-            this.questions = new Square[3];
+        	Board.cells = new Square[10][10];
+            Board.snakes = new Snake[6];
+            Board.ladders = new Ladder[6];
+            Board.questions = new Square[3];
         }else {
-        	this.cells = new Square[13][13];
-            this.snakes = new Snake[8];
-            this.ladders = new Ladder[8];
+        	Board.cells = new Square[13][13];
+            Board.snakes = new Snake[8];
+            Board.ladders = new Ladder[8];
            // initializeSnakesAndLaddersForHard();
         }
     }
@@ -148,7 +148,7 @@ public class Board {
 	}
 
 	public void setCells(Square[][] cells) {
-		this.cells = cells;
+		Board.cells = cells;
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package View; 
 import java.io.Console;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -8,43 +13,43 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.PanelUI;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import Controller.GameController;
 import Model.Ladder;
+import Model.MediumBoard;
 import Model.Player;
 import Model.Snake;
 import Model.Square;
-import Model.Board;
+import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
+import Model.HardBoard;
+import Model.GameDetails;
 import Model.SquareType;
 
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
-import javax.swing.OverlayLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
  
 public class HardGameBoard extends JFrame{
-	
+    private Game game;
+    final JLabel jl;
 	private static final int GRID_SIZE = 13;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -62,7 +67,6 @@ public class HardGameBoard extends JFrame{
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
 
-    private Board HardBoard = new Board(GRID_SIZE);
     private int WinValue = 169 ; 
     private long startTime;
 	private Timer gameTimer;
@@ -73,10 +77,12 @@ public class HardGameBoard extends JFrame{
     Player CurrentPlayer ;
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
- 
+    private BoardLevelTemplate hardBoard;
     
     public HardGameBoard(Game game) {
+    	this.game=game;
     	setTitle("Game Board");
+    	this.hardBoard=new HardBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1166, 816);
         // Creating the outer panel with BorderLayout
@@ -90,7 +96,7 @@ public class HardGameBoard extends JFrame{
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
      
-        final JLabel jl = new JLabel("00:00", SwingConstants.CENTER);
+         jl = new JLabel("00:00", SwingConstants.CENTER);
         jl.setLocation(936, 138);
         outerPanel.add(jl);
         jl.setVisible(true);
@@ -130,11 +136,9 @@ public class HardGameBoard extends JFrame{
                   int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
                   ActionListener listener = new ActionListener() {
                       int count = 0;
-   
                       @Override
                       public void actionPerformed(ActionEvent evt) {      
                           boolean flag = false ; 
-
                           if (count < animationCycle[0]) {
                           	diceButton.setEnabled(false);
                               String path = "/images/dice " + currentNumber[0] + ".jpg";
@@ -148,15 +152,16 @@ public class HardGameBoard extends JFrame{
                               timer.stop();
    
                               if(result < 7) {
-                                 flag = controller.updatePlayerPosition(index, result, "Dice",playersLable[index],WinValue);
-                                 
+                              	  flag=hardBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
                               } else {
-                                  controller.DiceQuestion(result,playersLable[index],WinValue);
+                                  controller.DiceQuestion(index ,result,playersLable,WinValue);
                                  
                               }
                               if(flag == true) {
-                             	 new WinnerPage(index , game).setVisible(true);
-                             	HardGameBoard.this.setVisible(false);  
+                             	saveGameDetails(game.getPlayers().get(index));
+                             	HardGameBoard.this.setVisible(false); 
+                             	Player winner = game.getPlayers().get(index);
+                        		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
                              }else {
                           	   
                           	     index++;
@@ -196,7 +201,7 @@ public class HardGameBoard extends JFrame{
         JPanel innerPanel = new JPanel();
         initializeBoard(innerPanel,outerPanel);
         
-        game.setBoard(HardBoard);
+        game.setBoard(hardBoard);
         game.setDice(dice);
         textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
         textPane.setAlignmentX(0.2f);
@@ -240,8 +245,10 @@ public class HardGameBoard extends JFrame{
         outerPanel.add(lblNewLabel);
         this.setVisible(true);
     }
-		 
-    private void initializeBoard(JPanel panel, JPanel outerPanel) { 
+   
+
+
+	private void initializeBoard(JPanel panel, JPanel outerPanel) { 
         int cellSize = 715 / GRID_SIZE; // the innerPanel is 715*715 and each cell is 55x55 pixels
         int count=0;
         int surpriseCount=0;
@@ -321,7 +328,7 @@ public class HardGameBoard extends JFrame{
             String value = entry.getValue();
         }
  
-        HardBoard.initializeSnakesAndLaddersForMedium(squares,snakes,ladders,quastionSquares);
+        hardBoard.startGame(squares,snakes,ladders,quastionSquares, 0);
        
      
  
@@ -462,6 +469,45 @@ public class HardGameBoard extends JFrame{
         labelBlue2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/SnakeBlueRight.png")));
         panel.add(labelBlue2);
     }
+
+    public void saveGameDetails(Player winner) {
+	    Gson gson = new Gson();
+	    java.lang.reflect.Type gameListType = new TypeToken<ArrayList<GameDetails>>(){}.getType();
+	    List<GameDetails> gameList;
+	    File gameHistory = new File("src/game_history.json");
+	    if (!gameHistory.exists()) {
+	        try {
+				gameHistory.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // This will throw IOException if the file cannot be created
+	    }
+
+	    // Load existing game details
+	    try (FileReader reader = new FileReader("src/game_history.json")) {
+	        gameList = gson.fromJson(reader, gameListType);
+	        if (gameList == null) {
+	            gameList = new ArrayList<>();
+	        }
+	    } catch (IOException e) {
+	        gameList = new ArrayList<>();
+	    }
+
+	    // Add new game details
+	    GameDetails details = new GameDetails();
+	    details.winnerName = winner.getName();
+	    details.difficulty = game.getDifficulty();
+	    details.time = jl.getText();
+	    gameList.add(details);
+
+	    // Save updated game details
+	    try (FileWriter writer = new FileWriter("src/game_history.json")) {
+	        gson.toJson(gameList, writer);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
     
     private void setGreenSnakes(JPanel panel) {

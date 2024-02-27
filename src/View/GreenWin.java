@@ -1,16 +1,15 @@
 package View;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import Model.Game;
 import Model.Player;
+import Model.WinFrame;
 
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -18,19 +17,17 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class GreenWin extends JFrame {
-
+public class GreenWin extends JFrame  implements WinFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	private JLabel lblNewLabel_2;
+	private String plyerNickname;
+	private String time;
+	private Game game;
 
-
-	/**
-	 * Create the frame.
-	 */
-	public GreenWin(String plyerNickname,String time,Game game) {
-		
+	public GreenWin(String winnerName, String time) {
+		this.plyerNickname=winnerName;
+		this.time=time;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -40,13 +37,6 @@ public class GreenWin extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-
-		
-		
-		
-		
-		
 		JLabel playerWin = new JLabel(plyerNickname);
 		playerWin.setBounds(415, 321, 215, 36);
 		playerWin.setForeground(new Color(255, 255, 255));
@@ -99,5 +89,15 @@ public class GreenWin extends JFrame {
 		lblNewLabel_2.setBounds(-43, 0, 960, 560);
 		contentPane.add(lblNewLabel_2);
 			
+	}
+
+
+	@Override
+	public void createWinFrame(String winnerName, String time, Game game) {
+		this.plyerNickname=winnerName;
+		this.game=game;
+		this.time=time;	
+		new GreenWin(winnerName,time).setVisible(true);
+
 	}
 }

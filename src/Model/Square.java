@@ -7,7 +7,7 @@ public class Square {
 	private int boundsX;
 	private int boundsY;
 	private int value;
-	
+
 	public Square(int row, int col, SquareType type, int boundsX, int boundsY, int value) {
 		super();
 		this.row = row;
@@ -66,5 +66,6 @@ public class Square {
 		return "Square [row=" + row + ", col=" + col + ", type=" + type + ", boundsX=" + boundsX + ", boundsY="
 				+ boundsY + ", value=" + value + "]";
 	}
+
 	
 }
