@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import Model.Game;
 import Model.Player;
 import Model.Questions;
+import Model.Sound;
 import Model.Square;
 import Model.SquareType;
 import Model.SysData;
@@ -28,6 +29,7 @@ public class GameController {
 	private Game game;
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
+    private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
 
 	public GameController(Game game , JFrame frame ) {
 		super();
@@ -189,6 +191,7 @@ public class GameController {
 					val = Win;
 				}
             	game.getCurrentPlayer().setPosition(val);
+            	SurpriseSound();
 				
 			}
 			else {
@@ -208,8 +211,10 @@ public class GameController {
                 	if(Win <=val ) {
     					val = Win;
     				}
+                	
                 	game.getCurrentPlayer().setPosition(val);
-                	 flag = true ; 
+                	SnakeSoundEffect();
+                	flag = true ; 
 
                  }
 			}
@@ -219,6 +224,13 @@ public class GameController {
                	if(Win <=val ) {
 					val = Win;
 				}
+                animatePlayerMovement(playerindex , playerLabel, game, new Runnable() {
+  		             @Override
+  		             public void run() {
+  		            	LadderSound();
+
+  		             }
+  		         });
             	game.getCurrentPlayer().setPosition(val);
                	 flag = true ; 
                
@@ -505,31 +517,44 @@ public class GameController {
 	            
 	        }
 	        
+   public void  MainSound(String status){
+	   if(status.equals("play")) {
+		PlaygroundSound.setVolume(0.2f); 
+        PlaygroundSound.loop();
+	   }else {
+		   PlaygroundSound.stop();
+	   }
+   }
 
-	
+   public void  SnakeSoundEffect(){
+ 		Sound sound = new Sound("Sound/snake-hissing-6092.wav");
+		sound.setVolume(0.5f); 
+         sound.play();
+         
+    }
+   
+   public void DiceRollingSound() {
+	   Sound sound = new Sound("Sound/dice.wav");
+		sound.setVolume(0.5f); 
+        sound.play();
+   }
+   public void LadderSound() {
+	   Sound sound = new Sound("Sound/ladder.wav");
+		sound.setVolume(0.5f); 
+        sound.play();
+   }
+   public void SurpriseSound() {
+	   Sound sound = new Sound("Sound/surprise.wav");
+		sound.setVolume(0.5f); 
+        sound.play();
+   }
+   
+  public void TimeOut () {
+	  Sound sound = new Sound("Sound/TimeOut.wav");
+		sound.setVolume(0.5f); 
+      sound.play();
+  }
 
 	 
 	
 }
-
-
-
-
-
-
-
-
-//Model.Color color = currentPlayer.getColor();
-//if (color.equals(Model.Color.BLUE)) {
-//    x = 290;
-//    y = 630;
-//} else if (color.equals(Model.Color.GREEN)) {
-//    x = 320;
-//    y = 630;
-//} else if (color.equals(Model.Color.RED)) {
-//    x = 290;
-//    y = 660;
-//} else if (color.equals(Model.Color.YELLOW)) {
-//    x = 320;
-//    y = 660;
-//}

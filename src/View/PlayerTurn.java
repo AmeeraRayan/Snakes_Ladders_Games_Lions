@@ -21,6 +21,8 @@ import Controller.PreGameController;
 import Model.Color;
 import Model.Dice;
 import Model.Player;
+import Model.Sound;
+
 import java.awt.Font;
 
 public class PlayerTurn extends JFrame {
@@ -33,6 +35,7 @@ public class PlayerTurn extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel rollLabel;
+    
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
         this.difficultyLevel = difficultyLevel;
@@ -82,6 +85,7 @@ public class PlayerTurn extends JFrame {
         diceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
+            	DiceRollingSound();
                 rollLabel.setText("");
                 int rollResult = dice.rollForTurn();
                 String path = "/images/dice " + rollResult + ".jpg";
@@ -217,6 +221,11 @@ public class PlayerTurn extends JFrame {
 
             timer.setRepeats(false);
             timer.start();///BJDGAS
+        }
+        public void DiceRollingSound() {
+     	   Sound sound = new Sound("Sound/dice.wav");
+     		sound.setVolume(0.5f); 
+             sound.play();
         }
 
      

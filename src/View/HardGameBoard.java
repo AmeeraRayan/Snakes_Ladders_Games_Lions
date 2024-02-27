@@ -62,11 +62,12 @@ public class HardGameBoard extends JFrame{
     public static JLabel[] playersLable;
     private GameController controller ; 
     private int index = 0 ;
-
+    private boolean musicStatus ;
    private List<Player> arraylistOrderByPosition ; 
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
-
+    private JButton diceButton;
+    private JTextField textPane ; 
     private int WinValue = 169 ; 
     private long startTime;
 	private Timer gameTimer;
@@ -78,6 +79,9 @@ public class HardGameBoard extends JFrame{
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
     private BoardLevelTemplate hardBoard;
+    private boolean status = false ; 
+    private Timer turnTimer;
+   private boolean isGamePaused = false  ; 
     
     public HardGameBoard(Game game) {
     	this.game=game;
@@ -89,15 +93,36 @@ public class HardGameBoard extends JFrame{
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
-        JTextField textPane = new JTextField();
+        JButton pauseButton = new JButton("Stop game");
+//        pauseButton.addActionListener(new ActionListener() {
+//        	public void actionPerformed(ActionEvent e) {
+//        		 if (isGamePaused) {
+//        		        resumeGame();
+//        		        pauseButton.setText("Pause");
+//        		    } else {
+//        		        pauseGame();
+//        		        pauseButton.setText("Resume");
+//        		    }
+//        		
+//        	}
+//        });
+        pauseButton.setBounds(1092, 25, 50, 30);
+        outerPanel.add(pauseButton);
+        
+     
+        
+        
+         textPane = new JTextField();
         textPane.setBounds(792, 81, 350, 65);
         outerPanel.add(textPane);
         
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
+        diceButton = new JButton("");
+
      
          jl = new JLabel("00:00", SwingConstants.CENTER);
-        jl.setLocation(936, 138);
+        jl.setLocation(792, 185);
         outerPanel.add(jl);
         jl.setVisible(true);
         jl.setSize(170, 106);
@@ -114,7 +139,34 @@ public class HardGameBoard extends JFrame{
 				jl.setText(String.format("%02d:%02d", minutes, seconds));
 			}
 		});
+		 turnTimer = new Timer(10000, new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                turnTimer.stop(); // Stop the timer to prevent it from repeating
+	                animateDiceRoll(); // Automatically roll the dice
+	            }
+	        });
+		
 		gameTimer.start();
+        controller.MainSound("play");  
+        musicStatus = true ; 
+        JButton btnNewButton = new JButton("s");
+        btnNewButton.setBounds(1034, 25, 50, 30);
+        outerPanel.add(btnNewButton);
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(musicStatus == true ) {
+                controller.MainSound("stop");
+        		musicStatus = false ;
+        		}
+        		else {
+                    controller.MainSound("play");
+            		musicStatus = true ;
+
+        		}
+
+        	}
+        });
 
 		textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
         textPane.setAlignmentX(0.2f);
@@ -122,77 +174,33 @@ public class HardGameBoard extends JFrame{
         textPane.setAlignmentY(Component.TOP_ALIGNMENT);
         controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         arraylistOrderByPosition = game.getPlayers();
-
-        JButton diceButton = new JButton("");
+        startNewTurn();
         diceButton.addActionListener(new ActionListener() {
         	  public void actionPerformed(ActionEvent e) {
+                  controller.DiceRollingSound();
                   index = game.getCurrentPlayerIndex();
+                  if (turnTimer.isRunning()) {
+                      turnTimer.stop(); // Stop the countdown as the player is taking action
+                  }
+                  animateDiceRoll();
                   Player CurrentPlayer = game.getPlayers().get(index);
                   // Start dice roll animation
-                  final int result = dice.DiceForHardGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
-                  final Timer timer = new Timer(100, null);
-                  final int[] currentNumber = {1};
-                  final int numberOfFaces = 6;
-                  int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
-                  ActionListener listener = new ActionListener() {
-                      int count = 0;
-                      @Override
-                      public void actionPerformed(ActionEvent evt) {      
-                          boolean flag = false ; 
-                          if (count < animationCycle[0]) {
-                          	diceButton.setEnabled(false);
-                              String path = "/images/dice " + currentNumber[0] + ".jpg";
-                              diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
-                              currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
-                              count++;
-                          } else {
-                              // Animation ends, show final result
-                              String path = "/images/dice " + result + ".jpg";
-                              diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
-                              timer.stop();
-   
-                              if(result < 7) {
-                              	  flag=hardBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
-                              } else {
-                                  controller.DiceQuestion(index ,result,playersLable,WinValue);
-                                 
-                              }
-                              if(flag == true) {
-                             	saveGameDetails(game.getPlayers().get(index));
-                             	HardGameBoard.this.setVisible(false); 
-                             	Player winner = game.getPlayers().get(index);
-                        		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
-                             }else {
-                          	   
-                          	     index++;
-                                   if(index >= game.getPlayers().size()) {
-                                       index = 0;
-                                   }
-                               
-                                   game.setCurrentPlayerIndex(index);
-                                   game.setCurrentPlayer(game.getPlayers().get(index));
-                                   textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                                   controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
-
-                             }
-              
+                   // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
                               diceButton.setEnabled(true);
                               game.setCurrentPlayerIndex(index);
                               game.setCurrentPlayer(game.getPlayers().get(index));
                               textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                               textPane.setEditable(false);
+                              endTurn();
                               controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                               updateTextPane(arraylistOrderByPosition);
-
-
-                          }
-                      }
-                  };
-                  timer.addActionListener(listener);
-                  timer.start();
+                              startNewTurn();
+                       
               }
           });
-        
+     
+       
+        turnTimer.setRepeats(true); 
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(1006, 655, 78, 81);
         outerPanel.add(diceButton);
@@ -211,7 +219,7 @@ public class HardGameBoard extends JFrame{
 
 
      
-        innerPanel.setBounds(51, 40, 715, 715);
+        innerPanel.setBounds(42, 42, 715, 715);
         innerPanel.setBackground(Color.WHITE);
         // Adding the inner panel to the center of the outer panel
         outerPanel.add(innerPanel);
@@ -227,22 +235,27 @@ public class HardGameBoard extends JFrame{
         
 
          textPane_1 = new JTextPane();
+         textPane_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
         
-        textPane_1.setBackground(new Color(153, 204, 153));
+        textPane_1.setBackground(new Color(204, 153, 102));
         textPane_1.setContentType("text/html"); // Set content type to text/html
         textPane_1.setText(htmlString);
         outerPanel.add(textPane_1);
          
-        textPane_1.setBounds(941, 232, 165, 150);
+        textPane_1.setBounds(977, 179, 140, 150);
         outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
         
 
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/HardGame .png")));
-        lblNewLabel.setBounds(0, -148, 1257, 1200);
+        lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/BackHard.png")));
+        lblNewLabel.setBounds(-41, -39, 1257, 1200);
         outerPanel.add(lblNewLabel);
+        
+        JLabel label = new JLabel("New label");
+        label.setBounds(866, 455, 45, 13);
+        outerPanel.add(label);
         this.setVisible(true);
     }
    
@@ -284,7 +297,7 @@ public class HardGameBoard extends JFrame{
                 panel.add(cell);
                 // Calculate the bounds for each label
                 int x = j * cellSize + panel.getBounds().x + 51; // Adjust for the actual position of the panel
-                int y = i * cellSize + panel.getBounds().y + 40;
+                int y = i * cellSize + panel.getBounds().y + 49;
                 if (chosenCells.contains(cellNumber)) {
                     label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMark.png")));
                     label.setText(""); // Set empty string for text
@@ -891,7 +904,6 @@ public class HardGameBoard extends JFrame{
     			String path = "/images/BluePlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
                 
-
     		}
     	
             panel.add(playersLable[i]);
@@ -909,5 +921,107 @@ public class HardGameBoard extends JFrame{
         sb.append("</ul></body></html>");
         textPane_1.setText(sb.toString()); // Update the JTextPane content
     }
+    
+    
+    private void animateDiceRoll() {
+        final int[] currentNumber = {1}; 
+        final int numberOfFaces = 6; 
+        final Timer timer = new Timer(100, null); 
+        timer.addActionListener(new ActionListener() {
+            int count = 0;
+            int animationCycles = numberOfFaces * 2; 
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (count < animationCycles) {
+                    // Update the dice icon to show the next face
+                    String path = "/images/dice " + currentNumber[0] + ".jpg";
+                    diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
+                    currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+                    count++;
+                } else {
+                    // Animation ends
+                    timer.stop();
+                    diceButton.setEnabled(true); // Re-enable the dice button after animation
+                    // Call method to handle the end of the dice roll, such as updating game state
+                   onDiceAnimationEnd();
+                }
+            }
+        });
+        diceButton.setEnabled(false); // Disable the dice button during animation
+        timer.start(); // Start the animation
+    }
+    
+    private void onDiceAnimationEnd() {
+        int result = dice.DiceForHardGame(); // Simulate the dice roll result
+        // Update the dice icon to show the final result
+        String path = "/images/dice " + result + ".jpg";
+        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
+        boolean flag = false ; 
+
+        
+        if(result < 7) {
+        	  flag=hardBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
+        } else {
+            controller.DiceQuestion(index ,result,playersLable,WinValue);
+           
+        }
+        if(flag == true) {
+       	saveGameDetails(game.getPlayers().get(index));
+       	HardGameBoard.this.setVisible(false); 
+       	Player winner = game.getPlayers().get(index);
+  		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
+       }else {
+    	   
+    	     index++;
+             if(index >= game.getPlayers().size()) {
+                 index = 0;
+             }
+         
+             game.setCurrentPlayerIndex(index);
+             game.setCurrentPlayer(game.getPlayers().get(index));
+             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+
+       }
+  
+       
+    }
+    
+    public void startNewTurn() {// Start the 30-second countdown for the player's turn
+        turnTimer.start(); 
+        diceButton.setEnabled(true); 
+    }
+    
+    private void endTurn() {
+        startNewTurn(); 
+    }
+    
+//    public void pauseGame() {
+//        if (!isGamePaused) {
+//            gameTimer.stop();
+//            turnTimer.stop();
+//            
+//            // Calculate the remaining time for the player turn timer
+//            long now = System.currentTimeMillis();
+//            remainingPlayerTime -= (now - turnTimer);
+//            
+//            isGamePaused = true;
+//        }
+//    }
+//    
+//    public void resumeGame() {
+//        if (isGamePaused) {
+//            gameTimer.start();
+//            
+//            // Adjust the player turn timer to fire after the remaining time
+//            turnTimer.setInitialDelay((int) remainingPlayerTime);
+//            turnTimer.start();
+//            turnTimer = System.currentTimeMillis(); // Reset start time
+//            
+//            isGamePaused = false;
+//        }
+//    }
+
+
 }
 

@@ -40,6 +40,7 @@ import Model.BoardLevelTemplate;
 import Model.Dice;
 import Model.Game;
 import Model.GameDetails;
+import Model.HardBoard;
 import Model.SquareType;
  
 import java.awt.*;
@@ -76,43 +77,45 @@ public class MediumGameBoard extends JFrame
 	private StringBuilder htmlBuilder ;
     private JTextPane textPane_1 ;
     private BoardLevelTemplate mediumBoard;
- 
+    JButton diceButton;
+    JTextField textPane;
     private Game game;
     Player CurrentPlayer ;
     Random rand = new Random();
+    private Timer turnTimer;
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
+    
+    
     public MediumGameBoard(Game game) {
-    	this.game=game;
+    	this.game = game;
         // Setting up the main frame
     	//frame = new JFrame();
         setTitle("Game Board");
         this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1072, 800);
+        setSize(1166, 816);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
                 // Creating the inner panel
-                JPanel innerPanel = new JPanel();
-                initializeBoard(innerPanel,outerPanel);
+        JPanel innerPanel = new JPanel();
+        initializeBoard(innerPanel,outerPanel);
                 
                     
-                       innerPanel.setBounds(224, 118, 550, 550);
-                       innerPanel.setBackground(Color.WHITE);
-                       // Adding the inner panel to the center of the outer panel
-                       outerPanel.add(innerPanel);
-                       innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
+        innerPanel.setBounds(224, 118, 550, 550);
+        innerPanel.setBackground(Color.WHITE);
+         // Adding the inner panel to the center of the outer panel
+        outerPanel.add(innerPanel);
+        innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPane.png")));
         lblNewLabel_2.setBackground(SystemColor.desktop);
-        lblNewLabel_2.setBounds(304, 15, 373, 81);
+        lblNewLabel_2.setBounds(166, -42, 550, 162);
         outerPanel.add(lblNewLabel_2);
-        JTextField textPane = new JTextField();
-        textPane.setBounds(330, 23, 332, 65);
-        outerPanel.add(textPane);
      
          jl = new JLabel("00:00", SwingConstants.CENTER);
-        jl.setLocation(28, 454);
+        jl.setLocation(874, 225);
         outerPanel.add(jl);
         jl.setVisible(true);
         jl.setSize(160, 86);
@@ -131,95 +134,49 @@ public class MediumGameBoard extends JFrame
 		});
 		gameTimer.start();
 
-   
+		 turnTimer = new Timer(10000, new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                turnTimer.stop(); // Stop the timer to prevent it from repeating
+	                animateDiceRoll(); // Automatically roll the dice
+	            }
+	        });
+		
         
-        JButton diceButton = new JButton("");
+        diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(847, 354, 78, 81);
+        diceButton.setBounds(917, 548, 78, 81);
         outerPanel.add(diceButton);
         game.setBoard(meduimboard);
         game.setDice(dice);
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
         IntilaizePlayerPositionView(game , controller , outerPanel);
-        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         arraylistOrderByPosition = game.getPlayers();
         // create game instance and set the board and the dice >> BACKEND . 
         //CurrentPlayer = controller.getGame().getCurrentPlayer();
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 index = game.getCurrentPlayerIndex();
+                controller.DiceRollingSound();
+                index = game.getCurrentPlayerIndex();
+                if (turnTimer.isRunning()) {
+                    turnTimer.stop(); // Stop the countdown as the player is taking action
+                }
+                animateDiceRoll();
                 Player CurrentPlayer = game.getPlayers().get(index);
- 
-                // Start dice roll animation
-                final int result = dice.DiceForMediumGame(); // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
-                final Timer timer = new Timer(100, null);
-                final int[] currentNumber = {1};
-                final int numberOfFaces = 6;
-                int[] animationCycle = {numberOfFaces * 2}; // Total animation cycles
-                ActionListener listener = new ActionListener() {
-                    int count = 0;
- 
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {      
-                        boolean flag = false ; 
-
-                        if (count < animationCycle[0]) {
-                        	diceButton.setEnabled(false);
-                            String path = "/images/dice " + currentNumber[0] + ".jpg";
-                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                            currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
-                            count++;
-                        } else {
-                            // Animation ends, show final result
-                            String path = "/images/dice " + result + ".jpg";
-                            diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
-                            timer.stop();
- 
-                            if(result < 7) {
-                          	  flag=mediumBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
-                            } else {
-                                controller.DiceQuestion(index ,result,playersLable,WinValue);
-                               
-                            }
-                            if(flag == true) {
-                           	saveGameDetails(game.getPlayers().get(index));
-                           	MediumGameBoard.this.setVisible(false); 
-                           	Player winner = game.getPlayers().get(index);
-                    		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
-                           }else {
-                        	   
-                        	     index++;
-                                 if(index >= game.getPlayers().size()) {
-                                     index = 0;
-                                 }
-                             
-                                 game.setCurrentPlayerIndex(index);
-                                 game.setCurrentPlayer(game.getPlayers().get(index));
-                                 textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                                 controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
-                           }
-                           
-                            
+                
                             diceButton.setEnabled(true);
                             game.setCurrentPlayerIndex(index);
                             game.setCurrentPlayer(game.getPlayers().get(index));
                             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
                             textPane.setEditable(false);
+                            endTurn();
                             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
                             updateTextPane(arraylistOrderByPosition);
-
-
+                            startNewTurn();
                         }
-                    }
-                };
-                timer.addActionListener(listener);
-                timer.start();
-            }
+  
         });
         
          htmlBuilder = new StringBuilder();
@@ -229,18 +186,35 @@ public class MediumGameBoard extends JFrame
         }
         htmlBuilder.append("</ul></body></html>");
         String htmlString = htmlBuilder.toString();
-        
-        
-
-         textPane_1 = new JTextPane();
-        
-        textPane_1.setBackground(new Color(153, 204, 153));
-        textPane_1.setBounds(40, 179, 117, 125);
-        textPane_1.setContentType("text/html"); // Set content type to text/html
-        textPane_1.setText(htmlString);
-        outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
+        
+     // Assuming you have already defined a JButton resume;
+        JButton stop = new JButton("StopMusic");
+        stop.setBounds(874, 179, 160, 41); // Adjust size and position accordingly
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.MainSound("stop"); // Stop the game timer
+                // Additional code to pause any ongoing game actions/animations
+            }
+        });
+        outerPanel.add(stop);
+
+        controller.MainSound("play");   
+        JButton resume = new JButton("");
+        resume.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		gameTimer.start();
+        	}
+        });
+        resume.setBounds(874, 128, 160, 41);
+        outerPanel.add(resume);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Dice.png")));
+        lblNewLabel.setBounds(684, 518, 500, 150);
+        outerPanel.add(lblNewLabel);
         setResizable(false); 
 
         this.setVisible(true);
@@ -263,6 +237,7 @@ public class MediumGameBoard extends JFrame
                 chosenSurpriseCells.add(cellNumber); // Add the chosen cell number to the set
             }
         }
+        
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 int cellNumber = i * GRID_SIZE + (i % 2 == 0 ? j : GRID_SIZE - 1 - j);
@@ -366,8 +341,6 @@ public class MediumGameBoard extends JFrame
 		label_1 .setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
-        panel.add(label_1);
-        label_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
         label_2.setBounds(squares[i2][j2].getBoundsX(), squares[i2][j2].getBoundsY(), 55, 55);
         //object red snake 2 
@@ -492,6 +465,7 @@ public class MediumGameBoard extends JFrame
         panel.add(label1);
         panel.add(label2);
     }
+    
     private void setLadders(JPanel panel) {
         for (int num = 1; num <= 6; num++) {
             setLadder(panel, num);
@@ -510,7 +484,7 @@ public class MediumGameBoard extends JFrame
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0) {
+            if(j!=0 || i!=0) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
@@ -595,6 +569,7 @@ public class MediumGameBoard extends JFrame
         }
         return clac;
     }
+    
     private static int generateRandomNumber_I(Color color) { //..-9
         Random random = new Random();
         int num_i = 0;
@@ -609,6 +584,8 @@ public class MediumGameBoard extends JFrame
         }
         return num_i; 
     }
+    
+    
     private static int generateRandomNumber_J(Color color) { //..-9
         Random random = new Random();
         int num_j = 0;
@@ -794,5 +771,79 @@ public class MediumGameBoard extends JFrame
         }
         sb.append("</ul></body></html>");
         textPane_1.setText(sb.toString()); // Update the JTextPane content
+    }
+    
+    
+    private void animateDiceRoll() {
+        final int[] currentNumber = {1}; 
+        final int numberOfFaces = 6; 
+        final Timer timer = new Timer(100, null); 
+        timer.addActionListener(new ActionListener() {
+            int count = 0;
+            int animationCycles = numberOfFaces * 2; 
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (count < animationCycles) {
+                    // Update the dice icon to show the next face
+                    String path = "/images/dice " + currentNumber[0] + ".jpg";
+                    diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
+                    currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
+                    count++;
+                } else {
+                    // Animation ends
+                    timer.stop();
+                    diceButton.setEnabled(true); // Re-enable the dice button after animation
+                    // Call method to handle the end of the dice roll, such as updating game state
+                   onDiceAnimationEnd();
+                }
+            }
+        });
+        diceButton.setEnabled(false); // Disable the dice button during animation
+        timer.start(); // Start the animation
+    }
+    
+    private void onDiceAnimationEnd() {
+        int result = dice.DiceForMediumGame(); // Simulate the dice roll result
+        // Update the dice icon to show the final result
+        String path = "/images/dice " + result + ".jpg";
+        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
+        boolean flag = false ; 
+
+        
+        if(result < 7) {
+        	  flag=mediumBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
+        } else {
+            controller.DiceQuestion(index ,result,playersLable,WinValue);
+           
+        }
+        if(flag == true) {
+       	saveGameDetails(game.getPlayers().get(index));
+       	MediumGameBoard.this.setVisible(false); 
+       	Player winner = game.getPlayers().get(index);
+		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
+       }else {
+    	   
+    	     index++;
+             if(index >= game.getPlayers().size()) {
+                 index = 0;
+             }
+         
+             game.setCurrentPlayerIndex(index);
+             game.setCurrentPlayer(game.getPlayers().get(index));
+             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+
+       }
+  
+       
+    }
+    
+    public void startNewTurn() {// Start the 30-second countdown for the player's turn
+        turnTimer.start(); 
+        diceButton.setEnabled(true); 
+    }
+    
+    private void endTurn() {
+        startNewTurn(); 
     }
 }
