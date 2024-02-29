@@ -111,7 +111,7 @@ public class MediumGameBoard extends JFrame
         JLabel lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPane.png")));
         lblNewLabel_2.setBackground(SystemColor.desktop);
-        lblNewLabel_2.setBounds(166, -42, 550, 162);
+        lblNewLabel_2.setBounds(166, -48, 550, 162);
         outerPanel.add(lblNewLabel_2);
      
          jl = new JLabel("00:00", SwingConstants.CENTER);
@@ -213,8 +213,13 @@ public class MediumGameBoard extends JFrame
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Dice.png")));
-        lblNewLabel.setBounds(684, 518, 500, 150);
+        lblNewLabel.setBounds(692, 518, 500, 150);
         outerPanel.add(lblNewLabel);
+        
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
+        lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
+        outerPanel.add(lblNewLabel_1);
         setResizable(false); 
 
         this.setVisible(true);
