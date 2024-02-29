@@ -20,16 +20,19 @@ public class Instructions extends JFrame {
     public Instructions() {
         setType(Type.POPUP);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 10, 860, 640); // Set the bounds of the JFrame
+        setBounds(10, 10, 1232, 694); // Set the bounds of the JFrame
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
+        
         JLabel lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setForeground(Color.BLACK);
         lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 22));
-        lblNewLabel_1.setBounds(730, 52, 60, 20);
+        lblNewLabel_1.setBounds(1023, 45, 137, 40);
         contentPane.add(lblNewLabel_1);
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -40,8 +43,8 @@ public class Instructions extends JFrame {
         });
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setForeground(Color.WHITE);
-        lblNewLabel.setBounds(10, 10, 840, 600);
-        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/instructions.png")));
+        lblNewLabel.setBounds(0, -70, 1282, 830);
+        lblNewLabel.setIcon(new ImageIcon(Instructions.class.getResource("/images/instruction.jpg")));
         contentPane.add(lblNewLabel); // Add the label to the content pane
      
     }

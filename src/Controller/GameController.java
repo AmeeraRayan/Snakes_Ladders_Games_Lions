@@ -29,7 +29,8 @@ public class GameController {
 	private Game game;
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
-    private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
+    private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
+    //private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
 
 	public GameController(Game game , JFrame frame ) {
 		super();
@@ -534,23 +535,27 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("Sound/dice.wav");
+	   Sound sound = new Sound("src/Sound/dice.wav");
+	   //Sound sound = new Sound("Sound/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void LadderSound() {
-	   Sound sound = new Sound("Sound/ladder.wav");
+	   Sound sound = new Sound("src/Sound/ladder.wav");
+	   //Sound sound = new Sound("Sound/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("Sound/surprise.wav");
+	   Sound sound = new Sound("src/Sound/surprise.wav");
+	   //Sound sound = new Sound("Sound/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	  Sound sound = new Sound("Sound/TimeOut.wav");
+	  Sound sound = new Sound("src/Sound/TimeOut.wav");
+	//  Sound sound = new Sound("Sound/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

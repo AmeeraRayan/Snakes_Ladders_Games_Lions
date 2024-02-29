@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 
 public class DataReception extends JFrame {
@@ -31,7 +32,7 @@ public class DataReception extends JFrame {
 
     public DataReception() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 735, 582);
+        setBounds(100, 100, 898, 545);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -39,12 +40,15 @@ public class DataReception extends JFrame {
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
-        panel.setBounds(0, 0, 884, 537);
+        panel.setBounds(0, -17, 898, 574);
         contentPane.add(panel);
         panel.setLayout(null);
+        
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
 
         easyButton = new JButton("Easy");
-        easyButton.setBounds(98, 164, 96, 34);
+        easyButton.setBounds(173, 207, 96, 34);
         easyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Easy";
@@ -55,7 +59,7 @@ public class DataReception extends JFrame {
         panel.add(easyButton);
 
         mediumButton = new JButton("Medium");
-        mediumButton.setBounds(303, 164, 101, 34);
+        mediumButton.setBounds(384, 207, 101, 34);
         panel.add(mediumButton);
         mediumButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -66,7 +70,7 @@ public class DataReception extends JFrame {
         });
 
         hardButton = new JButton("Hard");
-        hardButton.setBounds(533, 164, 85, 34);
+        hardButton.setBounds(604, 207, 85, 34);
         panel.add(hardButton);
         hardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +81,7 @@ public class DataReception extends JFrame {
         });
 
         player2Button = new JButton("2 players");
-        player2Button.setBounds(109, 309, 96, 21);
+        player2Button.setBounds(173, 346, 96, 21);
         player2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 2;
@@ -86,7 +90,7 @@ public class DataReception extends JFrame {
             }
         });
         player3Button = new JButton("3 players");
-        player3Button.setBounds(307, 309, 97, 21);
+        player3Button.setBounds(384, 346, 97, 21);
         player3Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 3;
@@ -95,7 +99,7 @@ public class DataReception extends JFrame {
             }
         });
         player4Button = new JButton("4 players");
-        player4Button.setBounds(522, 309, 96, 21);
+        player4Button.setBounds(604, 345, 96, 23);
         player4Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 4;
@@ -115,7 +119,7 @@ public class DataReception extends JFrame {
  				new MainScreen().setVisible(true);
              }
          });
-        btnNewButton.setBounds(54, 434, 119, 34);
+        btnNewButton.setBounds(150, 486, 119, 34);
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Next");
@@ -142,15 +146,13 @@ public class DataReception extends JFrame {
                 }
         	}
         });
-        btnNewButton_1.setBounds(556, 434, 119, 34);
+        btnNewButton_1.setBounds(618, 486, 119, 34);
         panel.add(btnNewButton_1);
         
-         
-        
-                JLabel lblNewLabel = new JLabel("");
-                lblNewLabel.setBounds(-112, -217, 1312, 980);
-                panel.add(lblNewLabel);
-                lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/options (3).png")));
+         JLabel lblNewLabel = new JLabel("");
+         lblNewLabel.setBounds(-27, -223, 1350, 1070);
+         panel.add(lblNewLabel);
+         lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/options (3).png")));
   
 
     }
