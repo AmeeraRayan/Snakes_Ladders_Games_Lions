@@ -29,7 +29,7 @@ public class PlayerNicknames3 extends JFrame {
 	
 	public PlayerNicknames3(int numberOfPlayers, String difficultyLevel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 937, 618);
+		setBounds(100, 100, 984, 641);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -46,41 +46,41 @@ public class PlayerNicknames3 extends JFrame {
 				new DataReception().setVisible(true);
             }
         });
-		Back.setBounds(100, 506, 143, 41);
+		Back.setBounds(10, 589, 143, 41);
 		contentPane.add(Back);
 		JButton Next = new JButton("Next");
 		
-		Next.setBounds(695, 506, 143, 41);
+		Next.setBounds(820, 589, 143, 41);
 		contentPane.add(Next);
 		
 		textField3 = new JTextField();
 		textField3.setColumns(10);
-		textField3.setBounds(560, 443, 220, 30);
+		textField3.setBounds(603, 464, 177, 30);
 		contentPane.add(textField3);
 		
 		textField2 = new JTextField();
 		textField2.setColumns(10);
-		textField2.setBounds(363, 329, 232, 30);
+		textField2.setBounds(451, 379, 186, 30);
 		contentPane.add(textField2);
 		
 		textField1 = new JTextField();
-		textField1.setBounds(115, 212, 208, 30);
+		textField1.setBounds(263, 291, 177, 30);
 		contentPane.add(textField1);
 		textField1.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Player 3");
 		lblNewLabel_3.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_3.setBounds(560, 403, 156, 30);
+		lblNewLabel_3.setBounds(682, 403, 156, 30);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_2 = new JLabel("Player 2");
 		lblNewLabel_2.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_2.setBounds(363, 289, 156, 30);
+		lblNewLabel_2.setBounds(497, 316, 156, 30);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_1 = new JLabel("Player 1");
 		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(115, 172, 156, 30);
+		lblNewLabel_1.setBounds(266, 233, 156, 30);
 		contentPane.add(lblNewLabel_1);
 		textField1.addKeyListener(new KeyAdapter() {
 		    public void keyTyped(KeyEvent e) {
@@ -128,8 +128,8 @@ public class PlayerNicknames3 extends JFrame {
 		}});
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames3.class.getResource("/images/Nickname3.png")));
-		lblNewLabel.setBounds(-24, 0, 1050, 581);
+		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames3.class.getResource("/images/pickplayer3.jpg")));
+		lblNewLabel.setBounds(-51, -37, 1050, 678);
 		contentPane.add(lblNewLabel);
 	}
 	private boolean isValidString(String str) {// the checks if the name is valid - not null or empty value

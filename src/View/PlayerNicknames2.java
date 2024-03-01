@@ -45,41 +45,37 @@ public class PlayerNicknames2 extends JFrame {
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
 		
-		 Next = new JButton("Next");
-		
-		Next.setBounds(680, 493, 183, 47);
+		Next = new JButton("Next");
+		Next.setBounds(826, 558, 183, 47);
 		contentPane.add(Next);
-		JButton Back = new JButton("Back");
 		
-		Back = new JButton("Back");
+		JButton Back = new JButton("Back");
 		Back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
            	 PlayerNicknames2.this.setVisible(false);
 				new DataReception().setVisible(true);
             }
         });
-		Back.setBounds(100, 493, 183, 47);
+		Back.setBounds(20, 558, 183, 47);
 		contentPane.add(Back);
 		
-		Next.setBounds(680, 493, 183, 47);
-		contentPane.add(Next);
 		
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Player 2");
 		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_1_1.setBounds(374, 323, 126, 36);
+		lblNewLabel_1_1.setBounds(339, 365, 126, 36);
 		contentPane.add(lblNewLabel_1_1);
 		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(374, 178, 126, 36);
+		lblNewLabel_1.setBounds(339, 258, 126, 36);
 		contentPane.add(lblNewLabel_1);
 		
 		textField1 = new JTextField();
 		textField1.setColumns(10);
-		textField1.setBounds(374, 221, 173, 36);
+		textField1.setBounds(465, 262, 164, 36);
 		contentPane.add(textField1);
 		
 		textField2 = new JTextField();
-		textField2.setBounds(374, 363, 173, 36);
+		textField2.setBounds(465, 369, 164, 36);
 		contentPane.add(textField2);
 		textField2.setColumns(10);
 		textField1.addKeyListener(new KeyAdapter() {
@@ -101,8 +97,8 @@ public class PlayerNicknames2 extends JFrame {
         initializeNextButtonAction(); 
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/Nicknames2.png")));
-		lblNewLabel.setBounds(0, -76, 1005, 737);
+		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/pickeplayer.jpg")));
+		lblNewLabel.setBounds(0, -76, 1019, 737);
 		contentPane.add(lblNewLabel);
 	}
 	private boolean isValidString(String str) {// the checks if the name is valid - not null or empty value
