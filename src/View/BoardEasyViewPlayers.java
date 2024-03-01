@@ -99,7 +99,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		this.game=game;
 		this.controller=new GameController(game);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1100, 810);
+		setBounds(100, 100, 1095, 772);
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
 		currentPlayerLabel = new JLabel("");
@@ -215,15 +215,15 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    switch (randomNumber) {
 	    case 1:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy1.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy1.jpg")));
 	        path = new String("board1");
 	        break;
 	    case 2:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy2.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy2.jpg")));
 	        path = new String("board2");
 	        break;
 	    case 3:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boradeasy3.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy3.jpg")));
 	        path = new String("board3");
 	        break;
 	    }
