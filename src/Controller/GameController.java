@@ -120,17 +120,17 @@ public class GameController {
 	    int y = 0;
 	    Model.Color color = currentPlayer.getColor();
 	    if (color.equals(Model.Color.BLUE)) {
-	        x = 290;
-	        y = 630;
+	        x = 260;
+	        y = 650;
 	    } else if (color.equals(Model.Color.GREEN)) {
-	        x = 320;
-	        y = 630;
-	    } else if (color.equals(Model.Color.RED)) {
 	        x = 290;
-	        y = 660;
+	        y = 650;
+	    } else if (color.equals(Model.Color.RED)) {
+	        x = 260;
+	        y = 680;
 	    } else if (color.equals(Model.Color.YELLOW)) {
-	        x = 320;
-	        y = 660;
+	        x = 290;
+	        y = 680;
 	    }
 
 
