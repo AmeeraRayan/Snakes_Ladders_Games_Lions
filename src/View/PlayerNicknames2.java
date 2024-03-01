@@ -42,6 +42,8 @@ public class PlayerNicknames2 extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
 		
 		 Next = new JButton("Next");
 		
