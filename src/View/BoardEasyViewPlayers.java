@@ -1,12 +1,6 @@
 package View;
 
-
 import javax.swing.JFrame;
-
-
-
-
-
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
@@ -40,7 +34,6 @@ import java.util.HashMap;
 
 import javax.swing.Timer;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -195,6 +188,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	            ExitConfirmationDialog dialog = new ExitConfirmationDialog(BoardEasyViewPlayers.this);
 	            dialog.setVisible(true);
 	            if (dialog.isConfirmed()) {
+	            	controller.MainSound(false);
+	            	controller.FinalGame(false);
 	                BoardEasyViewPlayers.this.setVisible(false);
 	                new MainScreen().setVisible(true);
 	            }
@@ -211,7 +206,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	public void startGame() {
 		initializePlayerPositions();
 		initializeBoard();
-
+        controller.MainSound(true);
 		rollDiceAndMovePlayer();
 		animatePlayerTurnTitle(); 
 		startGameTimer(); 
@@ -307,6 +302,7 @@ public class BoardEasyViewPlayers extends JFrame {
 				diceButton.setEnabled(false);
 	            autoRollTimer.stop(); // Stop the timer because the user has rolled the dice
 				performDiceRollAndMove();
+				
 			}
 		});
 
@@ -353,6 +349,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 
 	public void performDiceRollAndMove() {
+		controller.DiceRollingSound();
 		diceButton.setEnabled(false);
 		ImageIcon diceIcon;
 		rollResult = game.getDice().rollForEasy();
@@ -451,6 +448,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		gameTimer.stop(); // Stop the timer
 		WinFrameFactory winframe=new WinFrameFactory();
 		BoardEasyViewPlayers.this.setVisible(false);
+		controller.MainSound(false);
+		controller.FinalGame(false);
 		switch (winner.getColor()) {
 		case RED:
 			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(), timerLabel.getText());
@@ -605,6 +604,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		for (Snake snake : game.getBoard().getSnakes()) {
 			if (pos ==(snake.getSquareStart().getValue())) {
 			if (pos == (snake.getSquareStart().getValue())) {
+				controller.SnakeSoundEffect();
 				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
 				currentPlayer.setPosition((snake.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
@@ -615,6 +615,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
 			if (pos == (ladder.getSquareStart().getValue())) {
+				controller.LadderSound();
 				game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
 				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), (ladder.getSquareEnd().getValue()));
