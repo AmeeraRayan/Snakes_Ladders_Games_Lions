@@ -25,7 +25,7 @@ public class BounusResults3 extends JFrame {
 
 	public BounusResults3( String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 890, 637);
+		setBounds(100, 100, 890, 655);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -71,7 +71,7 @@ public class BounusResults3 extends JFrame {
                            }
             }
         });
-        btnNewButton_1.setBounds(760, 575, 105, 34);
+        btnNewButton_1.setBounds(755, 597, 105, 34);
         contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("");
