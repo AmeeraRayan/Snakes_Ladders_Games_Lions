@@ -40,7 +40,7 @@ public class EasyBoard extends BoardLevelTemplate{
 
 	public static void initializeSnakesAndLaddersForEasy1() {//easybord1
 	    // Initialize 4 snakes	
-	   snakes[0] = new Snake(new Square(5, 3, 45),new Square(6, 0, 1));//RED
+	   snakes[0] = new Snake(new Square(5, 3, 11),new Square(6, 0, 1));//RED
 	    snakes[1] = new Snake(new Square(4, 6, 21  ),new Square(6, 5, 6 ));//GREEN
 	    snakes[2] = new Snake(new Square(5, 0,8  ),new Square(6,1 , 2 ));//YELLOW
 	    snakes[3] = new Snake(new Square(0, 0, 43 ),new Square( 3, 2,24 ));//BLUE

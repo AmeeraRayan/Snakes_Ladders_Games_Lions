@@ -125,8 +125,8 @@ public class GameController {
 	   }
 	   return flag ; 
 	}
-	public Point boardPositionToPixel(int boardPosition,Player currentPlayer) {
-	    int xDiff = 80; // the horizontal distance between squares
+	public Point boardPositionToPixel(int boardPosition,Player currentPlayer,String path) {
+	    int xDiff = 75; // the horizontal distance between squares
 	    int yDiff = 75; // vertical distance between squares
 
 	    int row = (boardPosition - 1) / 7;
@@ -135,19 +135,34 @@ public class GameController {
 	    int x = 0;
 	    int y = 0;
 	    Model.Color color = currentPlayer.getColor();
-	    if (color.equals(Model.Color.BLUE)) {
-	        x = 260;
-	        y = 650;
-	    } else if (color.equals(Model.Color.GREEN)) {
+	    if (color.equals(Model.Color.BLUE) && !path.equals("board3")) {
 	        x = 290;
-	        y = 650;
-	    } else if (color.equals(Model.Color.RED)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.GREEN)  &&!path.equals("board3")) {
 	        x = 260;
-	        y = 680;
-	    } else if (color.equals(Model.Color.YELLOW)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.RED)  &&!path.equals("board3")) {
 	        x = 290;
-	        y = 680;
+	        y = 670;
+	    } else if (color.equals(Model.Color.YELLOW) &&  !path.equals("board3")) {
+	        x = 260;
+	        y = 670;
 	    }
+	 
+	    	if (color.equals(Model.Color.BLUE) &&path.equals("board3")) {
+		        x = 220;
+		        y = 640;
+		    } else if (color.equals(Model.Color.GREEN)&&path.equals("board3")) {
+		        x = 250;
+		        y = 640;
+		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
+		        x = 220;
+		        y = 670;
+		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
+		        x = 250;
+		        y = 670;
+		    }
+	    
 
 
 	    x += col * xDiff;

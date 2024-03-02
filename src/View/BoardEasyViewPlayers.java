@@ -115,7 +115,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		setContentPane(contentPane);
 		txtpnHi = new JTextPane();
 		txtpnHi.setEditable(false);
-		txtpnHi.setBounds(10, 10, 254, 100);
+		txtpnHi.setBounds(10, 10, 311, 157);
 		txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 		txtpnHi.setForeground(new Color(0, 0, 0));
 		txtpnHi.setBackground(new Color(255, 255, 153));
@@ -209,9 +209,9 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 	public void startGame() {
-		initializePlayerPositions();
 		initializeBoard();
-
+		initializePlayerPositions();
+	    contentPane.add(lblNewLabel);
 		rollDiceAndMovePlayer();
 		animatePlayerTurnTitle(); 
 		startGameTimer(); 
@@ -234,13 +234,13 @@ public class BoardEasyViewPlayers extends JFrame {
 	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew2.png")));
 	        path = new String("board2");
 	        break;
+	    
 	    case 3:
 	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew3.png")));
 	        path = new String("board3");
 	        break;
 	    }
 	    easyBoard.startGame(null, null, null, null, randomNumber);
-	    contentPane.add(lblNewLabel);
 	    
 	}
 
@@ -453,19 +453,19 @@ public class BoardEasyViewPlayers extends JFrame {
 		BoardEasyViewPlayers.this.setVisible(false);
 		switch (winner.getColor()) {
 		case RED:
-			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(), timerLabel.getText());
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(), timerLabel.getText(),game);
 			redFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case GREEN:
-			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText(),game);
 			greenFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case BLUE:
-			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
+			WinFrame blueFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText(),game);
 			blueFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 		case YELLOW:
-			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText());
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(), timerLabel.getText(),game);
 			yellowFrame.createWinFrame(winner.getName(), timerLabel.getText(), game);
 			break;
 
@@ -536,8 +536,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		currentPlayer.setPosition(currentPlayer.getPosition());
 		game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
 
-		startPoint = controller.boardPositionToPixel(newPosition,currentPlayer);
-		endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer); 
+		startPoint = controller.boardPositionToPixel(newPosition,currentPlayer,path);
+		endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path); 
 
 		playerLabel = getPlayerLabel(currentPlayer);
 		}else
@@ -548,8 +548,8 @@ public class BoardEasyViewPlayers extends JFrame {
 			currentPlayer.setPosition(newPosition);
 			game.updatePlayerPositionInList(player.getName(),newPosition);
 
-			startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer);
-			endPoint = controller.boardPositionToPixel(newPosition,currentPlayer); 
+			startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer,path);
+			endPoint = controller.boardPositionToPixel(newPosition,currentPlayer,path); 
 
 			playerLabel = getPlayerLabel(currentPlayer);
 		}
@@ -577,8 +577,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		currentPlayer.setPosition(currentPlayer.getPosition());
 		game.updatePlayerPositionInList(player.getName(), currentPlayer.getPosition());
 
-		startPoint = controller.boardPositionToPixel(newPosition,currentPlayer);
-		endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer); 
+		startPoint = controller.boardPositionToPixel(newPosition,currentPlayer,path);
+		endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path); 
 
 		playerLabel = getPlayerLabel(currentPlayer);
 		}else
@@ -588,8 +588,8 @@ public class BoardEasyViewPlayers extends JFrame {
 			currentPlayer.setPosition(newPosition);
 			game.updatePlayerPositionInList(player.getName(),newPosition);
 
-			startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer);
-			endPoint = controller.boardPositionToPixel(newPosition,currentPlayer); 
+			startPoint = controller.boardPositionToPixel(oldPosition,currentPlayer,path);
+			endPoint = controller.boardPositionToPixel(newPosition,currentPlayer,path); 
 
 			playerLabel = getPlayerLabel(currentPlayer);
 		}
@@ -628,8 +628,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	
 	//for a question on dice 
 	private void movePlayer(int pos) {
-		Point startPoint = controller.boardPositionToPixel(pos,currentPlayer);
-		Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
+		Point startPoint = controller.boardPositionToPixel(pos,currentPlayer,path);
+		Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path);
 
 		JLabel playerLabel = getPlayerLabel(currentPlayer);
 
@@ -698,11 +698,26 @@ public class BoardEasyViewPlayers extends JFrame {
 	            positionsText.append(player.getName()).append(" on square: ").append(player.getPosition()).append("\n");
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
+	        Point bluePlayerStartPos ; 
+	         Point greenPlayerStartPos; 
+	         Point redPlayerStartPos ; 
+	         Point yellowPlayerStartPos ;
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos =  new Point(260,650); 
-	        Point greenPlayerStartPos = new Point(290,650); 
-	        Point redPlayerStartPos = new Point(260,680); 
-	        Point yellowPlayerStartPos = new Point(290,680); 
+	        if(path.equals("board3"))
+	        {
+	        	 bluePlayerStartPos =  new Point(220,640); 
+		         greenPlayerStartPos = new Point(250,640); 
+		         redPlayerStartPos = new Point(220,670); 
+		         yellowPlayerStartPos = new Point(250,670); 
+	        }
+	        else
+	        {
+	        	  bluePlayerStartPos =  new Point(290,640); 
+	 	         greenPlayerStartPos = new Point(260,640); 
+	 	         redPlayerStartPos = new Point(290,670); 
+	 	         yellowPlayerStartPos = new Point(260,670);
+	        }
+	        
 	        if (game.getPlayers().size()==2)
 	        {
 	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
@@ -872,8 +887,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		for (Square q : game.getBoard().getQuestions()) {
 			if (pos== (q.getValue())) {
 				SysData sysdata=new SysData();
-				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer);
-				Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition() + roll,currentPlayer); 
+				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path);
+				Point endPoint = controller.boardPositionToPixel(currentPlayer.getPosition() + roll,currentPlayer,path); 
 				JLabel playerLabel = getPlayerLabel(currentPlayer);
 				animateMovement(playerLabel, startPoint, endPoint);
 				displayPlayerPositions();

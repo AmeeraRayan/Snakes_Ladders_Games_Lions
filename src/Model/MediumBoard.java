@@ -31,29 +31,28 @@ public class MediumBoard extends BoardLevelTemplate{
         flag = controller.updatePlayerPosition(index, result, "Dice",playerLabel,WinValue);
 		return flag;
 	}
-	
+
 	public void openFrameForWinner(Player winner,String time,Game game)
 	{
 		WinFrameFactory winframe=new WinFrameFactory();
 		switch (winner.getColor()) {
 		case RED:
-			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(),time);
+			WinFrame redFrame= winframe.getFrame(Model.Color.RED,winner.getName(),time,game);
 			redFrame.createWinFrame(winner.getName(), time, game);
 			break;
 		case GREEN:
-			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(),time);
+			WinFrame greenFrame= winframe.getFrame(Model.Color.GREEN,winner.getName(),time,game);
 			greenFrame.createWinFrame(winner.getName(), time, game);
 			break;
 		case BLUE:
-			WinFrame blueFrame= winframe.getFrame(Model.Color.BLUE,winner.getName(),time);
+			WinFrame blueFrame= winframe.getFrame(Model.Color.BLUE,winner.getName(),time,game);
 			blueFrame.createWinFrame(winner.getName(),time, game);
 			break;
 		case YELLOW:
-			WinFrame yellowFrame= winframe.getFrame(Model.Color.YELLOW,winner.getName(),time);
+			WinFrame yellowFrame= winframe.getFrame(Model.Color.YELLOW,winner.getName(),time,game);
 			yellowFrame.createWinFrame(winner.getName(),time, game);
 			break;
 
-		}
-	}
+		}}
 
 }
