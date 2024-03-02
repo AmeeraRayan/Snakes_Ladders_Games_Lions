@@ -92,7 +92,7 @@ public class MediumGameBoard extends JFrame
     
     
     private boolean isdiceClicked = false  ;
-    
+    private boolean isstopMusicClicked = false ;
     
     public MediumGameBoard(Game game) {
 
@@ -208,8 +208,17 @@ public class MediumGameBoard extends JFrame
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(isstopMusicClicked) {
                 controller.MainSound("stop"); // Stop the game timer
-                // Additional code to pause any ongoing game actions/animations
+                stop.setText("Continue Music");
+                isstopMusicClicked = false;
+            	}else {
+            		controller.MainSound("play");
+                    isstopMusicClicked = true;
+                    stop.setText("Stop Music");
+
+
+            	}
             }
         });
         outerPanel.add(stop);
@@ -220,13 +229,13 @@ public class MediumGameBoard extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		if(!isGamePaused) {
         			pauseGame() ; 
-        			diceButton.setEnabled(true);
-        			diceButton.setText("resume");
+        			diceButton.setEnabled(false);
+        			resume.setText("resume");
         			controller.MainSound("stop");
         		}else {
         			resumeGame();
-        			diceButton.setEnabled(false);
-        			diceButton.setText("StopGame");
+        			diceButton.setEnabled(true);
+        			resume.setText("StopGame");
         			controller.MainSound("play");
 
         		}
