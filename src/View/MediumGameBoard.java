@@ -1,4 +1,5 @@
 package View; 
+import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -92,7 +93,7 @@ public class MediumGameBoard extends JFrame
     
     
     private boolean isdiceClicked = false  ;
-    private boolean isstopMusicClicked = false ;
+    private boolean isstopMusicClicked = true ;
     
     public MediumGameBoard(Game game) {
 
@@ -163,7 +164,10 @@ public class MediumGameBoard extends JFrame
              	System.out.println("from timer ");
                  turnTimer.stop(); // Stop the timer to prevent it from repeating
                  animateDiceRoll(); // Automatically roll the dice
-                 startNewTurn();}
+                 startNewTurn();
+                 diceButton.setEnabled(true); 
+
+                 }
              
          });
      	 
@@ -180,13 +184,18 @@ public class MediumGameBoard extends JFrame
                 animateDiceRoll();
                 Player CurrentPlayer = game.getPlayers().get(index);
                 
-                diceButton.setEnabled(true);
                 game.setCurrentPlayerIndex(index);
                 game.setCurrentPlayer(game.getPlayers().get(index));
-               textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+                if(index == game.getPlayers().size()-1 )
+                textPane.setText("\n Turn: " +game.getPlayers().get(index).getName());
+                else {
+                    textPane.setText("\n Turn: " +game.getPlayers().get(index+1).getName());
+
+                }
              //  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
              // updateTextPane(arraylistOrderByPosition);
-               startNewTurn();
+
+                startNewTurn();
 
    }
   
@@ -840,7 +849,8 @@ public class MediumGameBoard extends JFrame
                 } else {
                     // Animation ends
                     timer.stop();
-                    diceButton.setEnabled(true); // Re-enable the dice button after animation
+                     // Re-enable the dice button after animation
+                    diceButton.setEnabled(true);
                     // Call method to handle the end of the dice roll, such as updating game state
                    onDiceAnimationEnd();
                 }
@@ -851,6 +861,7 @@ public class MediumGameBoard extends JFrame
     }
     
     private void onDiceAnimationEnd() {
+    	diceButton.setEnabled(true);
         int result = dice.DiceForMediumGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
         String path = "/images/dice " + result + ".jpg";
@@ -880,6 +891,7 @@ public class MediumGameBoard extends JFrame
                 }
         });
         controller.FinalGame(false);
+        
        	wintime.start();
        
        }else {
@@ -891,8 +903,9 @@ public class MediumGameBoard extends JFrame
          
              game.setCurrentPlayerIndex(index);
              game.setCurrentPlayer(game.getPlayers().get(index));
-     //        textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-      //       controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+             System.out.println("from else ***********");
+         //	diceButton.setEnabled(false);
+
 
        }
   
@@ -904,7 +917,6 @@ public class MediumGameBoard extends JFrame
         isdiceClicked = false ; 
         turnTimer.stop();
         turnTimer.start(); 
-        diceButton.setEnabled(true); 
     }
     
     public void pauseGame() {
@@ -923,6 +935,7 @@ public class MediumGameBoard extends JFrame
     public void resumeGame() {
         if (isGamePaused) {
             gameTimer.start();
+            System.out.println(remainingPlayerTime);
 
             // Adjust the player turn timer to fire after the remaining time
             turnTimer.setInitialDelay((int) remainingPlayerTime);
@@ -932,4 +945,5 @@ public class MediumGameBoard extends JFrame
             isGamePaused = false;
         }
     }
+    
 }
