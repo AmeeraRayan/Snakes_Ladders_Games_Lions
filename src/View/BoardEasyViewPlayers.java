@@ -264,7 +264,9 @@ public class BoardEasyViewPlayers extends JFrame {
 	private void animatePlayerTurnTitle() {
 		ActionListener taskPerformer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-						currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());					
+						currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
+
+						
 			}
 		};
 	}
@@ -686,6 +688,8 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    private void displayCurrentPlayer() {
 	        if (currentPlayer != null) {
+	        	currentPlayerLabel.setForeground(new Color(252, 252, 252));
+
 	            currentPlayerLabel.setText("Player Turn: " + currentPlayer.getName());
 	            setTitle("Current Player: " + currentPlayer.getName() + "'s Turn");
 	        }
