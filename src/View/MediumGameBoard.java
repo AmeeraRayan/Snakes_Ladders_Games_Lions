@@ -84,7 +84,8 @@ public class MediumGameBoard extends JFrame
     Random rand = new Random();
     private Timer turnTimer;
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
-    
+    JPanel outerPanel = new JPanel();
+
     
     public MediumGameBoard(Game game) {
     	this.game = game;
@@ -95,7 +96,6 @@ public class MediumGameBoard extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1166, 816);
         // Creating the outer panel with BorderLayout
-        JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
         
                 // Creating the inner panel
