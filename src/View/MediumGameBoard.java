@@ -51,6 +51,8 @@ import javax.swing.OverlayLayout;
 import javax.swing.Timer;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class MediumGameBoard extends JFrame
@@ -82,7 +84,7 @@ public class MediumGameBoard extends JFrame
     private Game game;
     Player CurrentPlayer ;
     Random rand = new Random();
-    private Timer turnTimer;
+    public static Timer turnTimer;
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     JPanel outerPanel = new JPanel();
 
@@ -103,11 +105,13 @@ public class MediumGameBoard extends JFrame
         setTitle("Game Board");
         this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1166, 816);
+        setSize(1153, 816);
         // Creating the outer panel with BorderLayout
         outerPanel.setLayout(null);
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
         
-                // Creating the inner panel
+        // Creating the inner panel
         JPanel innerPanel = new JPanel();
         initializeBoard(innerPanel,outerPanel);
                 
@@ -185,6 +189,7 @@ public class MediumGameBoard extends JFrame
                 }
                 animateDiceRoll();
                 Player CurrentPlayer = game.getPlayers().get(index);
+                diceButton.setEnabled(true);
                 
                 game.setCurrentPlayerIndex(index);
                 game.setCurrentPlayer(game.getPlayers().get(index));
@@ -271,11 +276,30 @@ public class MediumGameBoard extends JFrame
         lblNewLabel.setBounds(692, 518, 500, 150);
         outerPanel.add(lblNewLabel);
         
+        JLabel lblNewLabel_3 = new JLabel("");
+        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Button.png")));
+        lblNewLabel_3.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            ExitConfirmationDialog dialog = new ExitConfirmationDialog(MediumGameBoard.this);
+            dialog.setVisible(true);
+            if (dialog.isConfirmed()) {
+            	gameTimer.stop();
+            	turnTimer.stop();
+            	controller.MainSound("stop");
+            	controller.FinalGame(false);
+                MediumGameBoard.this.setVisible(false);
+                new MainScreen().setVisible(true);
+            }
+        }
+    });
+        lblNewLabel_3.setBounds(26, 700, 100, 81);
+        outerPanel.add(lblNewLabel_3);
+        
         JLabel lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
         lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
         outerPanel.add(lblNewLabel_1);
-        
     
 
         this.setVisible(true);
@@ -881,9 +905,10 @@ public class MediumGameBoard extends JFrame
 
         
         if(result < 7) {
-        	  flag=mediumBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);                                                                 
+        	flag=mediumBoard.endGame(index, result, "Dice",playersLable,WinValue,null,controller);
+        	  
         } else {
-            controller.DiceQuestion(index ,result,playersLable,WinValue);
+            controller.DiceQuestion(index ,result,playersLable,WinValue);   
            
         }
         if(flag == true) {
@@ -944,7 +969,6 @@ public class MediumGameBoard extends JFrame
             // Calculate the remaining time for the player turn timer
             long now = System.currentTimeMillis();
             remainingPlayerTime -= (now - turnTimerStartTime);
-
             isGamePaused = true;
         }
     }

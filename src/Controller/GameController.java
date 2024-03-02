@@ -2,13 +2,16 @@ package Controller;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +28,7 @@ import Model.Sound;
 import Model.Square;
 import Model.SquareType;
 import Model.SysData;
+import View.MediumGameBoard;
 
 public class GameController {
 	private Game game;
@@ -130,8 +134,8 @@ public class GameController {
 	   }
 	   return flag ; 
 	}
-	public Point boardPositionToPixel(int boardPosition,Player currentPlayer) {
-	    int xDiff = 80; // the horizontal distance between squares
+	public Point boardPositionToPixel(int boardPosition,Player currentPlayer,String path) {
+	    int xDiff = 75; // the horizontal distance between squares
 	    int yDiff = 75; // vertical distance between squares
 
 	    int row = (boardPosition - 1) / 7;
@@ -140,19 +144,34 @@ public class GameController {
 	    int x = 0;
 	    int y = 0;
 	    Model.Color color = currentPlayer.getColor();
-	    if (color.equals(Model.Color.BLUE)) {
-	        x = 260;
-	        y = 650;
-	    } else if (color.equals(Model.Color.GREEN)) {
+	    if (color.equals(Model.Color.BLUE) && !path.equals("board3")) {
 	        x = 290;
-	        y = 650;
-	    } else if (color.equals(Model.Color.RED)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.GREEN)  &&!path.equals("board3")) {
 	        x = 260;
-	        y = 680;
-	    } else if (color.equals(Model.Color.YELLOW)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.RED)  &&!path.equals("board3")) {
 	        x = 290;
-	        y = 680;
+	        y = 670;
+	    } else if (color.equals(Model.Color.YELLOW) &&  !path.equals("board3")) {
+	        x = 260;
+	        y = 670;
 	    }
+	 
+	    	if (color.equals(Model.Color.BLUE) &&path.equals("board3")) {
+		        x = 220;
+		        y = 640;
+		    } else if (color.equals(Model.Color.GREEN)&&path.equals("board3")) {
+		        x = 250;
+		        y = 640;
+		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
+		        x = 220;
+		        y = 670;
+		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
+		        x = 250;
+		        y = 670;
+		    }
+	    
 
 
 	    x += col * xDiff;
@@ -295,70 +314,100 @@ public class GameController {
 		 return IAndJ;
 	}
 	
-	  public int[] showAddQuestionPopup(int index , Questions question, JLabel[] playerJLabel , int Win) {
-		  JRadioButton answer1Button = new JRadioButton();
-		  JRadioButton answer2Button = new JRadioButton();
-		  JRadioButton answer3Button = new JRadioButton();
-		  JRadioButton answer4Button = new JRadioButton();
+	public int[] showAddQuestionPopup(int index, Questions question, JLabel[] playerJLabel, int Win) {
+        int selectedOption = -1;
+        // Create radio buttons for each answer option
+        JRadioButton answer1Button = new JRadioButton();
+        JRadioButton answer2Button = new JRadioButton();
+        JRadioButton answer3Button = new JRadioButton();
+        JRadioButton answer4Button = new JRadioButton();
 
-		  JLabel questionField = new JLabel(question.getQuestionText());
-		  JLabel answer1Field = new JLabel(question.getOptions()[0]);
-		  JLabel answer2Field = new JLabel(question.getOptions()[1]);
-		  JLabel answer3Field = new JLabel(question.getOptions()[2]);
-		  JLabel answer4Field = new JLabel(question.getOptions()[3]);
-		  JLabel difficultyField = new JLabel(String.valueOf(question.getDiffculty()));
+        // Create labels for question, answer options, and difficulty
+        JLabel questionField = new JLabel(question.getQuestionText());
+        JLabel answer1Field = new JLabel(question.getOptions()[0]);
+        JLabel answer2Field = new JLabel(question.getOptions()[1]);
+        JLabel answer3Field = new JLabel(question.getOptions()[2]);
+        JLabel answer4Field = new JLabel(question.getOptions()[3]);
+        JLabel difficultyField = new JLabel(String.valueOf(question.getDiffculty()));
 
-		  // Create JPanel for each answer option to include both the label and radio button
-		  JPanel answer1Panel = new JPanel();
-		  JPanel answer2Panel = new JPanel();
-		  JPanel answer3Panel = new JPanel();
-		  JPanel answer4Panel = new JPanel();
+        // Create JPanel for each answer option to include both the label and radio button
+        JPanel answer1Panel = new JPanel();
+        JPanel answer2Panel = new JPanel();
+        JPanel answer3Panel = new JPanel();
+        JPanel answer4Panel = new JPanel();
 
-		  answer1Panel.add(answer1Button);
-		  answer1Panel.add(answer1Field);
-		  answer2Panel.add(answer2Button);
-		  answer2Panel.add(answer2Field);
-		  answer3Panel.add(answer3Button);
-		  answer3Panel.add(answer3Field);
-		  answer4Panel.add(answer4Button);
-		  answer4Panel.add(answer4Field);
+        answer1Panel.add(answer1Button);
+        answer1Panel.add(answer1Field);
+        answer2Panel.add(answer2Button);
+        answer2Panel.add(answer2Field);
+        answer3Panel.add(answer3Button);
+        answer3Panel.add(answer3Field);
+        answer4Panel.add(answer4Button);
+        answer4Panel.add(answer4Field);
 
-		  // Add radio buttons to button group
-		  ButtonGroup buttonGroup = new ButtonGroup();
-		  buttonGroup.add(answer1Button);
-		  buttonGroup.add(answer2Button);
-		  buttonGroup.add(answer3Button);
-		  buttonGroup.add(answer4Button);
+        // Add radio buttons to button group
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(answer1Button);
+        buttonGroup.add(answer2Button);
+        buttonGroup.add(answer3Button);
+        buttonGroup.add(answer4Button);
 
-		  Object[] fields = {
-		      "Question:", questionField,
-		      "Answer 1:", answer1Panel,
-		      "Answer 2:", answer2Panel,
-		      "Answer 3:", answer3Panel,
-		      "Answer 4:", answer4Panel,
-		      "Difficulty:", difficultyField
-		  };
+        Object[] fields = {
+                "Question:", questionField,
+                "Answer 1:", answer1Panel,
+                "Answer 2:", answer2Panel,
+                "Answer 3:", answer3Panel,
+                "Answer 4:", answer4Panel,
+                "Difficulty:", difficultyField
+        };
+        MediumGameBoard.turnTimer.stop();
+        JOptionPane optionPane = new JOptionPane(fields, JOptionPane.QUESTION_MESSAGE);
+        JDialog dialog = optionPane.createDialog("Answer Question");
+       // dialog.setUndecorated(true);
+        // Create a timer with a delay of 20 seconds
+        Timer timer = new Timer(20000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Close the dialog
+                JOptionPane.showMessageDialog(null, "Time's up! You didn't answer the question.", "Timeout", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        timer.setRepeats(false); // Timer should not repeat
 
-		  int result = JOptionPane.showConfirmDialog(this.frame, fields, "Answer Question", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        // Start the timer
+        timer.start();
 
-		  // Get the selected answer option
-		  int selectedOption = -1;
-		  if (result == JOptionPane.OK_OPTION) {
-		      if (answer1Button.isSelected()) {
-		          selectedOption = 0;
-		      } else if (answer2Button.isSelected()) {
-		          selectedOption = 1;
-		      } else if (answer3Button.isSelected()) {
-		          selectedOption = 2;
-		      } else if (answer4Button.isSelected()) {
-		          selectedOption = 3;
-		      }
-		
-		  }
-		  int[] IandJ = updateplayerbyAnswer(index , question, selectedOption, playerJLabel , Win);
-		  return IandJ;
-	       
-	    }
+        // Show the dialog
+        dialog.setVisible(true);
+
+        // Stop the timer when the dialog is closed
+        timer.stop();
+        Object option = optionPane.getValue();
+        // Get the selected answer option
+        if(optionPane.getValue()!=null && option instanceof Integer) {
+        	int result = (int) option;
+	        if (result == JOptionPane.OK_OPTION) {
+	            if (answer1Button.isSelected()) {
+	                selectedOption = 0;
+	            } else if (answer2Button.isSelected()) {
+	                selectedOption = 1;
+	            } else if (answer3Button.isSelected()) {
+	                selectedOption = 2;
+	            } else if (answer4Button.isSelected()) {
+	                selectedOption = 3;
+	            }
+	        }
+	        else {
+	        	selectedOption = -1;
+	        }
+        }
+
+        // Update player based on the selected answer
+        int[] IandJ = updateplayerbyAnswer(index, question, selectedOption, playerJLabel, Win);
+ 	   	MediumGameBoard.turnTimer.start();
+        return IandJ;
+    }
+
 	  public int[] updateplayerbyAnswer(int index ,Questions question,int result, JLabel[] playerLabel , int Win) {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
@@ -593,8 +642,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		Sound sound = new Sound("Sound/snake-hissing-6092.wav");
- 		//Sound sound = new Sound("src/Sound/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("Sound/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("src/Sound/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
