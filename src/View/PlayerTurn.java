@@ -54,6 +54,9 @@ public class PlayerTurn extends JFrame {
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
+
      
         JButton diceButton = new JButton("");
         diceButton.setHorizontalAlignment(SwingConstants.LEADING);
@@ -63,22 +66,22 @@ public class PlayerTurn extends JFrame {
         txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
         txtpnHi.setBackground(new java.awt.Color(255, 250, 250));
         
-        txtpnHi.setBounds(42, 203, 201, 198);
+        txtpnHi.setBounds(64, 193, 172, 165);
         contentPane.add(txtpnHi);
         JTextArea txtrPlayer = new JTextArea();
         txtrPlayer.setForeground(new java.awt.Color(0, 0, 0));
         txtrPlayer.setBackground(new java.awt.Color(0, 100, 0));
-        txtrPlayer.setBounds(45, 48, 317, 78);
+        txtrPlayer.setBounds(48, 36, 203, 64);
         contentPane.add(txtrPlayer);
-        txtrPlayer.setText("\n    Turn : " + players.get(currentPlayerIndex).getName());
-        txtrPlayer.setFont(new Font("David", Font.BOLD, 30));
+        txtrPlayer.setText("\r\n Turn : <dynamic>");
+        txtrPlayer.setFont(new Font("David", Font.BOLD, 24));
         txtrPlayer.setTabSize(20);
         txtrPlayer.setAlignmentX(0.2f);
         txtrPlayer.setAlignmentY(Component.TOP_ALIGNMENT);
         txtrPlayer.setBackground(new java.awt.Color(120, 180, 20)); // Green
         rollLabel = new JLabel(players.get(currentPlayerIndex).getName()+" Roll the dice!");
         rollLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        rollLabel.setBounds(350, 300, 400, 30);
+        rollLabel.setBounds(266, 265, 400, 30);
         contentPane.add(rollLabel);
         displayRollLabel();
 
@@ -133,12 +136,12 @@ public class PlayerTurn extends JFrame {
         });
         diceButton.setBackground(SystemColor.controlLtHighlight);
         diceButton.setForeground(java.awt.Color.WHITE);
-        diceButton.setBounds(761, 292, 120, 100);
+        diceButton.setBounds(729, 319, 120, 100);
         contentPane.add(diceButton);
         
         JButton btnNewButton = new JButton("Back");
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-        btnNewButton.setBounds(42, 519, 120, 36);
+        btnNewButton.setBounds(23, 586, 120, 36);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             PlayerTurn.this.setVisible(false);
@@ -151,8 +154,8 @@ public class PlayerTurn extends JFrame {
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBackground(new java.awt.Color(0, 100, 0));
-        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BounusGame.png")));
-        lblNewLabel.setBounds(-277, -11, 1340, 709);
+        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/playerTurn.jpg")));
+        lblNewLabel.setBounds(0, -13, 1340, 709);
         contentPane.add(lblNewLabel);
         
         JLabel lblNewLabel_2 = new JLabel("New label");
@@ -223,8 +226,8 @@ public class PlayerTurn extends JFrame {
             timer.start();///BJDGAS
         }
         public void DiceRollingSound() {
-     	   Sound sound = new Sound("Sound/dice.wav");
-     	  // Sound sound = new Sound("Sound/dice.wav");
+     	   //Sound sound = new Sound("Sound/dice.wav");
+     	   Sound sound = new Sound("src/Sound/dice.wav");
      		sound.setVolume(0.5f); 
              sound.play();
         }

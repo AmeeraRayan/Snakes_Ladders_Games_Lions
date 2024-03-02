@@ -125,7 +125,7 @@ public class MainScreen extends JFrame{
         getContentPane().add(lblNewLabel);
         
         JLabel lblNewLabel_4 = new JLabel("");
-        lblNewLabel_4.setBounds(979, 11, 49, 56);
+        lblNewLabel_4.setBounds(960, 11, 68, 69);
         getContentPane().add(lblNewLabel_4);
         lblNewLabel_4.addMouseListener(new MouseAdapter() {
             @Override

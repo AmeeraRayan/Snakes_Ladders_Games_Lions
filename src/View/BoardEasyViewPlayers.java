@@ -34,6 +34,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 import javax.swing.Timer;
@@ -91,6 +93,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
+	private JLabel lblNewLabel_5;
 
 
 	public BoardEasyViewPlayers(Game game ) {
@@ -102,6 +105,8 @@ public class BoardEasyViewPlayers extends JFrame {
 		setBounds(100, 100, 1095, 772);
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
+		// Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
 		currentPlayerLabel = new JLabel("");
 		currentPlayerLabel.setBounds(420, 80, 450, 50);
 		currentPlayerLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -110,7 +115,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		setContentPane(contentPane);
 		txtpnHi = new JTextPane();
 		txtpnHi.setEditable(false);
-		txtpnHi.setBounds(10, 10, 325, 145);
+		txtpnHi.setBounds(10, 10, 254, 100);
 		txtpnHi.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 		txtpnHi.setForeground(new Color(0, 0, 0));
 		txtpnHi.setBackground(new Color(255, 255, 153));
@@ -181,20 +186,22 @@ public class BoardEasyViewPlayers extends JFrame {
 		lblNewLabel_4.setForeground(new Color(252, 252, 252));
 		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 30));
 
-		JButton btnNewButtonBack = new JButton("Back");
-		btnNewButtonBack.setFont(new Font("David", Font.BOLD, 24)); // Set the font
-		btnNewButtonBack.setForeground(Color.WHITE); // Set the text color
-		btnNewButtonBack.setBackground(new Color(40, 120, 45)); 
-		btnNewButtonBack.setBorder(BorderFactory.createRaisedBevelBorder()); 
-		btnNewButtonBack.setFocusPainted(false); // 
-		btnNewButtonBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BoardEasyViewPlayers.this.setVisible(false);
-				new DataReception().setVisible(true);
-			}
-		});
-		btnNewButtonBack.setBounds(45, 700, 160, 50);
-		contentPane.add(btnNewButtonBack);
+		
+		lblNewLabel_5 = new JLabel("");
+	    lblNewLabel_5.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/Button.png")));
+	    lblNewLabel_5.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            ExitConfirmationDialog dialog = new ExitConfirmationDialog(BoardEasyViewPlayers.this);
+	            dialog.setVisible(true);
+	            if (dialog.isConfirmed()) {
+	                BoardEasyViewPlayers.this.setVisible(false);
+	                new MainScreen().setVisible(true);
+	            }
+	        }
+	    });
+	    lblNewLabel_5.setBounds(24, 664, 105, 82);
+	    contentPane.add(lblNewLabel_5);
 		startGame();
 
 
@@ -216,7 +223,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    lblNewLabel = new JLabel("");
 	    lblNewLabel.setForeground(new Color(0, 0, 0));
-	    lblNewLabel.setBounds(10, 10, 1095, 772);
+	    lblNewLabel.setBounds(0, 0, 1095, 772);
 
 	    switch (randomNumber) {
 	    case 1:
@@ -234,6 +241,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	    }
 	    easyBoard.startGame(null, null, null, null, randomNumber);
 	    contentPane.add(lblNewLabel);
+	    
 	}
 
 

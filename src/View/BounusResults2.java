@@ -26,27 +26,25 @@ public class BounusResults2 extends JFrame {
 
 	public BounusResults2(String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 713, 536);
+		setBounds(100, 100, 889, 681);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel_1 = new JLabel("Player's Turn: ");
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 36));
-		lblNewLabel_1.setBounds(138, 60, 354, 52);
-		contentPane.add(lblNewLabel_1);
+		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
 		
 		JLabel PlayerTurnOne = new JLabel(" "+playersSortedByOrder.get(0).getName());
-		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
-		PlayerTurnOne.setBounds(232, 162, 243, 58);
+		PlayerTurnOne.setForeground(new Color(0, 0, 0));
+		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD, 34));
+		PlayerTurnOne.setBounds(369, 344, 243, 58);
 		contentPane.add(PlayerTurnOne);
 		
 		JLabel PlayerTurnTwo = new JLabel(" "+playersSortedByOrder.get(1).getName());
-		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
-		PlayerTurnTwo.setBounds(232, 306, 243, 58);
+		PlayerTurnTwo.setForeground(new Color(0, 0, 0));
+		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD, 34));
+		PlayerTurnTwo.setBounds(369, 462, 243, 58);
 		contentPane.add(PlayerTurnTwo);
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.addActionListener(new ActionListener() {
@@ -68,12 +66,12 @@ public class BounusResults2 extends JFrame {
         });
 
 
-        btnNewButton_1.setBounds(556, 434, 105, 34);
+        btnNewButton_1.setBounds(774, 625, 105, 34);
         contentPane.add(btnNewButton_1);
 		 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/2Results.png")));
-		lblNewLabel.setBounds(-108, -38, 1043, 669);
+		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/bonus2.jpg")));
+		lblNewLabel.setBounds(-27, -38, 1148, 738);
 		contentPane.add(lblNewLabel);
 		 
 
