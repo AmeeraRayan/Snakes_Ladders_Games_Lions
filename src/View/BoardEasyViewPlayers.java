@@ -125,6 +125,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		timerLabel = new JLabel("00:00");
 		timerLabel.setBounds(920, 50, 100, 50);
 		timerLabel.setFont(new Font("Snap ITC", Font.BOLD, 25));
+		timerLabel.setForeground(new Color(252, 252, 252));
 		contentPane.add(timerLabel);
 
 
@@ -160,21 +161,25 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(50, 250, 250, 40);
-		lblNewLabel_1.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+		lblNewLabel_1.setForeground(new Color(252, 252, 252));
+		lblNewLabel_1.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 30));
 
 
 		lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setBounds(50, 300, 250, 40);
-		lblNewLabel_2.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+		lblNewLabel_2.setForeground(new Color(252, 252, 252));
+		lblNewLabel_2.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 30));
 
 		lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(50, 400, 250, 40);
-		lblNewLabel_3.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+		lblNewLabel_3.setForeground(new Color(252, 252, 252));
+		lblNewLabel_3.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 30));
 
 
 		lblNewLabel_4 = new JLabel("");
 		lblNewLabel_4.setBounds(50, 350, 250, 40);
-		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 24));
+		lblNewLabel_4.setForeground(new Color(252, 252, 252));
+		lblNewLabel_4.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 30));
 
 		JButton btnNewButtonBack = new JButton("Back");
 		btnNewButtonBack.setFont(new Font("David", Font.BOLD, 24)); // Set the font
@@ -215,15 +220,15 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    switch (randomNumber) {
 	    case 1:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy1.jpg")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew1.png")));
 	        path = new String("board1");
 	        break;
 	    case 2:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy2.jpg")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew2.png")));
 	        path = new String("board2");
 	        break;
 	    case 3:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardeasy3.jpg")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew3.png")));
 	        path = new String("board3");
 	        break;
 	    }
@@ -686,10 +691,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	            game.updatePlayerPositionInList(player.getName(), 1);
 	        }
 	        txtpnHi.setText(positionsText.toString());
-	        Point bluePlayerStartPos =  new Point(295,620); 
-	        Point greenPlayerStartPos = new Point(320,620); 
-	        Point redPlayerStartPos = new Point(290,650); 
-	        Point yellowPlayerStartPos = new Point(320,650); 
+	        Point bluePlayerStartPos =  new Point(260,650); 
+	        Point greenPlayerStartPos = new Point(290,650); 
+	        Point redPlayerStartPos = new Point(260,680); 
+	        Point yellowPlayerStartPos = new Point(290,680); 
 	        if (game.getPlayers().size()==2)
 	        {
 	        	bluePlayerLabel.setLocation(bluePlayerStartPos.x, bluePlayerStartPos.y);
@@ -946,6 +951,4 @@ public class BoardEasyViewPlayers extends JFrame {
 		// Apply the movement to the player's position
 		controller.updatePlayerPosition(steps,currentPlayer);
 	}
-
-
 }
