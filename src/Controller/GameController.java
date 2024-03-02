@@ -5,11 +5,15 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.naming.spi.DirStateFactory.Result;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -28,6 +32,7 @@ import Model.Sound;
 import Model.Square;
 import Model.SquareType;
 import Model.SysData;
+import View.HardGameBoard;
 import View.MediumGameBoard;
 
 public class GameController {
@@ -340,7 +345,12 @@ public class GameController {
                 "Answer 4:", answer4Panel,
                 "Difficulty:", difficultyField
         };
-        MediumGameBoard.turnTimer.stop();
+        if(this.frame.getClass().equals(MediumGameBoard.class)) {
+        	MediumGameBoard.turnTimer.stop();
+        }
+        else if(this.frame.getClass().equals(HardGameBoard.class)) {
+        	HardGameBoard.turnTimer.stop();
+        }
         JOptionPane optionPane = new JOptionPane(fields, JOptionPane.QUESTION_MESSAGE);
         JDialog dialog = optionPane.createDialog("Answer Question");
        // dialog.setUndecorated(true);
@@ -384,7 +394,12 @@ public class GameController {
 
         // Update player based on the selected answer
         int[] IandJ = updateplayerbyAnswer(index, question, selectedOption, playerJLabel, Win);
- 	   	MediumGameBoard.turnTimer.start();
+        if(this.frame.getClass().equals(MediumGameBoard.class)) {
+        	MediumGameBoard.turnTimer.start();
+        }
+        else if(this.frame.getClass().equals(HardGameBoard.class)) {
+        	HardGameBoard.turnTimer.start();
+        }
         return IandJ;
     }
 
@@ -568,7 +583,7 @@ public class GameController {
 	            timer.start();
 	            
 	        }
-	        
+	        	        	        
    public void  MainSound(String status){
 	   if(status.equals("play")) {
 		PlaygroundSound.setVolume(0.2f); 
@@ -602,6 +617,10 @@ public class GameController {
 	  // Sound sound = new Sound("Sound/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
+   }
+   public void buttonClick() {
+	   Sound sound = new Sound("src/Sound/buttonClick.wav");
+       sound.play();
    }
    
    public void WiningSound() {

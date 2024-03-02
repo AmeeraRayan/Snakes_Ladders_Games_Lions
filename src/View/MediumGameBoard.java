@@ -105,7 +105,7 @@ public class MediumGameBoard extends JFrame
         setTitle("Game Board");
         this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1153, 816);
+        setSize(1152, 816);
         // Creating the outer panel with BorderLayout
         outerPanel.setLayout(null);
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
@@ -369,6 +369,8 @@ public class MediumGameBoard extends JFrame
         for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
         	ArrayList<Integer>  key = entry.getKey();
             String value = entry.getValue();
+            System.out.println("key"+ key);
+            System.out.println("val:" +value);
         }
  
         meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
@@ -564,7 +566,7 @@ public class MediumGameBoard extends JFrame
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0 || i!=0) {
+            if(j!=0 || i!=9) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
@@ -572,6 +574,7 @@ public class MediumGameBoard extends JFrame
         } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
+        System.out.println("startsquare:"+"ladder"+num+ " "+ startSquare.getValue());
         //startSquare = findStartSquare_ladder(squares[i][j], num);
         endSquare = squares[i][j];
         ladderLabel = new JLabel();

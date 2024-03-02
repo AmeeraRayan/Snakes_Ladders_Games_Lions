@@ -44,6 +44,8 @@ import javax.swing.JButton;
 import javax.swing.JTextPane;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
  
@@ -80,7 +82,7 @@ public class HardGameBoard extends JFrame{
     private JTextPane textPane_1 ;
     private BoardLevelTemplate hardBoard;
     private boolean status = false ; 
-    private Timer turnTimer;
+    public static Timer turnTimer;
    private boolean isdiceClicked = false  ;
    private long remainingPlayerTime;
    private boolean isGamePaused = false;
@@ -94,6 +96,8 @@ public class HardGameBoard extends JFrame{
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
         
         JButton pauseButton = new JButton("Stop game");
 //        pauseButton.addActionListener(new ActionListener() {
@@ -108,14 +112,14 @@ public class HardGameBoard extends JFrame{
 //        		
 //        	}
 //        });
-        pauseButton.setBounds(1092, 25, 50, 30);
+        pauseButton.setBounds(1040, 25, 50, 30);
         outerPanel.add(pauseButton);
         
      
         
         
          textPane = new JTextField();
-        textPane.setBounds(792, 81, 350, 65);
+        textPane.setBounds(806, 79, 350, 65);
         outerPanel.add(textPane);
         
         controller = new GameController(game,this);
@@ -153,7 +157,7 @@ public class HardGameBoard extends JFrame{
         controller.MainSound("play");  
         musicStatus = true ; 
         JButton btnNewButton = new JButton("stop ");
-        btnNewButton.setBounds(1034, 25, 50, 30);
+        btnNewButton.setBounds(957, 25, 50, 30);
         outerPanel.add(btnNewButton);
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -218,7 +222,7 @@ public class HardGameBoard extends JFrame{
        
         turnTimer.setRepeats(true); 
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(1006, 655, 78, 81);
+        diceButton.setBounds(1000, 455, 78, 81);
         outerPanel.add(diceButton);
 
         // Creating the inner panel
@@ -263,15 +267,32 @@ public class HardGameBoard extends JFrame{
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
         
+        JLabel lblNewLabel_3 = new JLabel("");
+        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Button.png")));
+        lblNewLabel_3.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            ExitConfirmationDialog dialog = new ExitConfirmationDialog(HardGameBoard.this);
+            dialog.setVisible(true);
+            if (dialog.isConfirmed()) {
+            	gameTimer.stop();
+            	turnTimer.stop();
+            	controller.MainSound("stop");
+            	controller.FinalGame(false);
+                HardGameBoard.this.setVisible(false);
+                new MainScreen().setVisible(true);
+            }
+        }
+    });
+        lblNewLabel_3.setBounds(1017, 698, 100, 81);
+        outerPanel.add(lblNewLabel_3);
+        
 
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/BackHard.png")));
         lblNewLabel.setBounds(-41, -39, 1257, 1200);
         outerPanel.add(lblNewLabel);
         
-        JLabel label = new JLabel("New label");
-        label.setBounds(866, 455, 45, 13);
-        outerPanel.add(label);
         this.setVisible(true);
     }
    
@@ -1057,6 +1078,5 @@ public class HardGameBoard extends JFrame{
             isGamePaused = false;
         }
     }
-
 }
 

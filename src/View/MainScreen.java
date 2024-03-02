@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import Controller.GameController;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javax.swing.JLabel;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -55,13 +60,17 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import Model.GameDetails;
+import Model.Sound;
 public class MainScreen extends JFrame{
 
     private MainScreen frame ;
     public JButton btnNewButton_1;
+    private GameController gameController = new GameController(null);
 
     public MainScreen() {
     	frame=this;
+ 		Sound sound = new Sound("src/Sound/start.wav");
+ 		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1166, 687);
         getContentPane().setLayout(null);
@@ -70,7 +79,7 @@ public class MainScreen extends JFrame{
         setUndecorated(true);
 
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBounds(1080, 28, 41, 40);
+        lblNewLabel_1.setBounds(1073, 21, 55, 59);
         getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("");
@@ -81,6 +90,7 @@ public class MainScreen extends JFrame{
             public void mouseClicked(MouseEvent e) {
             	MainScreen.this.setVisible(false);
 				new DataReception().setVisible(true);
+				gameController.buttonClick();
             }
         });
         
@@ -91,6 +101,8 @@ public class MainScreen extends JFrame{
                 Instructions instructionsFrame = new Instructions();
                 instructionsFrame.setVisible(true);
                 MainScreen.this.setVisible(false); //
+				gameController.buttonClick();
+
             }
         });
        
@@ -101,6 +113,7 @@ public class MainScreen extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 showQuestionDialog();
+				gameController.buttonClick();
 
             }
         });
@@ -115,7 +128,9 @@ public class MainScreen extends JFrame{
             public void mouseClicked(MouseEvent e) {
             	MainScreen.this.setVisible(false);
                 Game_History gameHistoryScreen = new Game_History();
-                gameHistoryScreen.setVisible(true);  
+                gameHistoryScreen.setVisible(true); 
+				gameController.buttonClick();
+
             }
         });
         
@@ -131,6 +146,7 @@ public class MainScreen extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
             	MainScreen.this.setVisible(false); 
+				gameController.buttonClick();
             }
         });
           
