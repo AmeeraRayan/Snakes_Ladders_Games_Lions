@@ -95,7 +95,7 @@ public class MediumGameBoard extends JFrame
     
     
     private boolean isdiceClicked = false  ;
-    private boolean isstopMusicClicked = true ;
+    private boolean isstopMusicClicked = false ;
     
     public MediumGameBoard(Game game) {
 
@@ -148,6 +148,7 @@ public class MediumGameBoard extends JFrame
 		gameTimer.start();
         setResizable(false); 
 
+
         diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(917, 548, 78, 81);
@@ -155,6 +156,7 @@ public class MediumGameBoard extends JFrame
         game.setBoard(meduimboard);
         game.setDice(dice);
         controller = new GameController(game,this);
+        controller.MainSound(true);
         controller.CallQuestionDataFunc();
         IntilaizePlayerPositionView(game , controller , outerPanel);
         arraylistOrderByPosition = game.getPlayers();
@@ -191,12 +193,7 @@ public class MediumGameBoard extends JFrame
                 
                 game.setCurrentPlayerIndex(index);
                 game.setCurrentPlayer(game.getPlayers().get(index));
-                if(index == game.getPlayers().size()-1 )
-                textPane.setText("\n Turn: " +game.getPlayers().get(index).getName());
-                else {
-                    textPane.setText("\n Turn: " +game.getPlayers().get(index+1).getName());
-
-                }
+           
              //  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
              // updateTextPane(arraylistOrderByPosition);
 
@@ -222,22 +219,35 @@ public class MediumGameBoard extends JFrame
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(!isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(false);
+            			
+            		}
+            		else {
+            			controller.MainSound(false);
+            		}
+            		isstopMusicClicked = true ; 
+            		controller.isGameMuted = true ; 
+            		stop.setText("Continue Sound");
+            		return ; 
+            	}
             	if(isstopMusicClicked) {
-                controller.MainSound("stop"); // Stop the game timer
-                stop.setText("Continue Music");
-                isstopMusicClicked = false;
-            	}else {
-            		controller.MainSound("play");
-                    isstopMusicClicked = true;
-                    stop.setText("Stop Music");
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+            		}
+            		else {
+            			controller.MainSound(true);
+            		}
+            		isstopMusicClicked = false ; 
+            		controller.isGameMuted = false ; 
 
-
+            		stop.setText("Stop Sound");
             	}
             }
         });
         outerPanel.add(stop);
 
-        controller.MainSound("play");   
         JButton resume = new JButton("StopGame");
         resume.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -245,12 +255,14 @@ public class MediumGameBoard extends JFrame
         			pauseGame() ; 
         			diceButton.setEnabled(false);
         			resume.setText("resume");
-        			controller.MainSound("stop");
+        			controller.MainSound(false);
+        			
+
         		}else {
         			resumeGame();
         			diceButton.setEnabled(true);
         			resume.setText("StopGame");
-        			controller.MainSound("play");
+        			controller.MainSound(true);
 
         		}
         		
@@ -274,7 +286,7 @@ public class MediumGameBoard extends JFrame
             if (dialog.isConfirmed()) {
             	gameTimer.stop();
             	turnTimer.stop();
-            	controller.MainSound("stop");
+            	controller.MainSound(false);
             	controller.FinalGame(false);
                 MediumGameBoard.this.setVisible(false);
                 new MainScreen().setVisible(true);
@@ -888,7 +900,6 @@ public class MediumGameBoard extends JFrame
     }
     
     private void onDiceAnimationEnd() {
-    	diceButton.setEnabled(true);
         int result = dice.DiceForMediumGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
         String path = "/images/dice " + result + ".jpg";
@@ -909,29 +920,35 @@ public class MediumGameBoard extends JFrame
        	Player winner = game.getPlayers().get(index);
        	gameTimer.stop();
         turnTimer.stop();
+        int count = 0 ; 
         Timer wintime = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-           	
             	MediumGameBoard.this.setVisible(false); 
+                System.out.println("Win timer");
 
         		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
-                }
+                
+            }
+
+           
         });
-        controller.FinalGame(false);
-        
        	wintime.start();
-       
+        controller.FinalGame(false);
+        wintime.stop();
+
        }else {
     	   
     	     index++;
              if(index >= game.getPlayers().size()) {
                  index = 0;
              }
-         
+             
+             textPane.setText("\n Turn: " +game.getPlayers().get(index).getName());
              game.setCurrentPlayerIndex(index);
              game.setCurrentPlayer(game.getPlayers().get(index));
              System.out.println("from else ***********");
+             
          //	diceButton.setEnabled(false);
 
 

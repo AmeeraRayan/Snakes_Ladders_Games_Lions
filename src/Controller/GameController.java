@@ -40,12 +40,17 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-   // private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
-    private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
+    private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
+    //private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
 
-    //private Sound FinalSound = new Sound("Sound/FinalBattle.wav");
-    private Sound FinalSound = new Sound("src/Sound/FinalBattle.wav");
-
+    private Sound FinalSound = new Sound("Sound/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("src/Sound/FinalBattle.wav");
+    private boolean musicFlag = false ; 
+    public boolean isGameMuted = false ; 
+    private boolean flag ; 
+     public boolean  isFialMusic = false ; 
+     public boolean isMainMusic = true ; 
+    
 	public GameController(Game game , JFrame frame ) {
 		super();
 		this.game = game;
@@ -80,6 +85,7 @@ public class GameController {
 	    	 newPosition = WinValue;
 	     }
 	     game.getPlayers().get(index).setPosition(newPosition);
+	     MusicByPoisitionControl(WinValue);
 		}
 		if(type.equals("Dice Question")) {
 			if(result >= WinValue ) {
@@ -119,8 +125,7 @@ public class GameController {
 		 }while (checkTheTypeOfTheSquare(index ,IAndJ[0], IAndJ[1], playerLabel , WinValue));
 	   if(game.getPlayers().get(index).getPosition() >= WinValue - 15 ) {
 		   System.out.println("its a finallll");
-		   MainSound("stop");
-		   FinalGame(true);
+		   musicFlag = true;
 	   }
 	   
 	   if(game.getPlayers().get(index).getPosition() == WinValue ) {
@@ -134,8 +139,8 @@ public class GameController {
 	   }
 	   return flag ; 
 	}
-	public Point boardPositionToPixel(int boardPosition,Player currentPlayer) {
-	    int xDiff = 80; // the horizontal distance between squares
+	public Point boardPositionToPixel(int boardPosition,Player currentPlayer,String path) {
+	    int xDiff = 75; // the horizontal distance between squares
 	    int yDiff = 75; // vertical distance between squares
 
 	    int row = (boardPosition - 1) / 7;
@@ -144,19 +149,34 @@ public class GameController {
 	    int x = 0;
 	    int y = 0;
 	    Model.Color color = currentPlayer.getColor();
-	    if (color.equals(Model.Color.BLUE)) {
-	        x = 260;
-	        y = 650;
-	    } else if (color.equals(Model.Color.GREEN)) {
+	    if (color.equals(Model.Color.BLUE) && !path.equals("board3")) {
 	        x = 290;
-	        y = 650;
-	    } else if (color.equals(Model.Color.RED)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.GREEN)  &&!path.equals("board3")) {
 	        x = 260;
-	        y = 680;
-	    } else if (color.equals(Model.Color.YELLOW)) {
+	        y = 640;
+	    } else if (color.equals(Model.Color.RED)  &&!path.equals("board3")) {
 	        x = 290;
-	        y = 680;
+	        y = 670;
+	    } else if (color.equals(Model.Color.YELLOW) &&  !path.equals("board3")) {
+	        x = 260;
+	        y = 670;
 	    }
+	 
+	    	if (color.equals(Model.Color.BLUE) &&path.equals("board3")) {
+		        x = 220;
+		        y = 640;
+		    } else if (color.equals(Model.Color.GREEN)&&path.equals("board3")) {
+		        x = 250;
+		        y = 640;
+		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
+		        x = 220;
+		        y = 670;
+		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
+		        x = 250;
+		        y = 670;
+		    }
+	    
 
 
 	    x += col * xDiff;
@@ -525,14 +545,39 @@ public class GameController {
 		                        playerLabel[index].setLocation(targetX, targetY); // Ensure it ends exactly at the target
 		                        SwingUtilities.invokeLater(onAnimationEnd);
 		                        timer.stop();
-		                        // If you have any actions to perform after animation ends, place them here
-		                        // For example:
+		                        
 		                        // onAnimationComplete();
 		                    }
 		                }						
 					});
 	            timer.start();
 	           }
+	        }
+	        
+	        public void MusicByPoisitionControl(int WinValue) {
+	        	for (int i = 0 ; i < game.getPlayers().size() ; i ++) {
+	        		if(game.getPlayers().get(i).getPosition() >=WinValue-70 ) {
+	        			flag = true ;
+	        		}
+	        	}
+	        	System.out.println(flag);
+	        	if( !isGameMuted) {
+	        		if(flag == true) {
+	        		MainSound(false);
+	        		FinalGame(true);
+	        		isFialMusic = true ; 
+	        		isMainMusic = false ; 
+	        		}
+	        		else {
+	        			MainSound(true);
+		        		FinalGame(false);
+		        		isFialMusic = false ; 
+		        		isMainMusic = true ; 
+	        		}
+	        	}
+	        	
+        		flag = false ; 
+
 	        }
 	        
 
@@ -584,22 +629,31 @@ public class GameController {
 	            
 	        }
 	        	        	        
-   public void  MainSound(String status){
-	   if(status.equals("play")) {
+	  	        
+   public void  MainSound(boolean  status ){
+	   if(status == true) {
 		PlaygroundSound.setVolume(0.2f); 
         PlaygroundSound.loop();
-	   }else {
+        FinalSound.stop();
+        isMainMusic = true;
+	   }
+	   else {
 		   PlaygroundSound.stop();
+		   isMainMusic = false ;
 	   }
    }
    
    
    public void FinalGame(boolean f) {
-	   MainSound("stop");
+	   if(f == true) {
 		FinalSound.setVolume(0.2f); 
         FinalSound.loop();
-        if(!f) {
+        PlaygroundSound.stop();
+        isFialMusic = true ; 
+        }
+	   else {
         	FinalSound.stop();
+        	isFialMusic = false ; 
         }
    }
 
@@ -613,8 +667,8 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("src/Sound/dice.wav");
-	  // Sound sound = new Sound("Sound/dice.wav");
+	  // Sound sound = new Sound("src/Sound/dice.wav");
+	   Sound sound = new Sound("Sound/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
@@ -624,28 +678,28 @@ public class GameController {
    }
    
    public void WiningSound() {
-	 //  Sound WinSound = new Sound("Sound/levelup.wav");
-	   Sound WinSound = new Sound("src/Sound/levelup.wav");
+	   Sound WinSound = new Sound("Sound/levelup.wav");
+	   //Sound WinSound = new Sound("src/Sound/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	   Sound sound = new Sound("src/Sound/ladder.wav");
-	//   Sound sound = new Sound("Sound/ladder.wav");
+	//   Sound sound = new Sound("src/Sound/ladder.wav");
+	   Sound sound = new Sound("Sound/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("src/Sound/surprise.wav");
-	//   Sound sound = new Sound("Sound/surprise.wav");
+	 //  Sound sound = new Sound("src/Sound/surprise.wav");
+	   Sound sound = new Sound("Sound/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	  Sound sound = new Sound("src/Sound/TimeOut.wav");
-	//  Sound sound = new Sound("Sound/TimeOut.wav");
+	 // Sound sound = new Sound("src/Sound/TimeOut.wav");
+	  Sound sound = new Sound("Sound/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

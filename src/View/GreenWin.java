@@ -25,9 +25,10 @@ public class GreenWin extends JFrame  implements WinFrame{
 	private String time;
 	private Game game;
 
-	public GreenWin(String winnerName, String time) {
+	public GreenWin(String winnerName, String time, Game game) {
 		this.plyerNickname=winnerName;
 		this.time=time;
+		this.game=game;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 894, 596);
@@ -97,7 +98,7 @@ public class GreenWin extends JFrame  implements WinFrame{
 		this.plyerNickname=winnerName;
 		this.game=game;
 		this.time=time;	
-		new GreenWin(winnerName,time).setVisible(true);
+		new GreenWin(winnerName,time, game).setVisible(true);
 
 	}
 }

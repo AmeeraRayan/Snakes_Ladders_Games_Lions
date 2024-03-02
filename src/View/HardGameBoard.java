@@ -154,7 +154,7 @@ public class HardGameBoard extends JFrame{
 	        });
 		
 		gameTimer.start();
-        controller.MainSound("play");  
+        controller.MainSound(true);  
         musicStatus = true ; 
         JButton btnNewButton = new JButton("stop ");
         btnNewButton.setBounds(957, 25, 50, 30);
@@ -162,12 +162,12 @@ public class HardGameBoard extends JFrame{
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if(musicStatus) {
-                controller.MainSound("stop");
+                controller.MainSound(false);
                 btnNewButton.setText("Continue Music");
         		musicStatus = false ;
         		}
         		else {
-                    controller.MainSound("play");
+                    controller.MainSound(true);
             		musicStatus = true ;
                     btnNewButton.setText("Stop Music");
 

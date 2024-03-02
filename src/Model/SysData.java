@@ -51,7 +51,10 @@ public class SysData {
 		questionPositions = new HashMap<>();
 		questionPositions.put(3, "easy"); // position for easy question
 		questionPositions.put(14, "medium"); // position for medium question
+		questionPositions.put(29, "medium"); // position for medium question
+		questionPositions.put(22, "hard"); 
 		questionPositions.put(46, "hard"); // position for hard question
+		questionPositions.put(17, "hard"); // position for hard question
 
         
     }
@@ -135,8 +138,8 @@ public class SysData {
 		Gson gson = new Gson();
 		JsonReader reader = null;
 		try {
-				//reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
-				reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
+				reader = new JsonReader(new FileReader("QuestionsAndAnswers.json"));
+				//reader = new JsonReader(new FileReader("src/QuestionsAndAnswers.json"));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

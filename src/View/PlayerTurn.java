@@ -226,8 +226,8 @@ public class PlayerTurn extends JFrame {
             timer.start();///BJDGAS
         }
         public void DiceRollingSound() {
-     	   //Sound sound = new Sound("Sound/dice.wav");
-     	   Sound sound = new Sound("src/Sound/dice.wav");
+     	   Sound sound = new Sound("Sound/dice.wav");
+     	  // Sound sound = new Sound("src/Sound/dice.wav");
      		sound.setVolume(0.5f); 
              sound.play();
         }
