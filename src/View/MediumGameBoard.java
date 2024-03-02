@@ -286,7 +286,7 @@ public class MediumGameBoard extends JFrame
             if (dialog.isConfirmed()) {
             	gameTimer.stop();
             	turnTimer.stop();
-            	controller.MainSound("stop");
+            	controller.MainSound(false);
             	controller.FinalGame(false);
                 MediumGameBoard.this.setVisible(false);
                 new MainScreen().setVisible(true);
