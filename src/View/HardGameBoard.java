@@ -81,8 +81,10 @@ public class HardGameBoard extends JFrame{
     private BoardLevelTemplate hardBoard;
     private boolean status = false ; 
     private Timer turnTimer;
-   private boolean isGamePaused = false  ; 
-    
+   private boolean isdiceClicked = false  ;
+   private long remainingPlayerTime;
+   private boolean isGamePaused = false;
+   private long turnTimerStartTime;
     public HardGameBoard(Game game) {
     	this.game=game;
     	setTitle("Game Board");
@@ -174,10 +176,21 @@ public class HardGameBoard extends JFrame{
         textPane.setAlignmentY(Component.TOP_ALIGNMENT);
         controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         arraylistOrderByPosition = game.getPlayers();
-        startNewTurn();
+      	 turnTimer = new Timer(10000, new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+            	
+             	System.out.println("from timer ");
+                 turnTimer.stop(); // Stop the timer to prevent it from repeating
+                 animateDiceRoll(); // Automatically roll the dice
+                 startNewTurn();}
+             
+         });
+     	 
+        turnTimer.start();
         diceButton.addActionListener(new ActionListener() {
         	  public void actionPerformed(ActionEvent e) {
-                  controller.DiceRollingSound();
+              	isdiceClicked = true ; 
                   index = game.getCurrentPlayerIndex();
                   if (turnTimer.isRunning()) {
                       turnTimer.stop(); // Stop the countdown as the player is taking action
@@ -952,6 +965,8 @@ public class HardGameBoard extends JFrame{
     }
     
     private void onDiceAnimationEnd() {
+        controller.DiceRollingSound();
+
         int result = dice.DiceForHardGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
         String path = "/images/dice " + result + ".jpg";
@@ -966,10 +981,24 @@ public class HardGameBoard extends JFrame{
            
         }
         if(flag == true) {
+         controller.WiningSound();
        	saveGameDetails(game.getPlayers().get(index));
        	HardGameBoard.this.setVisible(false); 
        	Player winner = game.getPlayers().get(index);
-  		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
+     	gameTimer.stop();
+        turnTimer.stop();
+
+  	   Timer wintime = new Timer(3000, new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+          	
+              	HardGameBoard.this.setVisible(false); 
+
+          		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
+               }
+       });
+      	wintime.start();
+      	controller.FinalGame(false);
        }else {
     	   
     	     index++;
@@ -987,41 +1016,44 @@ public class HardGameBoard extends JFrame{
        
     }
     
-    public void startNewTurn() {// Start the 30-second countdown for the player's turn
-        turnTimer.start(); 
-        diceButton.setEnabled(true); 
-    }
-    
+
     private void endTurn() {
         startNewTurn(); 
     }
     
-//    public void pauseGame() {
-//        if (!isGamePaused) {
-//            gameTimer.stop();
-//            turnTimer.stop();
-//            
-//            // Calculate the remaining time for the player turn timer
-//            long now = System.currentTimeMillis();
-//            remainingPlayerTime -= (now - turnTimer);
-//            
-//            isGamePaused = true;
-//        }
-//    }
-//    
-//    public void resumeGame() {
-//        if (isGamePaused) {
-//            gameTimer.start();
-//            
-//            // Adjust the player turn timer to fire after the remaining time
-//            turnTimer.setInitialDelay((int) remainingPlayerTime);
-//            turnTimer.start();
-//            turnTimer = System.currentTimeMillis(); // Reset start time
-//            
-//            isGamePaused = false;
-//        }
-//    }
+    public void startNewTurn() {// Start the 30-second countdown for the player's turn
+    	System.out.println("From New turnnn");
+        isdiceClicked = false ; 
+        turnTimer.stop();
+        turnTimer.start(); 
+        diceButton.setEnabled(true); 
+    }
+    
+    public void pauseGame() {
+        if (!isGamePaused) {
+            gameTimer.stop();
+            turnTimer.stop();
 
+            // Calculate the remaining time for the player turn timer
+            long now = System.currentTimeMillis();
+            remainingPlayerTime -= (now - turnTimerStartTime);
+
+            isGamePaused = true;
+        }
+    }
+
+    public void resumeGame() {
+        if (isGamePaused) {
+            gameTimer.start();
+
+            // Adjust the player turn timer to fire after the remaining time
+            turnTimer.setInitialDelay((int) remainingPlayerTime);
+            turnTimer.start();
+            turnTimerStartTime = System.currentTimeMillis(); // Reset start time
+
+            isGamePaused = false;
+        }
+    }
 
 }
 

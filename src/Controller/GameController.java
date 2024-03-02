@@ -3,6 +3,7 @@ package Controller;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -29,8 +30,12 @@ public class GameController {
 	private Game game;
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
-    private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
-    //private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
+
+    private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
+   // private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
+
+    private Sound FinalSound = new Sound("Sound/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("src/Sound/FinalBattle.wav");
 
 	public GameController(Game game , JFrame frame ) {
 		super();
@@ -103,9 +108,20 @@ public class GameController {
 	    		 
 	    	
 		 }while (checkTheTypeOfTheSquare(index ,IAndJ[0], IAndJ[1], playerLabel , WinValue));
-	    	 
+	   if(game.getPlayers().get(index).getPosition() >= WinValue - 15 ) {
+		   System.out.println("its a finallll");
+		   MainSound("stop");
+		   FinalGame(true);
+	   }
+	   
 	   if(game.getPlayers().get(index).getPosition() == WinValue ) {
 		   flag = true ; 
+		   game.getPlayers().get(index).setPosition(WinValue);
+		   animatePlayerMovement(index , playerLabel, game, new Runnable() {
+		             @Override
+		             public void run() {
+		             }
+		         });
 	   }
 	   return flag ; 
 	}
@@ -425,7 +441,7 @@ public class GameController {
 	        	   for (int i = 0 ; i < game.getPlayers().size() ; i ++ ) {
 		            	if(game.getPlayers().get(i).getPosition() == game.getPlayers().get(index).getPosition() ) {
 		            		newLabels[j] = playerLabel[i];
-		            		CorrectPositions(i ,newLabels[j] , g , new Runnable() {
+		            		PositionTwoPlayerorMoreAtTheSquare(i ,newLabels[j] , g , new Runnable() {
 		   		             @Override
 		   		             public void run() {
 		   		             }
@@ -471,7 +487,8 @@ public class GameController {
 	        }
 	        
 
-	        public void CorrectPositions(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	        public void PositionTwoPlayerorMoreAtTheSquare(int index , JLabel playerLabel, Game g, Runnable onAnimationEnd) {
+	     
 	            int[] iAndJ = FindSquareByValue(game.getPlayers().get(index).getPosition());
 	            int spaceX = 0 ; 
 	            int spaceY = 0 ; 
@@ -526,29 +543,49 @@ public class GameController {
 		   PlaygroundSound.stop();
 	   }
    }
+   
+   
+   public void FinalGame(boolean f) {
+	   MainSound("stop");
+		FinalSound.setVolume(0.2f); 
+        FinalSound.loop();
+        if(!f) {
+        	FinalSound.stop();
+        }
+   }
 
    public void  SnakeSoundEffect(){
  		Sound sound = new Sound("Sound/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("src/Sound/snake-hissing-6092.wav");
+
 		sound.setVolume(0.5f); 
          sound.play();
          
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("src/Sound/dice.wav");
-	   //Sound sound = new Sound("Sound/dice.wav");
+	 //  Sound sound = new Sound("src/Sound/dice.wav");
+	   Sound sound = new Sound("Sound/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
+   
+   public void WiningSound() {
+	   Sound WinSound = new Sound("Sound/levelup.wav");
+	 //  Sound WinSound = new Sound("src/Sound/levelup.wav");
+
+	   WinSound.play();
+
+   }
    public void LadderSound() {
-	   Sound sound = new Sound("src/Sound/ladder.wav");
-	   //Sound sound = new Sound("Sound/ladder.wav");
+	  // Sound sound = new Sound("src/Sound/ladder.wav");
+	   Sound sound = new Sound("Sound/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("src/Sound/surprise.wav");
-	   //Sound sound = new Sound("Sound/surprise.wav");
+	 //  Sound sound = new Sound("src/Sound/surprise.wav");
+	   Sound sound = new Sound("Sound/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }

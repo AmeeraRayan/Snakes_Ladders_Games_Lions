@@ -78,7 +78,6 @@ public class MediumGameBoard extends JFrame
     private JTextPane textPane_1 ;
     private BoardLevelTemplate mediumBoard;
     JButton diceButton;
-    JTextField textPane;
     private Game game;
     Player CurrentPlayer ;
     Random rand = new Random();
@@ -86,8 +85,17 @@ public class MediumGameBoard extends JFrame
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     JPanel outerPanel = new JPanel();
 
+    private long remainingPlayerTime;
+    private boolean isGamePaused = false;
+    private long turnTimerStartTime;
+    private JLabel textPane = new JLabel("");
+    
+    
+    private boolean isdiceClicked = false  ;
+    
     
     public MediumGameBoard(Game game) {
+
     	this.game = game;
         // Setting up the main frame
     	//frame = new JFrame();
@@ -109,9 +117,9 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPane.png")));
+        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPaneFrame.png")));
         lblNewLabel_2.setBackground(SystemColor.desktop);
-        lblNewLabel_2.setBounds(166, -48, 550, 162);
+        lblNewLabel_2.setBounds(204, -7, 550, 162);
         outerPanel.add(lblNewLabel_2);
      
          jl = new JLabel("00:00", SwingConstants.CENTER);
@@ -133,16 +141,8 @@ public class MediumGameBoard extends JFrame
 			}
 		});
 		gameTimer.start();
+        setResizable(false); 
 
-		 turnTimer = new Timer(10000, new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                turnTimer.stop(); // Stop the timer to prevent it from repeating
-	                animateDiceRoll(); // Automatically roll the dice
-	            }
-	        });
-		
-        
         diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(917, 548, 78, 81);
@@ -155,30 +155,43 @@ public class MediumGameBoard extends JFrame
         arraylistOrderByPosition = game.getPlayers();
         // create game instance and set the board and the dice >> BACKEND . 
         //CurrentPlayer = controller.getGame().getCurrentPlayer();
+        
+     	 turnTimer = new Timer(10000, new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+            	
+             	System.out.println("from timer ");
+                 turnTimer.stop(); // Stop the timer to prevent it from repeating
+                 animateDiceRoll(); // Automatically roll the dice
+                 startNewTurn();}
+             
+         });
+     	 
+        turnTimer.start();
+        
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                index = game.getCurrentPlayerIndex();
-                controller.DiceRollingSound();
+            	isdiceClicked = true ; 
                 index = game.getCurrentPlayerIndex();
                 if (turnTimer.isRunning()) {
                     turnTimer.stop(); // Stop the countdown as the player is taking action
+                    System.out.println("from timer is runing ");
                 }
                 animateDiceRoll();
                 Player CurrentPlayer = game.getPlayers().get(index);
                 
-                            diceButton.setEnabled(true);
-                            game.setCurrentPlayerIndex(index);
-                            game.setCurrentPlayer(game.getPlayers().get(index));
-                            textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                            textPane.setEditable(false);
-                            endTurn();
-                            controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
-                            updateTextPane(arraylistOrderByPosition);
-                            startNewTurn();
-                        }
+                diceButton.setEnabled(true);
+                game.setCurrentPlayerIndex(index);
+                game.setCurrentPlayer(game.getPlayers().get(index));
+               textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+             //  controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+             // updateTextPane(arraylistOrderByPosition);
+               startNewTurn();
+
+   }
   
         });
-        
+ 
          htmlBuilder = new StringBuilder();
         htmlBuilder.append("<html><body><ul>");
         for (Player p : arraylistOrderByPosition) {
@@ -202,10 +215,22 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(stop);
 
         controller.MainSound("play");   
-        JButton resume = new JButton("");
+        JButton resume = new JButton("StopGame");
         resume.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		gameTimer.start();
+        		if(!isGamePaused) {
+        			pauseGame() ; 
+        			diceButton.setEnabled(true);
+        			diceButton.setText("resume");
+        			controller.MainSound("stop");
+        		}else {
+        			resumeGame();
+        			diceButton.setEnabled(false);
+        			diceButton.setText("StopGame");
+        			controller.MainSound("play");
+
+        		}
+        		
         	}
         });
         resume.setBounds(874, 128, 160, 41);
@@ -220,7 +245,8 @@ public class MediumGameBoard extends JFrame
         lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
         lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
         outerPanel.add(lblNewLabel_1);
-        setResizable(false); 
+        
+    
 
         this.setVisible(true);
     }
@@ -327,7 +353,6 @@ public class MediumGameBoard extends JFrame
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         // Place the first red snake
         do {
-        	arr.clear();
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
             arr.add(i1);
@@ -342,17 +367,25 @@ public class MediumGameBoard extends JFrame
             arr2.add(j2);
         } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==0 && j2==0));
         takenCells.put(arr2,"redsnake2");
+
         JLabel label_1 = new JLabel();
-		label_1 .setBounds(squares[i1][j1].getBoundsX(), squares[i1][j1].getBoundsY(), 55, 55);
+		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
+        
+            textPane.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
+            textPane.setBounds(408, 34, 252, 55);
+            outerPanel.add(textPane);
+            textPane.setText(game.getCurrentPlayer().getName());
+        panel.add(label_1);
+        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
-        label_2.setBounds(squares[i2][j2].getBoundsX(), squares[i2][j2].getBoundsY(), 55, 55);
+        label_2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY(), 50, 50);
         //object red snake 2 
         Snake redSnake2 = new Snake(squares[i2][j2], squares[9][0]);
         snakes[1] = redSnake2;
         panel.add(label_2);
-        label_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/RedSnake.png")));
+        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
     }
  
     
@@ -783,6 +816,7 @@ public class MediumGameBoard extends JFrame
         final int[] currentNumber = {1}; 
         final int numberOfFaces = 6; 
         final Timer timer = new Timer(100, null); 
+        controller.DiceRollingSound();
         timer.addActionListener(new ActionListener() {
             int count = 0;
             int animationCycles = numberOfFaces * 2; 
@@ -822,10 +856,23 @@ public class MediumGameBoard extends JFrame
            
         }
         if(flag == true) {
+        controller.WiningSound();
        	saveGameDetails(game.getPlayers().get(index));
-       	MediumGameBoard.this.setVisible(false); 
        	Player winner = game.getPlayers().get(index);
-		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
+       	gameTimer.stop();
+        turnTimer.stop();
+        Timer wintime = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+           	
+            	MediumGameBoard.this.setVisible(false); 
+
+        		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
+                }
+        });
+        controller.FinalGame(false);
+       	wintime.start();
+       
        }else {
     	   
     	     index++;
@@ -835,8 +882,8 @@ public class MediumGameBoard extends JFrame
          
              game.setCurrentPlayerIndex(index);
              game.setCurrentPlayer(game.getPlayers().get(index));
-             textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+     //        textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
+      //       controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
        }
   
@@ -844,11 +891,36 @@ public class MediumGameBoard extends JFrame
     }
     
     public void startNewTurn() {// Start the 30-second countdown for the player's turn
+    	System.out.println("From New turnnn");
+        isdiceClicked = false ; 
+        turnTimer.stop();
         turnTimer.start(); 
         diceButton.setEnabled(true); 
     }
     
-    private void endTurn() {
-        startNewTurn(); 
+    public void pauseGame() {
+        if (!isGamePaused) {
+            gameTimer.stop();
+            turnTimer.stop();
+
+            // Calculate the remaining time for the player turn timer
+            long now = System.currentTimeMillis();
+            remainingPlayerTime -= (now - turnTimerStartTime);
+
+            isGamePaused = true;
+        }
+    }
+
+    public void resumeGame() {
+        if (isGamePaused) {
+            gameTimer.start();
+
+            // Adjust the player turn timer to fire after the remaining time
+            turnTimer.setInitialDelay((int) remainingPlayerTime);
+            turnTimer.start();
+            turnTimerStartTime = System.currentTimeMillis(); // Reset start time
+
+            isGamePaused = false;
+        }
     }
 }
