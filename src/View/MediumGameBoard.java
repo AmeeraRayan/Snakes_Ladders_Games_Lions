@@ -572,16 +572,15 @@ public class MediumGameBoard extends JFrame
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
-        	arr1.clear(); // Clear the list before adding new values
             arr2.clear(); // Clear the list before adding new values
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
             startSquare = findStartSquare_ladder(squares[i][j], num);
+            arr1.clear(); // Clear the list before adding new values
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-           
         } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
