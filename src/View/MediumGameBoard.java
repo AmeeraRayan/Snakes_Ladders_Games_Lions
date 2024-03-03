@@ -134,7 +134,7 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPaneFrame.png")));
+        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/textPaneFrame.png")));
         lblNewLabel_2.setBackground(SystemColor.desktop);
         lblNewLabel_2.setBounds(204, -7, 550, 162);
         outerPanel.add(lblNewLabel_2);
@@ -158,7 +158,7 @@ public class MediumGameBoard extends JFrame
 
 
         diceButton = new JButton("");
-        diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
+        diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/dice 3.jpg")));
         diceButton.setBounds(928, 637, 78, 81);
         outerPanel.add(diceButton);
         game.setBoard(meduimboard);
@@ -289,12 +289,12 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(resume);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Dice.png")));
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Dice.png")));
         lblNewLabel.setBounds(701, 596, 500, 150);
         outerPanel.add(lblNewLabel);
         
         JLabel lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Button.png")));
+        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Button.png")));
         lblNewLabel_3.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -314,7 +314,7 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(lblNewLabel_3);
         
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
+        lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/MainMediumBoard.png")));
         lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
         outerPanel.add(lblNewLabel_1);
         
@@ -365,7 +365,7 @@ public class MediumGameBoard extends JFrame
                 int y = i * cellSize + panel.getBounds().y + 118;
                 // Initialize square type based on cellNumber
                 if (chosenCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/QuestionMark.png")));
                     label.setText(""); // Set empty string for text
                     squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                     quastionSquares[count] = squares[i][j];
@@ -375,7 +375,7 @@ public class MediumGameBoard extends JFrame
                     takenCells.put(arrayList,"question"+count);
                     count++;
                 } else if (chosenSurpriseCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMarkM.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/QuestionMarkM.png")));
                     label.setText(""); // Set empty string for text 
                     squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
                     surpriseSquares[surpriseCount] = squares[i][j];
@@ -388,7 +388,7 @@ public class MediumGameBoard extends JFrame
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
                 if(cellNumber == 100) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StarWin.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StarWin.png")));
                     label.setText(""); // Set empty string for text
  
                 }
@@ -465,20 +465,20 @@ public class MediumGameBoard extends JFrame
                     jl.setFont(new Font("Maiandra GD", Font.PLAIN, 28));
         
         JLabel lblNewLabel_5 = new JLabel("");
-        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
+        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/finalTimerAndPlayernames.png")));
         lblNewLabel_5.setBounds(733, 165, 500, 200);
         outerPanel.add(lblNewLabel_5);
         
        
         panel.add(label_1);
-        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
+        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
         label_2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY(), 50, 50);
         //object red snake 2 
         Snake redSnake2 = new Snake(squares[i2][j2], squares[9][0]);
         snakes[1] = redSnake2;
         panel.add(label_2);
-        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
+        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
     }
  
     
@@ -498,7 +498,7 @@ public class MediumGameBoard extends JFrame
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
         snakes[2] = yellowSnake;
-        yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/rightYellow.png")));
+        yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/rightYellow.png")));
         panel.add(yellowSnakeLabel);
     }
  
@@ -518,7 +518,7 @@ public class MediumGameBoard extends JFrame
         Square EndSquare = findSquare(squares[i][j], Color.BLUE);
         Snake BlueSnake1 = new Snake(squares[i][j], EndSquare);
         snakes[3] = BlueSnake1;
-        labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/SnakeBlueRight.png")));
+        labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/SnakeBlueRight.png")));
         panel.add(labelBlue);
     }
  
@@ -591,8 +591,8 @@ public class MediumGameBoard extends JFrame
         Snake GreenSnake2 = new Snake(squares[i2][j2], EndSquare2);
         snakes[4] = GreenSnake1;
         snakes[5] = GreenSnake2;
-        label1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/GSnake.png")));
-        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Gsnake.png")));
+        label1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/GSnake.png")));
+        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Gsnake.png")));
         panel.add(label1);
         panel.add(label2);
     }
@@ -629,7 +629,7 @@ public class MediumGameBoard extends JFrame
         ladders[num - 1] = ladder;
         // Set ladder image and add it to the panel
         ladderLabel.setBounds((ladder.getSquareEnd().getBoundsX()+ladderCalc(num)[2]), (ladder.getSquareEnd().getBoundsY()+ladderCalc(num)[3]), ladderCalc(num)[0], ladderCalc(num)[1]);
-        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/ladder" + num + ".png")));
+        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/ladder" + num + ".png")));
         panel.add(ladderLabel);
     }
  
@@ -801,24 +801,24 @@ public class MediumGameBoard extends JFrame
     		playersLable[i] = new JLabel();
     		playersLable[i].setBounds(x,y , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
-    			String path = "/images/greenPlayer.png";
+    			String path = "/View/images/greenPlayer.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     			
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
-    			String path = "/images/yellowPlayer1.png";
+    			String path = "/View/images/yellowPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
-    			String path = "/images/RedPlayer1.png";
+    			String path = "/View/images/RedPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
  
-    			String path = "/images/BluePlayer1.png";
+    			String path = "/View/images/BluePlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
 
  
@@ -917,7 +917,7 @@ public class MediumGameBoard extends JFrame
             public void actionPerformed(ActionEvent evt) {
                 if (count < animationCycles) {
                     // Update the dice icon to show the next face
-                    String path = "/images/dice " + currentNumber[0] + ".jpg";
+                    String path = "/View/images/dice " + currentNumber[0] + ".jpg";
                     diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
                     currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
                     count++;
@@ -938,7 +938,7 @@ public class MediumGameBoard extends JFrame
     private void onDiceAnimationEnd() {
         int result = dice.DiceForMediumGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
-        String path = "/images/dice " + result + ".jpg";
+        String path = "/View/images/dice " + result + ".jpg";
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
         boolean flag = false ; 
 

@@ -58,7 +58,7 @@ public class GreenWin extends JFrame  implements WinFrame{
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2 = new JLabel(new ImageIcon(getClass().getResource("/images/green_win.jpg")));
+		lblNewLabel_2 = new JLabel(new ImageIcon(getClass().getResource("/View/images/green_win.jpg")));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2.setBounds(-43, 0, 1116, 596);

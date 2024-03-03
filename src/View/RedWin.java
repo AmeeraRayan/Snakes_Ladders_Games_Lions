@@ -62,7 +62,7 @@ public class RedWin extends JFrame  implements WinFrame{
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/red_wins.jpg")));
+		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/View/images/red_wins.jpg")));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
 		lblNewLabel_1.setBounds(-43, 0, 1092, 596);

@@ -68,7 +68,7 @@ public class BlueWin extends JFrame implements WinFrame{
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/blue_win.jpg")));
+		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/View/images/blue_win.jpg")));
 		lblNewLabel_1.setBounds(-42, -27, 1109, 649);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));

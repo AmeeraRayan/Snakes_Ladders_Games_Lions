@@ -49,7 +49,7 @@ public class BounusResults2 extends JFrame {
 		PlayerTurnTwo.setBounds(369, 462, 243, 58);
 		contentPane.add(PlayerTurnTwo);
         JButton btnNewButton_1 = new JButton("");
-        btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
+        btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/View/images/NextButton.png")));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	gameController.buttonClick();
@@ -74,7 +74,7 @@ public class BounusResults2 extends JFrame {
         contentPane.add(btnNewButton_1);
 		 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/bonus2.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/View/images/bonus2.jpg")));
 		lblNewLabel.setBounds(-27, -38, 1148, 738);
 		contentPane.add(lblNewLabel);
 		 
