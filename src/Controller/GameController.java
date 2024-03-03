@@ -40,11 +40,11 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-   // private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
-    private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
+    private Sound  PlaygroundSound = new Sound("Sound/BlueBoyAdventure.wav");
+    //private Sound  PlaygroundSound = new Sound("src/Sound/BlueBoyAdventure.wav");
 
-   // private Sound FinalSound = new Sound("Sound/FinalBattle.wav");
-    private Sound FinalSound = new Sound("src/Sound/FinalBattle.wav");
+    private Sound FinalSound = new Sound("Sound/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("src/Sound/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag ; 
@@ -487,6 +487,26 @@ public class GameController {
 	            break;
 	        } };
 	        
+	  	  public void setPlayerForegroundColor(Model.Color color , JLabel txtrPlayer) {//change the jtext background - by the player color
+		        switch (color.toString()) {
+		        case "BLUE":
+		            txtrPlayer.setForeground(new java.awt.Color(175, 238, 238)); // Blue
+		            break;
+		        case "GREEN": 
+		            txtrPlayer.setForeground(new java.awt.Color(152, 251, 152)); // Green
+		            break;
+		        case "RED":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 51, 102)); // Red
+		            break;
+		        case "YELLOW":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 255, 204)); // Yellow
+		            break;
+		        default:
+		            // Default color for other players
+		            txtrPlayer.setForeground(new java.awt.Color(192, 192, 192));
+		            break;
+		        } };
+	        
 	    
 	
 	  
@@ -658,8 +678,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		//Sound sound = new Sound("Sound/snake-hissing-6092.wav");
- 		Sound sound = new Sound("src/Sound/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("Sound/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("src/Sound/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -667,40 +687,40 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("src/Sound/dice.wav");
-	  // Sound sound = new Sound("Sound/dice.wav");
+	   //Sound sound = new Sound("src/Sound/dice.wav");
+	   Sound sound = new Sound("Sound/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	   Sound sound = new Sound("src/Sound/buttonClick.wav");
-		//   Sound sound = new Sound("Sound/buttonClick.wav");
+	  // Sound sound = new Sound("src/Sound/buttonClick.wav");
+	   Sound sound = new Sound("Sound/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	 //  Sound WinSound = new Sound("Sound/levelup.wav");
-	   Sound WinSound = new Sound("src/Sound/levelup.wav");
+	   Sound WinSound = new Sound("Sound/levelup.wav");
+	  // Sound WinSound = new Sound("src/Sound/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	   Sound sound = new Sound("src/Sound/ladder.wav");
-	  // Sound sound = new Sound("Sound/ladder.wav");
+	   //Sound sound = new Sound("src/Sound/ladder.wav");
+	   Sound sound = new Sound("Sound/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("src/Sound/surprise.wav");
-	 //  Sound sound = new Sound("Sound/surprise.wav");
+	  // Sound sound = new Sound("src/Sound/surprise.wav");
+	   Sound sound = new Sound("Sound/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	  Sound sound = new Sound("src/Sound/TimeOut.wav");
-	//  Sound sound = new Sound("Sound/TimeOut.wav");
+	 // Sound sound = new Sound("src/Sound/TimeOut.wav");
+	  Sound sound = new Sound("Sound/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

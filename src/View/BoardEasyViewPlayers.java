@@ -83,6 +83,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	public String path ;
+    private boolean isstopMusicClicked = false ;
+
 	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
@@ -197,6 +199,39 @@ public class BoardEasyViewPlayers extends JFrame {
 	    });
 	    lblNewLabel_5.setBounds(24, 664, 105, 82);
 	    contentPane.add(lblNewLabel_5);
+	    JButton stop = new JButton("StopMusic");
+        stop.setBounds(925, 10, 160, 41); // Adjust size and position accordingly
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(!isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(false);
+            			
+            		}
+            		else {
+            			controller.MainSound(false);
+            		}
+            		isstopMusicClicked = true ; 
+            		controller.isGameMuted = true ; 
+            		stop.setText("Continue Sound");
+            		return ; 
+            	}
+            	if(isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+            		}
+            		else {
+            			controller.MainSound(true);
+            		}
+            		isstopMusicClicked = false ; 
+            		controller.isGameMuted = false ; 
+
+            		stop.setText("Stop Sound");
+            	}
+            }
+        });
+        contentPane.add(stop);
 		startGame();
 
 
@@ -866,6 +901,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	public boolean checkForSnakesAndLadders(int pos, int roll) {
 		int lastpos=pos;
 		for (Snake snake : game.getBoard().getSnakes()) {
+			controller.SnakeSoundEffect();
 			if (pos == snake.getSquareStart().getValue()) {
 				game.getCurrentPlayer().setPosition(snake.getSquareEnd().getValue());
 				game.updatePlayerPositionInList(currentPlayer.getName(), snake.getSquareEnd().getValue());
@@ -878,6 +914,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		}}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
+			controller.LadderSound();
 			if (pos == (ladder.getSquareStart().getValue())) {
 				game.getCurrentPlayer().setPosition(ladder.getSquareEnd().getValue());
 				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
@@ -891,6 +928,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 
 		for (Square q : game.getBoard().getQuestions()) {
+			
 			if (pos== (q.getValue())) {
 				SysData sysdata=new SysData();
 				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path);
