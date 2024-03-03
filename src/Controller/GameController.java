@@ -171,10 +171,10 @@ public class GameController {
 		        y = 660;
 		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
 		        x = 220;
-		        y = 653;
+		        y = 635;
 		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
 		        x = 250;
-		        y = 653;
+		        y = 635;
 		    }
 	    
 
