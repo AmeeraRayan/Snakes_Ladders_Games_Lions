@@ -96,7 +96,7 @@ public class MediumGameBoard extends JFrame
     private long turnTimerStartTime;
     private JLabel textPane = new JLabel("");
     private JLabel textPane_1_2 = new JLabel("");
-    private JLabel jl = new JLabel("");
+    private JLabel jl = new JLabel("00:00");
 
     
     private boolean isdiceClicked = false  ;
@@ -144,7 +144,7 @@ public class MediumGameBoard extends JFrame
 				long elapsed = now - startTime;
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
 				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
-				jl1.setText(String.format("%02d:%02d", minutes, seconds));
+				jl.setText(String.format("%02d:%02d", minutes, seconds));
 			}
 		});
 		gameTimer.start();
@@ -437,17 +437,18 @@ public class MediumGameBoard extends JFrame
 		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
+            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 16));
             
             textPane_1_2_1.setBounds(917, 175, 150, 150);
             outerPanel.add(textPane_1_2_1);
         
-            jl.setLocation(925, 293);
+            jl.setLocation(950, 304);
             outerPanel.add(jl);
             jl.setVisible(true);
-            jl.setSize(160, 86);
+            jl.setSize(150, 86);
             
                     Font labelFont = jl.getFont();
-                    jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+                    jl.setFont(new Font("Maiandra GD", Font.PLAIN, 28));
         
         JLabel lblNewLabel_5 = new JLabel("");
         lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
@@ -594,16 +595,15 @@ public class MediumGameBoard extends JFrame
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
-        	arr1.clear(); // Clear the list before adding new values
             arr2.clear(); // Clear the list before adding new values
             i = generateRandomIJ(num)[0]; // Generate random row index
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
             startSquare = findStartSquare_ladder(squares[i][j], num);
+            arr1.clear(); // Clear the list before adding new values
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-           
         } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
