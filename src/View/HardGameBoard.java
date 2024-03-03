@@ -96,7 +96,6 @@ public class HardGameBoard extends JFrame{
    long turnStartTime = System.currentTimeMillis();
    long turnElapsedTime = 0;
 
-
     public HardGameBoard(Game game) {
     	this.game=game;
     	setTitle("Game Board");
@@ -109,33 +108,33 @@ public class HardGameBoard extends JFrame{
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
         
-        JButton pauseButton = new JButton("Stop game");
-        pauseButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(!isGamePaused) {
-        			pauseGame() ; 
-        			diceButton.setEnabled(false);
-        			pauseButton.setText("resume");
-        			controller.MainSound(false);
-        			controller.FinalGame(false);
 
-        		}else {
-        			resumeGame();
-        			diceButton.setEnabled(true);
-        			pauseButton.setText("StopGame");
-        			controller.MainSound(true);
-        			if(controller.isFialMusic) {
-            			controller.FinalGame(true);
-
-        			}else {
-            			controller.MainSound(true);
-
-        			}
-
-        		}
-        		
-        	}
+        JLabel resumeLabel = new JLabel();
+        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+        resumeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!isGamePaused) {
+                    pauseGame();
+                    diceButton.setEnabled(false);
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startButton.png")));
+                    controller.MainSound(false);
+                    controller.FinalGame(false);
+                } else {
+                    resumeGame();
+                    diceButton.setEnabled(true);
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+                    controller.MainSound(true);
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(true);
+                    } else {
+                        controller.MainSound(true);
+                    }
+                }
+            }
         });
+        resumeLabel.setBounds(815, 15, 98, 73);
+        outerPanel.add(resumeLabel);
         diceButton = new JButton("");
         diceButton.addActionListener(new ActionListener() {
         	  public void actionPerformed(ActionEvent e) {
@@ -168,7 +167,7 @@ public class HardGameBoard extends JFrame{
 	     outerPanel.add(textPane);
                             
                             JLabel lblNewLabel_5 = new JLabel("");
-                            lblNewLabel_5.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
+                            lblNewLabel_5.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/playerNames.png")));
                             lblNewLabel_5.setBounds(711, 125, 600, 81);
                             outerPanel.add(lblNewLabel_5);
                             
@@ -224,8 +223,8 @@ public class HardGameBoard extends JFrame{
 //        		
 //        	}
 //        });
-        pauseButton.setBounds(837, 55, 100, 30);
-        outerPanel.add(pauseButton);
+//        pauseButton.setBounds(837, 55, 100, 30);
+//       outerPanel.add(pauseButton);
         
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
@@ -253,41 +252,35 @@ public class HardGameBoard extends JFrame{
 		gameTimer.start();
         controller.MainSound(true);  
         musicStatus = true ; 
-        JButton stop = new JButton("stop Sound");
-        stop.setBounds(848, 15, 89, 30);
-        outerPanel.add(stop);
-         
-        stop.addActionListener(new ActionListener() {
+        JLabel stopLabel = new JLabel("");
+        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+        stopLabel.setBounds(923, 15, 130, 85); // Adjust size and position accordingly
+        stopLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(!isstopMusicClicked) {
-            		if(controller.isFialMusic) {
-            			controller.FinalGame(false);
-            			
-            		}
-            		else {
-            			controller.MainSound(false);
-            		}
-            		isstopMusicClicked = true ; 
-            		controller.isGameMuted = true ; 
-            		stop.setText("Continue Sound");
-            		return ; 
-            	}
-            	if(isstopMusicClicked) {
-            		if(controller.isFialMusic) {
-            			controller.FinalGame(true);
-            		}
-            		else {
-            			controller.MainSound(true);
-            		}
-            		isstopMusicClicked = false ; 
-            		controller.isGameMuted = false ; 
-
-            		stop.setText("Stop Sound");
-            	}
-            
-        	}
+            public void mouseClicked(MouseEvent e) {
+                if (!isstopMusicClicked) {
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(false);
+                    } else {
+                        controller.MainSound(false);
+                    }
+                    isstopMusicClicked = true;
+                    controller.isGameMuted = true;
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/stopMusic.png")));
+                } else {
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(true);
+                    } else {
+                        controller.MainSound(true);
+                    }
+                    isstopMusicClicked = false;
+                    controller.isGameMuted = false;
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+                }
+            }
         });
+        outerPanel.add(stopLabel);
+      
        // controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         arraylistOrderByPosition = game.getPlayers();
       	 turnTimer = new Timer(10000, new ActionListener() {

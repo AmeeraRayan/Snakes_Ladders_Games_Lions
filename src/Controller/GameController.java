@@ -47,7 +47,7 @@ public class GameController {
     private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
-    private boolean flag ; 
+    private boolean flag; 
      public boolean  isFialMusic = false ; 
      public boolean isMainMusic = true ; 
     

@@ -1,65 +1,14 @@
 package View;
 
-
-import java.awt.EventQueue;
-import java.io.FileReader;
-import java.io.IOException;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import Controller.GameController;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-// ... other necessary imports
-
-
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javax.swing.JLabel;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.FlowLayout;
-//Add this import to handle JSON parsing
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.Gson;
-
-
-//Import for file handling
-import java.io.FileReader;
-
-//Import for GUI components
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import Model.GameDetails;
 import Model.Sound;
 public class MainScreen extends JFrame{
 
