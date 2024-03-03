@@ -118,7 +118,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		diceButton = new JButton("");
 		diceButton.setBounds(920, 360, 100, 100);
-		diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
+		diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/View/images/dice 4.jpg")));
 		contentPane.add(diceButton);
 
 
@@ -129,34 +129,34 @@ public class BoardEasyViewPlayers extends JFrame {
 		contentPane.add(timerLabel);
 
 
-		bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.png")));
+		bluePlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/View/images/blueplayer.png")));
 		bluePlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the green player
-		greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/green.png")));
+		greenPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/View/images/green.png")));
 		greenPlayerLabel.setSize(30, 30);
 
 
 		// Create JLabel for the red player
-		redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/red.png")));
+		redPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/View/images/red.png")));
 		redPlayerLabel.setSize(30, 30);
 
 		// Create JLabel for the yellow player
-		yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/images/yellow.png")));
+		yellowPlayerLabel = new JLabel(new ImageIcon(getClass().getResource("/View/images/yellow.png")));
 		yellowPlayerLabel.setSize(30, 30);
 
 
-		lblNewLabel_blue = new JLabel(new ImageIcon(getClass().getResource("/images/blueplayer.png")));
+		lblNewLabel_blue = new JLabel(new ImageIcon(getClass().getResource("/View/images/blueplayer.png")));
 		lblNewLabel_blue.setBounds(10, 250, 40, 40);
 
-		lblNewLabel_green = new JLabel(new ImageIcon(getClass().getResource("/images/green.png")));
+		lblNewLabel_green = new JLabel(new ImageIcon(getClass().getResource("/View/images/green.png")));
 		lblNewLabel_green.setBounds(10, 300, 40, 40);
 
 
-		lblNewLabel_red = new JLabel(new ImageIcon(getClass().getResource("/images/red.png")));
+		lblNewLabel_red = new JLabel(new ImageIcon(getClass().getResource("/View/images/red.png")));
 		lblNewLabel_red.setBounds(10, 350, 40, 40);
 
-		lblNewLabel_yellow = new JLabel(new ImageIcon(getClass().getResource("/images/yellow.png")));
+		lblNewLabel_yellow = new JLabel(new ImageIcon(getClass().getResource("/View/images/yellow.png")));
 		lblNewLabel_yellow.setBounds(10, 400, 40, 40);
 
 		lblNewLabel_1 = new JLabel("");
@@ -183,7 +183,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		
 		lblNewLabel_5 = new JLabel("");
-	    lblNewLabel_5.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/images/Button.png")));
+	    lblNewLabel_5.setIcon(new ImageIcon(BoardEasyViewPlayers.class.getResource("/View/images/Button.png")));
 	    lblNewLabel_5.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
@@ -258,16 +258,16 @@ public class BoardEasyViewPlayers extends JFrame {
 
 	    switch (randomNumber) {
 	    case 1:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew1.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/View/images/boardnew1.png")));
 	        path = new String("board1");
 	        break;
 	    case 2:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew2.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/View/images/boardnew2.png")));
 	        path = new String("board2");
 	        break;
 	    
 	    case 3:
-	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/images/boardnew3.png")));
+	        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/View/images/boardnew3.png")));
 	        path = new String("board3");
 	        break;
 	    }
@@ -375,13 +375,13 @@ public class BoardEasyViewPlayers extends JFrame {
 	}
 	private void showLadderPopup(int lastpos) {
 		JOptionPane.showMessageDialog(this,
-				"<html><body><p> U have been move to "+lastpos+" but the Ladder will move u to "+currentPlayer.getPosition() +"🎉</p><img src='" + getClass().getResource("/images/giphy.gif") + "' width='100' height='100'></body></html>",
+				"<html><body><p> U have been move to "+lastpos+" but the Ladder will move u to "+currentPlayer.getPosition() +"🎉</p><img src='" + getClass().getResource("/View/images/giphy.gif") + "' width='100' height='100'></body></html>",
 				"Congratss!! "+currentPlayer.getName()+" got a ladder!!!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void showSnakePopup(int lastpos) {
 		JOptionPane.showMessageDialog(this,
-				"<html><body><p> U have been move to "+lastpos+" but the snake will move u to "+currentPlayer.getPosition()+" 😭</p><img src='" + getClass().getResource("/images/fall.gif") + "' width='100' height='100'></body></html>",
+				"<html><body><p> U have been move to "+lastpos+" but the snake will move u to "+currentPlayer.getPosition()+" 😭</p><img src='" + getClass().getResource("/View/images/fall.gif") + "' width='100' height='100'></body></html>",
 				"Oh no! "+currentPlayer.getName()+" got a snake ", JOptionPane.WARNING_MESSAGE);
 
 	}
@@ -395,7 +395,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		if(rollResult==5)
 		{
 
-			diceIcon = new ImageIcon(getClass().getResource("/images/dice 8.jpg"));
+			diceIcon = new ImageIcon(getClass().getResource("/View/images/dice 8.jpg"));
 			diceButton.setIcon(diceIcon);
 			SysData sysdata=new SysData();
 			sysdata.LoadQuestions();
@@ -415,7 +415,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		{
 			rollResult=0;
 
-			diceIcon = new ImageIcon(getClass().getResource("/images/dice zero.jpg"));
+			diceIcon = new ImageIcon(getClass().getResource("/View/images/dice zero.jpg"));
 
 
 			diceButton.setIcon(diceIcon);
@@ -430,7 +430,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		{
 			JOptionPane.showMessageDialog(this, currentPlayer.getName() + " rolled " + rollResult);
 
-			diceIcon = new ImageIcon(getClass().getResource("/images/dice " + rollResult + ".jpg"));
+			diceIcon = new ImageIcon(getClass().getResource("/View/images/dice " + rollResult + ".jpg"));
 
 
 			diceButton.setIcon(diceIcon);

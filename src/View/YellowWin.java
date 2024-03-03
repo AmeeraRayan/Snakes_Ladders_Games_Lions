@@ -67,7 +67,7 @@ public class YellowWin extends JFrame  implements WinFrame{
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(YellowWin.class.getResource("/images/Win_yellow.jpg")));
+		lblNewLabel_1 = new JLabel(new ImageIcon(YellowWin.class.getResource("/View/images/Win_yellow.jpg")));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
 		lblNewLabel_1.setBounds(-64, -20, 1171, 636);

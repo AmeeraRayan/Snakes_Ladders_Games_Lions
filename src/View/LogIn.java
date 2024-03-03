@@ -72,7 +72,7 @@ public class LogIn extends JFrame implements ActionListener{
 
         btnNewButton = new JButton("Submit");
         btnNewButton.setSelectedIcon(null);
-        btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/images/5374040.png")));
+        btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/View/images/5374040.png")));
         btnNewButton.setFont(new Font("David", Font.BOLD, 20));
         btnNewButton.setBackground(new Color(250, 255, 127));
         btnNewButton.addActionListener(this);
@@ -87,7 +87,7 @@ public class LogIn extends JFrame implements ActionListener{
         JLabel lblNewLabel_3 = new JLabel(" ");
         lblNewLabel_3.setBackground(new Color(255, 140, 0));
         lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/images/Screenshot 2024-01-29 140544.png")));
+        lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/View/images/Screenshot 2024-01-29 140544.png")));
         lblNewLabel_3.setBounds(0, 0, 921, 527);
         frame.getContentPane().add(lblNewLabel_3);
         
