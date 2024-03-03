@@ -165,16 +165,16 @@ public class GameController {
 	 
 	    	if (color.equals(Model.Color.BLUE) &&path.equals("board3")) {
 		        x = 220;
-		        y = 640;
+		        y = 660;
 		    } else if (color.equals(Model.Color.GREEN)&&path.equals("board3")) {
 		        x = 250;
-		        y = 640;
+		        y = 660;
 		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
 		        x = 220;
-		        y = 670;
+		        y = 635;
 		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
 		        x = 250;
-		        y = 670;
+		        y = 635;
 		    }
 	    
 
@@ -707,7 +707,6 @@ public class GameController {
    }
    public void LadderSound() {
 	   Sound sound = new Sound("src/View/sounds/ladder.wav");
-	//   Sound sound = new Sound("View/sounds/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
