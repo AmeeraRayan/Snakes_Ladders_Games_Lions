@@ -142,15 +142,7 @@ public class HardGameBoard extends JFrame{
         outerPanel.add(textPane_1_1);
                   
                   
-                           textPane.setBounds(868, 125, 252, 55);
-                           
-                           textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-                           textPane.setAlignmentY(Component.TOP_ALIGNMENT);
-                           textPane.setAlignmentX(0.2f);
-                           textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-                           controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(),textPane);
-                           outerPanel.add(textPane);
-        
+                        
              
                  jl = new JLabel("00:00", SwingConstants.CENTER);
                  jl.setLocation(908, 432);
@@ -220,6 +212,15 @@ public class HardGameBoard extends JFrame{
         JButton stop = new JButton("stop ");
         stop.setBounds(848, 15, 89, 30);
         outerPanel.add(stop);
+        textPane.setBounds(868, 125, 252, 55);
+        
+        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        textPane.setAlignmentX(0.2f);
+        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+        controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(),textPane);
+        outerPanel.add(textPane);
+
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

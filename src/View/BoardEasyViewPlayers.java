@@ -83,6 +83,8 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	public String path ;
+    private boolean isstopMusicClicked = false ;
+
 	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
@@ -197,6 +199,39 @@ public class BoardEasyViewPlayers extends JFrame {
 	    });
 	    lblNewLabel_5.setBounds(24, 664, 105, 82);
 	    contentPane.add(lblNewLabel_5);
+	    JButton stop = new JButton("StopMusic");
+        stop.setBounds(925, 10, 160, 41); // Adjust size and position accordingly
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(!isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(false);
+            			
+            		}
+            		else {
+            			controller.MainSound(false);
+            		}
+            		isstopMusicClicked = true ; 
+            		controller.isGameMuted = true ; 
+            		stop.setText("Continue Sound");
+            		return ; 
+            	}
+            	if(isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+            		}
+            		else {
+            			controller.MainSound(true);
+            		}
+            		isstopMusicClicked = false ; 
+            		controller.isGameMuted = false ; 
+
+            		stop.setText("Stop Sound");
+            	}
+            }
+        });
+        contentPane.add(stop);
 		startGame();
 
 
