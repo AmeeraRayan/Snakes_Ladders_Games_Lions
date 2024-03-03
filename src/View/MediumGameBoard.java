@@ -450,7 +450,8 @@ public class MediumGameBoard extends JFrame
 		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
-            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 27));
+     textPane_1_2_1.setForeground(new Color(240, 248, 255));
+            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
             
             textPane_1_2_1.setBounds(917, 175, 150, 150);
             outerPanel.add(textPane_1_2_1);
