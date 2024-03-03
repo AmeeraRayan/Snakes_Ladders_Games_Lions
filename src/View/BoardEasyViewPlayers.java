@@ -128,7 +128,7 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 		timerLabel = new JLabel("00:00");
-		timerLabel.setBounds(920, 50, 100, 50);
+		timerLabel.setBounds(920, 117, 100, 50);
 		timerLabel.setFont(new Font("Snap ITC", Font.BOLD, 25));
 		timerLabel.setForeground(new Color(252, 252, 252));
 		contentPane.add(timerLabel);
@@ -204,68 +204,61 @@ public class BoardEasyViewPlayers extends JFrame {
 	    });
 	    lblNewLabel_5.setBounds(24, 664, 105, 82);
 	    contentPane.add(lblNewLabel_5);
-	    JButton stop = new JButton("StopMusic");
-        stop.setBounds(925, 10, 160, 41); // Adjust size and position accordingly
-        stop.addActionListener(new ActionListener() {
+	    JLabel stopLabel = new JLabel("");
+        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+        stopLabel.setBounds(954, 15, 130, 85); // Adjust size and position accordingly
+        stopLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(!isstopMusicClicked) {
-            		if(controller.isFialMusic) {
-            			controller.FinalGame(false);
-            			
-            		}
-            		else {
-            			controller.MainSound(false);
-            		}
-            		isstopMusicClicked = true ; 
-            		controller.isGameMuted = true ; 
-            		stop.setText("Continue Sound");
-            		return ; 
-            	}
-            	if(isstopMusicClicked) {
-            		if(controller.isFialMusic) {
-            			controller.FinalGame(true);
-            		}
-            		else {
-            			controller.MainSound(true);
-            		}
-            		isstopMusicClicked = false ; 
-            		controller.isGameMuted = false ; 
-
-            		stop.setText("Stop Sound");
-            	}
+            public void mouseClicked(MouseEvent e) {
+                if (!isstopMusicClicked) {
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(false);
+                    } else {
+                        controller.MainSound(false);
+                    }
+                    isstopMusicClicked = true;
+                    controller.isGameMuted = true;
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/stopMusic.png")));
+                } else {
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(true);
+                    } else {
+                        controller.MainSound(true);
+                    }
+                    isstopMusicClicked = false;
+                    controller.isGameMuted = false;
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+                }
             }
         });
-        JButton pauseButton = new JButton("Stop game");
-        pauseButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(!isGamePaused) {
-        			pauseGame() ; 
-        			diceButton.setEnabled(false);
-        			pauseButton.setText("resume");
-        			controller.MainSound(false);
-        			controller.FinalGame(false);
+        contentPane.add(stopLabel);
 
-        		}else {
-        			resumeGame();
-        			diceButton.setEnabled(true);
-        			pauseButton.setText("StopGame");
-        			controller.MainSound(true);
-        			if(controller.isFialMusic) {
-            			controller.FinalGame(true);
-
-        			}else {
-            			controller.MainSound(true);
-
-        			}
-
-        		}
-        		
-        	}
+        JLabel resumeLabel = new JLabel();
+        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+        resumeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!isGamePaused) {
+                    pauseGame();
+                    diceButton.setEnabled(false);
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startButton.png")));
+                    controller.MainSound(false);
+                    controller.FinalGame(false);
+                } else {
+                    resumeGame();
+                    diceButton.setEnabled(true);
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+                    controller.MainSound(true);
+                    if (controller.isFialMusic) {
+                        controller.FinalGame(true);
+                    } else {
+                        controller.MainSound(true);
+                    }
+                }
+            }
         });
-        pauseButton.setBounds(815, 15, 100, 30);
-        contentPane.add(pauseButton);
-        contentPane.add(stop);
+        resumeLabel.setBounds(831, 27, 98, 73);
+        contentPane.add(resumeLabel);
 		startGame();
 
 
