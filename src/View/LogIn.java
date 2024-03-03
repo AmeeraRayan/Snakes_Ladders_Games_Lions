@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import Controller.GameController;
 import Controller.MangQuestionControl;
 import Model.SysData;
 import javax.swing.JLabel;
@@ -18,6 +20,8 @@ public class LogIn extends JFrame implements ActionListener{
 
     private JFrame frame;
     private JTextField txtuser;
+    private GameController gameController = new GameController(null);
+
 	public JTextField getTxtuser() {
 		return txtuser;
 	}
@@ -54,13 +58,15 @@ public class LogIn extends JFrame implements ActionListener{
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 902, 564);
+        frame.setBounds(100, 100, 899, 528);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        frame.setUndecorated(true);
 
         txtuser = new JTextField();
         txtuser.setBackground(new Color(255, 255, 255));
-        txtuser.setBounds(234, 203, 142, 23);
+        txtuser.setBounds(234, 209, 142, 23);
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
 
@@ -82,7 +88,7 @@ public class LogIn extends JFrame implements ActionListener{
         lblNewLabel_3.setBackground(new Color(255, 140, 0));
         lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/images/Screenshot 2024-01-29 140544.png")));
-        lblNewLabel_3.setBounds(0, 0, 888, 527);
+        lblNewLabel_3.setBounds(0, 0, 921, 527);
         frame.getContentPane().add(lblNewLabel_3);
         
     }
@@ -97,6 +103,7 @@ public class LogIn extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnNewButton) {
+        	gameController.buttonClick();
             String enteredUserName = txtuser.getText();
             String enteredPassword = new String(passwordField.getPassword()); // Use getPassword() for JPasswordField
             try {

@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import Controller.GameController;
 import Controller.MangQuestionControl;
 import Model.Questions;
 import Model.SysData;
@@ -36,6 +37,7 @@ public class QuestionManagment extends JFrame   {
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
     boolean validInput = false;
+    private GameController gameController = new GameController(null);
 
 
     public QuestionManagment() {
@@ -67,6 +69,8 @@ public class QuestionManagment extends JFrame   {
         frame.setBounds(100, 100, 804, 701);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        frame.setUndecorated(true);
+
 
         tableModel = new DefaultTableModel() {
             @Override
@@ -80,11 +84,12 @@ public class QuestionManagment extends JFrame   {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(62, 249, 671, 292);
+        scrollPane.setBounds(62, 249, 671, 326);
         frame.getContentPane().add(scrollPane);
         
-        JButton btnNewButton = new JButton("Back Home");
-        btnNewButton.setBounds(32, 611, 108, 23);
+        JButton btnNewButton = new JButton("");
+        btnNewButton.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/BackButton.png")));
+        btnNewButton.setBounds(10, 614, 147, 43);
         frame.getContentPane().add(btnNewButton);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +98,7 @@ public class QuestionManagment extends JFrame   {
                 frame.dispose(); // Close the current frame
                 MainScreen mainScreen = new MainScreen(); // Assuming MainScreen is your main screen class
                 mainScreen.show(); // Show the main screen frame
+                gameController.buttonClick();
             }
         });
         
