@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Controller.GameController;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -29,6 +32,7 @@ public class DataReception extends JFrame {
     private  JButton player2Button;
     private  JButton player3Button;
     private  JButton player4Button;
+    private GameController gameController = new GameController(null);
 
 
     public DataReception() {
@@ -56,6 +60,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Easy";
                 difficultySelected = true;
+                gameController.buttonClick();
                 disableOtherDifficultyButtons();
             }
         });
@@ -70,6 +75,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Medium";
                 difficultySelected = true;
+                gameController.buttonClick();
                 disableOtherDifficultyButtons();
             }
         });
@@ -84,6 +90,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Hard";
                 difficultySelected = true;
+                gameController.buttonClick();
                 disableOtherDifficultyButtons();
             }
         });
@@ -96,6 +103,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 2;
                 playersSelected = true;
+                gameController.buttonClick();
                 disableOtherPlayerButtons();
             }
         });
@@ -107,6 +115,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 3;
                 playersSelected = true;
+                gameController.buttonClick();
                 disableOtherPlayerButtons();
             }
         });
@@ -118,6 +127,7 @@ public class DataReception extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 4;
                 playersSelected = true;
+                gameController.buttonClick();
                 disableOtherPlayerButtons();
             }
         });
@@ -126,24 +136,25 @@ public class DataReception extends JFrame {
         panel.add(player3Button);
         panel.add(player4Button);
         
-         btnNewButton = new JButton("Back");
+         btnNewButton = new JButton("");
+         btnNewButton.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
          btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-         btnNewButton.setBackground(new Color(34, 139, 34));
          btnNewButton.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
             	 DataReception.this.setVisible(false);
  				new MainScreen().setVisible(true);
+                gameController.buttonClick();
              }
          });
-        btnNewButton.setBounds(10, 525, 135, 38);
+        btnNewButton.setBounds(10, 524, 137, 50);
         panel.add(btnNewButton);
         
-        JButton btnNewButton_1 = new JButton("Next");
+        JButton btnNewButton_1 = new JButton("");
+        btnNewButton_1.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
         btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        btnNewButton_1.setBackground(new Color(34, 139, 34));
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-
+                gameController.buttonClick();
                 // Set the visibility of the new screen
         		if (difficultySelected && playersSelected) {
         			if(numberOfPlayers == 2 ) {
@@ -164,8 +175,13 @@ public class DataReception extends JFrame {
                 }
         	}
         });
-        btnNewButton_1.setBounds(908, 525, 127, 38);
+        btnNewButton_1.setBounds(898, 515, 137, 50);
         panel.add(btnNewButton_1);
+         
+         JLabel lblNewLabel_1 = new JLabel("Pick A Level And number of Players");
+         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
+         lblNewLabel_1.setBounds(359, 36, 467, 63);
+         panel.add(lblNewLabel_1);
         
          JLabel lblNewLabel = new JLabel("");
          lblNewLabel.setBounds(-68, -50, 1140, 705);
@@ -200,5 +216,4 @@ public class DataReception extends JFrame {
             this.player3Button.setEnabled(false);
         }
     }
-
 }

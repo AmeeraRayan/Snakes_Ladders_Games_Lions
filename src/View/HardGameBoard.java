@@ -277,7 +277,7 @@ public class HardGameBoard extends JFrame{
             if (dialog.isConfirmed()) {
             	gameTimer.stop();
             	turnTimer.stop();
-            	controller.MainSound("stop");
+            	controller.MainSound(false);
             	controller.FinalGame(false);
                 HardGameBoard.this.setVisible(false);
                 new MainScreen().setVisible(true);

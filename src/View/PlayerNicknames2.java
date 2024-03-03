@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Color;
 
 import javax.swing.JLabel;
@@ -29,6 +30,8 @@ public class PlayerNicknames2 extends JFrame {
 	private JButton Next;
 	private int numberOfPlayers;
 	private String difficultyLevel;
+    private GameController gameController = new GameController(null);
+
 	/**
 	 * Create the frame.
 	 */
@@ -46,17 +49,20 @@ public class PlayerNicknames2 extends JFrame {
         setUndecorated(true);
 		
 		Next = new JButton("Next");
-		Next.setBounds(826, 558, 183, 47);
+        Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
+		Next.setBounds(840, 558, 150, 47);
 		contentPane.add(Next);
 		
 		JButton Back = new JButton("Back");
-		Back.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-           	 PlayerNicknames2.this.setVisible(false);
-				new DataReception().setVisible(true);
-            }
-        });
-		Back.setBounds(20, 558, 183, 47);
+		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
+         Back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+            	 PlayerNicknames2.this.setVisible(false);
+ 				new DataReception().setVisible(true);
+                gameController.buttonClick();
+             }
+         });
+		Back.setBounds(20, 558, 150, 50);
 		contentPane.add(Back);
 		
 		
@@ -111,6 +117,7 @@ public class PlayerNicknames2 extends JFrame {
 	        Next.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	                handleNextAction();
+	                gameController.buttonClick();
 	            }
 	        });
 	    }

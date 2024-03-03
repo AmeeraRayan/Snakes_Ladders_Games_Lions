@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Game;
 import Model.Player;
 import java.awt.Color;
@@ -22,6 +23,7 @@ public class BounusResults4 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private GameController gameController = new GameController(null);
 
 	public BounusResults4( String difficultyLevel, List<Player> playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,8 +55,10 @@ public class BounusResults4 extends JFrame {
 		contentPane.add(Player1);
 		Player1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
 		JButton btnNewButton_1 = new JButton("Next");
-        btnNewButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
+	        btnNewButton_1.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	            	gameController.buttonClick();
             	 Game game = new Game(difficultyLevel, playersSortedByOrder);
 
           	   if(difficultyLevel.equals("Easy")) {   
@@ -71,7 +75,7 @@ public class BounusResults4 extends JFrame {
                          }
             }
         });
-        btnNewButton_1.setBounds(721, 609, 105, 34);
+        btnNewButton_1.setBounds(713, 601, 136, 42);
         contentPane.add(btnNewButton_1);
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(BounusResults4.class.getResource("/images/bonus4.jpg")));

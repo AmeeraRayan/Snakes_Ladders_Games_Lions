@@ -17,6 +17,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+
+import Controller.GameController;
 import Controller.PreGameController;
 import Model.Color;
 import Model.Dice;
@@ -35,6 +37,7 @@ public class PlayerTurn extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel rollLabel;
+    private GameController gameController = new GameController(null);
     
 
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
@@ -139,13 +142,15 @@ public class PlayerTurn extends JFrame {
         diceButton.setBounds(729, 319, 120, 100);
         contentPane.add(diceButton);
         
-        JButton btnNewButton = new JButton("Back");
+        JButton btnNewButton = new JButton("");
+        btnNewButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BackButton.png")));
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-        btnNewButton.setBounds(23, 586, 120, 36);
+        btnNewButton.setBounds(23, 576, 163, 46);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             PlayerTurn.this.setVisible(false);
 				new DataReception().setVisible(true);
+				gameController.buttonClick();
             }
         });
         
@@ -226,8 +231,8 @@ public class PlayerTurn extends JFrame {
             timer.start();///BJDGAS
         }
         public void DiceRollingSound() {
-     	   Sound sound = new Sound("Sound/dice.wav");
-     	  // Sound sound = new Sound("src/Sound/dice.wav");
+     	  // Sound sound = new Sound("Sound/dice.wav");
+     	   Sound sound = new Sound("src/Sound/dice.wav");
      		sound.setVolume(0.5f); 
              sound.play();
         }

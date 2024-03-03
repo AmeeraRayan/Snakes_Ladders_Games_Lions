@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -30,25 +32,28 @@ import javax.swing.table.DefaultTableModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import Controller.GameController;
 import Model.GameDetails;
 import Model.GameObserver;
+import javax.swing.ImageIcon;
 
 public class Game_History extends JFrame {
 	private JTable table;
     private DefaultTableModel tableModel;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JButton btnNewButtonBack;
+	private JLabel lblNewLabel;
+    private GameController gameController = new GameController(null);
+
 	public Game_History() {
 		 setTitle("Game History");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 500);
+		setBounds(100, 100, 933, 660);
 		contentPane = new JPanel();
-		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout());
 
 		setContentPane(contentPane);
-		
+		   // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
 		 // Define the columns for the JTable
         String[] columnNames = {"Time", "Difficulty", "Winner"};
 
@@ -90,6 +95,7 @@ public class Game_History extends JFrame {
         tableModel.addColumn("Difficulty");
         tableModel.addColumn("Time");
         table = new JTable(tableModel);
+        table.setBounds(125, 68, 748, 448);
         contentPane.add(table);
      // Center text in table cells
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -109,7 +115,7 @@ public class Game_History extends JFrame {
         // Custom renderer for table cells
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER); // Center text
-        cellRenderer.setBackground(Color.blue);
+        cellRenderer.setBackground(Color.RED);
         cellRenderer.setFont(new Font("Serif", Font.BOLD, 30)); // Set font
 
 
@@ -122,18 +128,20 @@ public class Game_History extends JFrame {
         table.setShowGrid(false);
            table.setShowHorizontalLines(false);
            table.setShowVerticalLines(false);
-        // Add the JScrollPane to the JFrame and center it
-           setLayout(new BorderLayout());
            // Create a JLabel to display the sorting note
            JLabel lblSortingNote = new JLabel("Note: The table is sorted by time in ascending order. Quickest wins are at the top.");
+           lblSortingNote.setBounds(0, 0, 800, 17);
            lblSortingNote.setHorizontalAlignment(SwingConstants.CENTER); // Center the label text
            lblSortingNote.setFont(new Font("Tahoma", Font.PLAIN, 14)); // Set the desired font
            lblSortingNote.setForeground(new Color(128, 128, 128)); // Set a grey color for the note text
 
            // Add the note label to the content pane at the top (NORTH)
-           contentPane.add(lblSortingNote, BorderLayout.NORTH);
+           contentPane.add(lblSortingNote);
+           contentPane.setLayout(null);
+           contentPane.setLayout(null);
            JScrollPane scrollPane = new JScrollPane(table);
-           contentPane.add(scrollPane, BorderLayout.CENTER);
+           scrollPane.setBounds(50, 91, 800, 461);
+           contentPane.add(scrollPane);
            table.setFillsViewportHeight(true);
            table.setForeground(Color.WHITE);
          
@@ -144,27 +152,29 @@ public class Game_History extends JFrame {
                    tableModel.addRow(row);
                }
            }
-            btnNewButtonBack = new JButton("Back");
-           btnNewButtonBack.addActionListener(new ActionListener() {
-               public void actionPerformed(ActionEvent e) {
-                   Game_History.this.setVisible(false); // Close the current GameHistory window
-                   new MainScreen().setVisible(true); // Open the MainScreen window
-               }
-           });
         // Calculate the position for the "Back" button
            int buttonWidth = 100;
            int buttonHeight = 50;
            int buttonX = 800 - buttonWidth - 30; // 30 pixels padding from the right
-           int buttonY = 500 - buttonHeight - 30; // 30 pixels padding from the bottom
-
-           btnNewButtonBack.setBounds(buttonX, buttonY, buttonWidth, buttonHeight); // Set the position and size
-
-           JPanel buttonPanel = new JPanel();
-           buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT)); // Right-align the button
-           buttonPanel.add(btnNewButtonBack); // Add the button to the panel
-
-           // Add the button panel to the bottom (SOUTH) of the contentPane
-           contentPane.add(buttonPanel, BorderLayout.SOUTH);
+           int buttonY = 500 - buttonHeight - 30;
+                      
+                      lblNewLabel = new JLabel("");
+                      lblNewLabel.setIcon(new ImageIcon(Game_History.class.getResource("/images/history.jpg")));
+                      lblNewLabel.setBounds(-67, -11, 1070, 671);
+                      contentPane.add(lblNewLabel);
+                      
+                      JLabel lblNewLabel_1 = new JLabel("");
+                      lblNewLabel_1.setBounds(783, 596, 119, 53);
+                      contentPane.add(lblNewLabel_1);
+                      lblNewLabel_1.addMouseListener(new MouseAdapter() {
+                          @Override
+                          public void mouseClicked(MouseEvent e) {
+                               Game_History.this.setVisible(false); // Close the current GameHistory window
+                               new MainScreen().setVisible(true); // Open the MainScreen window
+                               gameController.buttonClick();
+                           }
+                      });
+                                           
 		
 	}
 	public JTable getTable() {
@@ -182,5 +192,4 @@ public class Game_History extends JFrame {
 	public void setTableModel(DefaultTableModel tableModel) {
 		this.tableModel = tableModel;
 	}
-	
 }

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Color;
 
 import javax.swing.JLabel;
@@ -25,6 +26,7 @@ public class PlayerNicknames3 extends JFrame {
 	private JTextField textField1;
 	private JTextField textField2;
 	private JTextField textField3;
+    private GameController gameController = new GameController(null);
 
 	
 	public PlayerNicknames3(int numberOfPlayers, String difficultyLevel) {
@@ -37,21 +39,24 @@ public class PlayerNicknames3 extends JFrame {
 		contentPane.setLayout(null);
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
-        JButton Back = new JButton("Back");
-		
-		Back = new JButton("Back");
-		Back.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-           	 PlayerNicknames3.this.setVisible(false);
-				new DataReception().setVisible(true);
-            }
-        });
-		Back.setBounds(10, 589, 143, 41);
-		contentPane.add(Back);
 		JButton Next = new JButton("Next");
-		
-		Next.setBounds(820, 589, 143, 41);
+        Next = new JButton("Next");
+        Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
+		Next.setBounds(813, 583, 150, 47);
 		contentPane.add(Next);
+		
+		JButton Back = new JButton("Back");
+		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
+         Back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+            	 PlayerNicknames3.this.setVisible(false);
+ 				new DataReception().setVisible(true);
+                gameController.buttonClick();
+             }
+         });
+		Back.setBounds(23, 581, 150, 50);
+		contentPane.add(Back);
+    
 		
 		textField3 = new JTextField();
 		textField3.setColumns(10);
@@ -108,6 +113,7 @@ public class PlayerNicknames3 extends JFrame {
 		
 		Next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                gameController.buttonClick();
 				String[] Playersname = new String[numberOfPlayers];
         		Playersname[0]=textField1.getText().trim();
         		Playersname[1]=textField2.getText().trim();

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Game;
 import Model.Player;
 
@@ -23,6 +24,7 @@ public class BounusResults2 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private GameController gameController = new GameController(null);
 
 	public BounusResults2(String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,9 +48,11 @@ public class BounusResults2 extends JFrame {
 		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD, 34));
 		PlayerTurnTwo.setBounds(369, 462, 243, 58);
 		contentPane.add(PlayerTurnTwo);
-        JButton btnNewButton_1 = new JButton("Next");
+        JButton btnNewButton_1 = new JButton("");
+        btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	gameController.buttonClick();
                 Game game = new Game(difficultyLevel, playersSortedByOrder);
                 if(difficultyLevel.equals("Easy")) {
                 new BoardEasyViewPlayers(game).setVisible(true);
@@ -66,7 +70,7 @@ public class BounusResults2 extends JFrame {
         });
 
 
-        btnNewButton_1.setBounds(774, 625, 105, 34);
+        btnNewButton_1.setBounds(722, 615, 157, 44);
         contentPane.add(btnNewButton_1);
 		 
 		JLabel lblNewLabel = new JLabel("");

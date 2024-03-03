@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Color;
 import Model.Player;
 
@@ -23,6 +24,7 @@ public class PlayersNicknames4 extends JFrame {
     private JTextField textField2;
     private JButton button;
     private JButton Next;
+    private GameController gameController = new GameController(null);
 
     public PlayersNicknames4(int numberOfPlayers, String difficultyLevel) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,20 +35,23 @@ public class PlayersNicknames4 extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
-        setUndecorated(true);
-        JButton Back = new JButton("Back");
+        setUndecorated(true);     
 		
+        JButton Back = new JButton("Back");
  		Back = new JButton("Back");
+		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
  		Back.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
             	 PlayersNicknames4.this.setVisible(false);
  				new DataReception().setVisible(true);
+                gameController.buttonClick();
              }
          });
  		Back.setBounds(27, 567, 135, 43);
  		contentPane.add(Back);
+ 		
         Next = new JButton("Next");
-      
+        Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
         Next.setBounds(766, 567, 135, 43);
         contentPane.add(Next);
         
@@ -98,6 +103,7 @@ public class PlayersNicknames4 extends JFrame {
         
         Next.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+                gameController.buttonClick();
         		String[] Playersname = new String[numberOfPlayers];
         		Playersname[0]=textField1.getText().trim();
         		Playersname[1]=textField2.getText().trim();

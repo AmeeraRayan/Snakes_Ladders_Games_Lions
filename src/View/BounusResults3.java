@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Game;
 import Model.Player;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ public class BounusResults3 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private GameController gameController = new GameController(null);
 
 
 	public BounusResults3( String difficultyLevel,List<Player>  playersSortedByOrder) {
@@ -53,8 +55,10 @@ public class BounusResults3 extends JFrame {
 		Player1.setFont(new Font("Tahoma", Font.BOLD, 30));
        
 		JButton btnNewButton_1 = new JButton("Next");
-        btnNewButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
+	        btnNewButton_1.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	            	gameController.buttonClick();
                 Game game = new Game(difficultyLevel, playersSortedByOrder);
 
             	   if(difficultyLevel.equals("Easy")) {   
@@ -71,7 +75,7 @@ public class BounusResults3 extends JFrame {
                            }
             }
         });
-        btnNewButton_1.setBounds(755, 597, 105, 34);
+        btnNewButton_1.setBounds(733, 587, 147, 44);
         contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("");
