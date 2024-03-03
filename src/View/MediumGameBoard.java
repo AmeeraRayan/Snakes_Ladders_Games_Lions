@@ -920,22 +920,21 @@ public class MediumGameBoard extends JFrame
        	Player winner = game.getPlayers().get(index);
        	gameTimer.stop();
         turnTimer.stop();
+        controller.MainSound(false);
+        controller.FinalGame(false);
         int count = 0 ; 
         Timer wintime = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	MediumGameBoard.this.setVisible(false); 
+                MediumGameBoard.this.setVisible(false); 
                 System.out.println("Win timer");
-
-        		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
+                ((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
                 
+                // Stop the timer after the action is performed once
+                ((Timer)e.getSource()).stop();
             }
-
-           
         });
-       	wintime.start();
-        controller.FinalGame(false);
-        wintime.stop();
+        wintime.start();
 
        }else {
     	   

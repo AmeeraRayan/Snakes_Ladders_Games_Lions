@@ -69,7 +69,8 @@ public class MainScreen extends JFrame{
 
     public MainScreen() {
     	frame=this;
- 		Sound sound = new Sound("src/Sound/start.wav");
+ 		//Sound sound = new Sound("src/Sound/start.wav");
+ 		Sound sound = new Sound("Sound/start.wav");
  		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1166, 687);

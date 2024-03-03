@@ -87,6 +87,8 @@ public class HardGameBoard extends JFrame{
    private long remainingPlayerTime;
    private boolean isGamePaused = false;
    private long turnTimerStartTime;
+   private boolean isstopMusicClicked = false ;
+
     public HardGameBoard(Game game) {
     	this.game=game;
     	setTitle("Game Board");
@@ -100,6 +102,10 @@ public class HardGameBoard extends JFrame{
         setUndecorated(true);
         
         JButton pauseButton = new JButton("Stop game");
+        pauseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
 //        pauseButton.addActionListener(new ActionListener() {
 //        	public void actionPerformed(ActionEvent e) {
 //        		 if (isGamePaused) {
@@ -112,7 +118,7 @@ public class HardGameBoard extends JFrame{
 //        		
 //        	}
 //        });
-        pauseButton.setBounds(1040, 25, 50, 30);
+        pauseButton.setBounds(1000, 25, 100, 30);
         outerPanel.add(pauseButton);
         
      
@@ -156,24 +162,38 @@ public class HardGameBoard extends JFrame{
 		gameTimer.start();
         controller.MainSound(true);  
         musicStatus = true ; 
-        JButton btnNewButton = new JButton("stop ");
-        btnNewButton.setBounds(957, 25, 50, 30);
-        outerPanel.add(btnNewButton);
-        btnNewButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(musicStatus) {
-                controller.MainSound(false);
-                btnNewButton.setText("Continue Music");
-        		musicStatus = false ;
-        		}
-        		else {
-                    controller.MainSound(true);
-            		musicStatus = true ;
-                    btnNewButton.setText("Stop Music");
+        JButton stop = new JButton("stop ");
+        stop.setBounds(878, 25, 89, 30);
+        outerPanel.add(stop);
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(!isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(false);
+            			
+            		}
+            		else {
+            			controller.MainSound(false);
+            		}
+            		isstopMusicClicked = true ; 
+            		controller.isGameMuted = true ; 
+            		stop.setText("Continue Sound");
+            		return ; 
+            	}
+            	if(isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+            		}
+            		else {
+            			controller.MainSound(true);
+            		}
+            		isstopMusicClicked = false ; 
+            		controller.isGameMuted = false ; 
 
-
-        		}
-
+            		stop.setText("Stop Sound");
+            	}
+            
         	}
         });
 
@@ -1009,20 +1029,21 @@ public class HardGameBoard extends JFrame{
        	saveGameDetails(game.getPlayers().get(index));
        	HardGameBoard.this.setVisible(false); 
        	Player winner = game.getPlayers().get(index);
-     	gameTimer.stop();
-        turnTimer.stop();
-
-  	   Timer wintime = new Timer(3000, new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-          	
-              	HardGameBoard.this.setVisible(false); 
-
-          		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
-               }
-       });
-      	wintime.start();
-      	controller.FinalGame(false);
+        controller.MainSound(false);
+        controller.FinalGame(false);
+        int count = 0 ; 
+        Timer wintime = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HardGameBoard.this.setVisible(false); 
+                System.out.println("Win timer");
+                ((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
+                // Stop the timer after the action is performed once
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        wintime.start();
+        
        }else {
     	   
     	     index++;
