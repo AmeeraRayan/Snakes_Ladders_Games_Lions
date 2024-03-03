@@ -40,11 +40,11 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-     private Sound  PlaygroundSound = new Sound("View/sounds/BlueBoyAdventure.wav");
-  // private Sound  PlaygroundSound = new Sound("src/View/sounds/BlueBoyAdventure.wav");
+    // private Sound  PlaygroundSound = new Sound("View/sounds/BlueBoyAdventure.wav");
+   private Sound  PlaygroundSound = new Sound("src/View/sounds/BlueBoyAdventure.wav");
 
-    private Sound FinalSound = new Sound("View/sounds/FinalBattle.wav");
-   // private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("View/sounds/FinalBattle.wav");
+    private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag; 
@@ -165,16 +165,16 @@ public class GameController {
 	 
 	    	if (color.equals(Model.Color.BLUE) &&path.equals("board3")) {
 		        x = 220;
-		        y = 640;
+		        y = 660;
 		    } else if (color.equals(Model.Color.GREEN)&&path.equals("board3")) {
 		        x = 250;
-		        y = 640;
+		        y = 660;
 		    } else if (color.equals(Model.Color.RED)&&path.equals("board3")) {
 		        x = 220;
-		        y = 670;
+		        y = 653;
 		    } else if (color.equals(Model.Color.YELLOW)&&path.equals("board3")) {
 		        x = 250;
-		        y = 670;
+		        y = 653;
 		    }
 	    
 
@@ -678,8 +678,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		Sound sound = new Sound("View/sounds/snake-hissing-6092.wav");
- 		//Sound sound = new Sound("src/View/sounds/snake-hissing-6092.wav");
+ 	//	Sound sound = new Sound("View/sounds/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("src/View/sounds/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -687,14 +687,14 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	  // Sound sound = new Sound("src/View/sounds/dice.wav");
-	   Sound sound = new Sound("View/sounds/dice.wav");
+	   Sound sound = new Sound("src/View/sounds/dice.wav");
+	 //  Sound sound = new Sound("View/sounds/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	  // Sound sound = new Sound("src/View/sounds/buttonClick.wav");
-	   Sound sound = new Sound("View/sounds/buttonClick.wav");
+	   Sound sound = new Sound("src/View/sounds/buttonClick.wav");
+	  // Sound sound = new Sound("View/sounds/buttonClick.wav");
        sound.play();
    }
    
@@ -706,21 +706,21 @@ public class GameController {
 
    }
    public void LadderSound() {
-	  // Sound sound = new Sound("src/View/sounds/ladder.wav");
-	   Sound sound = new Sound("View/sounds/ladder.wav");
+	   Sound sound = new Sound("src/View/sounds/ladder.wav");
+	  // Sound sound = new Sound("View/sounds/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   //Sound sound = new Sound("src/View/sounds/surprise.wav");
-	   Sound sound = new Sound("View/sounds/surprise.wav");
+	   Sound sound = new Sound("src/View/sounds/surprise.wav");
+	 //  Sound sound = new Sound("View/sounds/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	//  Sound sound = new Sound("src/View/sounds/TimeOut.wav");
-	  Sound sound = new Sound("View/sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/View/sounds/TimeOut.wav");
+	 // Sound sound = new Sound("View/sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

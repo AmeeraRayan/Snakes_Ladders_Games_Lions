@@ -716,7 +716,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		// Define the target end point based on specific positions
 		Point targetEndPoint = end;
 		final int numberOfSteps = 10;
-		final Timer timer = new Timer(100, null);
+		final Timer timer = new Timer(150, null);
 		timer.addActionListener(new ActionListener() {
 			int currentStep = 0;
 
@@ -780,10 +780,10 @@ public class BoardEasyViewPlayers extends JFrame {
 	        txtpnHi.setText(positionsText.toString());
 	        if(path.equals("board3"))
 	        {
-	        	 bluePlayerStartPos =  new Point(220,640); 
-		         greenPlayerStartPos = new Point(250,640); 
-		         redPlayerStartPos = new Point(220,670); 
-		         yellowPlayerStartPos = new Point(250,670); 
+	        	 bluePlayerStartPos =  new Point(220,660); 
+		         greenPlayerStartPos = new Point(250,660); 
+		         redPlayerStartPos = new Point(220,635); 
+		         yellowPlayerStartPos = new Point(250,635); 
 	        }
 	        else
 	        {

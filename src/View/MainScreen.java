@@ -18,7 +18,7 @@ public class MainScreen extends JFrame{
 
     public MainScreen() {
     	frame=this;
- 		Sound sound = new Sound("View/sounds/start.wav");
+ 		Sound sound = new Sound("src/sounds/start.wav");
  	//	Sound sound = new Sound("Sound/start.wav");
  		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
