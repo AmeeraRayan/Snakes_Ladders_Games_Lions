@@ -392,12 +392,12 @@ public class MediumGameBoard extends JFrame
         setBlueSnakes(outerPanel);
         setGreenSnakes(outerPanel);
         setLadders(outerPanel);
-        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
-        	ArrayList<Integer>  key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println("key"+ key);
-            System.out.println("val:" +value);
-        }
+//        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
+//        	ArrayList<Integer>  key = entry.getKey();
+//            String value = entry.getValue();
+//            System.out.println("key"+ key);
+//            System.out.println("val:" +value);
+//        }
  
         meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
     }

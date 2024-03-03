@@ -40,11 +40,11 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-     private Sound  PlaygroundSound = new Sound("View/sounds/BlueBoyAdventure.wav");
-  // private Sound  PlaygroundSound = new Sound("src/View/sounds/BlueBoyAdventure.wav");
+   //  private Sound  PlaygroundSound = new Sound("View/sounds/BlueBoyAdventure.wav");
+   private Sound  PlaygroundSound = new Sound("src/View/sounds/BlueBoyAdventure.wav");
 
-    private Sound FinalSound = new Sound("View/sounds/FinalBattle.wav");
-   // private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("View/sounds/FinalBattle.wav");
+    private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag; 
@@ -124,7 +124,7 @@ public class GameController {
 	    	
 		 }while (checkTheTypeOfTheSquare(index ,IAndJ[0], IAndJ[1], playerLabel , WinValue));
 	   if(game.getPlayers().get(index).getPosition() >= WinValue - 15 ) {
-		   System.out.println("its a finallll");
+		   //System.out.println("its a finallll");
 		   musicFlag = true;
 	   }
 	   
@@ -544,7 +544,7 @@ public class GameController {
 	        	
 	           }
 	           else {
-	            System.out.println("Count :  " + count);
+	            //System.out.println("Count :  " + count);
 	            final int delay = 50; // Milliseconds between updates
 	            final int steps = 15; // Number of steps to reach the target
 	            final int startX = playerLabel[index].getX();
@@ -580,7 +580,7 @@ public class GameController {
 	        			flag = true ;
 	        		}
 	        	}
-	        	System.out.println(flag);
+	        	//System.out.println(flag);
 	        	if( !isGameMuted) {
 	        		if(flag == true) {
 	        		MainSound(false);
@@ -678,8 +678,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		Sound sound = new Sound("View/sounds/snake-hissing-6092.wav");
- 		//Sound sound = new Sound("src/View/sounds/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("View/sounds/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("src/View/sounds/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -687,40 +687,40 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	  // Sound sound = new Sound("src/View/sounds/dice.wav");
-	   Sound sound = new Sound("View/sounds/dice.wav");
+	   Sound sound = new Sound("src/View/sounds/dice.wav");
+	  // Sound sound = new Sound("View/sounds/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	  // Sound sound = new Sound("src/View/sounds/buttonClick.wav");
-	   Sound sound = new Sound("View/sounds/buttonClick.wav");
+	   Sound sound = new Sound("src/View/sounds/buttonClick.wav");
+	  // Sound sound = new Sound("View/sounds/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	   Sound WinSound = new Sound("View/sounds/levelup.wav");
-	  // Sound WinSound = new Sound("src/View/sounds/levelup.wav");
+	  // Sound WinSound = new Sound("View/sounds/levelup.wav");
+	   Sound WinSound = new Sound("src/View/sounds/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	  // Sound sound = new Sound("src/View/sounds/ladder.wav");
-	   Sound sound = new Sound("View/sounds/ladder.wav");
+	   Sound sound = new Sound("src/View/sounds/ladder.wav");
+	//   Sound sound = new Sound("View/sounds/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   //Sound sound = new Sound("src/View/sounds/surprise.wav");
-	   Sound sound = new Sound("View/sounds/surprise.wav");
+	   Sound sound = new Sound("src/View/sounds/surprise.wav");
+	 //  Sound sound = new Sound("View/sounds/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	//  Sound sound = new Sound("src/View/sounds/TimeOut.wav");
-	  Sound sound = new Sound("View/sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/View/sounds/TimeOut.wav");
+	//  Sound sound = new Sound("View/sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

@@ -23,7 +23,6 @@ public class Sound {
                  // load the sound into memory (a Clip)
                     clip = AudioSystem.getClip();
                     clip.open(sound);
-                    System.out.println("file opened");
                 }
                 else {
                     throw new RuntimeException("Sound: file not found: " + fileName);
