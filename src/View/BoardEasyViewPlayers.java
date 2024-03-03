@@ -529,7 +529,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 		boolean temp=false;
 		temp=checkForSnakesAndLadders(newPosition,roll);
-		if (newPosition > totalSquaresOnBoard) {
+		if (newPosition >= totalSquaresOnBoard) {
 			newPosition = totalSquaresOnBoard;
 		}
 		if(temp==true)
@@ -567,7 +567,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		Point startPoint=null;
 		Point endPoint =null;
 		// Ensure the player does not go past the last square
-		if (newPosition > totalSquaresOnBoard) {
+		if (newPosition >= totalSquaresOnBoard) {
 			newPosition = totalSquaresOnBoard;
 		}
 		boolean temp=false;
