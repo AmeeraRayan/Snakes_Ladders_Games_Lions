@@ -487,6 +487,26 @@ public class GameController {
 	            break;
 	        } };
 	        
+	  	  public void setPlayerForegroundColor(Model.Color color , JLabel txtrPlayer) {//change the jtext background - by the player color
+		        switch (color.toString()) {
+		        case "BLUE":
+		            txtrPlayer.setForeground(new java.awt.Color(175, 238, 238)); // Blue
+		            break;
+		        case "GREEN": 
+		            txtrPlayer.setForeground(new java.awt.Color(152, 251, 152)); // Green
+		            break;
+		        case "RED":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 51, 102)); // Red
+		            break;
+		        case "YELLOW":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 255, 204)); // Yellow
+		            break;
+		        default:
+		            // Default color for other players
+		            txtrPlayer.setForeground(new java.awt.Color(192, 192, 192));
+		            break;
+		        } };
+	        
 	    
 	
 	  
