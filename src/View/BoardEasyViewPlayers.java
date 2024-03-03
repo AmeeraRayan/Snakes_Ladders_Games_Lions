@@ -669,7 +669,6 @@ public class BoardEasyViewPlayers extends JFrame {
 		for (Snake snake : game.getBoard().getSnakes()) {
 			if (pos ==(snake.getSquareStart().getValue())) {
 			if (pos == (snake.getSquareStart().getValue())) {
-				controller.SnakeSoundEffect();
 				game.getCurrentPlayer().setPosition((snake.getSquareEnd().getValue()));
 				currentPlayer.setPosition((snake.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), (snake.getSquareEnd().getValue()));
@@ -680,7 +679,6 @@ public class BoardEasyViewPlayers extends JFrame {
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
 			if (pos == (ladder.getSquareStart().getValue())) {
-				controller.LadderSound();
 				game.getCurrentPlayer().setPosition((ladder.getSquareEnd().getValue()));
 				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
 				game.updatePlayerPositionInList(currentPlayer.getName(), (ladder.getSquareEnd().getValue()));

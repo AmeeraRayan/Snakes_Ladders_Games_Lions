@@ -101,8 +101,6 @@ public class MediumGameBoard extends JFrame
     private JLabel textPane = new JLabel("");
     private JLabel textPane_1_2 = new JLabel("");
     private JLabel jl = new JLabel("00:00");
-
-    
     private boolean isdiceClicked = false  ;
     private boolean isstopMusicClicked = false ;
     
@@ -176,7 +174,6 @@ public class MediumGameBoard extends JFrame
              @Override
              public void actionPerformed(ActionEvent e) {
             	if(!isGamePaused) { 
-             	System.out.println("from timer ");
                  turnTimer.stop(); // Stop the timer to prevent it from repeating
                  animateDiceRoll(); // Automatically roll the dice
                  startNewTurn();
@@ -392,13 +389,9 @@ public class MediumGameBoard extends JFrame
         setBlueSnakes(outerPanel);
         setGreenSnakes(outerPanel);
         setLadders(outerPanel);
-//        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
-//        	ArrayList<Integer>  key = entry.getKey();
-//            String value = entry.getValue();
-//            System.out.println("key"+ key);
-//            System.out.println("val:" +value);
-//        }
- 
+        for (Map.Entry<ArrayList<Integer>, String> entry : takenCells.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
         meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
     }
 
@@ -423,19 +416,21 @@ public class MediumGameBoard extends JFrame
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         // Place the first red snake
         do {
+        	arr.clear();
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
             arr.add(i1);
             arr.add(j1);
-        } while (takenCells.containsKey(arr) || (i1==0 && j1==0));
+        } while (takenCells.containsKey(arr) || (i1==9 && j1==0));
         takenCells.put(arr,"redsnak1");
         // Place the second red snake
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
+            arr2.clear();
             arr2.add(i2);
             arr2.add(j2);
-        } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==0 && j2==0));
+        } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==9 && j2==0));
         takenCells.put(arr2,"redsnake2");
 
         JLabel label_1 = new JLabel();
@@ -443,7 +438,7 @@ public class MediumGameBoard extends JFrame
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
      textPane_1_2_1.setForeground(new Color(240, 248, 255));
-            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
+            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
             
             textPane_1_2_1.setBounds(917, 175, 150, 150);
             outerPanel.add(textPane_1_2_1);
@@ -478,12 +473,12 @@ public class MediumGameBoard extends JFrame
         int i, j;
         ArrayList<Integer> arr= new ArrayList<Integer>();
         do {
-        	arr.clear();
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
+        	arr.clear();
             arr.add(i);
             arr.add(j);
-        } while(takenCells.containsKey(arr) || (i==0 && j==0));       
+        } while(takenCells.containsKey(arr) || (i==9 && j==0));       
         takenCells.put(arr,"yellowSnake");
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
@@ -498,12 +493,12 @@ public class MediumGameBoard extends JFrame
         int i, j;
         ArrayList<Integer> arr= new ArrayList<Integer>();
         do {
-        	arr.clear();
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
+        	arr.clear();
             arr.add(i);
             arr.add(j);
-        } while(takenCells.containsKey(arr)  || (i==0 && j==0));
+        } while(takenCells.containsKey(arr)  || (i==9 && j==0));
         takenCells.put(arr,"blueSnake");
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getBoundsX() - 110, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
@@ -558,20 +553,20 @@ public class MediumGameBoard extends JFrame
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
-        	arr1.clear();
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j1 = generateRandomNumber_J(Color.GREEN);
+        	arr1.clear();
             arr1.add(i1);
             arr1.add(j1);
-        }while(takenCells.containsKey(arr1) || (i1==0 && j1==0));
+        }while(takenCells.containsKey(arr1) || (i1==9 && j1==0));
         takenCells.put(arr1,"greensnake1");
         do {  
-        	arr2.clear();
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j2 = generateRandomNumber_J(Color.GREEN);
+        	arr2.clear();
             arr2.add(i2);
             arr2.add(j2);
-        }while(takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1) || (i2==0 && j2==0));
+        }while(takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1) || (i2==9 && j2==0));
         takenCells.put(arr2,"greensnake2");
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -610,10 +605,9 @@ public class MediumGameBoard extends JFrame
             arr1.clear(); // Clear the list before adding new values
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==9 && arr1.get(1)==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
-        System.out.println("startsquare:"+"ladder"+num+ " "+ startSquare.getValue());
         //startSquare = findStartSquare_ladder(squares[i][j], num);
         endSquare = squares[i][j];
         ladderLabel = new JLabel();
@@ -955,7 +949,6 @@ public class MediumGameBoard extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 MediumGameBoard.this.setVisible(false); 
-                System.out.println("Win timer");
                 ((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
                 
                 // Stop the timer after the action is performed once
@@ -978,7 +971,6 @@ public class MediumGameBoard extends JFrame
              game.setCurrentPlayer(game.getPlayers().get(index));
              updateTextPane(game.getPlayers());
 
-             System.out.println("from else ***********");
              
          //	diceButton.setEnabled(false);
 
@@ -989,7 +981,6 @@ public class MediumGameBoard extends JFrame
     }
     
     public void startNewTurn() {// Start the 30-second countdown for the player's turn
-    	System.out.println("From New turnnn");
         isdiceClicked = false ; 
         turnTimer.stop();
         turnTimer.start(); 

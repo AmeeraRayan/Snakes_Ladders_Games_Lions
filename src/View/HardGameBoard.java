@@ -174,7 +174,7 @@ public class HardGameBoard extends JFrame{
                        
                            
                             textPane_1_1.setForeground(new Color(240, 248, 255));
-                            textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
+                            textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
                             textPane_1_1.setBackground(new Color(204, 153, 102));
                             outerPanel.add(textPane_1_1);
   
@@ -275,7 +275,6 @@ public class HardGameBoard extends JFrame{
              @Override
              public void actionPerformed(ActionEvent e) {
             	
-             	System.out.println("from timer ");
                  turnTimer.stop(); // Stop the timer to prevent it from repeating
                  animateDiceRoll(); // Automatically roll the dice
                  startNewTurn();}
@@ -459,6 +458,7 @@ public class HardGameBoard extends JFrame{
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         // Place the first red snake
         do {
+        	arr.clear();
             i1 = rand.nextInt(9)+1; // Red snake 1
             j1 = rand.nextInt(9)+1;
             arr.add(i1);
@@ -469,6 +469,7 @@ public class HardGameBoard extends JFrame{
         do {
             i2 = rand.nextInt(9)+1; // Red snake 2
             j2 = rand.nextInt(9)+1;
+            arr2.clear();
             arr2.add(i2);
             arr2.add(j2);
         } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==0 && j2==0));
@@ -497,6 +498,7 @@ public class HardGameBoard extends JFrame{
         do {
             i = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j= generateRandomNumber_J(Color.YELLOW);
+            arr.clear();
             arr.add(i);
             arr.add(j);
         } while(takenCells.containsKey(arr)  || (i==0 && j==0));       
@@ -511,6 +513,7 @@ public class HardGameBoard extends JFrame{
         do {
             i1 = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j1= generateRandomNumber_J(Color.YELLOW);
+            arr1.clear();
             arr1.add(i1);
             arr1.add(j1);
         } while(takenCells.containsKey(arr1) ||  (i1 == i && j1 == j)|| (i==0 && j==0));       
@@ -533,6 +536,7 @@ public class HardGameBoard extends JFrame{
         ArrayList<Integer> arr= new ArrayList<Integer>();
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         do {
+        	arr.clear();
             i = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j = generateRandomNumber_J(Color.BLUE);
             arr.add(i);
@@ -541,6 +545,7 @@ public class HardGameBoard extends JFrame{
         takenCells.put(arr,"blueSnake1");
         
         do {
+        	arr1.clear();
             i1 = generateRandomNumber_I(Color.BLUE); // Blue snakes
             j1 = generateRandomNumber_J(Color.BLUE);
             arr1.add(i1);
@@ -610,13 +615,15 @@ public class HardGameBoard extends JFrame{
         ArrayList<Integer> arr1= new ArrayList<Integer>();
         ArrayList<Integer> arr2= new ArrayList<Integer>();
         do {
+        	arr1.clear();
             i1 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j1 = generateRandomNumber_J(Color.GREEN);
             arr1.add(i1);
             arr1.add(j1);
         }while(takenCells.containsKey(arr1) || (i1==0 && j1==0));
         takenCells.put(arr1,"greensnake1");
-        do {             
+        do {  
+        	arr2.clear();
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
             j2 = generateRandomNumber_J(Color.GREEN);
             arr2.add(i2);
@@ -662,8 +669,7 @@ public class HardGameBoard extends JFrame{
             arr2.add(j);
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
-            arr1.add(startSquare.getCol());
-     
+            arr1.add(startSquare.getCol());     
         } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
@@ -725,7 +731,7 @@ public class HardGameBoard extends JFrame{
         if(num == 5) {
         	width = 165;
         	heigth = 330;
-        	X = -115;
+        	X = -120;
         	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -1062,7 +1068,6 @@ public class HardGameBoard extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 HardGameBoard.this.setVisible(false); 
-                System.out.println("Win timer");
                 ((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
                 // Stop the timer after the action is performed once
                 ((Timer)e.getSource()).stop();
@@ -1096,7 +1101,6 @@ public class HardGameBoard extends JFrame{
     }
     
     public void startNewTurn() {// Start the 30-second countdown for the player's turn
-    	System.out.println("From New turnnn");
         isdiceClicked = false ; 
         turnTimer.stop();
         turnTimer.start(); 
