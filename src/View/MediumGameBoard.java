@@ -578,12 +578,11 @@ public class MediumGameBoard extends JFrame
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0 || i!=9) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-            }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
+           
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         System.out.println("startsquare:"+"ladder"+num+ " "+ startSquare.getValue());

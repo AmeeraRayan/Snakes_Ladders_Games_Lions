@@ -635,12 +635,11 @@ public class HardGameBoard extends JFrame{
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-            }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
+     
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
@@ -1029,6 +1028,8 @@ public class HardGameBoard extends JFrame{
        	saveGameDetails(game.getPlayers().get(index));
        	HardGameBoard.this.setVisible(false); 
        	Player winner = game.getPlayers().get(index);
+     	gameTimer.stop();
+        turnTimer.stop();
         controller.MainSound(false);
         controller.FinalGame(false);
         int count = 0 ; 

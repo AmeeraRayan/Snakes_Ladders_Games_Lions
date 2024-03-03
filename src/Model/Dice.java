@@ -45,7 +45,8 @@ public class Dice {
 	        int result = numbers[index];
 	        System.out.println(result);
 
-	        return result;
+	        //return result;
+	        return random.nextInt(6) + 1 ; 
 	        
 	}
 
