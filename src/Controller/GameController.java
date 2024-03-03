@@ -576,7 +576,7 @@ public class GameController {
 	        
 	        public void MusicByPoisitionControl(int WinValue) {
 	        	for (int i = 0 ; i < game.getPlayers().size() ; i ++) {
-	        		if(game.getPlayers().get(i).getPosition() >=WinValue-70 ) {
+	        		if(game.getPlayers().get(i).getPosition() >=WinValue-25 ) {
 	        			flag = true ;
 	        		}
 	        	}

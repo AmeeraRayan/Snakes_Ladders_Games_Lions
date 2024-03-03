@@ -72,7 +72,6 @@ public class MediumGameBoard extends JFrame
     private int index = 0 ;
     public static JLabel[] playersLable;
 	private static Map<ArrayList<Integer>,String> takenCells = new HashMap<>();
-    private long startTime;
     private int WinValue = 100 ; 
     private List<Player> arraylistOrderByPosition ;
 	private Timer gameTimer;
@@ -86,12 +85,17 @@ public class MediumGameBoard extends JFrame
     public static Timer turnTimer;
     private JLabel jl1 = new JLabel("00:00", SwingConstants.CENTER);
     JLabel textPane_1_2_1 = new JLabel("");
+    long elapsedTime = 0;
+
+    long duration = 3000;
+    long startTime = System.currentTimeMillis();
+    long turnStartTime = System.currentTimeMillis();
+    long turnElapsedTime = 0;
 
 
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     JPanel outerPanel = new JPanel();
-
-    private long remainingPlayerTime;
+   private long remainingPlayerTime;
     private boolean isGamePaused = false;
     private long turnTimerStartTime;
     private JLabel textPane = new JLabel("");
@@ -140,11 +144,13 @@ public class MediumGameBoard extends JFrame
 		gameTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(!isGamePaused) {
 				long now = System.currentTimeMillis();
 				long elapsed = now - startTime;
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
 				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
 				jl.setText(String.format("%02d:%02d", minutes, seconds));
+				}
 			}
 		});
 		gameTimer.start();
@@ -169,14 +175,14 @@ public class MediumGameBoard extends JFrame
      	 turnTimer = new Timer(10000, new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
-            	
+            	if(!isGamePaused) { 
              	System.out.println("from timer ");
                  turnTimer.stop(); // Stop the timer to prevent it from repeating
                  animateDiceRoll(); // Automatically roll the dice
                  startNewTurn();
                  diceButton.setEnabled(true); 
 
-                 }
+                 }}
              
          });
      	 
@@ -260,13 +266,20 @@ public class MediumGameBoard extends JFrame
         			diceButton.setEnabled(false);
         			resume.setText("resume");
         			controller.MainSound(false);
-        			
+        			controller.FinalGame(false);
 
         		}else {
         			resumeGame();
         			diceButton.setEnabled(true);
         			resume.setText("StopGame");
         			controller.MainSound(true);
+        			if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+
+        			}else {
+            			controller.MainSound(true);
+
+        			}
 
         		}
         		
@@ -437,7 +450,7 @@ public class MediumGameBoard extends JFrame
 		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
-            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 16));
+            textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 27));
             
             textPane_1_2_1.setBounds(917, 175, 150, 150);
             outerPanel.add(textPane_1_2_1);
@@ -990,31 +1003,31 @@ public class MediumGameBoard extends JFrame
     }
     
     public void pauseGame() {
-        if (!isGamePaused) {
+    	elapsedTime = 0 ; 
+    	turnElapsedTime = 0 ; 
+    	//stop main timer
             gameTimer.stop();
-            turnTimer.stop();
-
-            // Calculate the remaining time for the player turn timer
-            long now = System.currentTimeMillis();
-            remainingPlayerTime -= (now - turnTimerStartTime);
             isGamePaused = true;
-        }
+            elapsedTime += System.currentTimeMillis() - startTime;
+        // stop turn timer
+            turnTimer.stop();
+            turnElapsedTime+= System.currentTimeMillis() - turnStartTime;     
+            
+        
     }
     
   
 
     public void resumeGame() {
-        if (isGamePaused) {
+    	startTime = 0 ;
+    	turnStartTime = 0 ; 
+            startTime = System.currentTimeMillis() - elapsedTime;
             gameTimer.start();
-            System.out.println(remainingPlayerTime);
-
-            // Adjust the player turn timer to fire after the remaining time
-            turnTimer.setInitialDelay((int) remainingPlayerTime);
+            turnStartTime = System.currentTimeMillis() - turnElapsedTime;
             turnTimer.start();
-            turnTimerStartTime = System.currentTimeMillis(); // Reset start time
-
             isGamePaused = false;
-        }
+
+        
     }
     
 }

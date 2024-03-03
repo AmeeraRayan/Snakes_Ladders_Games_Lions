@@ -70,7 +70,6 @@ public class HardGameBoard extends JFrame{
     private Square[] surpriseSquares = new Square[2];
     private JButton diceButton;
     private int WinValue = 169 ; 
-    private long startTime;
     JLabel textPane_1_1 = new  JLabel("");
 
 	private Timer gameTimer;
@@ -90,6 +89,12 @@ public class HardGameBoard extends JFrame{
    private long turnTimerStartTime;
    private boolean isstopMusicClicked = false ;
    private JLabel textPane = new JLabel("");
+   long elapsedTime = 0;
+
+   long duration = 3000;
+   long startTime = System.currentTimeMillis();
+   long turnStartTime = System.currentTimeMillis();
+   long turnElapsedTime = 0;
 
 
     public HardGameBoard(Game game) {
@@ -107,6 +112,28 @@ public class HardGameBoard extends JFrame{
         JButton pauseButton = new JButton("Stop game");
         pauseButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		if(!isGamePaused) {
+        			pauseGame() ; 
+        			diceButton.setEnabled(false);
+        			pauseButton.setText("resume");
+        			controller.MainSound(false);
+        			controller.FinalGame(false);
+
+        		}else {
+        			resumeGame();
+        			diceButton.setEnabled(true);
+        			pauseButton.setText("StopGame");
+        			controller.MainSound(true);
+        			if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+
+        			}else {
+            			controller.MainSound(true);
+
+        			}
+
+        		}
+        		
         	}
         });
         diceButton = new JButton("");
@@ -131,7 +158,21 @@ public class HardGameBoard extends JFrame{
               }
           });
                   updateTextPane(game.getPlayers());
-                           
+                            textPane.setBounds(868, 130, 252, 55);
+                            
+	     textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+	     textPane.setAlignmentY(Component.TOP_ALIGNMENT);
+	     textPane.setAlignmentX(0.2f);
+	     textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+
+	     outerPanel.add(textPane);
+                            
+                            JLabel lblNewLabel_5 = new JLabel("");
+                            lblNewLabel_5.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
+                            lblNewLabel_5.setBounds(711, 125, 600, 81);
+                            outerPanel.add(lblNewLabel_5);
+                            
+                       
                            
 
                             textPane_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
@@ -156,12 +197,6 @@ public class HardGameBoard extends JFrame{
         lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
         lblNewLabel_4.setBounds(740, 280, 400, 250);
         outerPanel.add(lblNewLabel_4);
-        
-   
-        JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
-        lblNewLabel_2.setBounds(711, 102, 600, 118);
-        outerPanel.add(lblNewLabel_2);
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(960, 660, 78, 81);
         outerPanel.add(diceButton);
@@ -191,11 +226,13 @@ public class HardGameBoard extends JFrame{
 		gameTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				long now = System.currentTimeMillis();
-				long elapsed = now - startTime;
-				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
-				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
-				jl.setText(String.format("%02d:%02d", minutes, seconds));
+				if(!isGamePaused) {
+					long now = System.currentTimeMillis();
+					long elapsed = now - startTime;
+					long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+					long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
+					jl.setText(String.format("%02d:%02d", minutes, seconds));
+					}
 			}
 		});
 		 turnTimer = new Timer(10000, new ActionListener() {
@@ -205,22 +242,14 @@ public class HardGameBoard extends JFrame{
 	                animateDiceRoll(); // Automatically roll the dice
 	            }
 	        });
-		
+	     controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(),textPane);
 		gameTimer.start();
         controller.MainSound(true);  
         musicStatus = true ; 
-        JButton stop = new JButton("stop ");
+        JButton stop = new JButton("stop Sound");
         stop.setBounds(848, 15, 89, 30);
         outerPanel.add(stop);
-        textPane.setBounds(868, 125, 252, 55);
-        
-        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-        controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(),textPane);
-        outerPanel.add(textPane);
-
+         
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -319,6 +348,12 @@ public class HardGameBoard extends JFrame{
         lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/BackHard.png")));
         lblNewLabel.setBounds(-41, -39, 1257, 1200);
         outerPanel.add(lblNewLabel);
+        
+   
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
+        lblNewLabel_2.setBounds(711, 102, 600, 118);
+        outerPanel.add(lblNewLabel_2);
         
         this.setVisible(true);
     }
@@ -1086,29 +1121,31 @@ public class HardGameBoard extends JFrame{
     }
     
     public void pauseGame() {
-        if (!isGamePaused) {
+    	elapsedTime = 0 ; 
+    	turnElapsedTime = 0 ; 
+    	//stop main timer
             gameTimer.stop();
-            turnTimer.stop();
-
-            // Calculate the remaining time for the player turn timer
-            long now = System.currentTimeMillis();
-            remainingPlayerTime -= (now - turnTimerStartTime);
-
             isGamePaused = true;
-        }
+            elapsedTime += System.currentTimeMillis() - startTime;
+        // stop turn timer
+            turnTimer.stop();
+            turnElapsedTime+= System.currentTimeMillis() - turnStartTime;     
+            
+        
     }
+    
+  
 
     public void resumeGame() {
-        if (isGamePaused) {
+    	startTime = 0 ;
+    	turnStartTime = 0 ; 
+            startTime = System.currentTimeMillis() - elapsedTime;
             gameTimer.start();
-
-            // Adjust the player turn timer to fire after the remaining time
-            turnTimer.setInitialDelay((int) remainingPlayerTime);
+            turnStartTime = System.currentTimeMillis() - turnElapsedTime;
             turnTimer.start();
-            turnTimerStartTime = System.currentTimeMillis(); // Reset start time
-
             isGamePaused = false;
-        }
+
+        
     }
 }
 
