@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
+import Controller.GameController;
 import Model.Game;
 import Model.Player;
 import Model.WinFrame;
@@ -28,6 +31,7 @@ public class YellowWin extends JFrame  implements WinFrame{
 	private String plyerNickname;
 	private String time;
 	private Game game;
+    private GameController gameController = new GameController(game);
 
 
 	/**
@@ -39,7 +43,9 @@ public class YellowWin extends JFrame  implements WinFrame{
 		this.game=game;
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 894, 596);
+		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
+        setUndecorated(true);
+		setBounds(0, 0, 1037, 596);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,58 +53,61 @@ public class YellowWin extends JFrame  implements WinFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-
-		
-	
 		
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(415, 321, 215, 36);
+		playerWin.setBounds(316, 279, 262, 36);
 		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 34));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
 		contentPane.add(playerWin);
 		
-		JLabel lblNewLabe2 = new JLabel("Time is : ");
-		lblNewLabe2.setBounds(64, 216, 140, 28);
-		lblNewLabe2.setForeground(new Color(255, 255, 255));
-		lblNewLabe2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
-		contentPane.add(lblNewLabe2);
-		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(230, 216, 170, 28);
+		lblNewLabel_3.setBounds(316, 396, 222, 49);
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 28));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
 		contentPane.add(lblNewLabel_3);
-		JButton btnNewButton = new JButton("Play again?");
-		btnNewButton.setForeground(new Color(58, 173, 62));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for(Player player: game.getPlayers())
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1 = new JLabel(new ImageIcon(YellowWin.class.getResource("/images/Win_yellow.jpg")));
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setBackground(new Color(255, 255, 255));
+		lblNewLabel_1.setBounds(-64, -20, 1171, 636);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel restart = new JLabel("");
+		restart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	for(Player player: game.getPlayers())
 				{
 					player.setPosition(1);
 				}
 				YellowWin.this.setVisible(false);
+				if(game.getDifficulty() == "Easy") {
 				new BoardEasyViewPlayers(game).setVisible(true);
+				}
+				else if(game.getDifficulty().equals("Medium")) {
+					new MediumGameBoard(game).setVisible(true);
+				}
+				else if(game.getDifficulty().equals("Hard")) {
+					new HardGameBoard(game).setVisible(true);
+				}
+				gameController.buttonClick();
 			}
-		});
-		btnNewButton.setBounds(155, 487, 100, 21);
-		contentPane.add(btnNewButton);
+        });
+		restart.setBounds(72, 518, 163, 32);
+		contentPane.add(restart);
 		
-		JButton btnNewButton_1 = new JButton("Menu");
-		btnNewButton_1.setForeground(new Color(58, 173, 62));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 YellowWin.this.setVisible(false);
-					new DataReception().setVisible(true);
+		JLabel menu = new JLabel("");
+		menu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	YellowWin.this.setVisible(false);
+				new MainScreen().setVisible(true);
+				gameController.buttonClick();
 			}
-		});
-		btnNewButton_1.setBounds(643, 497, 85, 21);
-		contentPane.add(btnNewButton_1);
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/YellowWin.png")));
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_1.setBounds(-43, 0, 960, 560);
-		contentPane.add(lblNewLabel_1);
+        });
+		menu.setBounds(845, 518, 163, 32);
+		contentPane.add(menu);
 		
 		
 	}
@@ -110,5 +119,4 @@ public class YellowWin extends JFrame  implements WinFrame{
 		new YellowWin(winnerName,time,game).setVisible(true);
 
 	}
-	
 }

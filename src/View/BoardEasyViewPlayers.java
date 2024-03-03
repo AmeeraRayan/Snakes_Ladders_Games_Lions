@@ -866,6 +866,7 @@ public class BoardEasyViewPlayers extends JFrame {
 	public boolean checkForSnakesAndLadders(int pos, int roll) {
 		int lastpos=pos;
 		for (Snake snake : game.getBoard().getSnakes()) {
+			controller.SnakeSoundEffect();
 			if (pos == snake.getSquareStart().getValue()) {
 				game.getCurrentPlayer().setPosition(snake.getSquareEnd().getValue());
 				game.updatePlayerPositionInList(currentPlayer.getName(), snake.getSquareEnd().getValue());
@@ -878,6 +879,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		}}
 
 		for (Ladder ladder : game.getBoard().getLadders()) {
+			controller.LadderSound();
 			if (pos == (ladder.getSquareStart().getValue())) {
 				game.getCurrentPlayer().setPosition(ladder.getSquareEnd().getValue());
 				currentPlayer.setPosition((ladder.getSquareEnd().getValue()));
@@ -891,6 +893,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		}
 
 		for (Square q : game.getBoard().getQuestions()) {
+			
 			if (pos== (q.getValue())) {
 				SysData sysdata=new SysData();
 				Point startPoint = controller.boardPositionToPixel(currentPlayer.getPosition(),currentPlayer,path);

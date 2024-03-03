@@ -69,9 +69,10 @@ public class HardGameBoard extends JFrame{
     private Square[] quastionSquares = new Square[3];
     private Square[] surpriseSquares = new Square[2];
     private JButton diceButton;
-    private JTextField textPane ; 
     private int WinValue = 169 ; 
     private long startTime;
+    JLabel textPane_1_1 = new  JLabel("");
+
 	private Timer gameTimer;
     //JFrame frame;
     Random rand = new Random();
@@ -87,6 +88,10 @@ public class HardGameBoard extends JFrame{
    private long remainingPlayerTime;
    private boolean isGamePaused = false;
    private long turnTimerStartTime;
+   private boolean isstopMusicClicked = false ;
+   private JLabel textPane = new JLabel("");
+
+
     public HardGameBoard(Game game) {
     	this.game=game;
     	setTitle("Game Board");
@@ -100,6 +105,79 @@ public class HardGameBoard extends JFrame{
         setUndecorated(true);
         
         JButton pauseButton = new JButton("Stop game");
+        pauseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        diceButton = new JButton("");
+        diceButton.addActionListener(new ActionListener() {
+        	  public void actionPerformed(ActionEvent e) {
+              	isdiceClicked = true ; 
+                  index = game.getCurrentPlayerIndex();
+                  if (turnTimer.isRunning()) {
+                      turnTimer.stop(); // Stop the countdown as the player is taking action
+                  }
+                  animateDiceRoll();
+                  Player CurrentPlayer = game.getPlayers().get(index);
+                  // Start dice roll animation
+                   // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
+                              diceButton.setEnabled(true);
+                              game.setCurrentPlayerIndex(index);
+                              game.setCurrentPlayer(game.getPlayers().get(index));
+                           
+                       
+                              startNewTurn();
+                       
+              }
+          });
+                  updateTextPane(game.getPlayers());
+                           
+                           
+
+                            textPane_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+                            textPane_1_1.setBackground(new Color(204, 153, 102));
+                            outerPanel.add(textPane_1_1);
+                            
+        textPane_1_1.setBounds(923, 319, 140, 150);
+        outerPanel.add(textPane_1_1);
+                  
+                  
+                           textPane.setBounds(868, 125, 252, 55);
+                           
+                           textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
+                           textPane.setAlignmentY(Component.TOP_ALIGNMENT);
+                           textPane.setAlignmentX(0.2f);
+                           textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
+                           controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(),textPane);
+                           outerPanel.add(textPane);
+        
+             
+                 jl = new JLabel("00:00", SwingConstants.CENTER);
+                 jl.setLocation(908, 432);
+                 outerPanel.add(jl);
+                 jl.setVisible(true);
+                 jl.setSize(170, 106);
+                 Font labelFont = jl.getFont();
+                 jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+        
+        JLabel lblNewLabel_4 = new JLabel("New label");
+        lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
+        lblNewLabel_4.setBounds(740, 280, 400, 250);
+        outerPanel.add(lblNewLabel_4);
+        
+   
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
+        lblNewLabel_2.setBounds(711, 102, 600, 118);
+        outerPanel.add(lblNewLabel_2);
+        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
+        diceButton.setBounds(960, 660, 78, 81);
+        outerPanel.add(diceButton);
+        
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/Dice.png")));
+        lblNewLabel_1.setBounds(726, 504, 500, 400);
+        outerPanel.add(lblNewLabel_1);
 //        pauseButton.addActionListener(new ActionListener() {
 //        	public void actionPerformed(ActionEvent e) {
 //        		 if (isGamePaused) {
@@ -112,28 +190,11 @@ public class HardGameBoard extends JFrame{
 //        		
 //        	}
 //        });
-        pauseButton.setBounds(1040, 25, 50, 30);
+        pauseButton.setBounds(837, 55, 100, 30);
         outerPanel.add(pauseButton);
-        
-     
-        
-        
-         textPane = new JTextField();
-        textPane.setBounds(806, 79, 350, 65);
-        outerPanel.add(textPane);
         
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
-        diceButton = new JButton("");
-
-     
-         jl = new JLabel("00:00", SwingConstants.CENTER);
-        jl.setLocation(792, 185);
-        outerPanel.add(jl);
-        jl.setVisible(true);
-        jl.setSize(170, 106);
-        Font labelFont = jl.getFont();
-        jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
         startTime = System.currentTimeMillis();
 		gameTimer = new Timer(1000, new ActionListener() {
 			@Override
@@ -156,32 +217,41 @@ public class HardGameBoard extends JFrame{
 		gameTimer.start();
         controller.MainSound(true);  
         musicStatus = true ; 
-        JButton btnNewButton = new JButton("stop ");
-        btnNewButton.setBounds(957, 25, 50, 30);
-        outerPanel.add(btnNewButton);
-        btnNewButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(musicStatus) {
-                controller.MainSound(false);
-                btnNewButton.setText("Continue Music");
-        		musicStatus = false ;
-        		}
-        		else {
-                    controller.MainSound(true);
-            		musicStatus = true ;
-                    btnNewButton.setText("Stop Music");
+        JButton stop = new JButton("stop ");
+        stop.setBounds(848, 15, 89, 30);
+        outerPanel.add(stop);
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(!isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(false);
+            			
+            		}
+            		else {
+            			controller.MainSound(false);
+            		}
+            		isstopMusicClicked = true ; 
+            		controller.isGameMuted = true ; 
+            		stop.setText("Continue Sound");
+            		return ; 
+            	}
+            	if(isstopMusicClicked) {
+            		if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+            		}
+            		else {
+            			controller.MainSound(true);
+            		}
+            		isstopMusicClicked = false ; 
+            		controller.isGameMuted = false ; 
 
-
-        		}
-
+            		stop.setText("Stop Sound");
+            	}
+            
         	}
         });
-
-		textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
-        textPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+       // controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
         arraylistOrderByPosition = game.getPlayers();
       	 turnTimer = new Timer(10000, new ActionListener() {
              @Override
@@ -195,35 +265,9 @@ public class HardGameBoard extends JFrame{
          });
      	 
         turnTimer.start();
-        diceButton.addActionListener(new ActionListener() {
-        	  public void actionPerformed(ActionEvent e) {
-              	isdiceClicked = true ; 
-                  index = game.getCurrentPlayerIndex();
-                  if (turnTimer.isRunning()) {
-                      turnTimer.stop(); // Stop the countdown as the player is taking action
-                  }
-                  animateDiceRoll();
-                  Player CurrentPlayer = game.getPlayers().get(index);
-                  // Start dice roll animation
-                   // This should ideally be called AFTER the animation, consider simulating the result for the animation and calculating it for the game logic after
-                              diceButton.setEnabled(true);
-                              game.setCurrentPlayerIndex(index);
-                              game.setCurrentPlayer(game.getPlayers().get(index));
-                              textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-                              textPane.setEditable(false);
-                              endTurn();
-                              controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
-                              updateTextPane(arraylistOrderByPosition);
-                              startNewTurn();
-                       
-              }
-          });
      
        
         turnTimer.setRepeats(true); 
-        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(1000, 455, 78, 81);
-        outerPanel.add(diceButton);
 
         // Creating the inner panel
         JPanel innerPanel = new JPanel();
@@ -231,14 +275,9 @@ public class HardGameBoard extends JFrame{
         
         game.setBoard(hardBoard);
         game.setDice(dice);
-        textPane.setText("\n    Turn : " + game.getCurrentPlayer().getName());
-        textPane.setAlignmentX(0.2f);
-        textPane.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         
         IntilaizePlayerPositionView(game , controller , outerPanel);
 
-
-     
         innerPanel.setBounds(42, 42, 715, 715);
         innerPanel.setBackground(Color.WHITE);
         // Adding the inner panel to the center of the outer panel
@@ -251,19 +290,6 @@ public class HardGameBoard extends JFrame{
         }
         htmlBuilder.append("</ul></body></html>");
         String htmlString = htmlBuilder.toString();
-        
-        
-
-         textPane_1 = new JTextPane();
-         textPane_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-        
-        textPane_1.setBackground(new Color(204, 153, 102));
-        textPane_1.setContentType("text/html"); // Set content type to text/html
-        textPane_1.setText(htmlString);
-        outerPanel.add(textPane_1);
-         
-        textPane_1.setBounds(977, 179, 140, 150);
-        outerPanel.add(textPane_1);
         // Adding the outer panel to the frame
         this.getContentPane().add(outerPanel);
         
@@ -284,7 +310,7 @@ public class HardGameBoard extends JFrame{
             }
         }
     });
-        lblNewLabel_3.setBounds(1017, 698, 100, 81);
+        lblNewLabel_3.setBounds(1056, 10, 100, 81);
         outerPanel.add(lblNewLabel_3);
         
 
@@ -615,12 +641,11 @@ public class HardGameBoard extends JFrame{
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-            }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
+     
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
@@ -956,7 +981,7 @@ public class HardGameBoard extends JFrame{
             sb.append("<li>").append(p.getName() + " - " + p.getPosition()).append("</li>");
         }
         sb.append("</ul></body></html>");
-        textPane_1.setText(sb.toString()); // Update the JTextPane content
+        textPane_1_1.setText(sb.toString()); // Update the JTextPane content
     }
     
     
@@ -1011,18 +1036,21 @@ public class HardGameBoard extends JFrame{
        	Player winner = game.getPlayers().get(index);
      	gameTimer.stop();
         turnTimer.stop();
-
-  	   Timer wintime = new Timer(3000, new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-          	
-              	HardGameBoard.this.setVisible(false); 
-
-          		((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
-               }
-       });
-      	wintime.start();
-      	controller.FinalGame(false);
+        controller.MainSound(false);
+        controller.FinalGame(false);
+        int count = 0 ; 
+        Timer wintime = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HardGameBoard.this.setVisible(false); 
+                System.out.println("Win timer");
+                ((HardBoard) hardBoard).openFrameForWinner(winner,jl.getText(),game);
+                // Stop the timer after the action is performed once
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        wintime.start();
+        
        }else {
     	   
     	     index++;
@@ -1033,7 +1061,10 @@ public class HardGameBoard extends JFrame{
              game.setCurrentPlayerIndex(index);
              game.setCurrentPlayer(game.getPlayers().get(index));
              textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
-             controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
+      		 controller.setPlayerForegroundColor(game.getPlayers().get(index).getColor(),textPane);
+
+             updateTextPane(game.getPlayers());
+          //   controller.setPlayerBackgroundColor(game.getCurrentPlayer().getColor(), textPane);
 
        }
   

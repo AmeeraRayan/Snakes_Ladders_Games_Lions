@@ -487,6 +487,26 @@ public class GameController {
 	            break;
 	        } };
 	        
+	  	  public void setPlayerForegroundColor(Model.Color color , JLabel txtrPlayer) {//change the jtext background - by the player color
+		        switch (color.toString()) {
+		        case "BLUE":
+		            txtrPlayer.setForeground(new java.awt.Color(175, 238, 238)); // Blue
+		            break;
+		        case "GREEN": 
+		            txtrPlayer.setForeground(new java.awt.Color(152, 251, 152)); // Green
+		            break;
+		        case "RED":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 51, 102)); // Red
+		            break;
+		        case "YELLOW":
+		            txtrPlayer.setForeground(new java.awt.Color(255, 255, 204)); // Yellow
+		            break;
+		        default:
+		            // Default color for other players
+		            txtrPlayer.setForeground(new java.awt.Color(192, 192, 192));
+		            break;
+		        } };
+	        
 	    
 	
 	  
@@ -674,11 +694,12 @@ public class GameController {
    }
    public void buttonClick() {
 	   Sound sound = new Sound("src/Sound/buttonClick.wav");
+		//   Sound sound = new Sound("Sound/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	  // Sound WinSound = new Sound("Sound/levelup.wav");
+	 //  Sound WinSound = new Sound("Sound/levelup.wav");
 	   Sound WinSound = new Sound("src/Sound/levelup.wav");
 
 	   WinSound.play();
@@ -686,7 +707,7 @@ public class GameController {
    }
    public void LadderSound() {
 	   Sound sound = new Sound("src/Sound/ladder.wav");
-	 //  Sound sound = new Sound("Sound/ladder.wav");
+	  // Sound sound = new Sound("Sound/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }

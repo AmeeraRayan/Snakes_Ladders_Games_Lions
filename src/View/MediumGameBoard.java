@@ -57,7 +57,6 @@ import java.awt.event.ActionEvent;
 
 public class MediumGameBoard extends JFrame
 {
-	final JLabel jl ;
 	private static final int GRID_SIZE = 10;
 	private static final Color[] COLORS = new Color[]{new Color(175, 238, 238), Color.WHITE, new Color(255, 255, 204), new Color(255, 51, 102), new Color(152, 251, 152)};
 	private Color[][] boardColors = new Color[GRID_SIZE][GRID_SIZE];
@@ -85,6 +84,10 @@ public class MediumGameBoard extends JFrame
     Player CurrentPlayer ;
     Random rand = new Random();
     public static Timer turnTimer;
+    private JLabel jl1 = new JLabel("00:00", SwingConstants.CENTER);
+    JLabel textPane_1_2_1 = new JLabel("");
+
+
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     JPanel outerPanel = new JPanel();
 
@@ -92,7 +95,9 @@ public class MediumGameBoard extends JFrame
     private boolean isGamePaused = false;
     private long turnTimerStartTime;
     private JLabel textPane = new JLabel("");
-    
+    private JLabel textPane_1_2 = new JLabel("");
+    private JLabel jl = new JLabel("");
+
     
     private boolean isdiceClicked = false  ;
     private boolean isstopMusicClicked = false ;
@@ -114,8 +119,11 @@ public class MediumGameBoard extends JFrame
         // Creating the inner panel
         JPanel innerPanel = new JPanel();
         initializeBoard(innerPanel,outerPanel);
-                
-                    
+        textPane.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
+
+        textPane.setBounds(355, 34, 252, 55);
+        outerPanel.add(textPane);
+        textPane.setText("\n Turn: " + game.getCurrentPlayer().getName());
         innerPanel.setBounds(224, 118, 550, 550);
         innerPanel.setBackground(Color.WHITE);
          // Adding the inner panel to the center of the outer panel
@@ -126,14 +134,8 @@ public class MediumGameBoard extends JFrame
         lblNewLabel_2.setBackground(SystemColor.desktop);
         lblNewLabel_2.setBounds(204, -7, 550, 162);
         outerPanel.add(lblNewLabel_2);
-     
-         jl = new JLabel("00:00", SwingConstants.CENTER);
-        jl.setLocation(874, 225);
-        outerPanel.add(jl);
-        jl.setVisible(true);
-        jl.setSize(160, 86);
-        Font labelFont = jl.getFont();
-        jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+        
+        updateTextPane(game.getPlayers());
         startTime = System.currentTimeMillis();
 		gameTimer = new Timer(1000, new ActionListener() {
 			@Override
@@ -142,7 +144,7 @@ public class MediumGameBoard extends JFrame
 				long elapsed = now - startTime;
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
 				long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed) % 60;
-				jl.setText(String.format("%02d:%02d", minutes, seconds));
+				jl1.setText(String.format("%02d:%02d", minutes, seconds));
 			}
 		});
 		gameTimer.start();
@@ -151,13 +153,14 @@ public class MediumGameBoard extends JFrame
 
         diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
-        diceButton.setBounds(917, 548, 78, 81);
+        diceButton.setBounds(928, 637, 78, 81);
         outerPanel.add(diceButton);
         game.setBoard(meduimboard);
         game.setDice(dice);
         controller = new GameController(game,this);
         controller.MainSound(true);
         controller.CallQuestionDataFunc();
+
         IntilaizePlayerPositionView(game , controller , outerPanel);
         arraylistOrderByPosition = game.getPlayers();
         // create game instance and set the board and the dice >> BACKEND . 
@@ -202,7 +205,8 @@ public class MediumGameBoard extends JFrame
    }
   
         });
- 
+        controller.setPlayerForegroundColor(game.getCurrentPlayer().getColor(), textPane);
+
          htmlBuilder = new StringBuilder();
         htmlBuilder.append("<html><body><ul>");
         for (Player p : arraylistOrderByPosition) {
@@ -215,7 +219,7 @@ public class MediumGameBoard extends JFrame
         
      // Assuming you have already defined a JButton resume;
         JButton stop = new JButton("StopMusic");
-        stop.setBounds(874, 179, 160, 41); // Adjust size and position accordingly
+        stop.setBounds(940, 47, 160, 41); // Adjust size and position accordingly
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -268,12 +272,12 @@ public class MediumGameBoard extends JFrame
         		
         	}
         });
-        resume.setBounds(874, 128, 160, 41);
+        resume.setBounds(757, 47, 160, 41);
         outerPanel.add(resume);
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Dice.png")));
-        lblNewLabel.setBounds(692, 518, 500, 150);
+        lblNewLabel.setBounds(701, 596, 500, 150);
         outerPanel.add(lblNewLabel);
         
         JLabel lblNewLabel_3 = new JLabel("");
@@ -300,6 +304,11 @@ public class MediumGameBoard extends JFrame
         lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
         lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
         outerPanel.add(lblNewLabel_1);
+        
+        
+        JLabel lblNewLabel_4 = new JLabel("New label");
+        lblNewLabel_4.setBounds(917, 321, 45, 13);
+        outerPanel.add(lblNewLabel_4);
     
 
         this.setVisible(true);
@@ -428,11 +437,24 @@ public class MediumGameBoard extends JFrame
 		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
+            
+            textPane_1_2_1.setBounds(917, 175, 150, 150);
+            outerPanel.add(textPane_1_2_1);
         
-            textPane.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
-            textPane.setBounds(408, 34, 252, 55);
-            outerPanel.add(textPane);
-            textPane.setText(game.getCurrentPlayer().getName());
+            jl.setLocation(925, 293);
+            outerPanel.add(jl);
+            jl.setVisible(true);
+            jl.setSize(160, 86);
+            
+                    Font labelFont = jl.getFont();
+                    jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
+        
+        JLabel lblNewLabel_5 = new JLabel("");
+        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
+        lblNewLabel_5.setBounds(733, 165, 500, 200);
+        outerPanel.add(lblNewLabel_5);
+        
+       
         panel.add(label_1);
         label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
@@ -578,12 +600,11 @@ public class MediumGameBoard extends JFrame
             j = generateRandomIJ(num)[1]; // Generate random column index
             arr2.add(i);
             arr2.add(j);
-            if(j!=0 || i!=9) {
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());
-            }
-        } while (takenCells.containsKey(arr1) || takenCells.containsKey(arr2) || (i==9 && j==0) );
+           
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         System.out.println("startsquare:"+"ladder"+num+ " "+ startSquare.getValue());
@@ -865,7 +886,8 @@ public class MediumGameBoard extends JFrame
             sb.append("<li>").append(p.getName() + " - " + p.getPosition()).append("</li>");
         }
         sb.append("</ul></body></html>");
-        textPane_1.setText(sb.toString()); // Update the JTextPane content
+        textPane_1_2_1.setText(sb.toString()); // Update the JTextPane content
+        
     }
     
     
@@ -920,22 +942,21 @@ public class MediumGameBoard extends JFrame
        	Player winner = game.getPlayers().get(index);
        	gameTimer.stop();
         turnTimer.stop();
+        controller.MainSound(false);
+        controller.FinalGame(false);
         int count = 0 ; 
         Timer wintime = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	MediumGameBoard.this.setVisible(false); 
+                MediumGameBoard.this.setVisible(false); 
                 System.out.println("Win timer");
-
-        		((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
+                ((MediumBoard) mediumBoard).openFrameForWinner(winner,jl.getText(),game);
                 
+                // Stop the timer after the action is performed once
+                ((Timer)e.getSource()).stop();
             }
-
-           
         });
-       	wintime.start();
-        controller.FinalGame(false);
-        wintime.stop();
+        wintime.start();
 
        }else {
     	   
@@ -945,8 +966,12 @@ public class MediumGameBoard extends JFrame
              }
              
              textPane.setText("\n Turn: " +game.getPlayers().get(index).getName());
+     		controller.setPlayerForegroundColor(game.getPlayers().get(index).getColor(),textPane);
+
              game.setCurrentPlayerIndex(index);
              game.setCurrentPlayer(game.getPlayers().get(index));
+             updateTextPane(game.getPlayers());
+
              System.out.println("from else ***********");
              
          //	diceButton.setEnabled(false);
@@ -975,6 +1000,8 @@ public class MediumGameBoard extends JFrame
             isGamePaused = true;
         }
     }
+    
+  
 
     public void resumeGame() {
         if (isGamePaused) {
