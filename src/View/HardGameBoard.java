@@ -173,8 +173,8 @@ public class HardGameBoard extends JFrame{
                             
                        
                            
-
-                            textPane_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+                            textPane_1_1.setForeground(new Color(240, 248, 255));
+                            textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
                             textPane_1_1.setBackground(new Color(204, 153, 102));
                             outerPanel.add(textPane_1_1);
                             
