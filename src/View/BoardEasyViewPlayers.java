@@ -64,7 +64,6 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel currentPlayerLabel;
 	private JTextPane txtpnHi;
 	private JLabel timerLabel;
-	private long startTime;
 	private Timer gameTimer;
 	public Questions quesTemp;
 	private final int totalSquaresOnBoard = 49; 
@@ -84,11 +83,17 @@ public class BoardEasyViewPlayers extends JFrame {
 	private JLabel lblNewLabel_4;
 	public String path ;
     private boolean isstopMusicClicked = false ;
-
+    private boolean isGamePaused = false ; 
 	private GameController controller; 
 	private BoardLevelTemplate easyBoard;
 	public static HashMap<String,Questions> questionsPOPUP= new HashMap<String, Questions>();
 	private JLabel lblNewLabel_5;
+	  long elapsedTime = 0;
+	   long duration = 3000;
+	   long startTime = System.currentTimeMillis();
+	   long turnStartTime = System.currentTimeMillis();
+	   long turnElapsedTime = 0;
+	   private Timer autoRollTimer;
 
 
 	public BoardEasyViewPlayers(Game game ) {
@@ -231,6 +236,35 @@ public class BoardEasyViewPlayers extends JFrame {
             	}
             }
         });
+        JButton pauseButton = new JButton("Stop game");
+        pauseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(!isGamePaused) {
+        			pauseGame() ; 
+        			diceButton.setEnabled(false);
+        			pauseButton.setText("resume");
+        			controller.MainSound(false);
+        			controller.FinalGame(false);
+
+        		}else {
+        			resumeGame();
+        			diceButton.setEnabled(true);
+        			pauseButton.setText("StopGame");
+        			controller.MainSound(true);
+        			if(controller.isFialMusic) {
+            			controller.FinalGame(true);
+
+        			}else {
+            			controller.MainSound(true);
+
+        			}
+
+        		}
+        		
+        	}
+        });
+        pauseButton.setBounds(815, 15, 100, 30);
+        contentPane.add(pauseButton);
         contentPane.add(stop);
 		startGame();
 
@@ -319,7 +353,7 @@ public class BoardEasyViewPlayers extends JFrame {
 			diceButton.removeActionListener(al);
 		}
 		// Create a timer that will call performDiceRollAndMove() after 10 seconds
-	    Timer autoRollTimer = new Timer(10000, new ActionListener() {
+	    autoRollTimer = new Timer(10000, new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	
@@ -999,6 +1033,33 @@ public class BoardEasyViewPlayers extends JFrame {
 
 
 	}
+    public void pauseGame() {
+    	elapsedTime = 0 ; 
+    	turnElapsedTime = 0 ; 
+    	//stop main timer
+            gameTimer.stop();
+            isGamePaused = true;
+            elapsedTime += System.currentTimeMillis() - startTime;
+        // stop turn timer
+            autoRollTimer.stop();
+            turnElapsedTime+= System.currentTimeMillis() - turnStartTime;     
+            
+        
+    }
+    
+  
+
+    public void resumeGame() {
+    	startTime = 0 ;
+    	turnStartTime = 0 ; 
+            startTime = System.currentTimeMillis() - elapsedTime;
+            gameTimer.start();
+            turnStartTime = System.currentTimeMillis() - turnElapsedTime;
+            autoRollTimer.start();
+            isGamePaused = false;
+
+    }
+    
 
 	public void movePlayerBasedOnQuestion(int questionDifficulty, boolean isCorrectAnswer) {
 		// Define the movement rules based on difficulty and correctness

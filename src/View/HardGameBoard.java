@@ -177,7 +177,7 @@ public class HardGameBoard extends JFrame{
                             textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
                             textPane_1_1.setBackground(new Color(204, 153, 102));
                             outerPanel.add(textPane_1_1);
-                            
+  
         textPane_1_1.setBounds(923, 319, 140, 150);
         outerPanel.add(textPane_1_1);
                   
@@ -211,20 +211,8 @@ public class HardGameBoard extends JFrame{
         lblNewLabel_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/Dice.png")));
         lblNewLabel_1.setBounds(726, 504, 500, 400);
         outerPanel.add(lblNewLabel_1);
-//        pauseButton.addActionListener(new ActionListener() {
-//        	public void actionPerformed(ActionEvent e) {
-//        		 if (isGamePaused) {
-//        		        resumeGame();
-//        		        pauseButton.setText("Pause");
-//        		    } else {
-//        		        pauseGame();
-//        		        pauseButton.setText("Resume");
-//        		    }
-//        		
-//        	}
-//        });
-//        pauseButton.setBounds(837, 55, 100, 30);
-//       outerPanel.add(pauseButton);
+    
+     
         
         controller = new GameController(game,this);
         controller.CallQuestionDataFunc();
@@ -349,12 +337,7 @@ public class HardGameBoard extends JFrame{
         lblNewLabel.setBounds(-41, -39, 1257, 1200);
         outerPanel.add(lblNewLabel);
         
-   
-//        JLabel lblNewLabel_2 = new JLabel("");
-//        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
-//        lblNewLabel_2.setBounds(711, 102, 600, 118);
-//        outerPanel.add(lblNewLabel_2);
-//        
+  
         this.setVisible(true);
     }
    
