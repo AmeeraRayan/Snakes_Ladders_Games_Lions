@@ -159,7 +159,7 @@ public class Game_History extends JFrame {
            int buttonY = 500 - buttonHeight - 30;
                       
                       lblNewLabel = new JLabel("");
-                      lblNewLabel.setIcon(new ImageIcon(Game_History.class.getResource("/View/images/history.jpg")));
+                      lblNewLabel.setIcon(new ImageIcon(Game_History.class.getResource("/images/history.jpg")));
                       lblNewLabel.setBounds(-67, -11, 1070, 671);
                       contentPane.add(lblNewLabel);
                       

@@ -137,7 +137,7 @@ public class DataReception extends JFrame {
         panel.add(player4Button);
         
          btnNewButton = new JButton("");
-         btnNewButton.setIcon(new ImageIcon(DataReception.class.getResource("/View/images/BackButton.png")));
+         btnNewButton.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
          btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
          btnNewButton.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
@@ -150,7 +150,7 @@ public class DataReception extends JFrame {
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("");
-        btnNewButton_1.setIcon(new ImageIcon(DataReception.class.getResource("/View/images/NextButton.png")));
+        btnNewButton_1.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
         btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -186,7 +186,7 @@ public class DataReception extends JFrame {
          JLabel lblNewLabel = new JLabel("");
          lblNewLabel.setBounds(-68, -50, 1140, 705);
          panel.add(lblNewLabel);
-         lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/View/images/datareception.jpg")));
+         lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/datareception.jpg")));
     }
          
  // Disable other difficulty buttons when one is selected

@@ -18,8 +18,8 @@ public class MainScreen extends JFrame{
 
     public MainScreen() {
     	frame=this;
- 		Sound sound = new Sound("src/View/sounds/start.wav");
- 	//	Sound sound = new Sound("Sound/start.wav");
+ 	//	Sound sound = new Sound("sounds/start.wav");
+ 		Sound sound = new Sound("src/sounds/start.wav");
  		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1166, 687);
@@ -85,7 +85,7 @@ public class MainScreen extends JFrame{
         });
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/View/images/MainScreen.jpg")));
+        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/MainScreen.jpg")));
         lblNewLabel.setBounds(0,-41, 1470, 769);
         getContentPane().add(lblNewLabel);
         

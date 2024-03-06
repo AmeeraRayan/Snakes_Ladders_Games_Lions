@@ -95,6 +95,7 @@ public class HardGameBoard extends JFrame{
    long startTime = System.currentTimeMillis();
    long turnStartTime = System.currentTimeMillis();
    long turnElapsedTime = 0;
+private JLabel stopLabel;
 
     public HardGameBoard(Game game) {
     	this.game=game;
@@ -110,20 +111,21 @@ public class HardGameBoard extends JFrame{
         
 
         JLabel resumeLabel = new JLabel();
-        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StopButton.png")));
         resumeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!isGamePaused) {
                     pauseGame();
                     diceButton.setEnabled(false);
-                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startButton.png")));
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startButton.png")));
                     controller.MainSound(false);
                     controller.FinalGame(false);
                 } else {
                     resumeGame();
                     diceButton.setEnabled(true);
-                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StopButton.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
                     controller.MainSound(true);
                     if (controller.isFialMusic) {
                         controller.FinalGame(true);
@@ -167,18 +169,18 @@ public class HardGameBoard extends JFrame{
 	     outerPanel.add(textPane);
                             
                             JLabel lblNewLabel_5 = new JLabel("");
-                            lblNewLabel_5.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/playerNames.png")));
+                            lblNewLabel_5.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
                             lblNewLabel_5.setBounds(711, 125, 600, 81);
                             outerPanel.add(lblNewLabel_5);
                             
                        
                            
                             textPane_1_1.setForeground(new Color(240, 248, 255));
-                            textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
+                            textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 24));
                             textPane_1_1.setBackground(new Color(204, 153, 102));
                             outerPanel.add(textPane_1_1);
   
-        textPane_1_1.setBounds(923, 319, 140, 150);
+        textPane_1_1.setBounds(923, 316, 140, 153);
         outerPanel.add(textPane_1_1);
                   
                   
@@ -193,22 +195,22 @@ public class HardGameBoard extends JFrame{
                  jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
         
         JLabel lblNewLabel_4 = new JLabel("New label");
-        lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/finalTimerAndPlayernames.png")));
+        lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
         lblNewLabel_4.setBounds(740, 280, 400, 250);
         outerPanel.add(lblNewLabel_4);
 
         
    
         JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/playerNames.png")));
+        lblNewLabel_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/playerNames.png")));
         lblNewLabel_2.setBounds(711, 102, 600, 118);
         outerPanel.add(lblNewLabel_2);
-        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/dice 3.jpg")));
+        diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(960, 660, 78, 81);
         outerPanel.add(diceButton);
         
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/Dice.png")));
+        lblNewLabel_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/Dice.png")));
         lblNewLabel_1.setBounds(726, 504, 500, 400);
         outerPanel.add(lblNewLabel_1);
     
@@ -240,8 +242,8 @@ public class HardGameBoard extends JFrame{
 		gameTimer.start();
         controller.MainSound(true);  
         musicStatus = true ; 
-        JLabel stopLabel = new JLabel("");
-        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+        stopLabel = new JLabel("");
+        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
         stopLabel.setBounds(923, 15, 130, 85); // Adjust size and position accordingly
         stopLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -254,7 +256,7 @@ public class HardGameBoard extends JFrame{
                     }
                     isstopMusicClicked = true;
                     controller.isGameMuted = true;
-                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/stopMusic.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/stopMusic.png")));
                 } else {
                     if (controller.isFialMusic) {
                         controller.FinalGame(true);
@@ -263,7 +265,7 @@ public class HardGameBoard extends JFrame{
                     }
                     isstopMusicClicked = false;
                     controller.isGameMuted = false;
-                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
                 }
             }
         });
@@ -311,7 +313,7 @@ public class HardGameBoard extends JFrame{
         this.getContentPane().add(outerPanel);
         
         JLabel lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Button.png")));
+        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Button.png")));
         lblNewLabel_3.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -332,7 +334,7 @@ public class HardGameBoard extends JFrame{
         
 
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/BackHard.png")));
+        lblNewLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/BackHard.png")));
         lblNewLabel.setBounds(-41, -39, 1257, 1200);
         outerPanel.add(lblNewLabel);
         
@@ -380,7 +382,7 @@ public class HardGameBoard extends JFrame{
                 int x = j * cellSize + panel.getBounds().x + 51; // Adjust for the actual position of the panel
                 int y = i * cellSize + panel.getBounds().y + 49;
                 if (chosenCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/QuestionMark.png")));
+                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMark.png")));
                     label.setText(""); // Set empty string for text
                     squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                     quastionSquares[count] = squares[i][j];
@@ -390,7 +392,7 @@ public class HardGameBoard extends JFrame{
                     takenCells.put(arrayList,"question"+count);
                     count++;
                 } else if (chosenSurpriseCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/QuestionMarkM.png")));
+                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/QuestionMarkM.png")));
                     label.setText(""); // Set empty string for text 
                     squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
                     surpriseSquares[surpriseCount] = squares[i][j];
@@ -403,7 +405,7 @@ public class HardGameBoard extends JFrame{
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
                 if(cellNumber == 169) {
-                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/StarWin.png")));
+                    label.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/StarWin.png")));
                     label.setText(""); // Set empty string for text
  
                 }
@@ -420,11 +422,11 @@ public class HardGameBoard extends JFrame{
         for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
         	ArrayList<Integer>  key = entry.getKey();
             String value = entry.getValue();
+            System.out.println(key);
+            System.out.println(value);
         }
  
         hardBoard.startGame(squares,snakes,ladders,quastionSquares, 0);
-       
-     
  
     }
 
@@ -480,14 +482,14 @@ public class HardGameBoard extends JFrame{
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
         panel.add(label_1);
-        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
+        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
         label_2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY(), 50, 50);
         //object red snake 2 
         Snake redSnake2 = new Snake(squares[i2][j2], squares[9][0]);
         snakes[1] = redSnake2;
         panel.add(label_2);
-        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
+        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
     }
 
 //    
@@ -509,7 +511,7 @@ public class HardGameBoard extends JFrame{
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
         snakes[2] = yellowSnake;
-        yellowSnakeLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/rightYellow.png")));
+        yellowSnakeLabel.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/rightYellow.png")));
         do {
             i1 = generateRandomNumber_I(Color.YELLOW); // Yellow snakes
             j1= generateRandomNumber_J(Color.YELLOW);
@@ -524,7 +526,7 @@ public class HardGameBoard extends JFrame{
         Square EndSquare2 = findSquare(squares[i1][j1], Color.YELLOW);
         Snake yellowSnake2 = new Snake(squares[i1][j1], EndSquare2);
         snakes[3] = yellowSnake2;
-        yellowSnakeLabel2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/rightYellow.png")));
+        yellowSnakeLabel2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/rightYellow.png")));
         
         panel.add(yellowSnakeLabel);
         panel.add(yellowSnakeLabel2);
@@ -558,7 +560,7 @@ public class HardGameBoard extends JFrame{
         Square EndSquare = findSquare(squares[i][j], Color.BLUE);
         Snake BlueSnake1 = new Snake(squares[i][j], EndSquare);
         snakes[4] = BlueSnake1;
-        labelBlue1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/SnakeBlueRight.png")));
+        labelBlue1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/SnakeBlueRight.png")));
         panel.add(labelBlue1);
         
         JLabel labelBlue2 = new JLabel();
@@ -566,7 +568,7 @@ public class HardGameBoard extends JFrame{
         Square EndSquare2 = findSquare(squares[i1][j1], Color.BLUE);
         Snake BlueSnake2 = new Snake(squares[i1][j1], EndSquare2);
         snakes[5] = BlueSnake2;
-        labelBlue2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/SnakeBlueRight.png")));
+        labelBlue2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/SnakeBlueRight.png")));
         panel.add(labelBlue2);
     }
 
@@ -641,8 +643,8 @@ public class HardGameBoard extends JFrame{
         Snake GreenSnake2 = new Snake(squares[i2][j2], EndSquare2);
         snakes[6] = GreenSnake1;
         snakes[7] = GreenSnake2;
-        label1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/GSnake.png")));
-        label2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/Gsnake.png")));
+        label1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/GSnake.png")));
+        label2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/Gsnake.png")));
         panel.add(label1);
         panel.add(label2);
     }
@@ -680,7 +682,7 @@ public class HardGameBoard extends JFrame{
         ladders[num - 1] = ladder;
         // Set ladder image and add it to the panel
         ladderLabel.setBounds((ladder.getSquareEnd().getBoundsX()+ladderCalc(num)[2]), (ladder.getSquareEnd().getBoundsY()+ladderCalc(num)[3]), ladderCalc(num)[0], ladderCalc(num)[1]);
-        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/ladder" + num + ".png")));
+        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/ladder" + num + ".png")));
         panel.add(ladderLabel);
     }
  
@@ -692,7 +694,7 @@ public class HardGameBoard extends JFrame{
         	width = 110;
         	heigth = 110;
         	X = 0;
-        	Y = -5;
+        	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -701,18 +703,18 @@ public class HardGameBoard extends JFrame{
         if(num == 2) {
         	width = 110;
         	heigth = 165;
-        	X = -10;
-        	Y = 0;
+        	X = 5;
+        	Y = -10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
         	clac[3] = Y;
         }
         if(num == 3) {
-        	width = 55;
-        	heigth = 165;
-        	X = -20;
-        	Y = 25;
+        	width = 100;
+        	heigth = 300;
+        	X = -50;
+        	Y = -10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -721,7 +723,7 @@ public class HardGameBoard extends JFrame{
         if(num == 4) {
         	width = 115;
         	heigth = 275;
-        	X = -65;
+        	X = -80;
         	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -729,9 +731,9 @@ public class HardGameBoard extends JFrame{
         	clac[3] = Y;
         }
         if(num == 5) {
-        	width = 165;
+        	width = 270;
         	heigth = 330;
-        	X = -120;
+        	X = -165;
         	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -742,7 +744,7 @@ public class HardGameBoard extends JFrame{
         	width = 165;
         	heigth = 385;
         	X = -15;
-        	Y = 0;
+        	Y = 10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -750,19 +752,19 @@ public class HardGameBoard extends JFrame{
         }
         if(num == 7) {
         	width = 165;
-        	heigth = 440;
+        	heigth = 500;
         	X = -10;
-        	Y = 10;
+        	Y = 5;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
         	clac[3] = Y;
         }
         if(num == 8) {
-        	width = 165;
+        	width = 250;
         	heigth = 460;
-        	X = -15;
-        	Y = 20;
+        	X = -40;
+        	Y = -10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -971,24 +973,24 @@ public class HardGameBoard extends JFrame{
     		playersLable[i] = new JLabel();
     		playersLable[i].setBounds(x,y , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
-    			String path = "/View/images/greenPlayer.png";
+    			String path = "/images/greenPlayer.png";
                 playersLable[i].setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
 
     			
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
-    			String path = "/View/images/yellowPlayer1.png";
+    			String path = "/images/yellowPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
 
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
-    			String path = "/View/images/RedPlayer1.png";
+    			String path = "/images/RedPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
 
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
 
-    			String path = "/View/images/BluePlayer1.png";
+    			String path = "/images/BluePlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
                 
     		}
@@ -1021,7 +1023,7 @@ public class HardGameBoard extends JFrame{
             public void actionPerformed(ActionEvent evt) {
                 if (count < animationCycles) {
                     // Update the dice icon to show the next face
-                    String path = "/View/images/dice " + currentNumber[0] + ".jpg";
+                    String path = "/images/dice " + currentNumber[0] + ".jpg";
                     diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
                     currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
                     count++;
@@ -1043,7 +1045,7 @@ public class HardGameBoard extends JFrame{
 
         int result = dice.DiceForHardGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
-        String path = "/View/images/dice " + result + ".jpg";
+        String path = "/images/dice " + result + ".jpg";
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
         boolean flag = false ; 
 

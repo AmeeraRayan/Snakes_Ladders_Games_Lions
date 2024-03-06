@@ -33,7 +33,8 @@ public class Dice {
 	        Random rand = new Random();
 	        int index = rand.nextInt(numbers.length);
 	        int result = numbers[index];
-	        return result;
+	        return random.nextInt(7);
+	        //return result;
 	}
 	
 	public int DiceForHardGame() {

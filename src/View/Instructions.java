@@ -44,7 +44,7 @@ public class Instructions extends JFrame {
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setForeground(Color.WHITE);
         lblNewLabel.setBounds(0, -70, 1282, 830);
-        lblNewLabel.setIcon(new ImageIcon(Instructions.class.getResource("/View/images/instruction.jpg")));
+        lblNewLabel.setIcon(new ImageIcon(Instructions.class.getResource("/images/instruction.jpg")));
         contentPane.add(lblNewLabel); // Add the label to the content pane
      
     }

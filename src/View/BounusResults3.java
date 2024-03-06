@@ -55,7 +55,7 @@ public class BounusResults3 extends JFrame {
 		Player1.setFont(new Font("Tahoma", Font.BOLD, 30));
        
 		JButton btnNewButton_1 = new JButton("Next");
-		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/View/images/NextButton.png")));
+		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
 	        btnNewButton_1.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	            	gameController.buttonClick();
@@ -79,7 +79,7 @@ public class BounusResults3 extends JFrame {
         contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults3.class.getResource("/View/images/bonus3.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(BounusResults3.class.getResource("/images/bonus3.jpg")));
 		lblNewLabel.setBounds(-22, 0, 1207, 651);
 		contentPane.add(lblNewLabel);
 	}

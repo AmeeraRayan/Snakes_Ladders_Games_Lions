@@ -63,7 +63,7 @@ public class PlayerTurn extends JFrame {
      
         JButton diceButton = new JButton("");
         diceButton.setHorizontalAlignment(SwingConstants.LEADING);
-        diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/View/images/dice 4.jpg")));
+        diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/dice 4.jpg")));
         JTextPane txtpnHi = new JTextPane();
         txtpnHi.setFont(new Font("David", Font.BOLD | Font.ITALIC, 27));
         txtpnHi.setForeground(new java.awt.Color(0, 0, 0));
@@ -94,7 +94,7 @@ public class PlayerTurn extends JFrame {
             	DiceRollingSound();
                 rollLabel.setText("");
                 int rollResult = dice.rollForTurn();
-                String path = "/View/images/dice " + rollResult + ".jpg";
+                String path = "/images/dice " + rollResult + ".jpg";
                 diceButton.setIcon(new ImageIcon(PlayerTurn.class.getResource(path)));
                 Player currentPlayer = players.get(currentPlayerIndex);
                 playerRolls.put(currentPlayer, rollResult);
@@ -143,7 +143,7 @@ public class PlayerTurn extends JFrame {
         contentPane.add(diceButton);
         
         JButton btnNewButton = new JButton("");
-        btnNewButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/View/images/BackButton.png")));
+        btnNewButton.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/BackButton.png")));
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
         btnNewButton.setBounds(23, 576, 163, 46);
         btnNewButton.addActionListener(new ActionListener() {
@@ -159,7 +159,7 @@ public class PlayerTurn extends JFrame {
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBackground(new java.awt.Color(0, 100, 0));
-        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/View/images/playerTurn.jpg")));
+        lblNewLabel.setIcon(new ImageIcon(PlayerTurn.class.getResource("/images/playerTurn.jpg")));
         lblNewLabel.setBounds(0, -13, 1340, 709);
         contentPane.add(lblNewLabel);
         
@@ -231,7 +231,7 @@ public class PlayerTurn extends JFrame {
             timer.start();///BJDGAS
         }
         public void DiceRollingSound() {
-     	  Sound sound = new Sound("src/View/sounds/dice.wav");
+     	  Sound sound = new Sound("src/sounds/dice.wav");
      		sound.setVolume(0.5f); 
              sound.play();
         }

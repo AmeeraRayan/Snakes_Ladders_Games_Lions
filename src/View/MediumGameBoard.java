@@ -132,7 +132,7 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(innerPanel);
         innerPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));
         JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/textPaneFrame.png")));
+        lblNewLabel_2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/textPaneFrame.png")));
         lblNewLabel_2.setBackground(SystemColor.desktop);
         lblNewLabel_2.setBounds(204, -7, 550, 162);
         outerPanel.add(lblNewLabel_2);
@@ -156,7 +156,7 @@ public class MediumGameBoard extends JFrame
 
 
         diceButton = new JButton("");
-        diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/dice 3.jpg")));
+        diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(928, 637, 78, 81);
         outerPanel.add(diceButton);
         game.setBoard(meduimboard);
@@ -191,7 +191,6 @@ public class MediumGameBoard extends JFrame
                 index = game.getCurrentPlayerIndex();
                 if (turnTimer.isRunning()) {
                     turnTimer.stop(); // Stop the countdown as the player is taking action
-                    System.out.println("from timer is runing ");
                 }
                 animateDiceRoll();
                 Player CurrentPlayer = game.getPlayers().get(index);
@@ -222,7 +221,7 @@ public class MediumGameBoard extends JFrame
         
      // Assuming you have already defined a JButton resume;
         JLabel stopLabel = new JLabel("");
-        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+        stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
         stopLabel.setBounds(954, 15, 130, 85); // Adjust size and position accordingly
         stopLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -235,7 +234,7 @@ public class MediumGameBoard extends JFrame
                     }
                     isstopMusicClicked = true;
                     controller.isGameMuted = true;
-                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/stopMusic.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/stopMusic.png")));
                 } else {
                     if (controller.isFialMusic) {
                         controller.FinalGame(true);
@@ -244,27 +243,28 @@ public class MediumGameBoard extends JFrame
                     }
                     isstopMusicClicked = false;
                     controller.isGameMuted = false;
-                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startMusic.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
                 }
             }
         });
         outerPanel.add(stopLabel);
 
         JLabel resumeLabel = new JLabel();
-        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+        resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StopButton.png")));
         resumeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!isGamePaused) {
                     pauseGame();
                     diceButton.setEnabled(false);
-                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/startButton.png")));
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startButton.png")));
                     controller.MainSound(false);
                     controller.FinalGame(false);
                 } else {
                     resumeGame();
                     diceButton.setEnabled(true);
-                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StopButton.png")));
+                    resumeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StopButton.png")));
+                    stopLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/startMusic.png")));
                     controller.MainSound(true);
                     if (controller.isFialMusic) {
                         controller.FinalGame(true);
@@ -278,12 +278,12 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(resumeLabel);
 
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Dice.png")));
+        lblNewLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Dice.png")));
         lblNewLabel.setBounds(701, 596, 500, 150);
         outerPanel.add(lblNewLabel);
         
         JLabel lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Button.png")));
+        lblNewLabel_3.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Button.png")));
         lblNewLabel_3.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -303,7 +303,7 @@ public class MediumGameBoard extends JFrame
         outerPanel.add(lblNewLabel_3);
         
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/MainMediumBoard.png")));
+        lblNewLabel_1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/MainMediumBoard.png")));
         lblNewLabel_1.setBounds(-48, -24, 1200, 1162);
         outerPanel.add(lblNewLabel_1);
         
@@ -354,7 +354,7 @@ public class MediumGameBoard extends JFrame
                 int y = i * cellSize + panel.getBounds().y + 118;
                 // Initialize square type based on cellNumber
                 if (chosenCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/QuestionMark.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMark.png")));
                     label.setText(""); // Set empty string for text
                     squares[i][j] = new Square(i, j, SquareType.QUESTION, x, y, cellNumber);
                     quastionSquares[count] = squares[i][j];
@@ -364,7 +364,7 @@ public class MediumGameBoard extends JFrame
                     takenCells.put(arrayList,"question"+count);
                     count++;
                 } else if (chosenSurpriseCells.contains(cellNumber)) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/QuestionMarkM.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/QuestionMarkM.png")));
                     label.setText(""); // Set empty string for text 
                     squares[i][j] = new Square(i, j, SquareType.SURPRISE, x, y, cellNumber);
                     surpriseSquares[surpriseCount] = squares[i][j];
@@ -377,7 +377,7 @@ public class MediumGameBoard extends JFrame
                     squares[i][j] = new Square(i, j, SquareType.NORMAL, x, y, cellNumber);
                 }
                 if(cellNumber == 100) {
-                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/StarWin.png")));
+                    label.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/StarWin.png")));
                     label.setText(""); // Set empty string for text
  
                 }
@@ -390,7 +390,7 @@ public class MediumGameBoard extends JFrame
         setGreenSnakes(outerPanel);
         setLadders(outerPanel);
         for (Map.Entry<ArrayList<Integer>, String> entry : takenCells.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+           System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
         meduimboard.startGame(squares,snakes,ladders,quastionSquares,0);
     }
@@ -421,7 +421,7 @@ public class MediumGameBoard extends JFrame
             j1 = rand.nextInt(9)+1;
             arr.add(i1);
             arr.add(j1);
-        } while (takenCells.containsKey(arr) || (i1==9 && j1==0));
+        } while (takenCells.containsKey(arr) || (i1==9 && j1==0) || (i1==0 && j1==0) );
         takenCells.put(arr,"redsnak1");
         // Place the second red snake
         do {
@@ -430,7 +430,7 @@ public class MediumGameBoard extends JFrame
             arr2.clear();
             arr2.add(i2);
             arr2.add(j2);
-        } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==9 && j2==0));
+        } while (takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1)|| (i2==9 && j2==0) || (i2==0 && j2==0));
         takenCells.put(arr2,"redsnake2");
 
         JLabel label_1 = new JLabel();
@@ -452,20 +452,20 @@ public class MediumGameBoard extends JFrame
                     jl.setFont(new Font("Maiandra GD", Font.PLAIN, 28));
         
         JLabel lblNewLabel_5 = new JLabel("");
-        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/finalTimerAndPlayernames.png")));
+        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
         lblNewLabel_5.setBounds(733, 165, 500, 200);
         outerPanel.add(lblNewLabel_5);
         
        
         panel.add(label_1);
-        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
+        label_1.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
         JLabel label_2 = new JLabel();
         label_2.setBounds(squares[i2][j2].getBoundsX()+10, squares[i2][j2].getBoundsY(), 50, 50);
         //object red snake 2 
         Snake redSnake2 = new Snake(squares[i2][j2], squares[9][0]);
         snakes[1] = redSnake2;
         panel.add(label_2);
-        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/View/images/RedSnake.png")));
+        label_2.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/RedSnake.png")));
     }
  
     
@@ -478,14 +478,14 @@ public class MediumGameBoard extends JFrame
         	arr.clear();
             arr.add(i);
             arr.add(j);
-        } while(takenCells.containsKey(arr) || (i==9 && j==0));       
+        } while(takenCells.containsKey(arr) || (i==9 && j==0) || (i==0 && j==0));       
         takenCells.put(arr,"yellowSnake");
         JLabel yellowSnakeLabel = new JLabel();
         yellowSnakeLabel.setBounds(squares[i][j].getBoundsX(), squares[i][j].getBoundsY(), 100, 100);// Yellow
         Square EndSquare = findSquare(squares[i][j], Color.YELLOW);
         Snake yellowSnake = new Snake(squares[i][j], EndSquare);
         snakes[2] = yellowSnake;
-        yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/rightYellow.png")));
+        yellowSnakeLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/rightYellow.png")));
         panel.add(yellowSnakeLabel);
     }
  
@@ -498,14 +498,14 @@ public class MediumGameBoard extends JFrame
         	arr.clear();
             arr.add(i);
             arr.add(j);
-        } while(takenCells.containsKey(arr)  || (i==9 && j==0));
+        } while(takenCells.containsKey(arr)  || (i==9 && j==0)  || (i==0 && j==0));
         takenCells.put(arr,"blueSnake");
         JLabel labelBlue = new JLabel();
         labelBlue.setBounds(squares[i][j].getBoundsX() - 110, squares[i][j].getBoundsY() + 15, 140, 170);// BLUE
         Square EndSquare = findSquare(squares[i][j], Color.BLUE);
         Snake BlueSnake1 = new Snake(squares[i][j], EndSquare);
         snakes[3] = BlueSnake1;
-        labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/SnakeBlueRight.png")));
+        labelBlue.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/SnakeBlueRight.png")));
         panel.add(labelBlue);
     }
  
@@ -541,7 +541,7 @@ public class MediumGameBoard extends JFrame
 	    gameList.add(details);
 
 	    // Save updated game details
-	    try (FileWriter writer = new FileWriter("src/game_history.json")) {
+	    try (FileWriter writer = new FileWriter("game_history.json")) {
 	        gson.toJson(gameList, writer);
 	    } catch (IOException e) {
 	        e.printStackTrace();
@@ -558,7 +558,7 @@ public class MediumGameBoard extends JFrame
         	arr1.clear();
             arr1.add(i1);
             arr1.add(j1);
-        }while(takenCells.containsKey(arr1) || (i1==9 && j1==0));
+        }while(takenCells.containsKey(arr1) || (i1==9 && j1==0) || (i1==0 && j1==0));
         takenCells.put(arr1,"greensnake1");
         do {  
             i2 = generateRandomNumber_I(Color.GREEN); // Green snakes
@@ -566,7 +566,7 @@ public class MediumGameBoard extends JFrame
         	arr2.clear();
             arr2.add(i2);
             arr2.add(j2);
-        }while(takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1) || (i2==9 && j2==0));
+        }while(takenCells.containsKey(arr2) || (i2 == i1 && j2 == j1) || (i2==9 && j2==0)  || (i2==0 && j2==0));
         takenCells.put(arr2,"greensnake2");
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
@@ -578,8 +578,8 @@ public class MediumGameBoard extends JFrame
         Snake GreenSnake2 = new Snake(squares[i2][j2], EndSquare2);
         snakes[4] = GreenSnake1;
         snakes[5] = GreenSnake2;
-        label1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/GSnake.png")));
-        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/Gsnake.png")));
+        label1.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/GSnake.png")));
+        label2.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/Gsnake.png")));
         panel.add(label1);
         panel.add(label2);
     }
@@ -615,7 +615,7 @@ public class MediumGameBoard extends JFrame
         ladders[num - 1] = ladder;
         // Set ladder image and add it to the panel
         ladderLabel.setBounds((ladder.getSquareEnd().getBoundsX()+ladderCalc(num)[2]), (ladder.getSquareEnd().getBoundsY()+ladderCalc(num)[3]), ladderCalc(num)[0], ladderCalc(num)[1]);
-        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/View/images/ladder" + num + ".png")));
+        ladderLabel.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/ladder" + num + ".png")));
         panel.add(ladderLabel);
     }
  
@@ -627,7 +627,7 @@ public class MediumGameBoard extends JFrame
         	width = 110;
         	heigth = 110;
         	X = 0;
-        	Y = -5;
+        	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -636,18 +636,18 @@ public class MediumGameBoard extends JFrame
         if(num == 2) {
         	width = 110;
         	heigth = 165;
-        	X = -10;
-        	Y = 0;
+        	X = 5;
+        	Y = -10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
         	clac[3] = Y;
         }
         if(num == 3) {
-        	width = 55;
-        	heigth = 160;
-        	X = -20;
-        	Y = 30;
+        	width = 100;
+        	heigth = 300;
+        	X = -50;
+        	Y = -5;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -656,7 +656,7 @@ public class MediumGameBoard extends JFrame
         if(num == 4) {
         	width = 115;
         	heigth = 275;
-        	X = -65;
+        	X = -75;
         	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -664,9 +664,9 @@ public class MediumGameBoard extends JFrame
         	clac[3] = Y;
         }
         if(num == 5) {
-        	width = 165;
+        	width = 200;
         	heigth = 330;
-        	X = -115;
+        	X = -140;
         	Y = 0;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -677,7 +677,7 @@ public class MediumGameBoard extends JFrame
         	width = 165;
         	heigth = 385;
         	X = -15;
-        	Y = 0;
+        	Y = 10;
         	clac[0] = width;
         	clac[1] = heigth;
         	clac[2] = X;
@@ -787,24 +787,24 @@ public class MediumGameBoard extends JFrame
     		playersLable[i] = new JLabel();
     		playersLable[i].setBounds(x,y , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
-    			String path = "/View/images/greenPlayer.png";
+    			String path = "/images/greenPlayer.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     			
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
-    			String path = "/View/images/yellowPlayer1.png";
+    			String path = "/images/yellowPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
-    			String path = "/View/images/RedPlayer1.png";
+    			String path = "/images/RedPlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
  
-    			String path = "/View/images/BluePlayer1.png";
+    			String path = "/images/BluePlayer1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
 
  
@@ -903,7 +903,7 @@ public class MediumGameBoard extends JFrame
             public void actionPerformed(ActionEvent evt) {
                 if (count < animationCycles) {
                     // Update the dice icon to show the next face
-                    String path = "/View/images/dice " + currentNumber[0] + ".jpg";
+                    String path = "/images/dice " + currentNumber[0] + ".jpg";
                     diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
                     currentNumber[0] = currentNumber[0] % numberOfFaces + 1;
                     count++;
@@ -924,7 +924,7 @@ public class MediumGameBoard extends JFrame
     private void onDiceAnimationEnd() {
         int result = dice.DiceForMediumGame(); // Simulate the dice roll result
         // Update the dice icon to show the final result
-        String path = "/View/images/dice " + result + ".jpg";
+        String path = "/images/dice " + result + ".jpg";
         diceButton.setIcon(new ImageIcon(HardGameBoard.class.getResource(path)));
         boolean flag = false ; 
 

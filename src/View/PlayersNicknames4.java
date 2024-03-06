@@ -39,7 +39,7 @@ public class PlayersNicknames4 extends JFrame {
 		
         JButton Back = new JButton("Back");
  		Back = new JButton("Back");
-		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/View/images/BackButton.png")));
+		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
  		Back.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
             	 PlayersNicknames4.this.setVisible(false);
@@ -51,7 +51,7 @@ public class PlayersNicknames4 extends JFrame {
  		contentPane.add(Back);
  		
         Next = new JButton("Next");
-        Next.setIcon(new ImageIcon(DataReception.class.getResource("/View/images/NextButton.png")));
+        Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
         Next.setBounds(766, 567, 135, 43);
         contentPane.add(Next);
         
@@ -96,7 +96,7 @@ public class PlayersNicknames4 extends JFrame {
         contentPane.add(lblPlayer);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(PlayersNicknames4.class.getResource("/View/images/pickplayer4.jpg")));
+        lblNewLabel.setIcon(new ImageIcon(PlayersNicknames4.class.getResource("/images/pickplayer4.jpg")));
         lblNewLabel.setBounds(0, -40, 938, 713);
         contentPane.add(lblNewLabel);
         

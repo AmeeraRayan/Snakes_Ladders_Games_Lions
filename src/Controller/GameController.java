@@ -1,7 +1,5 @@
 package Controller;
 
-import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
@@ -14,6 +12,7 @@ import javax.naming.spi.DirStateFactory.Result;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -34,17 +33,22 @@ import Model.SquareType;
 import Model.SysData;
 import View.HardGameBoard;
 import View.MediumGameBoard;
+import javafx.scene.paint.Color;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class GameController {
 	private Game game;
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-   //  private Sound  PlaygroundSound = new Sound("View/sounds/BlueBoyAdventure.wav");
-   private Sound  PlaygroundSound = new Sound("src/View/sounds/BlueBoyAdventure.wav");
+   //  private Sound  PlaygroundSound = new Sound("/sounds/BlueBoyAdventure.wav");
+   private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
 
-   // private Sound FinalSound = new Sound("View/sounds/FinalBattle.wav");
-    private Sound FinalSound = new Sound("src/View/sounds/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("/sounds/FinalBattle.wav");
+    private Sound FinalSound = new Sound("src/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag; 
@@ -318,9 +322,10 @@ public class GameController {
 	        }
 		 return IAndJ;
 	}
-	
+
 	public int[] showAddQuestionPopup(int index, Questions question, JLabel[] playerJLabel, int Win) {
         int selectedOption = -1;
+
         // Create radio buttons for each answer option
         JRadioButton answer1Button = new JRadioButton();
         JRadioButton answer2Button = new JRadioButton();
@@ -328,18 +333,22 @@ public class GameController {
         JRadioButton answer4Button = new JRadioButton();
 
         // Create labels for question, answer options, and difficulty
-        JLabel questionField = new JLabel(question.getQuestionText());
+        JLabel questionField = new JLabel("<html><b>" + question.getQuestionText() + "</b></html>");
         JLabel answer1Field = new JLabel(question.getOptions()[0]);
         JLabel answer2Field = new JLabel(question.getOptions()[1]);
         JLabel answer3Field = new JLabel(question.getOptions()[2]);
         JLabel answer4Field = new JLabel(question.getOptions()[3]);
-        JLabel difficultyField = new JLabel(String.valueOf(question.getDiffculty()));
 
         // Create JPanel for each answer option to include both the label and radio button
         JPanel answer1Panel = new JPanel();
         JPanel answer2Panel = new JPanel();
         JPanel answer3Panel = new JPanel();
         JPanel answer4Panel = new JPanel();
+
+        answer1Panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        answer2Panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        answer3Panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        answer4Panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         answer1Panel.add(answer1Button);
         answer1Panel.add(answer1Field);
@@ -357,23 +366,44 @@ public class GameController {
         buttonGroup.add(answer3Button);
         buttonGroup.add(answer4Button);
 
-        Object[] fields = {
-                "Question:", questionField,
-                "Answer 1:", answer1Panel,
-                "Answer 2:", answer2Panel,
-                "Answer 3:", answer3Panel,
-                "Answer 4:", answer4Panel,
-                "Difficulty:", difficultyField
-        };
-        if(this.frame.getClass().equals(MediumGameBoard.class)) {
-        	MediumGameBoard.turnTimer.stop();
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new GridLayout(8, 1));
+        answer1Field.setForeground(java.awt.Color.RED); // Set the color of the first answer to red
+        answer2Field.setForeground(java.awt.Color.GREEN); // Set the color of the second answer to green
+        answer3Field.setForeground(java.awt.Color.BLUE); // Set the color of the third answer to blue
+        answer4Field.setForeground(java.awt.Color.ORANGE); // Set the color of the fourth answer to orange
+        contentPanel.add(questionField);
+        contentPanel.add(answer1Panel);
+        contentPanel.add(answer2Panel);
+        contentPanel.add(answer3Panel);
+        contentPanel.add(answer4Panel);
+
+        // Customize background color and font
+        //contentPanel.setBackground(java.awt.Color.BLUE);
+        Font labelFont = questionField.getFont();
+        questionField.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+        answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+        answer2Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+        answer3Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+        answer4Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+
+        Object[] fields = {"", contentPanel};
+
+        if (frame.getClass().equals(MediumGameBoard.class)) {
+            MediumGameBoard.turnTimer.stop();
+        } else if (frame.getClass().equals(HardGameBoard.class)) {
+            HardGameBoard.turnTimer.stop();
         }
-        else if(this.frame.getClass().equals(HardGameBoard.class)) {
-        	HardGameBoard.turnTimer.stop();
-        }
+
+        // Create and customize the option pane
         JOptionPane optionPane = new JOptionPane(fields, JOptionPane.QUESTION_MESSAGE);
-        JDialog dialog = optionPane.createDialog("Answer Question");
-       // dialog.setUndecorated(true);
+        JDialog dialog = optionPane.createDialog(frame, "Answer Question");
+
+        // Customize the dialog
+        dialog.getContentPane().setBackground(java.awt.Color.BLUE);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // Allow closing the dialog
+        dialog.setResizable(false); // Disable resizing
+
         // Create a timer with a delay of 20 seconds
         Timer timer = new Timer(20000, new ActionListener() {
             @Override
@@ -392,34 +422,35 @@ public class GameController {
 
         // Stop the timer when the dialog is closed
         timer.stop();
+
         Object option = optionPane.getValue();
         // Get the selected answer option
-        if(optionPane.getValue()!=null && option instanceof Integer) {
-        	int result = (int) option;
-	        if (result == JOptionPane.OK_OPTION) {
-	            if (answer1Button.isSelected()) {
-	                selectedOption = 0;
-	            } else if (answer2Button.isSelected()) {
-	                selectedOption = 1;
-	            } else if (answer3Button.isSelected()) {
-	                selectedOption = 2;
-	            } else if (answer4Button.isSelected()) {
-	                selectedOption = 3;
-	            }
-	        }
-	        else {
-	        	selectedOption = -1;
-	        }
+        if (optionPane.getValue() != null && option instanceof Integer) {
+            int result = (int) option;
+            if (result == JOptionPane.OK_OPTION) {
+                if (answer1Button.isSelected()) {
+                    selectedOption = 0;
+                } else if (answer2Button.isSelected()) {
+                    selectedOption = 1;
+                } else if (answer3Button.isSelected()) {
+                    selectedOption = 2;
+                } else if (answer4Button.isSelected()) {
+                    selectedOption = 3;
+                }
+            } else {
+                selectedOption = -1;
+            }
         }
 
         // Update player based on the selected answer
         int[] IandJ = updateplayerbyAnswer(index, question, selectedOption, playerJLabel, Win);
-        if(this.frame.getClass().equals(MediumGameBoard.class)) {
-        	MediumGameBoard.turnTimer.start();
+
+        if (frame.getClass().equals(MediumGameBoard.class)) {
+            MediumGameBoard.turnTimer.start();
+        } else if (frame.getClass().equals(HardGameBoard.class)) {
+            HardGameBoard.turnTimer.start();
         }
-        else if(this.frame.getClass().equals(HardGameBoard.class)) {
-        	HardGameBoard.turnTimer.start();
-        }
+
         return IandJ;
     }
 
@@ -678,8 +709,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		//Sound sound = new Sound("View/sounds/snake-hissing-6092.wav");
- 		Sound sound = new Sound("src/View/sounds/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("sounds/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("src/sounds/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -687,39 +718,39 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("src/View/sounds/dice.wav");
-	  // Sound sound = new Sound("View/sounds/dice.wav");
+	   Sound sound = new Sound("src/sounds/dice.wav");
+	  // Sound sound = new Sound("sounds/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	   Sound sound = new Sound("src/View/sounds/buttonClick.wav");
-	  // Sound sound = new Sound("View/sounds/buttonClick.wav");
+	   Sound sound = new Sound("src/sounds/buttonClick.wav");
+	//   Sound sound = new Sound("sounds/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	  // Sound WinSound = new Sound("View/sounds/levelup.wav");
-	   Sound WinSound = new Sound("src/View/sounds/levelup.wav");
+	 //  Sound WinSound = new Sound("sounds/levelup.wav");
+	   Sound WinSound = new Sound("src/sounds/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	   Sound sound = new Sound("src/View/sounds/ladder.wav");
+	   Sound sound = new Sound("src/sounds/ladder.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("src/View/sounds/surprise.wav");
-	 //  Sound sound = new Sound("View/sounds/surprise.wav");
+	   Sound sound = new Sound("src/sounds/surprise.wav");
+	 //  Sound sound = new Sound("sounds/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	  Sound sound = new Sound("src/View/sounds/TimeOut.wav");
-	//  Sound sound = new Sound("View/sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	//  Sound sound = new Sound("sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }

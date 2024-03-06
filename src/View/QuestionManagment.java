@@ -88,7 +88,7 @@ public class QuestionManagment extends JFrame   {
         frame.getContentPane().add(scrollPane);
         
         JButton btnNewButton = new JButton("");
-        btnNewButton.setIcon(new ImageIcon(QuestionManagment.class.getResource("/View/images/BackButton.png")));
+        btnNewButton.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/BackButton.png")));
         btnNewButton.setBounds(10, 614, 147, 43);
         frame.getContentPane().add(btnNewButton);
         btnNewButton.addActionListener(new ActionListener() {
@@ -150,7 +150,7 @@ public class QuestionManagment extends JFrame   {
         table.setRowSorter((RowSorter<? extends TableModel>) sorter);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(QuestionManagment.class.getResource("/View/images/Questions managment1.png")));
+        lblNewLabel.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/Questions managment1.png")));
         lblNewLabel.setBounds(-384, 0, 1279, 972);
         frame.getContentPane().add(lblNewLabel);
     }
