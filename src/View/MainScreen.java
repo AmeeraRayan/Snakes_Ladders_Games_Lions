@@ -22,18 +22,18 @@ public class MainScreen extends JFrame{
  		Sound sound = new Sound("src/sounds/start.wav");
  		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1166, 687);
+		setBounds(20, 20, 1525, 900);
         getContentPane().setLayout(null);
         
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
 
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBounds(1073, 21, 55, 59);
+        lblNewLabel_1.setBounds(1421, 21, 74, 77);
         getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("");
-        lblNewLabel_2.setBounds(471, 249, 200, 30);
+        lblNewLabel_2.setBounds(601, 325, 258, 69);
         getContentPane().add(lblNewLabel_2);
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
@@ -57,7 +57,7 @@ public class MainScreen extends JFrame{
         });
        
         JLabel lblNewLabel_2_1 = new JLabel("");
-        lblNewLabel_2_1.setBounds(471, 385, 200, 35);
+        lblNewLabel_2_1.setBounds(601, 505, 258, 69);
         getContentPane().add(lblNewLabel_2_1);
         lblNewLabel_2_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -71,7 +71,7 @@ public class MainScreen extends JFrame{
         
         
         JLabel lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setBounds(471, 514, 200, 40);
+        lblNewLabel_3.setBounds(601, 696, 271, 54);
         getContentPane().add(lblNewLabel_3);
         lblNewLabel_3.addMouseListener(new MouseAdapter() {
             @Override
@@ -85,12 +85,12 @@ public class MainScreen extends JFrame{
         });
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/MainScreen.jpg")));
-        lblNewLabel.setBounds(0,-41, 1470, 769);
+        lblNewLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/images/MainScreen.jpeg")));
+        lblNewLabel.setBounds(-53,-93, 1600, 1104);
         getContentPane().add(lblNewLabel);
         
         JLabel lblNewLabel_4 = new JLabel("");
-        lblNewLabel_4.setBounds(960, 11, 68, 69);
+        lblNewLabel_4.setBounds(1263, 11, 105, 87);
         getContentPane().add(lblNewLabel_4);
         lblNewLabel_4.addMouseListener(new MouseAdapter() {
             @Override

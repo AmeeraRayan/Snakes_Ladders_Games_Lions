@@ -37,7 +37,7 @@ public class DataReception extends JFrame {
 
     public DataReception() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1047, 568);
+        setBounds(20, 20, 1500, 900);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -45,7 +45,7 @@ public class DataReception extends JFrame {
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
-        panel.setBounds(0, -17, 1045, 585);
+        panel.setBounds(0, -17, 1500, 917);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -53,9 +53,9 @@ public class DataReception extends JFrame {
         setUndecorated(true);
         
         easyButton = new JButton("Easy");
-        easyButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        easyButton.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
         easyButton.setBackground(new Color(218, 165, 32));
-        easyButton.setBounds(192, 215, 201, 48);
+        easyButton.setBounds(262, 392, 234, 68);
         easyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 difficultyLevel = "Easy";
@@ -67,9 +67,9 @@ public class DataReception extends JFrame {
         panel.add(easyButton);
 
         mediumButton = new JButton("Medium");
-        mediumButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        mediumButton.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
         mediumButton.setBackground(new Color(218, 165, 32));
-        mediumButton.setBounds(443, 215, 201, 48);
+        mediumButton.setBounds(717, 392, 234, 68);
         panel.add(mediumButton);
         mediumButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -81,10 +81,10 @@ public class DataReception extends JFrame {
         });
 
         hardButton = new JButton("Hard");
-        hardButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        hardButton.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
         hardButton.setBackground(new Color(218, 165, 32));
         hardButton.setForeground(new Color(0, 0, 0));
-        hardButton.setBounds(719, 215, 201, 48);
+        hardButton.setBounds(1145, 392, 229, 68);
         panel.add(hardButton);
         hardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -97,8 +97,8 @@ public class DataReception extends JFrame {
 
         player2Button = new JButton("2 players");
         player2Button.setBackground(new Color(218, 165, 32));
-        player2Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        player2Button.setBounds(192, 389, 201, 43);
+        player2Button.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
+        player2Button.setBounds(262, 624, 234, 53);
         player2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 2;
@@ -108,9 +108,9 @@ public class DataReception extends JFrame {
             }
         });
         player3Button = new JButton("3 players");
-        player3Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        player3Button.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
         player3Button.setBackground(new Color(218, 165, 32));
-        player3Button.setBounds(443, 389, 201, 43);
+        player3Button.setBounds(717, 624, 234, 49);
         player3Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 3;
@@ -121,8 +121,8 @@ public class DataReception extends JFrame {
         });
         player4Button = new JButton("4 players");
         player4Button.setBackground(new Color(218, 165, 32));
-        player4Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        player4Button.setBounds(719, 389, 201, 43);
+        player4Button.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
+        player4Button.setBounds(1145, 624, 229, 53);
         player4Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numberOfPlayers = 4;
@@ -146,7 +146,7 @@ public class DataReception extends JFrame {
                 gameController.buttonClick();
              }
          });
-        btnNewButton.setBounds(10, 524, 137, 50);
+        btnNewButton.setBounds(20, 818, 177, 66);
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("");
@@ -175,18 +175,13 @@ public class DataReception extends JFrame {
                 }
         	}
         });
-        btnNewButton_1.setBounds(898, 515, 137, 50);
+        btnNewButton_1.setBounds(1300, 805, 177, 66);
         panel.add(btnNewButton_1);
-         
-         JLabel lblNewLabel_1 = new JLabel("Pick A Level And number of Players");
-         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
-         lblNewLabel_1.setBounds(359, 36, 467, 63);
-         panel.add(lblNewLabel_1);
         
          JLabel lblNewLabel = new JLabel("");
-         lblNewLabel.setBounds(-68, -50, 1140, 705);
+         lblNewLabel.setBounds(-68, -50, 1568, 1039);
          panel.add(lblNewLabel);
-         lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/datareception.jpg")));
+         lblNewLabel.setIcon(new ImageIcon(DataReception.class.getResource("/images/datareception.jpeg")));
     }
          
  // Disable other difficulty buttons when one is selected

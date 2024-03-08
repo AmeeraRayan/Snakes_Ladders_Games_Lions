@@ -39,7 +39,7 @@ public class PlayerNicknames2 extends JFrame {
 		this.numberOfPlayers=numberOfPlayers;
 		this.difficultyLevel=difficultyLevel;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1019, 616);
+		setBounds(20, 20, 1500, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -48,13 +48,13 @@ public class PlayerNicknames2 extends JFrame {
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
 		
-		Next = new JButton("Next");
+		Next = new JButton("");
         Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
-		Next.setBounds(840, 558, 150, 47);
+		Next.setBounds(1313, 809, 177, 66);
 		contentPane.add(Next);
 		
-		JButton Back = new JButton("Back");
-		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
+		JButton Back = new JButton("");
+		 Back.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/BackButton.png")));
          Back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
             	 PlayerNicknames2.this.setVisible(false);
@@ -62,26 +62,28 @@ public class PlayerNicknames2 extends JFrame {
                 gameController.buttonClick();
              }
          });
-		Back.setBounds(20, 558, 150, 50);
+		Back.setBounds(23, 809, 177, 66);
 		contentPane.add(Back);
 		
 		
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Player 2");
-		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_1_1.setBounds(339, 365, 126, 36);
+		lblNewLabel_1_1.setForeground(new java.awt.Color(100, 149, 237));
+		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_1_1.setBounds(475, 539, 126, 36);
 		contentPane.add(lblNewLabel_1_1);
-		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(339, 258, 126, 36);
+		lblNewLabel_1.setForeground(new java.awt.Color(0, 128, 0));
+		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_1.setBounds(475, 359, 126, 36);
 		contentPane.add(lblNewLabel_1);
 		
 		textField1 = new JTextField();
 		textField1.setColumns(10);
-		textField1.setBounds(465, 262, 164, 36);
+		textField1.setBounds(639, 358, 202, 47);
 		contentPane.add(textField1);
 		
 		textField2 = new JTextField();
-		textField2.setBounds(465, 369, 164, 36);
+		textField2.setBounds(639, 538, 209, 47);
 		contentPane.add(textField2);
 		textField2.setColumns(10);
 		textField1.addKeyListener(new KeyAdapter() {
@@ -103,8 +105,8 @@ public class PlayerNicknames2 extends JFrame {
         initializeNextButtonAction(); 
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/pickeplayer.jpg")));
-		lblNewLabel.setBounds(0, -76, 1019, 737);
+		lblNewLabel.setIcon(new ImageIcon(PlayerNicknames2.class.getResource("/images/pickeplayer.jpeg")));
+		lblNewLabel.setBounds(0, -76, 1529, 997);
 		contentPane.add(lblNewLabel);
 	}
 	private boolean isValidString(String str) {// the checks if the name is valid - not null or empty value

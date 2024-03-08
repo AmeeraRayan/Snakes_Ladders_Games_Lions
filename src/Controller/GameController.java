@@ -379,7 +379,7 @@ public class GameController {
         contentPanel.add(answer4Panel);
 
         // Customize background color and font
-        //contentPanel.setBackground(java.awt.Color.BLUE);
+        contentPanel.setBackground(java.awt.Color.WHITE);
         Font labelFont = questionField.getFont();
         questionField.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
         answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
@@ -400,7 +400,6 @@ public class GameController {
         JDialog dialog = optionPane.createDialog(frame, "Answer Question");
 
         // Customize the dialog
-        dialog.getContentPane().setBackground(java.awt.Color.BLUE);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // Allow closing the dialog
         dialog.setResizable(false); // Disable resizing
 

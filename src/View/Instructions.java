@@ -20,7 +20,7 @@ public class Instructions extends JFrame {
     public Instructions() {
         setType(Type.POPUP);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 10, 1232, 694); // Set the bounds of the JFrame
+        setBounds(10, 10, 1570, 900); // Set the bounds of the JFrame
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -32,7 +32,7 @@ public class Instructions extends JFrame {
         JLabel lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setForeground(Color.BLACK);
         lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 22));
-        lblNewLabel_1.setBounds(1023, 45, 137, 40);
+        lblNewLabel_1.setBounds(1279, 55, 170, 40);
         contentPane.add(lblNewLabel_1);
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -43,8 +43,8 @@ public class Instructions extends JFrame {
         });
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setForeground(Color.WHITE);
-        lblNewLabel.setBounds(0, -70, 1282, 830);
-        lblNewLabel.setIcon(new ImageIcon(Instructions.class.getResource("/images/instruction.jpg")));
+        lblNewLabel.setBounds(-30, -70, 1600, 1024);
+        lblNewLabel.setIcon(new ImageIcon(Instructions.class.getResource("/images/instruction.jpeg")));
         contentPane.add(lblNewLabel); // Add the label to the content pane
      
     }
