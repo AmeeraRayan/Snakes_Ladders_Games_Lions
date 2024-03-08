@@ -112,7 +112,7 @@ public class MediumGameBoard extends JFrame
         setTitle("Game Board");
         this.mediumBoard=new MediumBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1152, 816);
+        setBounds(20, 20, 1152, 816);
         // Creating the outer panel with BorderLayout
         outerPanel.setLayout(null);
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)

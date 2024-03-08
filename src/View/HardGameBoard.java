@@ -102,7 +102,7 @@ private JLabel stopLabel;
     	setTitle("Game Board");
     	this.hardBoard=new HardBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1166, 816);
+        setBounds(20,20,1166,816);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
