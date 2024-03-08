@@ -69,11 +69,11 @@ public class PlayerNicknames2 extends JFrame {
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Player 2");
 		lblNewLabel_1_1.setForeground(new java.awt.Color(100, 149, 237));
-		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_1_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 22));
 		lblNewLabel_1_1.setBounds(475, 539, 126, 36);
 		contentPane.add(lblNewLabel_1_1);
 		lblNewLabel_1.setForeground(new java.awt.Color(0, 128, 0));
-		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 22));
 		lblNewLabel_1.setBounds(475, 359, 126, 36);
 		contentPane.add(lblNewLabel_1);
 		

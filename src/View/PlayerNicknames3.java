@@ -74,19 +74,19 @@ public class PlayerNicknames3 extends JFrame {
 		
 		JLabel lblNewLabel_3 = new JLabel("Player 3");
 		lblNewLabel_3.setForeground(new java.awt.Color(255, 0, 0));
-		lblNewLabel_3.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_3.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 22));
 		lblNewLabel_3.setBounds(783, 578, 156, 30);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_2 = new JLabel("Player 2");
 		lblNewLabel_2.setForeground(new java.awt.Color(100, 149, 237));
-		lblNewLabel_2.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_2.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 22));
 		lblNewLabel_2.setBounds(595, 438, 156, 30);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_1 = new JLabel("Player 1");
 		lblNewLabel_1.setForeground(new java.awt.Color(46, 139, 87));
-		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 22));
 		lblNewLabel_1.setBounds(400, 291, 156, 30);
 		contentPane.add(lblNewLabel_1);
 		textField1.addKeyListener(new KeyAdapter() {

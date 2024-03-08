@@ -39,13 +39,13 @@ public class BounusResults2 extends JFrame {
 		
 		JLabel PlayerTurnOne = new JLabel(" "+playersSortedByOrder.get(0).getName());
 		PlayerTurnOne.setForeground(new Color(0, 0, 0));
-		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD, 34));
+		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD, 42));
 		PlayerTurnOne.setBounds(576, 586, 243, 58);
 		contentPane.add(PlayerTurnOne);
 		
 		JLabel PlayerTurnTwo = new JLabel(" "+playersSortedByOrder.get(1).getName());
 		PlayerTurnTwo.setForeground(new Color(0, 0, 0));
-		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD, 34));
+		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD, 42));
 		PlayerTurnTwo.setBounds(1103, 732, 243, 58);
 		contentPane.add(PlayerTurnTwo);
         JButton btnNewButton_1 = new JButton("");

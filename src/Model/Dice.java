@@ -34,7 +34,7 @@ public class Dice {
 	        int index = rand.nextInt(numbers.length);
 	        int result = numbers[index];
 	        return random.nextInt(7);
-	        //return result;
+	       // return result;
 	}
 	
 	public int DiceForHardGame() {

@@ -33,6 +33,14 @@ public class LogIn extends JFrame{
 		this.txtuser = txtuser;
 	}
 
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
+
 	public JPasswordField getPasswordField() {
 		return passwordField;
 	}
@@ -44,7 +52,7 @@ public class LogIn extends JFrame{
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
     public JPasswordField passwordField;
     private JLabel lblNewLabel;
-    private JLabel lblNewLabel_1;
+	private JButton btnNewButton;
 
     public LogIn() {
         initialize();
@@ -89,11 +97,12 @@ public class LogIn extends JFrame{
           
         frame.getContentPane().add(lblNewLabel);
         
-        lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBounds(690, 646, 174, 55);
-        lblNewLabel_1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+        btnNewButton = new JButton("");
+        btnNewButton.setBounds(690, 646, 174, 55);
+        btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
             	gameController.buttonClick();
                 String enteredUserName = txtuser.getText();
                 String enteredPassword = new String(passwordField.getPassword()); // Use getPassword() for JPasswordField
@@ -114,11 +123,11 @@ public class LogIn extends JFrame{
                 }
             }
         });
-        frame.getContentPane().add(lblNewLabel_1);
+        frame.getContentPane().add(btnNewButton);
         
     }
-    
-    public boolean validateLogin(String enteredUserName, String enteredPassword) {
+   
+	public boolean validateLogin(String enteredUserName, String enteredPassword) {
         if(enteredUserName == null || enteredPassword == null) {
             throw new NullPointerException("Username or password is null.");
         }

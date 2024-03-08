@@ -38,13 +38,13 @@ public class BounusResults3 extends JFrame {
 		
 		JLabel Player3 = new JLabel(" "+playersSortedByOrder.get(2).getName());
 		Player3.setForeground(new Color(0, 0, 0));
-		Player3.setFont(new Font("Tahoma", Font.BOLD, 32));
+		Player3.setFont(new Font("Tahoma", Font.BOLD, 42));
 		Player3.setBounds(995, 752, 274, 72);
 		contentPane.add(Player3);
 		
 		JLabel Player2 = new JLabel(" "+playersSortedByOrder.get(1).getName());
 		Player2.setForeground(new Color(0, 0, 0));
-		Player2.setFont(new Font("Tahoma", Font.BOLD, 32));
+		Player2.setFont(new Font("Tahoma", Font.BOLD, 42));
 		Player2.setBounds(341, 697, 246, 72);
 		contentPane.add(Player2);
 		
@@ -52,7 +52,7 @@ public class BounusResults3 extends JFrame {
 		Player1.setForeground(new Color(0, 0, 0));
 		Player1.setBounds(686, 519, 262, 72);
 		contentPane.add(Player1);
-		Player1.setFont(new Font("Tahoma", Font.BOLD, 32));
+		Player1.setFont(new Font("Tahoma", Font.BOLD, 42));
        
 		JButton btnNewButton_1 = new JButton("");
 		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));

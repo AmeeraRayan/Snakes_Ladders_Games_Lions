@@ -83,7 +83,6 @@ public class DataReception extends JFrame {
         hardButton = new JButton("Hard");
         hardButton.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
         hardButton.setBackground(new Color(218, 165, 32));
-        hardButton.setForeground(new Color(0, 0, 0));
         hardButton.setBounds(1145, 392, 229, 68);
         panel.add(hardButton);
         hardButton.addActionListener(new ActionListener() {

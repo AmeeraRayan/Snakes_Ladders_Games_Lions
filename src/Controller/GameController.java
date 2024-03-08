@@ -337,8 +337,14 @@ public class GameController {
         JLabel answer1Field = new JLabel(question.getOptions()[0]);
         JLabel answer2Field = new JLabel(question.getOptions()[1]);
         JLabel answer3Field = new JLabel(question.getOptions()[2]);
-        JLabel answer4Field = new JLabel(question.getOptions()[3]);
+        JLabel answer4Field = new JLabel(question.getOptions()[3]);   
+        JLabel imageLabel = new JLabel("<html><img src='" + getClass().getResource("/images/question.jpg") + "' width='100' height='100'></body></html>");
 
+        answer1Field.setForeground(java.awt.Color.RED);
+        answer2Field.setForeground(java.awt.Color.GREEN);
+        answer3Field.setForeground(java.awt.Color.BLUE);
+        answer4Field.setForeground(java.awt.Color.ORANGE); 
+        
         // Create JPanel for each answer option to include both the label and radio button
         JPanel answer1Panel = new JPanel();
         JPanel answer2Panel = new JPanel();
@@ -366,37 +372,46 @@ public class GameController {
         buttonGroup.add(answer3Button);
         buttonGroup.add(answer4Button);
 
+        // Create JPanel for the content including question, answers, and image
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayout(8, 1));
-        answer1Field.setForeground(java.awt.Color.RED); // Set the color of the first answer to red
-        answer2Field.setForeground(java.awt.Color.GREEN); // Set the color of the second answer to green
-        answer3Field.setForeground(java.awt.Color.BLUE); // Set the color of the third answer to blue
-        answer4Field.setForeground(java.awt.Color.ORANGE); // Set the color of the fourth answer to orange
-        contentPanel.add(questionField);
-        contentPanel.add(answer1Panel);
-        contentPanel.add(answer2Panel);
-        contentPanel.add(answer3Panel);
-        contentPanel.add(answer4Panel);
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS)); // Use BoxLayout to stack components vertically
+
+        // Create JPanel for the question and answers
+        JPanel questionAndAnswersPanel = new JPanel();
+        questionAndAnswersPanel.setLayout(new GridLayout(5, 1, 0, 0)); // Adjust grid layout to accommodate question and answers with zero vertical gap
+
+        // Add question and answers to the panel
+        questionAndAnswersPanel.add(questionField);
+        questionAndAnswersPanel.add(answer1Panel);
+        questionAndAnswersPanel.add(answer2Panel);
+        questionAndAnswersPanel.add(answer3Panel);
+        questionAndAnswersPanel.add(answer4Panel);
+
+        // Add question and answers panel to the content panel
+        contentPanel.add(questionAndAnswersPanel);
+        contentPanel.add(imageLabel);
 
         // Customize background color and font
         Font labelFont = questionField.getFont();
         questionField.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
-        answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
-        answer2Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
-        answer3Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
-        answer4Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
+        answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for answers
+        answer2Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for answers
+        answer3Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for answers
+        answer4Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for answers
 
-        Object[] fields = {"", contentPanel};
+        // Create and customize the option pane
+        JOptionPane optionPane = new JOptionPane(contentPanel, JOptionPane.QUESTION_MESSAGE);
+        JDialog dialog = optionPane.createDialog(frame, "Answer Question");
+
+        // Customize the dialog
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // Allow closing the dialog
+        dialog.setResizable(false); // Disable resizing
 
         if (frame.getClass().equals(MediumGameBoard.class)) {
             MediumGameBoard.turnTimer.stop();
         } else if (frame.getClass().equals(HardGameBoard.class)) {
             HardGameBoard.turnTimer.stop();
         }
-
-        // Create and customize the option pane
-        JOptionPane optionPane = new JOptionPane(fields, JOptionPane.QUESTION_MESSAGE);
-        JDialog dialog = optionPane.createDialog(frame, "Answer Question");
 
         // Customize the dialog
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // Allow closing the dialog
@@ -407,7 +422,9 @@ public class GameController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dialog.dispose(); // Close the dialog
-                JOptionPane.showMessageDialog(null, "Time's up! You didn't answer the question.", "Timeout", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame,
+                	    "<html><body><p>Time's up! You didn't answer the question.</p>"
+                	    + "<img src='" + getClass().getResource("/images/timeout.jpg") + "' width='100' height='100'></body></html>", null, JOptionPane.ERROR_MESSAGE);
             }
         });
         timer.setRepeats(false); // Timer should not repeat
@@ -458,52 +475,50 @@ public class GameController {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
 				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(frame,
-						 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
-						 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
-
+						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
+						    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 			  else {
-					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
+					 JOptionPane.showMessageDialog(null,"<html><body><p>You have selected the right answer , sequensly u will stay in your position </p>"
+						 		+"<img src='" + getClass().getResource("/images/RightAnswer.gif")+ "' width='100' height='100'></body></html>");
 			  }
 		
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
 				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
-				 JOptionPane.showMessageDialog(frame,
-						 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
-						 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
-
+				JOptionPane.showMessageDialog(frame,
+					    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
+					    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 			  else if(result == question.getCorrectOption()){
-					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
+					 JOptionPane.showMessageDialog(null,"<html><body><p>You have selected the right answer , sequensly u will stay in your position</p>"
+					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+"' width='100' height='100'></body></html> ");
 			  }
 			  else {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
 				  JOptionPane.showMessageDialog(frame,
-							 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
-							 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
-
-				  }
+						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
+						    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
+			  }
 		  }
 		  if(question.getDiffculty() == 3) {
 
 			  if(result == question.getCorrectOption()) {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel ,Win );
-				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forward"
-				  		+ ""  );
+				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forward</p>"
+					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+ "' width='100' height='100'></body></html>");
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
 					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
 					 JOptionPane.showMessageDialog(frame,
-							 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
-							 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
-
-				  }
+							    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
+							    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
+			  }
 			  else {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel , Win );
-				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the wrong answer , sequensly your position will start from 1 "
-				  		+ getClass().getResource("/images/wrongAnswer2.png")+ "' width='100' height='100'></body></html>" );
+			  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the wrong answer , sequensly your position will start from 1</p>"
+					    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 		  } 
 		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());

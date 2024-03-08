@@ -36,24 +36,24 @@ public class BounusResults4 extends JFrame {
 		// Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
 		JLabel Player4 = new JLabel(" "+playersSortedByOrder.get(3).getName());
-		Player4.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		Player4.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
 		Player4.setBounds(959, 698, 251, 72);
 		contentPane.add(Player4);
 		
 		JLabel Player3 = new JLabel(" "+playersSortedByOrder.get(2).getName());
-		Player3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		Player3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
 		Player3.setBounds(313, 731, 227, 72);
 		contentPane.add(Player3);
 		
 		JLabel Player2 = new JLabel(" "+playersSortedByOrder.get(1).getName());
-		Player2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		Player2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
 		Player2.setBounds(921, 500, 227, 72);
 		contentPane.add(Player2);
 		
 		JLabel Player1 = new JLabel(" "+playersSortedByOrder.get(0).getName());
 		Player1.setBounds(337, 542, 295, 72);
 		contentPane.add(Player1);
-		Player1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		Player1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
 		JButton btnNewButton_1 = new JButton("");
 		 btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
 	        btnNewButton_1.addActionListener(new ActionListener() {
