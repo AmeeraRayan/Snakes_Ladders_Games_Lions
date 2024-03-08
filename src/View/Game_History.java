@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,7 +49,7 @@ public class Game_History extends JFrame {
 	public Game_History() {
 		 setTitle("Game History");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 933, 660);
+		setBounds(20, 20, 1529, 939);
 		contentPane = new JPanel();
 
 		setContentPane(contentPane);
@@ -95,7 +96,7 @@ public class Game_History extends JFrame {
         tableModel.addColumn("Difficulty");
         tableModel.addColumn("Time");
         table = new JTable(tableModel);
-        table.setBounds(125, 68, 748, 448);
+        table.setBounds(10, 11, 748, 448);
         contentPane.add(table);
      // Center text in table cells
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -115,7 +116,7 @@ public class Game_History extends JFrame {
         // Custom renderer for table cells
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER); // Center text
-        cellRenderer.setBackground(Color.RED);
+        cellRenderer.setBackground(new Color(204, 182, 37));
         cellRenderer.setFont(new Font("Serif", Font.BOLD, 30)); // Set font
 
 
@@ -140,10 +141,10 @@ public class Game_History extends JFrame {
            contentPane.setLayout(null);
            contentPane.setLayout(null);
            JScrollPane scrollPane = new JScrollPane(table);
-           scrollPane.setBounds(50, 91, 800, 461);
+           scrollPane.setBounds(230, 150, 963, 583);
            contentPane.add(scrollPane);
            table.setFillsViewportHeight(true);
-           table.setForeground(Color.WHITE);
+           table.setForeground(new Color(0, 100, 0));
          
         // Add rows to the table model
            if (gameList != null) {
@@ -159,12 +160,12 @@ public class Game_History extends JFrame {
            int buttonY = 500 - buttonHeight - 30;
                       
                       lblNewLabel = new JLabel("");
-                      lblNewLabel.setIcon(new ImageIcon(Game_History.class.getResource("/images/history.jpg")));
-                      lblNewLabel.setBounds(-67, -11, 1070, 671);
+                      lblNewLabel.setIcon(new ImageIcon(Game_History.class.getResource("/images/history.jpeg")));
+                      lblNewLabel.setBounds(-48, 0, 1610, 943);
                       contentPane.add(lblNewLabel);
                       
                       JLabel lblNewLabel_1 = new JLabel("");
-                      lblNewLabel_1.setBounds(783, 596, 119, 53);
+                      lblNewLabel_1.setBounds(1314, 847, 205, 70);
                       contentPane.add(lblNewLabel_1);
                       lblNewLabel_1.addMouseListener(new MouseAdapter() {
                           @Override

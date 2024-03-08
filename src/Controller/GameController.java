@@ -379,13 +379,12 @@ public class GameController {
         contentPanel.add(answer4Panel);
 
         // Customize background color and font
-        contentPanel.setBackground(java.awt.Color.WHITE);
         Font labelFont = questionField.getFont();
-        questionField.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
-        answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
-        answer2Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
-        answer3Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
-        answer4Field.setFont(new Font(labelFont.getName(), Font.BOLD, labelFont.getSize())); // Bold font for question
+        questionField.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
+        answer1Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
+        answer2Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
+        answer3Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
+        answer4Field.setFont(new Font(labelFont.getName(), Font.BOLD, 20)); // Bold font for question
 
         Object[] fields = {"", contentPanel};
 
@@ -458,7 +457,10 @@ public class GameController {
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
 				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
-				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward." );
+				 JOptionPane.showMessageDialog(frame,
+						 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
+						 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
+
 			  }
 			  else {
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
@@ -468,29 +470,40 @@ public class GameController {
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
 				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
-				 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"backward." );
-				  }
+				 JOptionPane.showMessageDialog(frame,
+						 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
+						 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
+
+			  }
 			  else if(result == question.getCorrectOption()){
 					 JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will stay in your position." );
 			  }
 			  else {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
-				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
-			  }
+				  JOptionPane.showMessageDialog(frame,
+							 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
+							 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
+
+				  }
 		  }
 		  if(question.getDiffculty() == 3) {
 
 			  if(result == question.getCorrectOption()) {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel ,Win );
-				  JOptionPane.showMessageDialog(null,"You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forwrd."  );
+				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forward"
+				  		+ ""  );
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
 					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
-					 JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" backward." );
+					 JOptionPane.showMessageDialog(frame,
+							 "<html><body><p> You have selected the wrong answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+"beckward"
+							 		+getClass().getResource("/images/wrongAnswer.png")+ "' width='100' height='100'></body></html>");
+
 				  }
 			  else {
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel , Win );
-				  JOptionPane.showMessageDialog(null,"You have selected the wrong answer , sequensly your position will start from 1." );
+				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the wrong answer , sequensly your position will start from 1 "
+				  		+ getClass().getResource("/images/wrongAnswer2.png")+ "' width='100' height='100'></body></html>" );
 			  }
 		  } 
 		  IAndJ = FindSquareByValue(game.getCurrentPlayer().getPosition());

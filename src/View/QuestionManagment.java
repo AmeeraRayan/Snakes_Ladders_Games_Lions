@@ -2,6 +2,8 @@ package View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +26,8 @@ import Model.Questions;
 import Model.SysData;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+
+import java.awt.Container;
 import java.awt.Font;
 
 
@@ -66,7 +70,7 @@ public class QuestionManagment extends JFrame   {
 
 	private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 804, 701);
+        frame.setBounds(20, 20, 1550, 903);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         frame.setUndecorated(true);
@@ -84,15 +88,15 @@ public class QuestionManagment extends JFrame   {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(62, 249, 671, 326);
+        scrollPane.setBounds(283, 251, 1020, 454);
         frame.getContentPane().add(scrollPane);
         
-        JButton btnNewButton = new JButton("");
-        btnNewButton.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/BackButton.png")));
-        btnNewButton.setBounds(10, 614, 147, 43);
-        frame.getContentPane().add(btnNewButton);
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JLabel label = new JLabel("");
+        label.setBounds(20, 803, 188, 80);
+        frame.getContentPane().add(label);
+        label.addMouseListener(new MouseAdapter() {
+        	  @Override
+              public void mouseClicked(MouseEvent e) {
                 // Code to go back to the main screen
                 // For example, you might close the current frame and open the main screen frame
                 frame.dispose(); // Close the current frame
@@ -104,37 +108,37 @@ public class QuestionManagment extends JFrame   {
         
         searchField = new JTextField();
         searchField.setColumns(20);
-        searchField.setBounds(62, 131, 506, 38);
+        searchField.setBounds(283, 131, 766, 38);
         frame.getContentPane().add(searchField);
         
         JButton btnAdd = new JButton("Add Question");
         btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnAdd.setBounds(62, 187, 147, 30);
+        btnAdd.setBounds(348, 187, 147, 53);
         btnAdd.addActionListener(e -> showAddQuestionPopup());
         frame.getContentPane().add(btnAdd);
         
         JButton btnEdit = new JButton("Edit Question");
         btnEdit.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnEdit.setBounds(230, 187, 155, 30);
+        btnEdit.setBounds(589, 187, 155, 53);
         btnEdit.addActionListener(e -> editQuestion());
         frame.getContentPane().add(btnEdit);
 
         JButton btnDelete = new JButton("Delete Question");
         btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnDelete.setBounds(411, 187, 157, 30);
+        btnDelete.setBounds(837, 187, 157, 53);
         btnDelete.addActionListener(e -> deleteQuestion());
         frame.getContentPane().add(btnDelete);
 
         JButton btnShow = new JButton("Show Question");
         btnShow.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnShow.setBounds(578, 187, 155, 30);
+        btnShow.setBounds(1082, 187, 155, 53);
         btnShow.addActionListener(e -> showQuestion());
         frame.getContentPane().add(btnShow);
 
         // Create a button for performing the search
         JButton searchButton = new JButton("Search");
         searchButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-        searchButton.setBounds(578, 131, 155, 38);
+        searchButton.setBounds(1082, 129, 176, 38);
         searchButton.addActionListener(new ActionListener() {
           
 			@Override
@@ -150,8 +154,8 @@ public class QuestionManagment extends JFrame   {
         table.setRowSorter((RowSorter<? extends TableModel>) sorter);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/Questions managment1.png")));
-        lblNewLabel.setBounds(-384, 0, 1279, 972);
+        lblNewLabel.setIcon(new ImageIcon(QuestionManagment.class.getResource("/images/QuestionManagment.jpeg")));
+        lblNewLabel.setBounds(-16, -33, 1891, 972);
         frame.getContentPane().add(lblNewLabel);
     }
 

@@ -1,6 +1,9 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,7 +19,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 
-public class LogIn extends JFrame implements ActionListener{
+public class LogIn extends JFrame{
 
     private JFrame frame;
     private JTextField txtuser;
@@ -30,14 +33,6 @@ public class LogIn extends JFrame implements ActionListener{
 		this.txtuser = txtuser;
 	}
 
-	public JButton getBtnNewButton() {
-		return btnNewButton;
-	}
-
-	public void setBtnNewButton(JButton btnNewButton) {
-		this.btnNewButton = btnNewButton;
-	}
-
 	public JPasswordField getPasswordField() {
 		return passwordField;
 	}
@@ -45,12 +40,11 @@ public class LogIn extends JFrame implements ActionListener{
 	public void setPasswordField(JPasswordField passwordField) {
 		this.passwordField = passwordField;
 	}
-
-
-	private JButton btnNewButton;
     static  SysData sysData = new SysData();
     static MangQuestionControl mangQuestionControl=new MangQuestionControl();
     public JPasswordField passwordField;
+    private JLabel lblNewLabel;
+    private JLabel lblNewLabel_1;
 
     public LogIn() {
         initialize();
@@ -58,7 +52,7 @@ public class LogIn extends JFrame implements ActionListener{
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 899, 528);
+        frame.setBounds(20, 20, 1400, 844);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
@@ -66,30 +60,61 @@ public class LogIn extends JFrame implements ActionListener{
 
         txtuser = new JTextField();
         txtuser.setBackground(new Color(255, 255, 255));
-        txtuser.setBounds(234, 209, 142, 23);
+        txtuser.setBounds(680, 268, 297, 38);
         frame.getContentPane().add(txtuser);
         txtuser.setColumns(10);
-
-        btnNewButton = new JButton("Submit");
-        btnNewButton.setSelectedIcon(null);
-        btnNewButton.setIcon(new ImageIcon(LogIn.class.getResource("/images/5374040.png")));
-        btnNewButton.setFont(new Font("David", Font.BOLD, 20));
-        btnNewButton.setBackground(new Color(250, 255, 127));
-        btnNewButton.addActionListener(this);
-        btnNewButton.setBounds(671, 394, 181, 49);
-        frame.getContentPane().add(btnNewButton);
         
         passwordField = new JPasswordField();
         passwordField.setBackground(new Color(255, 255, 255));
-        passwordField.setBounds(234, 283, 142, 23);
+        passwordField.setBounds(680, 400, 294, 38);
         frame.getContentPane().add(passwordField);
         
         JLabel lblNewLabel_3 = new JLabel(" ");
         lblNewLabel_3.setBackground(new Color(255, 140, 0));
         lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/images/Screenshot 2024-01-29 140544.png")));
-        lblNewLabel_3.setBounds(0, 0, 921, 527);
+        lblNewLabel_3.setIcon(new ImageIcon(LogIn.class.getResource("/images/login.jpeg")));
+        lblNewLabel_3.setBounds(-22, -8, 1472, 854);
         frame.getContentPane().add(lblNewLabel_3);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setBounds(22, 758, 192, 64);
+        lblNewLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	frame.dispose(); // Close the current frame
+            	new MainScreen().setVisible(true); 
+				gameController.buttonClick();
+            }
+        });
+          
+        frame.getContentPane().add(lblNewLabel);
+        
+        lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(690, 646, 174, 55);
+        lblNewLabel_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	gameController.buttonClick();
+                String enteredUserName = txtuser.getText();
+                String enteredPassword = new String(passwordField.getPassword()); // Use getPassword() for JPasswordField
+                try {
+                    if (validateLogin(enteredUserName, enteredPassword)) {
+                        // Login successful
+                        JOptionPane.showMessageDialog(null, "Login successful! Redirecting to admin page...");
+                        frame.setVisible(false);
+                        QuestionManagment questionManagement = new QuestionManagment();
+                        questionManagement.frame.setVisible(true); 
+                        
+                    } else {
+                        // Login failed
+                        JOptionPane.showMessageDialog(null, "Invalid email or password. Please try again.");
+                    }
+                } catch(NullPointerException e1) {
+                    JOptionPane.showMessageDialog(null, e1.getMessage());
+                }
+            }
+        });
+        frame.getContentPane().add(lblNewLabel_1);
         
     }
     
@@ -98,30 +123,6 @@ public class LogIn extends JFrame implements ActionListener{
             throw new NullPointerException("Username or password is null.");
         }
          return mangQuestionControl.validateAdminCredentials(enteredUserName, enteredPassword);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnNewButton) {
-        	gameController.buttonClick();
-            String enteredUserName = txtuser.getText();
-            String enteredPassword = new String(passwordField.getPassword()); // Use getPassword() for JPasswordField
-            try {
-                if (validateLogin(enteredUserName, enteredPassword)) {
-                    // Login successful
-                    JOptionPane.showMessageDialog(null, "Login successful! Redirecting to admin page...");
-                    this.frame.setVisible(false);
-                    QuestionManagment questionManagement = new QuestionManagment();
-                    questionManagement.frame.setVisible(true); 
-                    
-                } else {
-                    // Login failed
-                    JOptionPane.showMessageDialog(null, "Invalid email or password. Please try again.");
-                }
-            } catch(NullPointerException e1) {
-                JOptionPane.showMessageDialog(null, e1.getMessage());
-            }
-        }
     }
 
 
