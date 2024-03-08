@@ -28,7 +28,7 @@ public class PlayersNicknames4 extends JFrame {
 
     public PlayersNicknames4(int numberOfPlayers, String difficultyLevel) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 938, 629);
+        setBounds(20, 20, 1500, 900);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -37,8 +37,7 @@ public class PlayersNicknames4 extends JFrame {
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);     
 		
-        JButton Back = new JButton("Back");
- 		Back = new JButton("Back");
+        JButton Back = new JButton("");
 		 Back.setIcon(new ImageIcon(DataReception.class.getResource("/images/BackButton.png")));
  		Back.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
@@ -47,57 +46,61 @@ public class PlayersNicknames4 extends JFrame {
                 gameController.buttonClick();
              }
          });
- 		Back.setBounds(27, 567, 135, 43);
+ 		Back.setBounds(26, 810, 177, 66);
  		contentPane.add(Back);
  		
-        Next = new JButton("Next");
+        Next = new JButton("");
         Next.setIcon(new ImageIcon(DataReception.class.getResource("/images/NextButton.png")));
-        Next.setBounds(766, 567, 135, 43);
+        Next.setBounds(1279, 810, 177, 66);
         contentPane.add(Next);
         
         textField2 = new JTextField();
         textField2.setColumns(10);
-        textField2.setBounds(524, 294, 154, 32);
+        textField2.setBounds(822, 391, 215, 43);
         contentPane.add(textField2);
         
         textField4 = new JTextField();
         textField4.setColumns(10);
-        textField4.setBounds(524, 391, 154, 32);
+        textField4.setBounds(822, 535, 215, 43);
         contentPane.add(textField4);
         
         textField3 = new JTextField();
         textField3.setColumns(10);
-        textField3.setBounds(296, 391, 154, 32);
+        textField3.setBounds(462, 391, 215, 43);
         contentPane.add(textField3);
         
         textField1 = new JTextField();
-        textField1.setBounds(303, 294, 147, 32);
+        textField1.setBounds(462, 535, 227, 43);
         contentPane.add(textField1);
         textField1.setColumns(10);
         
         JLabel lblPlayer_2_2_1 = new JLabel("Player 4");
-        lblPlayer_2_2_1.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-        lblPlayer_2_2_1.setBounds(524, 316, 311, 64);
+        lblPlayer_2_2_1.setForeground(new java.awt.Color(210, 105, 30));
+        lblPlayer_2_2_1.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+        lblPlayer_2_2_1.setBounds(808, 445, 311, 64);
         contentPane.add(lblPlayer_2_2_1);
         
         JLabel lblPlayer_2_2 = new JLabel("Player 3");
-        lblPlayer_2_2.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-        lblPlayer_2_2.setBounds(296, 316, 311, 64);
+        lblPlayer_2_2.setForeground(new java.awt.Color(255, 0, 0));
+        lblPlayer_2_2.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+        lblPlayer_2_2.setBounds(436, 447, 311, 64);
         contentPane.add(lblPlayer_2_2);
         
         JLabel lblPlayer_2 = new JLabel("Player 2");
-        lblPlayer_2.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-        lblPlayer_2.setBounds(524, 232, 311, 64);
+        lblPlayer_2.setForeground(new java.awt.Color(100, 149, 237));
+        lblPlayer_2.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+        lblPlayer_2.setBounds(808, 295, 311, 64);
         contentPane.add(lblPlayer_2);
         
         JLabel lblPlayer = new JLabel("Player 1");
-        lblPlayer.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
-        lblPlayer.setBounds(296, 232, 311, 64);
+        lblPlayer.setForeground(new java.awt.Color(46, 139, 87));
+        lblPlayer.setFont(new Font("Segoe UI Black", Font.BOLD | Font.ITALIC, 23));
+        lblPlayer.setBounds(436, 295, 311, 64);
         contentPane.add(lblPlayer);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(PlayersNicknames4.class.getResource("/images/pickplayer4.jpg")));
-        lblNewLabel.setBounds(0, -40, 938, 713);
+        lblNewLabel.setIcon(new ImageIcon(PlayersNicknames4.class.getResource("/images/pickplayer4.jpeg")));
+        lblNewLabel.setBounds(0, -40, 1500, 940);
         contentPane.add(lblNewLabel);
         
         
