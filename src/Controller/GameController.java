@@ -475,7 +475,7 @@ public class GameController {
 
 	  public int[] updateplayerbyAnswer(int index ,Questions question,int result, JLabel[] playerLabel , int Win) {
 			int[] IAndJ = new int[2];
-			System.out.println("you answerd: "+ result);
+			//System.out.println("you answerd: "+ result);
 		  if(question.getDiffculty() == 1 ) {
 			  if((result != question.getCorrectOption() ||  result == -1)  && game.getCurrentPlayer().getPosition()!=1) {
 				 wrongAnswer();
