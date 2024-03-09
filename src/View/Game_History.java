@@ -49,7 +49,7 @@ public class Game_History extends JFrame {
 	public Game_History() {
 		 setTitle("Game History");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(20, 20, 1529, 939);
+		setBounds(100, 20, 1529, 939);
 		contentPane = new JPanel();
 
 		setContentPane(contentPane);

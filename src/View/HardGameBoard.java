@@ -102,7 +102,7 @@ private JLabel stopLabel;
     	setTitle("Game Board");
     	this.hardBoard=new HardBoard();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(20,20,1166,816);
+        setBounds(100, 20,1166,816);
         // Creating the outer panel with BorderLayout
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(null);
@@ -419,13 +419,12 @@ private JLabel stopLabel;
         setBlueSnakes(outerPanel);
         setGreenSnakes(outerPanel);
         setLadders(outerPanel);
-        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
-        	ArrayList<Integer>  key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println(key);
-            System.out.println(value);
-        }
- 
+//        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
+//        	ArrayList<Integer>  key = entry.getKey();
+//            String value = entry.getValue();
+//            System.out.println(key);
+//            System.out.println(value);
+//        }
         hardBoard.startGame(squares,snakes,ladders,quastionSquares, 0);
  
     }
@@ -753,7 +752,7 @@ private JLabel stopLabel;
         if(num == 7) {
         	width = 165;
         	heigth = 500;
-        	X = -10;
+        	X = -65;
         	Y = 5;
         	clac[0] = width;
         	clac[1] = heigth;
@@ -762,7 +761,7 @@ private JLabel stopLabel;
         }
         if(num == 8) {
         	width = 250;
-        	heigth = 460;
+        	heigth = 500;
         	X = -40;
         	Y = -10;
         	clac[0] = width;

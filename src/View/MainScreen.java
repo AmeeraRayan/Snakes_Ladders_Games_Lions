@@ -22,7 +22,7 @@ public class MainScreen extends JFrame{
  		Sound sound = new Sound("src/sounds/start.wav");
  		sound.play();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(20, 20, 1525, 900);
+		setBounds(100, 20, 1525, 900);
         getContentPane().setLayout(null);
         
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)

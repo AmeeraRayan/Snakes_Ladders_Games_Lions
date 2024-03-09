@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,6 +34,8 @@ import Model.SquareType;
 import Model.SysData;
 import View.HardGameBoard;
 import View.MediumGameBoard;
+import View.PlayerTurn;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -40,8 +43,7 @@ import java.awt.event.*;
 public class GameController {
 	private Game game;
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
-    private Queue<Runnable> actionQueue = new LinkedList<>();
-
+    private PlayerTurn playerTurn;
     // private Sound  PlaygroundSound = new Sound("sounds/BlueBoyAdventure.wav");
    private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
 
@@ -208,6 +210,9 @@ public class GameController {
 		Questions question = null ; 
 		int[] Iandj = new int[2];
 		if(s.getType() ==  SquareType.QUESTION) {
+			if(playerTurn.lastSquareVisit.containsKey(game.getCurrentPlayer()) && playerTurn.lastSquareVisit.get(game.getCurrentPlayer())== s) {
+				return false;
+			}
 			flag = true ; 
 			int index = -1 ;
 			Square[] q = game.getBoard().getQuestions();
@@ -227,6 +232,7 @@ public class GameController {
 				question = SysData.getQuestionLevel("hard");
 
 			}
+			playerTurn.lastSquareVisit.put(game.getCurrentPlayer(), s);
 			Iandj = showAddQuestionPopup(playerindex , question,playerLabel,Win);
 			
 		}
@@ -442,13 +448,13 @@ public class GameController {
             int result = (int) option;
             if (result == JOptionPane.OK_OPTION) {
                 if (answer1Button.isSelected()) {
-                    selectedOption = 0;
-                } else if (answer2Button.isSelected()) {
                     selectedOption = 1;
-                } else if (answer3Button.isSelected()) {
+                } else if (answer2Button.isSelected()) {
                     selectedOption = 2;
-                } else if (answer4Button.isSelected()) {
+                } else if (answer3Button.isSelected()) {
                     selectedOption = 3;
+                } else if (answer4Button.isSelected()) {
+                    selectedOption = 4;
                 }
             } else {
                 selectedOption = -1;
@@ -469,37 +475,43 @@ public class GameController {
 
 	  public int[] updateplayerbyAnswer(int index ,Questions question,int result, JLabel[] playerLabel , int Win) {
 			int[] IAndJ = new int[2];
+			System.out.println("you answerd: "+ result);
 		  if(question.getDiffculty() == 1 ) {
-			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
-				  wrongAnswer();
+			  if((result != question.getCorrectOption() ||  result == -1)  && game.getCurrentPlayer().getPosition()!=1) {
+				 wrongAnswer();
 				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(frame,
 						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
 						    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
-			  else {
+			  else if(result == question.getCorrectOption()){
+				  	 correctAnswer();
 					 JOptionPane.showMessageDialog(null,"<html><body><p>You have selected the right answer , sequensly u will stay in your position </p>"
 						 		+"<img src='" + getClass().getResource("/images/RightAnswer.gif")+ "' width='100' height='100'></body></html>");
+			  }
+			  else {
+				  	 wrongAnswer();
+					 JOptionPane.showMessageDialog(frame,
+							    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
+							    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 		
 		  }
 		  if(question.getDiffculty() == 2) {
-			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
-				  wrongAnswer();
-
+			  if((result != question.getCorrectOption() || result ==-1) && game.getCurrentPlayer().getPosition()>=3) {
+				wrongAnswer();
 				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
 				JOptionPane.showMessageDialog(frame,
 					    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
 					    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 			  else if(result == question.getCorrectOption()){
-				  correctAnswer();
+				  	correctAnswer();
 					 JOptionPane.showMessageDialog(null,"<html><body><p>You have selected the right answer , sequensly u will stay in your position</p>"
 					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+"' width='100' height='100'></body></html> ");
 			  }
 			  else {
 				  wrongAnswer();
-
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
 				  JOptionPane.showMessageDialog(frame,
 						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
@@ -514,7 +526,7 @@ public class GameController {
 				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forward</p>"
 					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+ "' width='100' height='100'></body></html>");
 			  }
-			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
+			  else if((result != question.getCorrectOption() || result ==-1) && game.getCurrentPlayer().getPosition()>=4){
 				  wrongAnswer();
 					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
 					 JOptionPane.showMessageDialog(frame,
@@ -798,14 +810,14 @@ public class GameController {
   }
   
   public void wrongAnswer() {
-	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/sounds/buzzer-or-wrong-answer.wav");
 	//  Sound sound = new Sound("sounds/buzzer-or-wrong-answer.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
   
   public void correctAnswer() {
-	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/sounds/goodresult.wav");
 	 // Sound sound = new Sound("sounds/goodresult.wav");
 		sound.setVolume(0.5f); 
       sound.play();
@@ -813,7 +825,7 @@ public class GameController {
   
   public void countdown(boolean status) {
 	  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	 // Sound sound = new Sound("sounds/countdown.wav");
+	 // Sound sound = new Sound("sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
 
 	  if(status)

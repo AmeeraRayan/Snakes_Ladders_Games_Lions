@@ -70,7 +70,7 @@ public class QuestionManagment extends JFrame   {
 
 	private void initialize() {
         frame = new JFrame();
-        frame.setBounds(20, 20, 1550, 903);
+        frame.setBounds(100, 20, 1550, 903);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         frame.setUndecorated(true);

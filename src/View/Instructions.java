@@ -20,7 +20,7 @@ public class Instructions extends JFrame {
     public Instructions() {
         setType(Type.POPUP);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 10, 1570, 900); // Set the bounds of the JFrame
+        setBounds(100, 20, 1570, 900); // Set the bounds of the JFrame
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);

@@ -50,7 +50,7 @@ public class BlueWin extends JFrame implements WinFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
-		setBounds(0, 0, 1400, 1000);
+		setBounds(100, 20, 1258, 1000);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,24 +78,24 @@ public class BlueWin extends JFrame implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		restart.setBounds(67, 810, 200, 100);
+		restart.setBounds(170, 854, 200, 73);
 		contentPane.add(restart);
 		
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(414, 347, 215, 46);
+		playerWin.setBounds(514, 345, 250, 73);
 		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(425, 440, 231, 46);
+		lblNewLabel_3.setBounds(514, 459, 231, 58);
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/winnerBluescreen.png")));
-		lblNewLabel_1.setBounds(-32, -13, 1109, 959);
+		lblNewLabel_1.setBounds(-88, -13, 1432, 1023);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
 		contentPane.add(lblNewLabel_1);
@@ -109,7 +109,7 @@ public class BlueWin extends JFrame implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		menu.setBounds(833, 518, 163, 32);
+		menu.setBounds(919, 854, 200, 81);
 		contentPane.add(menu);
 		
 	}

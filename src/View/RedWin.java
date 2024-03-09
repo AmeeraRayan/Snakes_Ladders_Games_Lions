@@ -40,7 +40,7 @@ public class RedWin extends JFrame  implements WinFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
-		setBounds(0, 0, 1019, 896);
+		setBounds(100, 20, 1059, 920);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,22 +50,22 @@ public class RedWin extends JFrame  implements WinFrame{
 		gameController.WinngPage();
 		
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(419, 339, 215, 46);
+		playerWin.setBounds(419, 339, 274, 63);
 		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(410, 441, 209, 46);
+		lblNewLabel_3.setBounds(419, 474, 251, 63);
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/winnerRedscreen.png")));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_1.setBounds(-18, 10, 1092, 888);
+		lblNewLabel_1.setBounds(-18, 0, 1092, 970);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel restart = new JLabel("");
@@ -89,7 +89,7 @@ public class RedWin extends JFrame  implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		restart.setBounds(83, 786, 163, 80);
+		restart.setBounds(76, 822, 193, 73);
 		contentPane.add(restart);
 		
 		JLabel menu = new JLabel("");
@@ -101,7 +101,7 @@ public class RedWin extends JFrame  implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		menu.setBounds(794, 786, 200, 80);
+		menu.setBounds(793, 822, 200, 80);
 		contentPane.add(menu);
 	}
 

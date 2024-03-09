@@ -24,6 +24,7 @@ import Model.Color;
 import Model.Dice;
 import Model.Player;
 import Model.Sound;
+import Model.Square;
 
 import java.awt.Font;
 
@@ -32,6 +33,7 @@ public class PlayerTurn extends JFrame {
     private Dice dice;
     private Map<Player, Integer> playerRolls;
     private List<Player> players;
+    public static HashMap<Player, Square> lastSquareVisit = new HashMap<>();
     private int currentPlayerIndex;
     private String difficultyLevel;
     private static final long serialVersionUID = 1L;
@@ -43,6 +45,7 @@ public class PlayerTurn extends JFrame {
     public PlayerTurn(int numberOfPlayers, String difficultyLevel, String[] namesOfPlayers , Color[] color) {
         this.difficultyLevel = difficultyLevel;
         dice = new Dice();
+        lastSquareVisit = new HashMap<>();
         playerRolls = new LinkedHashMap<>();
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -51,7 +54,7 @@ public class PlayerTurn extends JFrame {
         currentPlayerIndex = 0;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(20, 20, 1500, 900);
+        setBounds(100, 20, 1500, 900);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

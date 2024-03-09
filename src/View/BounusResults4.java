@@ -27,7 +27,7 @@ public class BounusResults4 extends JFrame {
 
 	public BounusResults4( String difficultyLevel, List<Player> playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(20, 20, 1500, 900);
+		setBounds(100, 20, 1500, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

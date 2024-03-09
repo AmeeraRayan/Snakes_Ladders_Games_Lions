@@ -60,7 +60,7 @@ public class LogIn extends JFrame{
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(20, 20, 1400, 844);
+        frame.setBounds(100, 20, 1400, 844);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
