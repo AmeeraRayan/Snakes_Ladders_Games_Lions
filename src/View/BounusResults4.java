@@ -37,21 +37,21 @@ public class BounusResults4 extends JFrame {
         setUndecorated(true);
 		JLabel Player4 = new JLabel(" "+playersSortedByOrder.get(3).getName());
 		Player4.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
-		Player4.setBounds(959, 698, 251, 72);
+		Player4.setBounds(377, 602, 500, 72);
 		contentPane.add(Player4);
 		
 		JLabel Player3 = new JLabel(" "+playersSortedByOrder.get(2).getName());
 		Player3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
-		Player3.setBounds(313, 731, 227, 72);
+		Player3.setBounds(377, 464, 500, 72);
 		contentPane.add(Player3);
 		
 		JLabel Player2 = new JLabel(" "+playersSortedByOrder.get(1).getName());
 		Player2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
-		Player2.setBounds(921, 500, 227, 72);
+		Player2.setBounds(377, 331, 500, 72);
 		contentPane.add(Player2);
 		
 		JLabel Player1 = new JLabel(" "+playersSortedByOrder.get(0).getName());
-		Player1.setBounds(337, 542, 295, 72);
+		Player1.setBounds(377, 179, 500, 72);
 		contentPane.add(Player1);
 		Player1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 42));
 		JButton btnNewButton_1 = new JButton("");
@@ -75,10 +75,10 @@ public class BounusResults4 extends JFrame {
                          }
             }
         });
-        btnNewButton_1.setBounds(1205, 823, 177, 66);
+        btnNewButton_1.setBounds(1194, 798, 177, 66);
         contentPane.add(btnNewButton_1);
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults4.class.getResource("/images/bonus4.jpeg")));
+		lblNewLabel.setIcon(new ImageIcon(BounusResults4.class.getResource("/images/result4players.png")));
 		lblNewLabel.setBounds(-55, -23, 1567, 923);
 		contentPane.add(lblNewLabel);
 	}

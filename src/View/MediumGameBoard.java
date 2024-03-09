@@ -790,24 +790,24 @@ public class MediumGameBoard extends JFrame
     		playersLable[i] = new JLabel();
     		playersLable[i].setBounds(x,y , 37, 35);
     		if(g.getPlayers().get(i).getColor() == Model.Color.GREEN) {
-    			String path = "/images/greenPlayer.png";
+    			String path = "/images/green-player.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     			
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.YELLOW) {
-    			String path = "/images/yellowPlayer1.png";
+    			String path = "/images/yellow-Player.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.RED) {
-    			String path = "/images/RedPlayer1.png";
+    			String path = "/images/red-player1.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
  
     		}
     		if(g.getPlayers().get(i).getColor() == Model.Color.BLUE) {
  
-    			String path = "/images/BluePlayer1.png";
+    			String path = "/images/blue-player.png";
                 playersLable[i].setIcon(new ImageIcon(MediumGameBoard.class.getResource(path)));
 
  

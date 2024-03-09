@@ -40,13 +40,13 @@ public class BounusResults2 extends JFrame {
 		JLabel PlayerTurnOne = new JLabel(" "+playersSortedByOrder.get(0).getName());
 		PlayerTurnOne.setForeground(new Color(0, 0, 0));
 		PlayerTurnOne.setFont(new Font("Sitka Text", Font.BOLD, 42));
-		PlayerTurnOne.setBounds(576, 586, 243, 58);
+		PlayerTurnOne.setBounds(522, 274, 300, 58);
 		contentPane.add(PlayerTurnOne);
 		
 		JLabel PlayerTurnTwo = new JLabel(" "+playersSortedByOrder.get(1).getName());
 		PlayerTurnTwo.setForeground(new Color(0, 0, 0));
 		PlayerTurnTwo.setFont(new Font("Sitka Text", Font.BOLD, 42));
-		PlayerTurnTwo.setBounds(1103, 732, 243, 58);
+		PlayerTurnTwo.setBounds(522, 474, 300, 58);
 		contentPane.add(PlayerTurnTwo);
         JButton btnNewButton_1 = new JButton("");
         btnNewButton_1.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/NextButton.png")));
@@ -70,11 +70,11 @@ public class BounusResults2 extends JFrame {
         });
 
 
-        btnNewButton_1.setBounds(1313, 830, 177, 66);
+        btnNewButton_1.setBounds(1258, 790, 177, 66);
         contentPane.add(btnNewButton_1);
 		 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/bonus2.jpeg")));
+		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/result2players.png")));
 		lblNewLabel.setBounds(-28, -74, 1550, 1020);
 		contentPane.add(lblNewLabel);
 		 
