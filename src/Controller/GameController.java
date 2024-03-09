@@ -33,8 +33,6 @@ import Model.SquareType;
 import Model.SysData;
 import View.HardGameBoard;
 import View.MediumGameBoard;
-import javafx.scene.paint.Color;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -44,11 +42,11 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-   //  private Sound  PlaygroundSound = new Sound("/sounds/BlueBoyAdventure.wav");
-   private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
+     private Sound  PlaygroundSound = new Sound("sounds/BlueBoyAdventure.wav");
+   //private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
 
-   // private Sound FinalSound = new Sound("/sounds/FinalBattle.wav");
-    private Sound FinalSound = new Sound("src/sounds/FinalBattle.wav");
+    private Sound FinalSound = new Sound("sounds/FinalBattle.wav");
+   // private Sound FinalSound = new Sound("src/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag; 
@@ -473,6 +471,7 @@ public class GameController {
 			int[] IAndJ = new int[2];
 		  if(question.getDiffculty() == 1 ) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()!=1) {
+				  wrongAnswer();
 				 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-1, "Dice Question",playerLabel , Win );
 				 JOptionPane.showMessageDialog(frame,
 						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
@@ -486,16 +485,21 @@ public class GameController {
 		  }
 		  if(question.getDiffculty() == 2) {
 			  if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=3) {
+				  wrongAnswer();
+
 				updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-2, "Dice Question",playerLabel , Win );
 				JOptionPane.showMessageDialog(frame,
 					    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
 					    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 			  else if(result == question.getCorrectOption()){
+				  correctAnswer();
 					 JOptionPane.showMessageDialog(null,"<html><body><p>You have selected the right answer , sequensly u will stay in your position</p>"
 					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+"' width='100' height='100'></body></html> ");
 			  }
 			  else {
+				  wrongAnswer();
+
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel ,Win );
 				  JOptionPane.showMessageDialog(frame,
 						    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
@@ -505,17 +509,20 @@ public class GameController {
 		  if(question.getDiffculty() == 3) {
 
 			  if(result == question.getCorrectOption()) {
+				  correctAnswer();
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()+1, "Dice Question",playerLabel ,Win );
 				  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the right answer , sequensly u will move to position "+game.getCurrentPlayer().getPosition()+" forward</p>"
 					 		+"<img src='" +getClass().getResource("/images/RightAnswer.gif")+ "' width='100' height='100'></body></html>");
 			  }
 			  else if(result != question.getCorrectOption() && game.getCurrentPlayer().getPosition()>=4){
+				  wrongAnswer();
 					 updatePlayerPosition(game.getCurrentPlayerIndex(), game.getCurrentPlayer().getPosition()-3, "Dice Question",playerLabel ,Win );
 					 JOptionPane.showMessageDialog(frame,
 							    "<html><body><p>You have selected the wrong answer, subsequently you will move to position " + game.getCurrentPlayer().getPosition() + " backward</p>"
 							    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
 			  }
 			  else {
+				  wrongAnswer();
 				  updatePlayerPosition(game.getCurrentPlayerIndex(), 1, "Dice Question",playerLabel , Win );
 			  JOptionPane.showMessageDialog(frame,"<html><body><p> You have selected the wrong answer , sequensly your position will start from 1</p>"
 					    + "<img src='" + getClass().getResource("/images/wrongAnswer.png") + "' width='100' height='100'></body></html>");
@@ -736,8 +743,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		//Sound sound = new Sound("sounds/snake-hissing-6092.wav");
- 		Sound sound = new Sound("src/sounds/snake-hissing-6092.wav");
+ 		Sound sound = new Sound("sounds/snake-hissing-6092.wav");
+ 		// Sound sound = new Sound("src/sounds/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -745,43 +752,80 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   Sound sound = new Sound("src/sounds/dice.wav");
-	  // Sound sound = new Sound("sounds/dice.wav");
+	   //Sound sound = new Sound("src/sounds/dice.wav");
+	    Sound sound = new Sound("sounds/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	   Sound sound = new Sound("src/sounds/buttonClick.wav");
-	//   Sound sound = new Sound("sounds/buttonClick.wav");
+	   //Sound sound = new Sound("src/sounds/buttonClick.wav");
+	   Sound sound = new Sound("sounds/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	 //  Sound WinSound = new Sound("sounds/levelup.wav");
-	   Sound WinSound = new Sound("src/sounds/levelup.wav");
+	   Sound WinSound = new Sound("sounds/levelup.wav");
+	  // Sound WinSound = new Sound("src/sounds/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	   Sound sound = new Sound("src/sounds/ladder.wav");
+	//   Sound sound = new Sound("src/sounds/ladder.wav");
+	   Sound sound = new Sound("sounds/ladder.wav");
+
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	   Sound sound = new Sound("src/sounds/surprise.wav");
-	 //  Sound sound = new Sound("sounds/surprise.wav");
+	 //  Sound sound = new Sound("src/sounds/surprise.wav");
+	   Sound sound = new Sound("sounds/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	//  Sound sound = new Sound("sounds/TimeOut.wav");
+	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
+  
+  public void WinngPage() {
+	  Sound sound = new Sound("sounds/winfantasia.wav");
+		sound.setVolume(0.5f); 
+      sound.play();
+  }
+  
+  public void wrongAnswer() {
+	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("sounds/buzzer-or-wrong-answer.wav");
+		sound.setVolume(0.5f); 
+      sound.play();
+  }
+  
+  public void correctAnswer() {
+	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("sounds/goodresult.wav");
+		sound.setVolume(0.5f); 
+      sound.play();
+  }
+  
+  public void countdown(boolean status) {
+	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	  Sound sound = new Sound("sounds/countdown.wav");
+		sound.setVolume(0.5f); 
 
+	  if(status)
+      sound.play();
+	  else {
+	      sound.stop();
+
+	  }
+  }
+  
+  
+  
 	 
 	
 }

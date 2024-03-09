@@ -40,32 +40,32 @@ public class RedWin extends JFrame  implements WinFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
-		setBounds(0, 0, 1019, 596);
+		setBounds(0, 0, 1019, 896);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		gameController.WinngPage();
 		
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(322, 270, 215, 46);
+		playerWin.setBounds(419, 339, 215, 46);
 		playerWin.setForeground(new Color(255, 255, 255));
 		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(257, 392, 209, 46);
+		lblNewLabel_3.setBounds(410, 441, 209, 46);
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/red_wins.jpg")));
+		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/winnerRedscreen.png")));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_1.setBounds(-43, 0, 1092, 596);
+		lblNewLabel_1.setBounds(-18, 10, 1092, 888);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel restart = new JLabel("");
@@ -89,7 +89,7 @@ public class RedWin extends JFrame  implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		restart.setBounds(55, 518, 163, 32);
+		restart.setBounds(83, 786, 163, 80);
 		contentPane.add(restart);
 		
 		JLabel menu = new JLabel("");
@@ -101,7 +101,7 @@ public class RedWin extends JFrame  implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		menu.setBounds(825, 518, 163, 32);
+		menu.setBounds(794, 786, 200, 80);
 		contentPane.add(menu);
 	}
 

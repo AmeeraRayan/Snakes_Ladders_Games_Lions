@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -91,8 +92,8 @@ public class MediumGameBoard extends JFrame
     long startTime = System.currentTimeMillis();
     long turnStartTime = System.currentTimeMillis();
     long turnElapsedTime = 0;
-
-
+    int countdown = 10; 
+    
     int[] ladderLengths = {1, 2, 3, 4, 5, 6};
     JPanel outerPanel = new JPanel();
    private long remainingPlayerTime;
@@ -107,6 +108,8 @@ public class MediumGameBoard extends JFrame
     public MediumGameBoard(Game game) {
 
     	this.game = game;
+        controller = new GameController(game,this);
+
         // Setting up the main frame
     	//frame = new JFrame();
         setTitle("Game Board");
@@ -143,6 +146,7 @@ public class MediumGameBoard extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!isGamePaused) {
+					
 				long now = System.currentTimeMillis();
 				long elapsed = now - startTime;
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
@@ -154,14 +158,12 @@ public class MediumGameBoard extends JFrame
 		gameTimer.start();
         setResizable(false); 
 
-
         diceButton = new JButton("");
         diceButton.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/dice 3.jpg")));
         diceButton.setBounds(928, 637, 78, 81);
         outerPanel.add(diceButton);
         game.setBoard(meduimboard);
         game.setDice(dice);
-        controller = new GameController(game,this);
         controller.MainSound(true);
         controller.CallQuestionDataFunc();
 
@@ -173,12 +175,12 @@ public class MediumGameBoard extends JFrame
      	 turnTimer = new Timer(10000, new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
-            	if(!isGamePaused) { 
-                 turnTimer.stop(); // Stop the timer to prevent it from repeating
-                 animateDiceRoll(); // Automatically roll the dice
-                 startNewTurn();
-                 diceButton.setEnabled(true); 
-
+            	 if (!isGamePaused) {
+                         turnTimer.stop(); // Stop the timer to prevent it from repeating
+                         animateDiceRoll(); // Automatically roll the dice
+                         startNewTurn();
+                         diceButton.setEnabled(true); 
+                     
                  }}
              
          });
@@ -187,6 +189,7 @@ public class MediumGameBoard extends JFrame
         
         diceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	controller.countdown(false);
             	isdiceClicked = true ; 
                 index = game.getCurrentPlayerIndex();
                 if (turnTimer.isRunning()) {

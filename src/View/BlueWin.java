@@ -44,35 +44,18 @@ public class BlueWin extends JFrame implements WinFrame{
 		this.plyerNickname=winnerName;
 		this.time=time;
 		this.game=game;
+		gameController.WinngPage();
+
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
-		setBounds(0, 0, 1021, 596);
+		setBounds(0, 0, 1400, 1000);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(319, 270, 215, 46);
-		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
-		contentPane.add(playerWin);
-		
-		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(260, 394, 231, 46);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
-		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/blue_win.jpg")));
-		lblNewLabel_1.setBounds(-42, -27, 1109, 649);
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setBackground(new Color(255, 255, 255));
-		contentPane.add(lblNewLabel_1);
 		
 		JLabel restart = new JLabel("");
 		restart.addMouseListener(new MouseAdapter() {
@@ -95,8 +78,27 @@ public class BlueWin extends JFrame implements WinFrame{
 				gameController.buttonClick();
 			}
         });
-		restart.setBounds(66, 518, 163, 32);
+		restart.setBounds(67, 810, 200, 100);
 		contentPane.add(restart);
+		
+		JLabel playerWin = new JLabel(plyerNickname);
+		playerWin.setBounds(414, 347, 215, 46);
+		playerWin.setForeground(new Color(255, 255, 255));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		contentPane.add(playerWin);
+		
+		JLabel lblNewLabel_3 = new JLabel(time);
+		lblNewLabel_3.setBounds(425, 440, 231, 46);
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 36));
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("/images/winnerBluescreen.png")));
+		lblNewLabel_1.setBounds(-32, -13, 1109, 959);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setBackground(new Color(255, 255, 255));
+		contentPane.add(lblNewLabel_1);
 		
 		JLabel menu = new JLabel("");
 		menu.addMouseListener(new MouseAdapter() {

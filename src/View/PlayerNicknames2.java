@@ -39,7 +39,7 @@ public class PlayerNicknames2 extends JFrame {
 		this.numberOfPlayers=numberOfPlayers;
 		this.difficultyLevel=difficultyLevel;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(20, 20, 1500, 900);
+		setBounds(20, -20, 1500, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
