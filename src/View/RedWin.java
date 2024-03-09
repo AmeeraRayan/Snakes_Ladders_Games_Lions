@@ -51,14 +51,14 @@ public class RedWin extends JFrame  implements WinFrame{
 		
 		JLabel playerWin = new JLabel(plyerNickname);
 		playerWin.setBounds(419, 339, 274, 63);
-		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
+		playerWin.setForeground(new Color(153, 0, 51));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(419, 474, 251, 63);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
+		lblNewLabel_3.setBounds(421, 595, 251, 63);
+		lblNewLabel_3.setForeground(new Color(153, 0, 51));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");

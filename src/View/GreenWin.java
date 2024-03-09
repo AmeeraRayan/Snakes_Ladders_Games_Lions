@@ -83,14 +83,14 @@ public class GreenWin extends JFrame  implements WinFrame{
 		restart.setBounds(102, 817, 200, 80);
 		contentPane.add(restart);
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(383, 298, 282, 80);
-		playerWin.setForeground(new Color(255, 255, 255));
+		playerWin.setBounds(383, 315, 282, 80);
+		playerWin.setForeground(new Color(0, 153, 102));
 		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(397, 424, 268, 74);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(383, 610, 268, 74);
+		lblNewLabel_3.setForeground(new Color(0, 153, 102));
 		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(lblNewLabel_3);
 		

@@ -440,13 +440,13 @@ public class MediumGameBoard extends JFrame
 		label_1.setBounds(squares[i1][j1].getBoundsX()+10, squares[i1][j1].getBoundsY(), 55, 55);
         Snake redSnake1 = new Snake(squares[i1][j1], squares[9][0]);
         snakes[0] = redSnake1;
-     textPane_1_2_1.setForeground(new Color(240, 248, 255));
+     textPane_1_2_1.setForeground(new Color(0, 0, 0));
             textPane_1_2_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
             
-            textPane_1_2_1.setBounds(917, 175, 150, 150);
+            textPane_1_2_1.setBounds(888, 200, 203, 180);
             outerPanel.add(textPane_1_2_1);
         
-            jl.setLocation(950, 304);
+            jl.setLocation(955, 365);
             outerPanel.add(jl);
             jl.setVisible(true);
             jl.setSize(150, 86);
@@ -455,8 +455,8 @@ public class MediumGameBoard extends JFrame
                     jl.setFont(new Font("Maiandra GD", Font.PLAIN, 28));
         
         JLabel lblNewLabel_5 = new JLabel("");
-        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
-        lblNewLabel_5.setBounds(733, 165, 500, 200);
+        lblNewLabel_5.setIcon(new ImageIcon(MediumGameBoard.class.getResource("/images/TimerAndPlayernamess.png")));
+        lblNewLabel_5.setBounds(701, 170, 500, 318);
         outerPanel.add(lblNewLabel_5);
         
        

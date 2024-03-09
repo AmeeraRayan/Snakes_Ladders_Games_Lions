@@ -93,15 +93,15 @@ public class YellowWin extends JFrame  implements WinFrame{
 		
 		
 		JLabel playerWin = new JLabel(plyerNickname);
-		playerWin.setBounds(372, 295, 305, 86);
-		playerWin.setForeground(new Color(255, 255, 255));
-		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
+		playerWin.setBounds(370, 312, 305, 86);
+		playerWin.setForeground(new Color(255, 102, 51));
+		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(372, 411, 260, 76);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
+		lblNewLabel_3.setBounds(375, 600, 260, 76);
+		lblNewLabel_3.setForeground(new Color(255, 102, 0));
+		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 40));
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_1 = new JLabel("");

@@ -83,13 +83,13 @@ public class BlueWin extends JFrame implements WinFrame{
 		
 		JLabel playerWin = new JLabel(plyerNickname);
 		playerWin.setBounds(514, 345, 250, 73);
-		playerWin.setForeground(new Color(255, 255, 255));
+		playerWin.setForeground(new Color(0, 51, 204));
 		playerWin.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(playerWin);
 		
 		JLabel lblNewLabel_3 = new JLabel(time);
-		lblNewLabel_3.setBounds(514, 459, 231, 58);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(514, 604, 231, 58);
+		lblNewLabel_3.setForeground(new Color(0, 51, 204));
 		lblNewLabel_3.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 39));
 		contentPane.add(lblNewLabel_3);
 		

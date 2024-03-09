@@ -175,28 +175,28 @@ private JLabel stopLabel;
                             
                        
                            
-                            textPane_1_1.setForeground(new Color(240, 248, 255));
+                            textPane_1_1.setForeground(new Color(0, 0, 0));
                             textPane_1_1.setFont(new Font("Monotype Corsiva", Font.BOLD, 24));
                             textPane_1_1.setBackground(new Color(204, 153, 102));
                             outerPanel.add(textPane_1_1);
   
-        textPane_1_1.setBounds(923, 316, 140, 153);
+        textPane_1_1.setBounds(903, 247, 208, 183);
         outerPanel.add(textPane_1_1);
                   
                   
                         
              
                  jl = new JLabel("00:00", SwingConstants.CENTER);
-                 jl.setLocation(908, 432);
+                 jl.setLocation(918, 407);
                  outerPanel.add(jl);
                  jl.setVisible(true);
                  jl.setSize(170, 106);
                  Font labelFont = jl.getFont();
                  jl.setFont(new Font(labelFont.getName(), Font.PLAIN, 28));
         
-        JLabel lblNewLabel_4 = new JLabel("New label");
-        lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/finalTimerAndPlayernames.png")));
-        lblNewLabel_4.setBounds(740, 280, 400, 250);
+        JLabel lblNewLabel_4 = new JLabel("");
+        lblNewLabel_4.setIcon(new ImageIcon(HardGameBoard.class.getResource("/images/TimerAndPlayernamess.png")));
+        lblNewLabel_4.setBounds(711, 231, 400, 299);
         outerPanel.add(lblNewLabel_4);
 
         

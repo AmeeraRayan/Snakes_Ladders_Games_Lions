@@ -426,10 +426,12 @@ public class GameController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dialog.dispose(); // Close the dialog
+                countdown(true);
                 JOptionPane.showMessageDialog(frame,
                 	    "<html><body><p>Time's up! You didn't answer the question.</p>"
                 	    + "<img src='" + getClass().getResource("/images/timeout.jpg") + "' width='100' height='100'></body></html>", null, JOptionPane.ERROR_MESSAGE);
             }
+            
         });
         timer.setRepeats(false); // Timer should not repeat
 
