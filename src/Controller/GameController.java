@@ -42,11 +42,11 @@ public class GameController {
     private JFrame frame; // Add this attribute to store the instance of MediumGameBoard
     private Queue<Runnable> actionQueue = new LinkedList<>();
 
-     private Sound  PlaygroundSound = new Sound("sounds/BlueBoyAdventure.wav");
-   //private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
+    // private Sound  PlaygroundSound = new Sound("sounds/BlueBoyAdventure.wav");
+   private Sound  PlaygroundSound = new Sound("src/sounds/BlueBoyAdventure.wav");
 
-    private Sound FinalSound = new Sound("sounds/FinalBattle.wav");
-   // private Sound FinalSound = new Sound("src/sounds/FinalBattle.wav");
+  //  private Sound FinalSound = new Sound("sounds/FinalBattle.wav");
+    private Sound FinalSound = new Sound("src/sounds/FinalBattle.wav");
     private boolean musicFlag = false ; 
     public boolean isGameMuted = false ; 
     private boolean flag; 
@@ -743,8 +743,8 @@ public class GameController {
    }
 
    public void  SnakeSoundEffect(){
- 		Sound sound = new Sound("sounds/snake-hissing-6092.wav");
- 		// Sound sound = new Sound("src/sounds/snake-hissing-6092.wav");
+ 		//Sound sound = new Sound("sounds/snake-hissing-6092.wav");
+ 		 Sound sound = new Sound("src/sounds/snake-hissing-6092.wav");
 
 		sound.setVolume(0.5f); 
          sound.play();
@@ -752,68 +752,68 @@ public class GameController {
     }
    
    public void DiceRollingSound() {
-	   //Sound sound = new Sound("src/sounds/dice.wav");
-	    Sound sound = new Sound("sounds/dice.wav");
+	   Sound sound = new Sound("src/sounds/dice.wav");
+	  //  Sound sound = new Sound("sounds/dice.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void buttonClick() {
-	   //Sound sound = new Sound("src/sounds/buttonClick.wav");
-	   Sound sound = new Sound("sounds/buttonClick.wav");
+	   Sound sound = new Sound("src/sounds/buttonClick.wav");
+	   //Sound sound = new Sound("sounds/buttonClick.wav");
        sound.play();
    }
    
    public void WiningSound() {
-	   Sound WinSound = new Sound("sounds/levelup.wav");
-	  // Sound WinSound = new Sound("src/sounds/levelup.wav");
+	  // Sound WinSound = new Sound("sounds/levelup.wav");
+	   Sound WinSound = new Sound("src/sounds/levelup.wav");
 
 	   WinSound.play();
 
    }
    public void LadderSound() {
-	//   Sound sound = new Sound("src/sounds/ladder.wav");
-	   Sound sound = new Sound("sounds/ladder.wav");
+	   Sound sound = new Sound("src/sounds/ladder.wav");
+	  // Sound sound = new Sound("sounds/ladder.wav");
 
 		sound.setVolume(0.5f); 
         sound.play();
    }
    public void SurpriseSound() {
-	 //  Sound sound = new Sound("src/sounds/surprise.wav");
-	   Sound sound = new Sound("sounds/surprise.wav");
+	   Sound sound = new Sound("src/sounds/surprise.wav");
+	 //  Sound sound = new Sound("sounds/surprise.wav");
 		sound.setVolume(0.5f); 
         sound.play();
    }
    
   public void TimeOut () {
-	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	  Sound sound = new Sound("sounds/TimeOut.wav");
+	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	//  Sound sound = new Sound("sounds/TimeOut.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
   
   public void WinngPage() {
-	  Sound sound = new Sound("sounds/winfantasia.wav");
+	  Sound sound = new Sound("src/sounds/winfantasia.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
   
   public void wrongAnswer() {
-	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	  Sound sound = new Sound("sounds/buzzer-or-wrong-answer.wav");
+	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	//  Sound sound = new Sound("sounds/buzzer-or-wrong-answer.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
   
   public void correctAnswer() {
-	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	  Sound sound = new Sound("sounds/goodresult.wav");
+	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	 // Sound sound = new Sound("sounds/goodresult.wav");
 		sound.setVolume(0.5f); 
       sound.play();
   }
   
   public void countdown(boolean status) {
-	//  Sound sound = new Sound("src/sounds/TimeOut.wav");
-	  Sound sound = new Sound("sounds/countdown.wav");
+	  Sound sound = new Sound("src/sounds/TimeOut.wav");
+	 // Sound sound = new Sound("sounds/countdown.wav");
 		sound.setVolume(0.5f); 
 
 	  if(status)

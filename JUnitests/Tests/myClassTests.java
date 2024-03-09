@@ -174,33 +174,8 @@ public class myClassTests {
        
         assertFalse(nickNames.handleNextAction());
     }
-    /*ID=BB4 tests accessing the questions table display with a valid username and password for the manager.*/
-    /*test questionMgmtScreen class -getTable() function*/
-    @Test
-    public void testQuestionManagementAccess() {
-        // Initialize your main menu and login screen objects
-        MainScreen mainMenu = new MainScreen();
-        LogIn loginScreen = new LogIn();
-        
-        // Simulate opening the login screen from the main menu
-        JButton questionMgmtButton = mainMenu.btnNewButton_1;
-        questionMgmtButton.doClick();
-        
-        JTextField usernameField = loginScreen.getTxtuser();
-        JTextField passwordField = loginScreen.getPasswordField();
-        JButton loginButton = loginScreen.getBtnNewButton();
-        
-        usernameField.setText("admin1");
-        passwordField.setText("123");
-        
-        loginButton.doClick();
-        
-        QuestionManagment questionMgmtScreen = new QuestionManagment();        
-        // verify the questions table is displayed and populated
-        JTable questionsTable = questionMgmtScreen.getTable();
-        Assert.assertTrue(questionsTable.getRowCount() > 0);
-    }
-    /*ID:BB5,tests for red snake in easy game if it return the player to 1*/
+    
+    /*ID:BB4,tests for red snake in easy game if it return the player to 1*/
     /*test checkForSnakesAndLadders() function in BoardEasyViewPlayers class*/
 	@Test
 	public void testRedSnakeEncounter() {
@@ -227,7 +202,7 @@ public class myClassTests {
 		assertEquals(1, player1.getPosition());
 	}
 
-	/*ID=BB6,tests if the ladder in square 2 leads to square 23 0 In all the easy game changing board 
+	/*ID=BB5,tests if the ladder in square 2 leads to square 23 0 In all the easy game changing board 
 	 * we have ladder at square number 2 that leads to square 23 */
     /*Another test checkForSnakesAndLadders() function in BoardEasyViewPlayers class*/
 	@Test

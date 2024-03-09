@@ -97,11 +97,11 @@ public class LogIn extends JFrame{
           
         frame.getContentPane().add(lblNewLabel);
         
-        btnNewButton = new JButton("");
-        btnNewButton.setBounds(690, 646, 174, 55);
-        btnNewButton.addActionListener(new ActionListener() {
+        JLabel labelsubmit = new JLabel("");
+        labelsubmit.setBounds(690, 646, 174, 55);
+        labelsubmit.addMouseListener(new MouseAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
             	gameController.buttonClick();
                 String enteredUserName = txtuser.getText();
@@ -123,7 +123,7 @@ public class LogIn extends JFrame{
                 }
             }
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(labelsubmit);
         
     }
    
