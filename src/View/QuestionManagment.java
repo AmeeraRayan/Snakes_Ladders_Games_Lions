@@ -10,11 +10,13 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -28,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 
 
@@ -172,14 +175,21 @@ public class QuestionManagment extends JFrame   {
         }
     }
     private void showAddQuestionPopup() {
-        JTextField questionField = new JTextField();
+    	JTextField questionField = new JTextField();
+        questionField.setPreferredSize(new Dimension(320,30)); // Set preferred size for question field
         JTextField answer1Field = new JTextField();
+        answer1Field.setPreferredSize(new Dimension(320,30)); // Set preferred size for answer field
         JTextField answer2Field = new JTextField();
+        answer2Field.setPreferredSize(new Dimension(320,30)); // Set preferred size for answer field
         JTextField answer3Field = new JTextField();
+        answer3Field.setPreferredSize(new Dimension(320,30)); // Set preferred size for answer field
         JTextField answer4Field = new JTextField();
+        answer4Field.setPreferredSize(new Dimension(320,30)); // Set preferred size for answer field
         JTextField correctAnswerField = new JTextField();
+        correctAnswerField.setPreferredSize(new Dimension(320,30)); // Set preferred size for correct answer field
         JTextField difficultyField = new JTextField();
-
+        difficultyField.setPreferredSize(new Dimension(320,30));
+        
         while (true) {
             Object[] fields = {
                 "Question:", questionField,
@@ -190,6 +200,8 @@ public class QuestionManagment extends JFrame   {
                 "Correct Answer (1-4):", correctAnswerField,
                 "Difficulty:", difficultyField
             };
+            
+         
 
             int result = JOptionPane.showConfirmDialog(null, fields, "Add New Question", JOptionPane.OK_CANCEL_OPTION);
             if (result != JOptionPane.OK_OPTION) {
@@ -199,6 +211,7 @@ public class QuestionManagment extends JFrame   {
             try {
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
                 int difficulty = Integer.parseInt(difficultyField.getText());
+                String questionText = questionField.getText();
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
 
                 if (!isValidDifficulty(difficulty)) {
@@ -215,7 +228,23 @@ public class QuestionManagment extends JFrame   {
                     JOptionPane.showMessageDialog(null, "Invalid answers format. Please provide a non-empty string for each answer.");
                     continue;
                 }
-
+                if (!isValidQuestion(questionText)) {
+            	    JOptionPane.showMessageDialog(null, "Invalid question format. Please provide a non-empty question.");
+            	    questionField.setText("");
+            	    continue;
+            	}
+                boolean questionExists = false;
+                for (Questions q : sysData.getQuestions()) {
+                    if (q.getQuestionText().equalsIgnoreCase(questionField.getText())) {
+                        questionExists = true;
+                        break;
+                    }
+                }
+                if (questionExists) {
+                    JOptionPane.showMessageDialog(null, "You can't add this question. It's already added.");
+                    continue;
+                }
+                
                 Questions newQuestion = new Questions(questionField.getText(), answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
                 mangQuestionControl.addNewQuestion(newQuestion);
                 tableModel.addRow(new Object[]{newQuestion.getQuestionText(), newQuestion.getCorrectOption(), newQuestion.getDiffculty()});
@@ -253,12 +282,20 @@ public class QuestionManagment extends JFrame   {
 
     private void showEditQuestionDialog(Questions question) {
         JTextField questionField = new JTextField(question.getQuestionText());
+        questionField.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
         JTextField answer1Field = new JTextField(question.getOptions()[0]);
+        answer1Field.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
         JTextField answer2Field = new JTextField(question.getOptions()[1]);
+        answer2Field.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
         JTextField answer3Field = new JTextField(question.getOptions()[2]);
+        answer3Field.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
         JTextField answer4Field = new JTextField(question.getOptions()[3]);
-        JTextField correctAnswerField = new JTextField(String.valueOf(question.getCorrectOption() )); 
+        answer4Field.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
+        JTextField correctAnswerField = new JTextField(String.valueOf(question.getCorrectOption() ));
+        correctAnswerField.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
         JTextField difficultyField = new JTextField(String.valueOf(question.getDiffculty()));
+        difficultyField.setPreferredSize(new Dimension(320, 30)); // Set preferred size for question field
+
 
         while (true) {
             Object[] fields = {
@@ -279,6 +316,7 @@ public class QuestionManagment extends JFrame   {
             try {
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
                 int difficulty = Integer.parseInt(difficultyField.getText());
+                String questionText = questionField.getText();
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
 
                 if (!isValidDifficulty(difficulty)) {
@@ -291,6 +329,11 @@ public class QuestionManagment extends JFrame   {
                     correctAnswerField.setText(""); // Clear only the correct answer field
                     continue;
                 }
+            	if (!isValidQuestion(questionText)) {
+            	    JOptionPane.showMessageDialog(null, "Invalid question format. Please provide a non-empty question.");
+            	    questionField.setText("");
+            	    continue;
+            	}
                 if (!isValidAnswersFormat(answers)) {
                     JOptionPane.showMessageDialog(null, "Invalid answers format. Please provide a non-empty string for each answer.");
                     continue;
@@ -361,19 +404,35 @@ public class QuestionManagment extends JFrame   {
 
             // Build the message including all answers and highlight the correct one
             StringBuilder messageBuilder = new StringBuilder();
-            messageBuilder.append("Question: ").append(question).append("\n");
+            messageBuilder.append("<html><body style='font-size: 24pt;'>"); // Set font size for all content
+            messageBuilder.append("<h2>").append("Question: ").append("</h2>").append(question).append("<br/>");
             for (int i = 0; i < answers.length; i++) {
-                messageBuilder.append(answers[i]).append("\n");
+                messageBuilder.append("<font color='").append(i == correctAnswerIndex ? "green" : "blue").append("'>")
+                        .append(answers[i]).append("</font><br/>");
             }
-            messageBuilder.append("Correct Answer: ").append(correctAnswerIndex).append("\n");
-            messageBuilder.append("Difficulty: ").append(difficulty);
+            messageBuilder.append("<b><font color='orange'>Correct Answer: </font></b>").append(correctAnswerIndex).append("<br/>");
+            messageBuilder.append("<b><font color='red'>Difficulty: </font></b>").append(difficulty);
+            messageBuilder.append("</body></html>");
 
-            // Show the message dialog
-            JOptionPane.showMessageDialog(null, messageBuilder.toString());
+
+
+            // Show the custom dialog
+            JTextPane textPane = new JTextPane();
+            textPane.setContentType("text/html");
+            textPane.setText(messageBuilder.toString());
+            textPane.setEditable(false);
+           
+
+            JScrollPane scrollPane = new JScrollPane(textPane);
+            scrollPane.setPreferredSize(new Dimension(600, 400)); // Set the size of the scroll pane
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Question Details", JOptionPane.PLAIN_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Please select a question to show.");
         }
     }
+
+
 
 	private boolean isValidDifficulty(int difficulty) {
 	    return difficulty >= 1 && difficulty <= 3;
@@ -387,4 +446,9 @@ public class QuestionManagment extends JFrame   {
 	    // Add more specific validation logic if needed
 	    return answers.length == 4 && !Arrays.stream(answers).anyMatch(String::isEmpty);
 	}
+	private boolean isValidQuestion(String question) {
+	    return question != null && !question.trim().isEmpty();
+	}
+
+
 }

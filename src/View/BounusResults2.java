@@ -28,7 +28,7 @@ public class BounusResults2 extends JFrame {
 
 	public BounusResults2(String difficultyLevel,List<Player>  playersSortedByOrder) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 20, 1500, 907);
+		setBounds(100, 20, 1500, 889);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -36,6 +36,12 @@ public class BounusResults2 extends JFrame {
 		contentPane.setLayout(null);
 		 // Make the frame undecorated (no title bar, no minimize/maximize/close buttons)
         setUndecorated(true);
+		
+		JLabel lblNewLabel_1 = new JLabel("The order of players is: ");
+		lblNewLabel_1.setForeground(new Color(0, 102, 0));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 40));
+		lblNewLabel_1.setBounds(553, 43, 548, 50);
+		contentPane.add(lblNewLabel_1);
 		
 		JLabel PlayerTurnOne = new JLabel(" "+playersSortedByOrder.get(0).getName());
 		PlayerTurnOne.setForeground(new Color(0, 0, 0));
@@ -75,7 +81,7 @@ public class BounusResults2 extends JFrame {
 		 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(BounusResults2.class.getResource("/images/result2players.png")));
-		lblNewLabel.setBounds(-28, -74, 1550, 1020);
+		lblNewLabel.setBounds(0, -98, 1550, 1084);
 		contentPane.add(lblNewLabel);
 		 
 

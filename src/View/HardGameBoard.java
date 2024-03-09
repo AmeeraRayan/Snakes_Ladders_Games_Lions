@@ -419,12 +419,12 @@ private JLabel stopLabel;
         setBlueSnakes(outerPanel);
         setGreenSnakes(outerPanel);
         setLadders(outerPanel);
-//        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
-//        	ArrayList<Integer>  key = entry.getKey();
-//            String value = entry.getValue();
-//            System.out.println(key);
-//            System.out.println(value);
-//        }
+        for (Map.Entry<ArrayList<Integer>,String> entry : takenCells.entrySet()) {
+        	ArrayList<Integer>  key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key);
+           System.out.println(value);
+        }
         hardBoard.startGame(squares,snakes,ladders,quastionSquares, 0);
  
     }
@@ -671,7 +671,7 @@ private JLabel stopLabel;
             startSquare = findStartSquare_ladder(squares[i][j], num);
             arr1.add(startSquare.getRow());
             arr1.add(startSquare.getCol());     
-        } while (takenCells.containsKey(arr1) || (arr1.get(0)==0 && arr1.get(1)==9) );
+        } while (takenCells.containsKey(arr1) || (arr1.get(0)==9 && arr1.get(1)==0) );
         takenCells.put(arr1,"startladder"+num);
         takenCells.put(arr2,"endladder"+num);
         //startSquare = findStartSquare_ladder(squares[i][j], num);
