@@ -848,7 +848,7 @@ public class BoardEasyViewPlayers extends JFrame {
 		private void showEditQuestionDialog(int pos ) {
 	    	 JPanel questionPanel = new JPanel();
 	    	    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-	    	    Dimension preferredSize = new Dimension(700, 400);
+	    	    Dimension preferredSize = new Dimension(1200, 400);
 	    	    questionPanel.setPreferredSize(preferredSize);
 	    	  // Create and add the position label to the panel
 	    	  String message;
