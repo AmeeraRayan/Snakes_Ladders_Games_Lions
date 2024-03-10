@@ -209,11 +209,25 @@ public class QuestionManagment extends JFrame   {
             }
 
             try {
+            	boolean answerFlag = false ; 
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 String questionText = questionField.getText();
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
+                
+                for(int i=0 ; i<answers.length ; i++) {
+                	if(!isValidQuestionOrAnswer(answers[i])) {
+			              answers[i] = ""; 
+			              answerFlag = true ; 
 
+                	}
+                } 
+                
+                if(answerFlag) {
+          		  JOptionPane.showMessageDialog(null, "Invalid answer . Please enter a valid value that contain a-z.");
+                  continue;
+
+                }
                 if (!isValidDifficulty(difficulty)) {
                     JOptionPane.showMessageDialog(null, "Invalid difficulty. Please enter a value between 1 and 3.");
                     difficultyField.setText(""); // Clear only the difficulty field
@@ -224,11 +238,11 @@ public class QuestionManagment extends JFrame   {
                     correctAnswerField.setText(""); // Clear only the correct answer field
                     continue;
                 }
-                if (!isValidAnswersFormat(answers)) {
+                if (!isValidAnswersFormat(answers) ) {
                     JOptionPane.showMessageDialog(null, "Invalid answers format. Please provide a non-empty string for each answer.");
                     continue;
                 }
-                if (!isValidQuestion(questionText)) {
+                if (!isValidQuestion(questionText) || !isValidQuestionOrAnswer(questionText) ) {
             	    JOptionPane.showMessageDialog(null, "Invalid question format. Please provide a non-empty question.");
             	    questionField.setText("");
             	    continue;
@@ -244,6 +258,9 @@ public class QuestionManagment extends JFrame   {
                     JOptionPane.showMessageDialog(null, "You can't add this question. It's already added.");
                     continue;
                 }
+                
+              
+
                 
                 Questions newQuestion = new Questions(questionField.getText(), answers, correctAnswerIndex, difficulty, sysData.getQuestions().size());
                 mangQuestionControl.addNewQuestion(newQuestion);
@@ -314,11 +331,24 @@ public class QuestionManagment extends JFrame   {
             }
 
             try {
+            	boolean answerFlag = false ; 
                 int correctAnswerIndex = Integer.parseInt(correctAnswerField.getText());
                 int difficulty = Integer.parseInt(difficultyField.getText());
                 String questionText = questionField.getText();
                 String[] answers = {answer1Field.getText(), answer2Field.getText(), answer3Field.getText(), answer4Field.getText()};
+                for(int i=0 ; i<answers.length ; i++) {
+                	if(!isValidQuestionOrAnswer(answers[i])) {
+			              answers[i] = ""; 
+			              answerFlag = true ; 
 
+                	}
+                } 
+                
+                if(answerFlag) {
+          		  JOptionPane.showMessageDialog(null, "Invalid answer . Please enter a valid value that contain a-z.");
+                  continue;
+
+                }
                 if (!isValidDifficulty(difficulty)) {
                     JOptionPane.showMessageDialog(null, "Invalid difficulty. Please enter a value between 1 and 3.");
                     difficultyField.setText(""); // Clear only the difficulty field
@@ -329,7 +359,7 @@ public class QuestionManagment extends JFrame   {
                     correctAnswerField.setText(""); // Clear only the correct answer field
                     continue;
                 }
-            	if (!isValidQuestion(questionText)) {
+            	if (!isValidQuestion(questionText) || isValidQuestionOrAnswer(questionText)) {
             	    JOptionPane.showMessageDialog(null, "Invalid question format. Please provide a non-empty question.");
             	    questionField.setText("");
             	    continue;
@@ -338,6 +368,7 @@ public class QuestionManagment extends JFrame   {
                     JOptionPane.showMessageDialog(null, "Invalid answers format. Please provide a non-empty string for each answer.");
                     continue;
                 }
+              
 
                 // Update the question object with new values
                 question.setQuestionText(questionField.getText());
@@ -449,6 +480,24 @@ public class QuestionManagment extends JFrame   {
 	private boolean isValidQuestion(String question) {
 	    return question != null && !question.trim().isEmpty();
 	}
+	
+	
+	   public static boolean isValidQuestionOrAnswer(String input) {
+	        // Check if the input is null, empty, or only contains spaces or do not contain alphabetic characters
+	        if (input == null || input.trim().isEmpty()) {
+	            return false;
+	        }
+	        
+	        if (input.matches("^[_$\\s]+$")) {
+	            return false;
+	        }
+	        
+	        if (!input.matches(".*[a-zA-Z]+.*")) {
+	            return false;
+	        }
+	        
+	        return true;
+	    }
 
 
 }
